@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    
+    --primary: 240 10% 3.9%;
+    --primary-foreground: 0 0% 100%;
+    
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 10% 3.9%;
+    
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 10% 3.9%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+    
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 3.9%;
+    
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased min-h-screen overflow-x-hidden transition-colors duration-300;
+  }
+
+  body.dark {
+    @apply bg-[#030014] text-foreground;
+    background: radial-gradient(circle at center, #090024 0%, #030014 100%);
+  }
+
+  body.light {
+    @apply bg-white text-foreground;
+    background: radial-gradient(circle at center, #f8f7ff 0%, #ffffff 100%);
+  }
+  
+  ::selection {
+    @apply bg-violet-500/20 text-violet-500;
+  }
+
+  /* Custom Scrollbar Styles */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-violet-400/50 hover:bg-violet-500/50 rounded-full transition-colors duration-200;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  ::-webkit-scrollbar-corner {
+    @apply bg-transparent;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(167 139 250 / 0.5) transparent;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-background/40 backdrop-blur-md border border-white/10 shadow-lg;
+  }
+  
+  .gradient-heading {
+    @apply bg-gradient-to-r from-violet-300 via-violet-400 to-violet-500 bg-clip-text text-transparent;
+  }
+
+  .content-container {
+    @apply w-full mx-auto relative z-10;
+  }
+
+  .bg-gradient-soft {
+    @apply bg-gradient-to-br from-violet-500/5 via-background/5 to-violet-500/5;
+  }
+  
+  .bg-gradient-glow {
+    @apply before:absolute before:inset-0 before:-z-10 before:bg-gradient-to-b before:from-violet-500/10 before:to-background/80;
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-lg hover:shadow-violet-500/10;
+  }
+
+  .violet-glow {
+    @apply shadow-[0_0_35px_5px_rgba(139,92,246,0.15)];
+  }
+
+  /* Theme-specific utility classes */
+  .text-adaptive-gray {
+    @apply text-gray-600 dark:text-gray-300;
+  }
+  
+  .text-adaptive-heading {
+    @apply text-gray-900 dark:text-white;
+  }
+  
+  .text-adaptive-body {
+    @apply text-gray-700 dark:text-gray-200;
+  }
+  
+  .bg-adaptive-card {
+    @apply bg-white dark:bg-gray-800/30;
+  }
+  
+  .border-adaptive {
+    @apply border-gray-200 dark:border-gray-700/30;
+  }
+
+  .glass-card {
+    @apply backdrop-blur-md border dark:bg-gray-900/20 dark:border-white/10 
+           bg-white/70 border-gray-200/80 shadow-lg;
+  }
+}
