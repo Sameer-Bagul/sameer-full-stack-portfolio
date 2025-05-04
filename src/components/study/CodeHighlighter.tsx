@@ -1,26 +1,26 @@
 
 import { useState, useEffect } from 'react';
-import { Check, Copy, Terminal, FileCode } from 'lucide-react';
+import { Check, Copy, FileCode } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getDisplayLanguage } from './prismSetup';
 
-interface CodeSnippetProps {
+interface CodeHighlighterProps {
   language: string;
   code: string;
   filename?: string;
 }
 
-export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
+export function CodeHighlighter({ language, code, filename }: CodeHighlighterProps) {
   const [copied, setCopied] = useState(false);
-  // Normalize language identifier
   const normalizedLang = language === 'js' ? 'javascript' : language;
   const displayLang = getDisplayLanguage(normalizedLang);
   
   useEffect(() => {
-    // Highlight code when component mounts or code changes
+    // Ensure Prism is initialized
     if (typeof window !== 'undefined' && window.Prism) {
+      // Add small delay to ensure DOM is ready
       setTimeout(() => {
         window.Prism.highlightAll();
       }, 10);
@@ -28,7 +28,7 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
   }, [code, language]);
   
   const handleCopy = () => {
-    navigator.clipboard.writeText(cleanCode);
+    navigator.clipboard.writeText(cleanedCode);
     setCopied(true);
     toast.success('Code copied to clipboard');
     
@@ -37,24 +37,19 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
     }, 2000);
   };
   
-  // Clean code by removing unnecessary markdown backticks and HTML tags if present
-  const cleanCode = code
+  // Clean code by removing unnecessary markdown backticks if present
+  const cleanedCode = code
     .replace(/^```\w*\n|```$/g, '')
-    .replace(/<pre><code[^>]*>/g, '')
-    .replace(/<\/code><\/pre>/g, '')
+    .replace(/<\/?pre>|<\/?code[^>]*>/g, '')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&');
   
   return (
-    <div className="relative my-6 rounded-md overflow-hidden border border-border bg-muted/50 shadow-md">
-      <div className="flex items-center justify-between px-4 py-2 bg-muted border-b">
+    <div className="relative my-6 rounded-lg overflow-hidden border border-border bg-muted/40 shadow-md">
+      <div className="flex items-center justify-between px-4 py-2 bg-muted/80 border-b">
         <div className="flex items-center gap-2">
-          {filename ? (
-            <FileCode size={14} className="text-primary" />
-          ) : (
-            <Terminal size={14} className="text-primary" />
-          )}
+          <FileCode size={14} className="text-primary" />
           <span className="text-xs font-mono font-medium">
             {filename || displayLang}
           </span>
@@ -80,8 +75,10 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
       </div>
       
       <div className="p-4 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-        <pre className={cn("m-0 p-0 bg-transparent")}>
-          <code className={`language-${normalizedLang}`}>{cleanCode}</code>
+        <pre className={cn(
+          "m-0 p-0 bg-transparent text-sm font-mono tab-size-2"
+        )}>
+          <code className={`language-${normalizedLang}`}>{cleanedCode}</code>
         </pre>
       </div>
     </div>

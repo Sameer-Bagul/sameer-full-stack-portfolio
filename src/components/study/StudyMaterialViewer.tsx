@@ -62,7 +62,7 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
     }
   }, [material.content]);
 
-  // Calculate total pages based on content length - more sophisticated calculation
+  // Calculate total pages based on content length
   const calculateTotalPages = () => {
     if (!material.content) return 1;
     
@@ -84,11 +84,17 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
   };
 
   const handleNextPage = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
+    if (currentPage < totalPages) {
+      setCurrentPage(prev => prev + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handlePrevPage = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
+    if (currentPage > 1) {
+      setCurrentPage(prev => prev - 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const toggleBookmark = () => {
@@ -159,6 +165,8 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
             totalPages={totalPages}
             handlePrevPage={handlePrevPage}
             handleNextPage={handleNextPage}
+            onZoomIn={handleZoomIn}
+            onZoomOut={handleZoomOut}
           />
         </div>
       </div>

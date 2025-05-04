@@ -1,12 +1,16 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, AlignLeft } from 'lucide-react';
+import { 
+  ChevronLeft, ChevronRight, AlignLeft, ZoomIn, ZoomOut, Copy, Check,
+  Clock, Calendar, BookOpen, Tag, User, Share, Download, ThumbsUp, 
+  Bookmark, Eye, MessageSquare
+} from 'lucide-react';
 import { StudyMaterial } from '@/data/studyData';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { CodeSnippet } from './CodeSnippet';
+import { CodeHighlighter } from './CodeHighlighter';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { Badge } from '@/components/ui/badge';
 import {
   Pagination,
   PaginationContent,
@@ -25,6 +29,8 @@ interface EnhancedMaterialContentProps {
   totalPages: number;
   handlePrevPage: () => void;
   handleNextPage: () => void;
+  onZoomIn: () => void;
+  onZoomOut: () => void;
 }
 
 export function EnhancedMaterialContent({
@@ -35,12 +41,27 @@ export function EnhancedMaterialContent({
   currentPage,
   totalPages,
   handlePrevPage,
-  handleNextPage
+  handleNextPage,
+  onZoomIn,
+  onZoomOut
 }: EnhancedMaterialContentProps) {
   const [processedContent, setProcessedContent] = useState<string>('');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [contentPages, setContentPages] = useState<string[]>([]);
+  const [copied, setCopied] = useState(false);
+  const [estimatedReadTime, setEstimatedReadTime] = useState('10 min read');
+  const contentRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  
+  // Calculate estimated read time 
+  useEffect(() => {
+    if (material.content) {
+      const wordsPerMinute = 200;
+      const wordCount = material.content.split(/\s+/).length;
+      const readTime = Math.ceil(wordCount / wordsPerMinute);
+      setEstimatedReadTime(`${readTime} min read`);
+    }
+  }, [material.content]);
   
   // Detect theme from the document
   useEffect(() => {
@@ -57,6 +78,16 @@ export function EnhancedMaterialContent({
     return () => observer.disconnect();
   }, []);
   
+  // Handle copy content functionality
+  const handleCopyContent = () => {
+    if (material.content) {
+      navigator.clipboard.writeText(material.content);
+      setCopied(true);
+      toast.success("Content copied to clipboard");
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+  
   // Process content to enhance code blocks and split into pages
   useEffect(() => {
     if (!material.content) return;
@@ -71,11 +102,10 @@ export function EnhancedMaterialContent({
       return `<h${level} id="${id}">${title}</h${level}>`;
     });
     
-    // Process code blocks
+    // Process code blocks correctly - wrap in special divs that our component will handle
     processedMarkdown = processedMarkdown.replace(/```(\w+)?\n([\s\S]*?)\n```/g, (match, language, code) => {
       const lang = language || 'text';
-      const filename = code.match(/\/\/\s*filename:\s*(.*?)$/m)?.[1] || '';
-      return `<div class="code-snippet" data-language="${lang}" data-filename="${filename}">${code}</div>`;
+      return `<div class="code-wrapper" data-language="${lang}">${code.trim()}</div>`;
     });
     
     // Process inline code
@@ -92,12 +122,11 @@ export function EnhancedMaterialContent({
     processedMarkdown = processedMarkdown.replace(/^(\s*)\d+\.\s+(.+)$/gm, '<li>$2</li>');
     
     // Process paragraphs (lines that aren't headings or list items)
-    processedMarkdown = processedMarkdown.replace(/^(?!(#|<h|<li|<div class="code-snippet"))(.+)$/gm, '<p>$2</p>');
+    processedMarkdown = processedMarkdown.replace(/^(?!(#|<h|<li|<div class="code-wrapper"))(.+)$/gm, '<p>$2</p>');
     
     setProcessedContent(processedMarkdown);
     
     // Split content into pages based on content length
-    // Roughly 3000 chars per page (adjust based on actual content)
     const contentChars = material.content.length;
     const charsPerPage = isMobile ? 1500 : 3000;
     const calculatedPages = Math.max(1, Math.ceil(contentChars / charsPerPage));
@@ -117,7 +146,7 @@ export function EnhancedMaterialContent({
   const renderPageContent = () => {
     if (!processedContent) return <div>No content available</div>;
     
-    const parts = processedContent.split('<div class="code-snippet"');
+    const parts = processedContent.split('<div class="code-wrapper"');
     
     return (
       <>
@@ -126,21 +155,154 @@ export function EnhancedMaterialContent({
             return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
           }
           
-          const [snippetPart, restContent] = part.split('</div>');
+          const endOfDiv = part.indexOf('</div>');
+          if (endOfDiv === -1) return null;
+          
+          const snippetPart = part.substring(0, endOfDiv);
+          const restContent = part.substring(endOfDiv + 6); // 6 is the length of '</div>'
+          
           const language = snippetPart.match(/data-language="(.*?)"/)?.[1] || 'text';
-          const filename = snippetPart.match(/data-filename="(.*?)"/)?.[1] || '';
           const code = snippetPart.substring(
-            snippetPart.indexOf('>') + 1,
+            snippetPart.indexOf('>') + 1
           ).trim();
           
           return (
             <div key={index}>
-              <CodeSnippet language={language} code={code} filename={filename} />
+              <CodeHighlighter language={language} code={code} />
               <div dangerouslySetInnerHTML={{ __html: restContent }} />
             </div>
           );
         })}
       </>
+    );
+  };
+
+  const renderMetadata = () => (
+    <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm border-b pb-4 mb-4">
+      {material.author && (
+        <div className="flex items-center gap-1">
+          <User size={14} />
+          <span>{material.author}</span>
+        </div>
+      )}
+      <div className="flex items-center gap-1">
+        <Calendar size={14} />
+        <span>{material.date}</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <Clock size={14} />
+        <span>{material.estimatedReadTime || estimatedReadTime}</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <BookOpen size={14} />
+        <span>{material.fileSize}</span>
+      </div>
+      <div className="flex items-center gap-1">
+        <Eye size={14} />
+        <span>426 views</span>
+      </div>
+      <div className="ml-auto flex items-center gap-3">
+        <Button 
+          variant="ghost" 
+          size="icon"
+          onClick={handleCopyContent}
+          className="h-8 w-8"
+        >
+          {copied ? <Check size={16} /> : <Copy size={16} />}
+        </Button>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => toast.success("Material bookmarked!")}
+        >
+          <Bookmark size={16} />
+        </Button>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => toast.success("Sharing link copied!")}
+        >
+          <Share size={16} />
+        </Button>
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="h-8 w-8"
+          onClick={() => toast.success("Downloading material...")}
+        >
+          <Download size={16} />
+        </Button>
+      </div>
+    </div>
+  );
+  
+  const renderTags = () => (
+    <div className="flex flex-wrap gap-2 mb-5">
+      {material.tags.map(tag => (
+        <Badge key={tag} variant="outline" className="py-1">
+          <Tag className="w-3 h-3 mr-1" />
+          {tag}
+        </Badge>
+      ))}
+    </div>
+  );
+
+  const renderZoomControls = () => (
+    <div className="flex items-center gap-1 mt-4 mb-2 justify-end">
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={onZoomOut} 
+        className="h-8 w-8"
+      >
+        <ZoomOut size={15} />
+      </Button>
+      <span className="text-sm text-muted-foreground w-16 text-center">
+        {Math.round(zoomLevel * 100)}%
+      </span>
+      <Button 
+        variant="outline" 
+        size="icon" 
+        onClick={onZoomIn}
+        className="h-8 w-8"
+      >
+        <ZoomIn size={15} />
+      </Button>
+    </div>
+  );
+  
+  const renderDifficultyBadge = () => {
+    if (!material.difficulty) return null;
+    
+    const difficultyColors = {
+      'Beginner': 'bg-green-100 text-green-800 border-green-200',
+      'Intermediate': 'bg-blue-100 text-blue-800 border-blue-200',
+      'Advanced': 'bg-purple-100 text-purple-800 border-purple-200',
+    };
+    
+    const colorClass = difficultyColors[material.difficulty] || '';
+    
+    return (
+      <div className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${colorClass}`}>
+        {material.difficulty}
+      </div>
+    );
+  };
+
+  const renderPrerequisites = () => {
+    if (!material.prerequisites || material.prerequisites.length === 0) return null;
+    
+    return (
+      <div className="mt-6 p-4 border rounded-lg bg-muted/30">
+        <h4 className="text-sm font-semibold mb-2">Prerequisites</h4>
+        <ul className="list-disc list-inside space-y-1">
+          {material.prerequisites.map((prerequisite, index) => (
+            <li key={index} className="text-sm text-muted-foreground">{prerequisite}</li>
+          ))}
+        </ul>
+      </div>
     );
   };
 
@@ -163,20 +325,63 @@ export function EnhancedMaterialContent({
         </Button>
       )}
       
+      {renderZoomControls()}
+      
       <div 
-        className={`notebook-paper rounded-xl shadow-lg overflow-hidden ${
+        ref={contentRef}
+        className={`article-container notebook-paper rounded-xl shadow-md overflow-hidden ${
           theme === 'dark' ? 'paper-lines-dark' : 'paper-lines-light'
         }`}
         style={{ 
-          padding: isMobile ? '1.5rem' : '3rem', 
           transform: `scale(${zoomLevel})`,
           transformOrigin: 'top left', 
         }}
       >
-        <article className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none">
-          <h1 className="text-primary font-bold">{material.title}</h1>
+        <article className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none enhanced-note">
+          <div className="article-header">
+            <div className="flex justify-between items-start">
+              <h1 className="text-primary font-bold mb-1">{material.title}</h1>
+              {renderDifficultyBadge()}
+            </div>
+            
+            <p className="text-muted-foreground">{material.description}</p>
+            
+            {renderTags()}
+            {renderMetadata()}
+          </div>
           
           {renderPageContent()}
+          {renderPrerequisites()}
+          
+          <div className="mt-8 pt-4 border-t flex justify-between items-center">
+            <div className="flex items-center gap-6">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="flex items-center gap-1"
+                onClick={() => toast.success("Liked!")}
+              >
+                <ThumbsUp size={16} />
+                <span>Like</span>
+              </Button>
+              <Button
+                variant="ghost" 
+                size="sm" 
+                className="flex items-center gap-1"
+                onClick={() => toast.success("Comment submitted!")}
+              >
+                <MessageSquare size={16} />
+                <span>Comment</span>
+              </Button>
+            </div>
+            <Button
+              variant="outline" 
+              size="sm"
+              onClick={() => window.print()}
+            >
+              Print
+            </Button>
+          </div>
           
           <div className="page-fold"></div>
         </article>
@@ -193,19 +398,53 @@ export function EnhancedMaterialContent({
                 />
               </PaginationItem>
               
-              {[...Array(Math.min(totalPages, 5))].map((_, i) => {
-                const pageNum = i + 1;
-                return (
-                  <PaginationItem key={pageNum}>
-                    <PaginationLink 
-                      isActive={pageNum === currentPage}
-                      onClick={() => {}}
-                    >
-                      {pageNum}
-                    </PaginationLink>
-                  </PaginationItem>
-                );
-              })}
+              {currentPage > 2 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => {}}>1</PaginationLink>
+                </PaginationItem>
+              )}
+              
+              {currentPage > 3 && (
+                <PaginationItem>
+                  <span className="flex h-9 w-9 items-center justify-center">...</span>
+                </PaginationItem>
+              )}
+              
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handlePrevPage()}>
+                    {currentPage - 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+              
+              <PaginationItem>
+                <PaginationLink isActive onClick={() => {}}>
+                  {currentPage}
+                </PaginationLink>
+              </PaginationItem>
+              
+              {currentPage < totalPages && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => handleNextPage()}>
+                    {currentPage + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
+              
+              {currentPage < totalPages - 2 && (
+                <PaginationItem>
+                  <span className="flex h-9 w-9 items-center justify-center">...</span>
+                </PaginationItem>
+              )}
+              
+              {currentPage < totalPages - 1 && (
+                <PaginationItem>
+                  <PaginationLink onClick={() => {}}>
+                    {totalPages}
+                  </PaginationLink>
+                </PaginationItem>
+              )}
               
               <PaginationItem>
                 <PaginationNext 

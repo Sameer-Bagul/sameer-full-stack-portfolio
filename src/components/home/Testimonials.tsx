@@ -1,8 +1,11 @@
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { QuoteIcon } from 'lucide-react';
+import { QuoteIcon, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const testimonials = [
   {
@@ -41,6 +44,28 @@ const item = {
 };
 
 export const Testimonials = () => {
+  const isMobile = useIsMobile();
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  // Helper function for mobile carousel navigation
+  const nextTestimonial = () => {
+    setActiveIndex(prev => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setActiveIndex(prev => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  // Auto rotate testimonials on mobile
+  useEffect(() => {
+    if (isMobile) {
+      const interval = setInterval(() => {
+        nextTestimonial();
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [isMobile]);
+
   return (
     <section className="py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
@@ -60,34 +85,61 @@ export const Testimonials = () => {
             </motion.p>
           </div>
           
-          <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -5, transition: { duration: 0.3 } }}
-                className="h-full"
-              >
-                <Card className="h-full bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm hover:shadow-md transition-shadow duration-300">
-                  <CardContent className="p-6 flex flex-col h-full">
-                    <QuoteIcon className="text-primary/30 w-10 h-10 mb-4" />
-                    <p className="italic text-foreground/80 mb-6 flex-grow">"{testimonial.content}"</p>
-                    <div className="flex items-center mt-4">
-                      <Avatar className="h-10 w-10 mr-3">
-                        <AvatarImage src={testimonial.image} alt={testimonial.author} />
-                        <AvatarFallback>{testimonial.author[0]}</AvatarFallback>
-                      </Avatar>
-                      <div>
-                        <p className="font-medium text-sm">{testimonial.author}</p>
-                        <p className="text-xs text-muted-foreground">{testimonial.position}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+          {isMobile ? (
+            // Mobile Carousel View
+            <div className="mt-8">
+              <Carousel className="w-full">
+                <CarouselContent>
+                  {testimonials.map((testimonial, index) => (
+                    <CarouselItem key={index}>
+                      <TestimonialCard testimonial={testimonial} />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <div className="flex justify-center gap-2 mt-4">
+                  <CarouselPrevious className="relative static h-8 w-8 translate-y-0" />
+                  <CarouselNext className="relative static h-8 w-8 translate-y-0" />
+                </div>
+              </Carousel>
+            </div>
+          ) : (
+            // Desktop Grid View
+            <motion.div variants={item} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {testimonials.map((testimonial, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -5, transition: { duration: 0.3 } }}
+                  className="h-full"
+                >
+                  <TestimonialCard testimonial={testimonial} />
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </motion.div>
       </div>
     </section>
+  );
+};
+
+// Extracted TestimonialCard for reuse between mobile and desktop views
+const TestimonialCard = ({ testimonial }: { testimonial: typeof testimonials[0] }) => {
+  return (
+    <Card className="h-full bg-card/80 backdrop-blur-sm border border-border/50 shadow-sm hover:shadow-md transition-shadow duration-300">
+      <CardContent className="p-6 flex flex-col h-full">
+        <QuoteIcon className="text-primary/30 w-10 h-10 mb-4" />
+        <p className="italic text-foreground/80 mb-6 flex-grow">"{testimonial.content}"</p>
+        <div className="flex items-center mt-4">
+          <Avatar className="h-10 w-10 mr-3">
+            <AvatarImage src={testimonial.image} alt={testimonial.author} />
+            <AvatarFallback>{testimonial.author[0]}</AvatarFallback>
+          </Avatar>
+          <div>
+            <p className="font-medium text-sm">{testimonial.author}</p>
+            <p className="text-xs text-muted-foreground">{testimonial.position}</p>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 };

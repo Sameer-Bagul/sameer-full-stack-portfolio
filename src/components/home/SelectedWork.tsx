@@ -1,9 +1,12 @@
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink, Github, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 
 const projects = [
   {
@@ -55,6 +58,8 @@ const tagColors: Record<string, string> = {
 };
 
 export const SelectedWork = () => {
+  const isMobile = useIsMobile();
+
   return (
     <section id="projects" className="py-24 bg-secondary/5">
       <div className="container max-w-6xl mx-auto px-4">
@@ -74,11 +79,33 @@ export const SelectedWork = () => {
           </motion.div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} tagColors={tagColors} />
-          ))}
-        </div>
+        {isMobile ? (
+          // Mobile Carousel View
+          <div className="mt-8">
+            <Carousel>
+              <CarouselContent>
+                {projects.map((project, index) => (
+                  <CarouselItem key={project.id}>
+                    <div className="px-2">
+                      <ProjectCard project={project} index={index} tagColors={tagColors} />
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center gap-2 mt-6">
+                <CarouselPrevious className="relative static h-8 w-8 translate-y-0" />
+                <CarouselNext className="relative static h-8 w-8 translate-y-0" />
+              </div>
+            </Carousel>
+          </div>
+        ) : (
+          // Desktop Grid View
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} tagColors={tagColors} />
+            ))}
+          </div>
+        )}
         
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -141,7 +168,7 @@ const ProjectCard = ({ project, index, tagColors }: ProjectCardProps) => {
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
+                whileHover={{ scale: 1.2, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
                 className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors"
               >
@@ -153,7 +180,7 @@ const ProjectCard = ({ project, index, tagColors }: ProjectCardProps) => {
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.2 }}
+                whileHover={{ scale: 1.2, rotate: 5 }}
                 whileTap={{ scale: 0.9 }}
                 className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors"
               >

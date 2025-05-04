@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import { StudyMaterial } from "@/data/studyData";
 import { useTheme } from "@/contexts/ThemeContext";
 import { getCategoryColor } from "./noteColors";
+import { CodeSnippet } from "./CodeSnippet";
 
 interface MaterialContentProps {
   material: StudyMaterial;
@@ -30,6 +31,25 @@ export function MaterialContent({
 }: MaterialContentProps) {
   const { theme } = useTheme();
   const colors = getCategoryColor(material.category);
+
+  // Custom renderers for markdown components
+  const renderers = {
+    code: ({node, inline, className, children, ...props}: any) => {
+      if (inline) {
+        return (
+          <code className="px-1.5 py-0.5 rounded-sm bg-muted font-mono text-sm" {...props}>
+            {children}
+          </code>
+        );
+      }
+
+      const match = /language-(\w+)/.exec(className || '');
+      const language = match ? match[1] : 'text';
+      const codeContent = String(children).replace(/\n$/, '');
+      
+      return <CodeSnippet language={language} code={codeContent} />;
+    }
+  };
 
   return (
     <div className={`flex-1 ${!showSidebar ? 'container' : ''}`}>
@@ -63,7 +83,7 @@ export function MaterialContent({
             </div>
           </div>
           
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">{material.title}</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4 text-primary">{material.title}</h1>
           
           <p className="text-muted-foreground mb-4 text-lg">
             {material.description}
@@ -91,7 +111,7 @@ export function MaterialContent({
           }`}>
             <div className="prose prose-blue dark:prose-invert max-w-none">
               {material.content ? (
-                <ReactMarkdown>{material.content}</ReactMarkdown>
+                <ReactMarkdown components={renderers}>{material.content}</ReactMarkdown>
               ) : (
                 <p className="text-muted-foreground italic">
                   No content available for this material.

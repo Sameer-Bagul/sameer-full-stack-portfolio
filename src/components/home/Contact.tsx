@@ -45,8 +45,9 @@ export const Contact = () => {
   
   return (
     <section id="contact" className="py-20">
-      <div className="container">
-        <div className="flex flex-col items-center mb-12 text-center">
+      {/* Full width container for mobile - no padding on small screens */}
+      <div className="container px-0 sm:px-4 md:px-6">
+        <div className="flex flex-col items-center mb-12 text-center px-4">
           <span className="text-sm font-medium text-primary mb-2">GET IN TOUCH</span>
           <h2 className="text-3xl md:text-4xl font-bold mb-3">Contact Me</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -54,7 +55,7 @@ export const Contact = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8 px-0 sm:px-4">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -62,8 +63,8 @@ export const Contact = () => {
             viewport={{ once: true, margin: '-100px' }}
             className="lg:col-span-2"
           >
-            <Card>
-              <CardContent className="p-6">
+            <Card className="sm:rounded-lg rounded-none sm:mx-0 mx-0 border-x-0 sm:border-x">
+              <CardContent className="p-4 sm:p-6">
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
@@ -148,9 +149,10 @@ export const Contact = () => {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
             viewport={{ once: true, margin: '-100px' }}
+            className="px-0 sm:px-0"
           >
-            <Card className="h-full">
-              <CardContent className="p-6 flex flex-col h-full">
+            <Card className="h-full sm:rounded-lg rounded-none sm:mx-0 mx-0 border-x-0 sm:border-x">
+              <CardContent className="p-4 sm:p-6 flex flex-col h-full">
                 <h3 className="text-xl font-semibold mb-6">Contact Information</h3>
                 
                 <div className="space-y-6 flex-grow">

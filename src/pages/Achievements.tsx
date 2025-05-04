@@ -166,54 +166,6 @@ const AchievementCard = ({
   );
 };
 
-const DetailDialog = ({ 
-  achievement, 
-  isOpen, 
-  onClose 
-}: { 
-  achievement: typeof achievements[0] | null;
-  isOpen: boolean;
-  onClose: () => void;
-}) => {
-  if (!achievement) return null;
-  
-  const Icon = achievement.icon;
-  const iconBgColor = getIconBgColor(achievement.color);
-  const typeBadgeColor = getTypeBadgeColor(achievement.type);
-  
-  return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <div className={`w-8 h-8 rounded-lg ${iconBgColor} flex items-center justify-center`}>
-              <Icon size={18} />
-            </div>
-            {achievement.title}
-          </DialogTitle>
-        </DialogHeader>
-        
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Badge className={typeBadgeColor}>
-                {achievement.type === 'award' ? 'Award' : 'Certificate'}
-              </Badge>
-              <span className="text-sm text-muted-foreground">{achievement.organization}</span>
-            </div>
-            <div className="flex items-center gap-1 text-sm text-muted-foreground">
-              <Calendar className="w-3.5 h-3.5" />
-              <span>{achievement.date}</span>
-            </div>
-          </div>
-          
-          <p className="text-foreground">{achievement.details}</p>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};
-
 const TimelineView = ({ 
   filteredAchievements 
 }: { 
