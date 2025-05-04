@@ -2,14 +2,28 @@
     "version": 2,
     "builds": [
       {
-        "src": "src/index.tsx",
-        "use": "@vercel/static-build"
+        "src": "index.html",
+        "use": "@vercel/static"
+      },
+      {
+        "src": "vite.config.ts",
+        "use": "@vercel/node"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
         "dest": "/index.html"
+      }
+    ],
+    "alias": [
+      "sameerbagul.vercel.app"
+    ],
+    "redirects": [
+      {
+        "source": "/old-path",
+        "destination": "/new-path",
+        "permanent": true
       }
     ]
   }
