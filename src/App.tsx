@@ -14,12 +14,16 @@ import { Toaster } from 'sonner'
 import StudyPage from './pages/StudyPage'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { TooltipProvider } from './components/ui/tooltip'
+import StarBackground from './components/ui-components/StarBackground'
 
 function App() {
   return (
     <ThemeProvider>
       <TooltipProvider>
         <BrowserRouter>
+          {/* Star Background for the entire app */}
+          <StarBackground />
+          
           <ScrollAwareHeader />
           <Routes>
             <Route path="/" element={<Index />} />

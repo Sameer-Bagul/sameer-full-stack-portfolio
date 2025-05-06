@@ -7,7 +7,6 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { EnhancedTableOfContents } from './EnhancedTableOfContents';
 import { EnhancedMaterialContent } from './EnhancedMaterialContent';
 import { StudyToolbar } from './StudyToolbar';
-import { initializePrism } from './prismSetup';
 import { useIsMobile } from '@/hooks/use-mobile';
 import './studyMaterial.css';
 
@@ -34,9 +33,7 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
   }, [isMobile]);
 
   useEffect(() => {
-    // Initialize Prism for code highlighting
-    initializePrism();
-    
+    // Extract headings for table of contents
     if (material.content) {
       const headings: {title: string; level: number}[] = [];
       const lines = material.content.split('\n');
@@ -52,13 +49,6 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
       });
       
       setTableOfContents(headings);
-    }
-    
-    // Initialize code highlighting
-    if (typeof window !== 'undefined' && (window as any).Prism) {
-      setTimeout(() => {
-        (window as any).Prism.highlightAll();
-      }, 100);
     }
   }, [material.content]);
 

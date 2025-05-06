@@ -8,7 +8,6 @@ import { Contact } from '@/components/home/Contact';
 import { Testimonials } from '@/components/home/Testimonials';
 import { Skills } from '@/components/home/Skills';
 import { useTheme } from '@/contexts/ThemeContext';
-import StarBackground from '@/components/ui-components/StarBackground';
 
 const Index = () => {
   const { isDark } = useTheme();
@@ -42,9 +41,6 @@ const Index = () => {
 
   return (
     <AnimatePresence>
-      {/* Star Background */}
-      <StarBackground />
-      
       <motion.div 
         className="flex flex-col relative z-10"
         initial="hidden"

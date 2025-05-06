@@ -70,17 +70,15 @@ const appIcons = [
 
 const WidgetUi: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
-  const [showWidgetUi, setShowWidgetUi] = useState(false);
+  const [showWidgetUi, setShowWidgetUi] = useState(false); // Default to false (closed)
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const dragControls = useDragControls();
   const isMobile = useIsMobile();
 
-  // Hide on mobile devices
+  // Keep widget UI closed on mobile devices by default
   useEffect(() => {
     if (isMobile) {
       setShowWidgetUi(false);
-    } else {
-      setShowWidgetUi(true);
     }
   }, [isMobile]);
 
@@ -96,16 +94,26 @@ const WidgetUi: React.FC = () => {
   
   // Add event listener to toggle widget UI
   useEffect(() => {
-    const toggleWidgetUI = () => {
-      setShowWidgetUi(prev => !prev);
+    const handleToggleWidgetUI = (event: Event) => {
+      const customEvent = event as CustomEvent;
+      if (customEvent.detail && customEvent.detail.visible !== undefined) {
+        setShowWidgetUi(customEvent.detail.visible);
+      } else {
+        setShowWidgetUi(prev => !prev);
+      }
+      
+      // Dispatch an event to update any other components that need to know about the state change
+      document.dispatchEvent(new CustomEvent('widgetUIStateChange', { 
+        detail: { visible: customEvent.detail?.visible !== undefined ? customEvent.detail.visible : !showWidgetUi } 
+      }));
     };
     
-    document.addEventListener('toggleWidgetUI', toggleWidgetUI);
+    document.addEventListener('toggleWidgetUI', handleToggleWidgetUI);
     
     return () => {
-      document.removeEventListener('toggleWidgetUI', toggleWidgetUI);
+      document.removeEventListener('toggleWidgetUI', handleToggleWidgetUI);
     };
-  }, []);
+  }, [showWidgetUi]);
 
   if (!showWidgetUi) return null;
 

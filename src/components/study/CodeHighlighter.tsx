@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Check, Copy, FileCode } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -17,15 +17,12 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
   const normalizedLang = language === 'js' ? 'javascript' : language;
   const displayLang = getDisplayLanguage(normalizedLang);
   
-  useEffect(() => {
-    // Ensure Prism is initialized
+  // Ensure code highlighting gets applied
+  setTimeout(() => {
     if (typeof window !== 'undefined' && window.Prism) {
-      // Add small delay to ensure DOM is ready
-      setTimeout(() => {
-        window.Prism.highlightAll();
-      }, 10);
+      window.Prism.highlightAll();
     }
-  }, [code, language]);
+  }, 10);
   
   const handleCopy = () => {
     navigator.clipboard.writeText(cleanedCode);
@@ -46,7 +43,7 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
     .replace(/&amp;/g, '&');
   
   return (
-    <div className="relative my-6 rounded-lg overflow-hidden border border-border bg-muted/40 shadow-md">
+    <div className="relative my-6 rounded-lg overflow-hidden border border-border bg-muted/40 shadow-md book-code-block">
       <div className="flex items-center justify-between px-4 py-2 bg-muted/80 border-b">
         <div className="flex items-center gap-2">
           <FileCode size={14} className="text-primary" />
@@ -74,10 +71,8 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
         </Button>
       </div>
       
-      <div className="p-4 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-        <pre className={cn(
-          "m-0 p-0 bg-transparent text-sm font-mono tab-size-2"
-        )}>
+      <div className="p-4 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent code-content">
+        <pre className={cn("m-0 p-0 bg-transparent text-sm font-mono tab-size-2")}>
           <code className={`language-${normalizedLang}`}>{cleanedCode}</code>
         </pre>
       </div>

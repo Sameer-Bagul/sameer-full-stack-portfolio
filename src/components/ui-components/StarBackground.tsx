@@ -12,7 +12,7 @@ const StarField = () => {
   const ref = useRef<any>(null);
   const { theme } = useTheme();
   const [sphere] = useState(() =>
-    random.inSphere(new Float32Array(8000), { radius: 1.5 })
+    random.inSphere(new Float32Array(6000), { radius: 1.5 })
   );
 
   useFrame((state, delta) => {
@@ -64,7 +64,7 @@ const StarBackground = () => {
       />
       <div className={`absolute inset-0 transition-colors duration-700 ${
         theme === 'dark'
-          ? 'bg-[#030014]/80'
+          ? 'bg-[#030014]/70'
           : 'bg-white/40'
       }`} />
       <Canvas camera={{ position: [0, 0, 1] }}>

@@ -126,17 +126,30 @@
 }
 
 @layer utilities {
+  /* Enhanced glass panel utilities with better mobile visibility */
   .glass-panel {
-    @apply bg-background/40 backdrop-blur-md border border-white/10 shadow-lg;
+    @apply bg-background/60 backdrop-blur-md border border-white/20 shadow-lg;
   }
   
-  /* Enhanced glass panel variants */
   .glass-panel-dark {
-    @apply bg-black/30 backdrop-blur-md border border-white/10 shadow-lg;
+    @apply bg-black/40 backdrop-blur-md border border-white/20 shadow-lg;
   }
   
   .glass-panel-light {
-    @apply bg-white/50 backdrop-blur-md border border-black/5 shadow-lg;
+    @apply bg-white/60 backdrop-blur-md border border-black/10 shadow-lg;
+  }
+  
+  /* Mobile-enhanced glass panels with stronger background */
+  .glass-panel-mobile {
+    @apply sm:bg-background/40 bg-background/70 backdrop-blur-md border border-white/20 shadow-lg;
+  }
+  
+  .glass-panel-mobile-dark {
+    @apply sm:bg-black/30 bg-black/50 backdrop-blur-lg border border-white/20 shadow-lg;
+  }
+  
+  .glass-panel-mobile-light {
+    @apply sm:bg-white/50 bg-white/70 backdrop-blur-lg border border-black/10 shadow-lg;
   }
   
   /* New curved container class */

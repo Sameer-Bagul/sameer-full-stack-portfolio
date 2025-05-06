@@ -45,7 +45,7 @@ export const Hero = () => {
   }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden flex items-center">
+    <section className="relative min-h-screen w-full overflow-hidden flex items-center">
       {/* 3D Background */}
       <div className="absolute inset-0 z-10">
         {!splineLoaded && (
@@ -64,20 +64,20 @@ export const Hero = () => {
         />
       </div>
 
-      {/* Contact Box - Enhanced with premium glass effect */}
+      {/* Contact Box - Enhanced with premium glass effect - Fixed in upper right corner */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.5 }}
         whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-        className={`absolute bottom-8 right-8 w-auto max-w-xs backdrop-blur-md ${
+        className={`fixed ${isMobile ? 'top-20 left-4 right-4 w-auto' : 'top-24 right-8 max-w-xs'} backdrop-blur-md ${
           isDark 
             ? 'bg-white/10 border border-white/20' 
             : 'bg-black/5 border border-black/10'
         } rounded-2xl shadow-xl p-5 flex flex-col gap-3 z-30`}
       >
         <h3 className="text-base font-semibold gradient-heading">Connect With Me</h3>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
           <SocialLink href="mailto:sameerbagul2003@gmail.com" label="Email" icon={<Mail size={18} />} />
           <SocialLink href="tel:+919876543210" label="Phone" icon={<Phone size={18} />} />
           <SocialLink href="https://linkedin.com/in/sameerbagul" label="LinkedIn" icon={<Linkedin size={18} />} />
@@ -95,13 +95,13 @@ export const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            {/* Glass Backdrop for Text with curved inner corners */}
+            {/* Glass Backdrop for Text with curved inner corners - VISIBLE ON MOBILE, TEXT-ONLY ON DESKTOP */}
             <motion.div 
               className={`${
                 isDark 
                   ? 'backdrop-blur-xl bg-black/30 border border-white/10' 
                   : 'backdrop-blur-xl bg-white/40 border border-black/5'
-              } p-6 md:p-8 rounded-[2.5rem] shadow-lg relative overflow-hidden`}
+              } p-6 md:p-8 rounded-[2.5rem] shadow-lg relative overflow-hidden md:bg-transparent md:backdrop-blur-none md:border-0 md:shadow-none`}
               style={{
                 clipPath: 'inset(0% round 2.5rem)',
               }}
@@ -112,14 +112,14 @@ export const Hero = () => {
               {/* Inner content with curved corners */}
               <div className="relative z-10">
                 <motion.h1 
-                  className="text-4xl md:text-5xl xl:text-6xl font-bold tracking-tight"
+                  className="text-3xl md:text-5xl xl:text-6xl font-bold tracking-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.5 }}
                 >
-                  <span className={`${isDark ? 'text-violet-300' : 'text-violet-600'}`}>Innovating</span>{' '}
-                  <span className="text-shimmer">Learning Experiences</span>{' '}
-                  <span>Through Code</span>
+                  <span className={`${isDark ? 'text-violet-300' : 'text-violet-600'}`}>Crafting</span>{' '}
+                  <span className="text-shimmer">Digital Experiences</span>{' '}
+                  <span>With Passion</span>
                 </motion.h1>
 
                 <motion.p 
@@ -129,9 +129,9 @@ export const Hero = () => {
                   transition={{ duration: 0.5, delay: 0.7 }}
                 >
                   I'm <span className={`font-semibold ${isDark ? 'text-violet-300' : 'text-violet-600'}`}>Sameer Bagul</span>, a 
-                  developer passionate about transforming education through technology. 
-                  My work spans from intuitive note-taking tools to AI-powered career guidance platforms 
-                  like <span className="font-semibold italic">WCareers.ai</span>, empowering self-directed learning.
+                  full-stack developer specializing in creating beautiful, functional, and user-focused digital experiences.
+                  With expertise in modern web technologies, I blend creativity and technical precision to build solutions that 
+                  drive real business impact and exceptional user experiences.
                 </motion.p>
 
                 <motion.div 
@@ -145,7 +145,7 @@ export const Hero = () => {
                       size="lg"
                       className={`group ${isDark ? 'bg-violet-600 hover:bg-violet-700' : 'bg-violet-500 hover:bg-violet-600'} text-white shadow-md transition-all duration-300 hover:shadow-lg hover:shadow-violet-500/20`}
                     >
-                      Explore My Work
+                      View My Projects
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={16} />
                     </Button>
                   </Link>
@@ -168,9 +168,9 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* Scroll Indicator - Enhanced animation */}
+      {/* Scroll Indicator - Enhanced animation with better mobile support */}
       <motion.div
-        className="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center z-30"
+        className={`absolute ${isMobile ? 'bottom-28' : 'bottom-10'} left-1/2 transform -translate-x-1/2 flex flex-col items-center z-30`}
         initial={{ opacity: 0, y: -15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.2, duration: 0.6 }}
@@ -180,9 +180,9 @@ export const Hero = () => {
           animate={{ y: [0, -5, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
         >
-          Scroll to discover
+          {isMobile ? "Swipe down" : "Scroll down"}
         </motion.p>
-        <div className="w-[2px] h-16 bg-border/60 relative overflow-hidden rounded-full">
+        <div className={`w-[2px] h-${isMobile ? '8' : '16'} bg-border/60 relative overflow-hidden rounded-full`}>
           <motion.div
             className={`w-full ${isDark ? 'bg-violet-400' : 'bg-violet-500'} absolute`}
             initial={{ height: '30%', top: '-30%' }}

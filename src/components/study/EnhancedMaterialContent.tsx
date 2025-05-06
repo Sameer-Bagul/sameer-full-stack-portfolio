@@ -1,16 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
+
+import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  ChevronLeft, ChevronRight, AlignLeft, ZoomIn, ZoomOut, Copy, Check,
+  AlignLeft, ZoomIn, ZoomOut, Copy, Check,
   Clock, Calendar, BookOpen, Tag, User, Share, Download, ThumbsUp, 
   Bookmark, Eye, MessageSquare
 } from 'lucide-react';
 import { StudyMaterial } from '@/data/studyData';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { CodeHighlighter } from './CodeHighlighter';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { Badge } from '@/components/ui/badge';
+import { useMarkdownProcessor } from './useMarkdownProcessor';
 import {
   Pagination,
   PaginationContent,
@@ -45,26 +45,26 @@ export function EnhancedMaterialContent({
   onZoomIn,
   onZoomOut
 }: EnhancedMaterialContentProps) {
-  const [processedContent, setProcessedContent] = useState<string>('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [contentPages, setContentPages] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [estimatedReadTime, setEstimatedReadTime] = useState('10 min read');
   const contentRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
+  
+  // Use the custom hook for markdown processing
+  const { processedContent, renderPageContent } = useMarkdownProcessor(material.content);
   
   // Calculate estimated read time 
-  useEffect(() => {
-    if (material.content) {
-      const wordsPerMinute = 200;
-      const wordCount = material.content.split(/\s+/).length;
-      const readTime = Math.ceil(wordCount / wordsPerMinute);
+  if (material.content) {
+    const wordsPerMinute = 200;
+    const wordCount = material.content.split(/\s+/).length;
+    const readTime = Math.ceil(wordCount / wordsPerMinute);
+    if (readTime !== parseInt(estimatedReadTime)) {
       setEstimatedReadTime(`${readTime} min read`);
     }
-  }, [material.content]);
+  }
   
   // Detect theme from the document
-  useEffect(() => {
+  useState(() => {
     const isDark = document.documentElement.classList.contains('dark');
     setTheme(isDark ? 'dark' : 'light');
     
@@ -76,7 +76,7 @@ export function EnhancedMaterialContent({
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
     
     return () => observer.disconnect();
-  }, []);
+  });
   
   // Handle copy content functionality
   const handleCopyContent = () => {
@@ -86,95 +86,6 @@ export function EnhancedMaterialContent({
       toast.success("Content copied to clipboard");
       setTimeout(() => setCopied(false), 2000);
     }
-  };
-  
-  // Process content to enhance code blocks and split into pages
-  useEffect(() => {
-    if (!material.content) return;
-    
-    // Process content
-    let processedMarkdown = material.content;
-    
-    // Process headings correctly - replace #s with proper HTML elements
-    processedMarkdown = processedMarkdown.replace(/^(#{1,6})\s+(.+)$/gm, (match, hashes, title) => {
-      const level = hashes.length;
-      const id = title.toLowerCase().replace(/\s+/g, '-');
-      return `<h${level} id="${id}">${title}</h${level}>`;
-    });
-    
-    // Process code blocks correctly - wrap in special divs that our component will handle
-    processedMarkdown = processedMarkdown.replace(/```(\w+)?\n([\s\S]*?)\n```/g, (match, language, code) => {
-      const lang = language || 'text';
-      return `<div class="code-wrapper" data-language="${lang}">${code.trim()}</div>`;
-    });
-    
-    // Process inline code
-    processedMarkdown = processedMarkdown.replace(/`([^`]+)`/g, '<code>$1</code>');
-    
-    // Process bold text
-    processedMarkdown = processedMarkdown.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
-    
-    // Process italic text
-    processedMarkdown = processedMarkdown.replace(/\*([^*]+)\*/g, '<em>$1</em>');
-    
-    // Process lists
-    processedMarkdown = processedMarkdown.replace(/^(\s*)-\s+(.+)$/gm, '<li>$2</li>');
-    processedMarkdown = processedMarkdown.replace(/^(\s*)\d+\.\s+(.+)$/gm, '<li>$2</li>');
-    
-    // Process paragraphs (lines that aren't headings or list items)
-    processedMarkdown = processedMarkdown.replace(/^(?!(#|<h|<li|<div class="code-wrapper"))(.+)$/gm, '<p>$2</p>');
-    
-    setProcessedContent(processedMarkdown);
-    
-    // Split content into pages based on content length
-    const contentChars = material.content.length;
-    const charsPerPage = isMobile ? 1500 : 3000;
-    const calculatedPages = Math.max(1, Math.ceil(contentChars / charsPerPage));
-    
-    // Create an array of page content
-    const pages = [];
-    for (let i = 0; i < calculatedPages; i++) {
-      const start = i * charsPerPage;
-      const end = Math.min(start + charsPerPage, contentChars);
-      pages.push(material.content.substring(start, end));
-    }
-    
-    setContentPages(pages);
-  }, [material.content, isMobile]);
-
-  // Function to render the current page's content
-  const renderPageContent = () => {
-    if (!processedContent) return <div>No content available</div>;
-    
-    const parts = processedContent.split('<div class="code-wrapper"');
-    
-    return (
-      <>
-        {parts.map((part, index) => {
-          if (index === 0) {
-            return <div key={index} dangerouslySetInnerHTML={{ __html: part }} />;
-          }
-          
-          const endOfDiv = part.indexOf('</div>');
-          if (endOfDiv === -1) return null;
-          
-          const snippetPart = part.substring(0, endOfDiv);
-          const restContent = part.substring(endOfDiv + 6); // 6 is the length of '</div>'
-          
-          const language = snippetPart.match(/data-language="(.*?)"/)?.[1] || 'text';
-          const code = snippetPart.substring(
-            snippetPart.indexOf('>') + 1
-          ).trim();
-          
-          return (
-            <div key={index}>
-              <CodeHighlighter language={language} code={code} />
-              <div dangerouslySetInnerHTML={{ __html: restContent }} />
-            </div>
-          );
-        })}
-      </>
-    );
   };
 
   const renderMetadata = () => (
@@ -282,7 +193,7 @@ export function EnhancedMaterialContent({
       'Advanced': 'bg-purple-100 text-purple-800 border-purple-200',
     };
     
-    const colorClass = difficultyColors[material.difficulty] || '';
+    const colorClass = difficultyColors[material.difficulty as keyof typeof difficultyColors] || '';
     
     return (
       <div className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${colorClass}`}>
@@ -400,7 +311,7 @@ export function EnhancedMaterialContent({
               
               {currentPage > 2 && (
                 <PaginationItem>
-                  <PaginationLink onClick={() => {}}>1</PaginationLink>
+                  <PaginationLink>1</PaginationLink>
                 </PaginationItem>
               )}
               
@@ -412,21 +323,21 @@ export function EnhancedMaterialContent({
               
               {currentPage > 1 && (
                 <PaginationItem>
-                  <PaginationLink onClick={() => handlePrevPage()}>
+                  <PaginationLink onClick={handlePrevPage}>
                     {currentPage - 1}
                   </PaginationLink>
                 </PaginationItem>
               )}
               
               <PaginationItem>
-                <PaginationLink isActive onClick={() => {}}>
+                <PaginationLink isActive>
                   {currentPage}
                 </PaginationLink>
               </PaginationItem>
               
               {currentPage < totalPages && (
                 <PaginationItem>
-                  <PaginationLink onClick={() => handleNextPage()}>
+                  <PaginationLink onClick={handleNextPage}>
                     {currentPage + 1}
                   </PaginationLink>
                 </PaginationItem>
@@ -440,7 +351,7 @@ export function EnhancedMaterialContent({
               
               {currentPage < totalPages - 1 && (
                 <PaginationItem>
-                  <PaginationLink onClick={() => {}}>
+                  <PaginationLink>
                     {totalPages}
                   </PaginationLink>
                 </PaginationItem>
