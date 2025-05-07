@@ -34,19 +34,20 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
     }, 2000);
   };
   
-  // Clean code by removing unnecessary markdown backticks if present
+  // Clean code by removing any HTML tags or paragraph wrappers
   const cleanedCode = code
     .replace(/^```\w*\n|```$/g, '')
     .replace(/<\/?pre>|<\/?code[^>]*>/g, '')
+    .replace(/<p class="book-paragraph">|<\/p>/g, '')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&');
   
   return (
-    <div className="relative my-6 rounded-lg overflow-hidden border border-border bg-muted/40 shadow-md book-code-block">
-      <div className="flex items-center justify-between px-4 py-2 bg-muted/80 border-b">
+    <div className="relative my-8 rounded-xl overflow-hidden border border-border/60 bg-muted/30 shadow-md book-code-block">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 border-b border-border/50">
         <div className="flex items-center gap-2">
-          <FileCode size={14} className="text-primary" />
+          <FileCode size={16} className="text-primary/80" />
           <span className="text-xs font-mono font-medium">
             {filename || displayLang}
           </span>
@@ -54,7 +55,7 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
         <Button 
           variant="ghost" 
           size="sm"
-          className="h-7 gap-1.5 text-xs"
+          className="h-7 gap-1.5 text-xs hover:bg-muted"
           onClick={handleCopy}
         >
           {copied ? (
@@ -71,7 +72,7 @@ export function CodeHighlighter({ language, code, filename }: CodeHighlighterPro
         </Button>
       </div>
       
-      <div className="p-4 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent code-content">
+      <div className="p-5 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent code-content">
         <pre className={cn("m-0 p-0 bg-transparent text-sm font-mono tab-size-2")}>
           <code className={`language-${normalizedLang}`}>{cleanedCode}</code>
         </pre>

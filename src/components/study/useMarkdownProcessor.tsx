@@ -15,20 +15,25 @@ export function useMarkdownProcessor(content: string | undefined) {
     // Process content
     let processedMarkdown = content;
     
-    // Process headings correctly - replace #s with proper HTML elements
+    // Process code blocks first (before other formatting)
+    // This captures code blocks and preserves them as a special token to prevent other formatting inside
+    const codeBlocks: string[] = [];
+    processedMarkdown = processedMarkdown.replace(/```(\w+)?\n([\s\S]*?)\n```/g, (match, language, code) => {
+      const lang = language || 'text';
+      // Store the code block and replace with a placeholder
+      const token = `__CODE_BLOCK_${codeBlocks.length}__`;
+      codeBlocks.push(`<div class="code-wrapper" data-language="${lang}">${code.trim()}</div>`);
+      return token;
+    });
+    
+    // Process headings correctly
     processedMarkdown = processedMarkdown.replace(/^(#{1,6})\s+(.+)$/gm, (match, hashes, title) => {
       const level = hashes.length;
       const id = title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
       return `<h${level} id="${id}" class="heading-${level}">${title}</h${level}>`;
     });
     
-    // Process code blocks correctly - wrap in special divs that our component will handle
-    processedMarkdown = processedMarkdown.replace(/```(\w+)?\n([\s\S]*?)\n```/g, (match, language, code) => {
-      const lang = language || 'text';
-      return `<div class="code-wrapper" data-language="${lang}">${code.trim()}</div>`;
-    });
-    
-    // Process inline code with book-like styling
+    // Process inline code - must happen before paragraphs
     processedMarkdown = processedMarkdown.replace(/`([^`]+)`/g, '<code class="inline-code">$1</code>');
     
     // Process bold text
@@ -50,8 +55,13 @@ export function useMarkdownProcessor(content: string | undefined) {
     processedMarkdown = processedMarkdown.replace(/((<li class="book-list-item ordered">.*<\/li>\n)+)/g, '<ol class="book-ordered-list">$1</ol>');
     processedMarkdown = processedMarkdown.replace(/((<li class="book-list-item">.*<\/li>\n)+)/g, '<ul class="book-list">$1</ul>');
     
-    // Process paragraphs (lines that aren't headings, lists, blockquotes, or code blocks)
-    processedMarkdown = processedMarkdown.replace(/^(?!(#|<h|<li|<blockquote|<div class="code-wrapper"))(.+)$/gm, '<p class="book-paragraph">$2</p>');
+    // Process paragraphs (lines that aren't headings, lists, blockquotes, or placeholder tokens)
+    processedMarkdown = processedMarkdown.replace(/^(?!(#|<h|<li|<blockquote|__CODE_BLOCK))(.+)$/gm, '<p class="book-paragraph">$2</p>');
+    
+    // Now restore the code blocks
+    codeBlocks.forEach((block, i) => {
+      processedMarkdown = processedMarkdown.replace(`__CODE_BLOCK_${i}__`, block);
+    });
     
     setProcessedContent(processedMarkdown);
   }, [content]);
@@ -76,6 +86,7 @@ export function useMarkdownProcessor(content: string | undefined) {
           const restContent = part.substring(endOfDiv + 6); // 6 is the length of '</div>'
           
           const language = snippetPart.match(/data-language="(.*?)"/)?.[1] || 'text';
+          // Extract the code directly without parsing HTML
           const code = snippetPart.substring(
             snippetPart.indexOf('>') + 1
           ).trim();

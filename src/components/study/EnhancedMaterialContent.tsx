@@ -3,14 +3,14 @@ import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { 
   AlignLeft, ZoomIn, ZoomOut, Copy, Check,
-  Clock, Calendar, BookOpen, Tag, User, Share, Download, ThumbsUp, 
-  Bookmark, Eye, MessageSquare
+  Clock, Calendar, BookOpen, Tag, User 
 } from 'lucide-react';
 import { StudyMaterial } from '@/data/studyData';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { useMarkdownProcessor } from './useMarkdownProcessor';
+import { ScrollArea } from '../ui/scroll-area';
 import {
   Pagination,
   PaginationContent,
@@ -89,61 +89,34 @@ export function EnhancedMaterialContent({
   };
 
   const renderMetadata = () => (
-    <div className="flex flex-wrap items-center gap-3 text-muted-foreground text-sm border-b pb-4 mb-4">
+    <div className="material-meta">
       {material.author && (
-        <div className="flex items-center gap-1">
-          <User size={14} />
+        <div className="meta-item">
+          <User size={16} />
           <span>{material.author}</span>
         </div>
       )}
-      <div className="flex items-center gap-1">
-        <Calendar size={14} />
+      <div className="meta-item">
+        <Calendar size={16} />
         <span>{material.date}</span>
       </div>
-      <div className="flex items-center gap-1">
-        <Clock size={14} />
+      <div className="meta-item">
+        <Clock size={16} />
         <span>{material.estimatedReadTime || estimatedReadTime}</span>
       </div>
-      <div className="flex items-center gap-1">
-        <BookOpen size={14} />
-        <span>{material.fileSize}</span>
+      <div className="meta-item">
+        <BookOpen size={16} />
+        <span>{material.fileSize || '32 KB'}</span>
       </div>
-      <div className="flex items-center gap-1">
-        <Eye size={14} />
-        <span>426 views</span>
-      </div>
-      <div className="ml-auto flex items-center gap-3">
+      <div className="ml-auto">
         <Button 
           variant="ghost" 
-          size="icon"
+          size="sm"
           onClick={handleCopyContent}
-          className="h-8 w-8"
+          className="h-8 hover:bg-muted"
         >
-          {copied ? <Check size={16} /> : <Copy size={16} />}
-        </Button>
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => toast.success("Material bookmarked!")}
-        >
-          <Bookmark size={16} />
-        </Button>
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => toast.success("Sharing link copied!")}
-        >
-          <Share size={16} />
-        </Button>
-        <Button 
-          variant="ghost" 
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => toast.success("Downloading material...")}
-        >
-          <Download size={16} />
+          {copied ? <Check size={16} className="text-green-500 mr-2" /> : <Copy size={16} className="mr-2" />}
+          {copied ? "Copied" : "Copy"}
         </Button>
       </div>
     </div>
@@ -152,7 +125,7 @@ export function EnhancedMaterialContent({
   const renderTags = () => (
     <div className="flex flex-wrap gap-2 mb-5">
       {material.tags.map(tag => (
-        <Badge key={tag} variant="outline" className="py-1">
+        <Badge key={tag} variant="outline" className="py-1 font-normal">
           <Tag className="w-3 h-3 mr-1" />
           {tag}
         </Badge>
@@ -161,12 +134,12 @@ export function EnhancedMaterialContent({
   );
 
   const renderZoomControls = () => (
-    <div className="flex items-center gap-1 mt-4 mb-2 justify-end">
+    <div className="flex items-center gap-1 mt-6 mb-4 justify-end">
       <Button 
         variant="outline" 
         size="icon" 
         onClick={onZoomOut} 
-        className="h-8 w-8"
+        className="h-8 w-8 rounded-full"
       >
         <ZoomOut size={15} />
       </Button>
@@ -177,7 +150,7 @@ export function EnhancedMaterialContent({
         variant="outline" 
         size="icon" 
         onClick={onZoomIn}
-        className="h-8 w-8"
+        className="h-8 w-8 rounded-full"
       >
         <ZoomIn size={15} />
       </Button>
@@ -206,9 +179,9 @@ export function EnhancedMaterialContent({
     if (!material.prerequisites || material.prerequisites.length === 0) return null;
     
     return (
-      <div className="mt-6 p-4 border rounded-lg bg-muted/30">
-        <h4 className="text-sm font-semibold mb-2">Prerequisites</h4>
-        <ul className="list-disc list-inside space-y-1">
+      <div className="mt-8 p-5 border rounded-lg bg-muted/30">
+        <h4 className="text-sm font-semibold mb-3 font-playfair">Prerequisites</h4>
+        <ul className="list-disc list-inside space-y-1.5">
           {material.prerequisites.map((prerequisite, index) => (
             <li key={index} className="text-sm text-muted-foreground">{prerequisite}</li>
           ))}
@@ -222,14 +195,14 @@ export function EnhancedMaterialContent({
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
-      className={`flex-1 ${showSidebar ? 'ml-3 md:ml-6' : ''} px-4 md:px-0`}
+      className={`flex-1 ${showSidebar ? 'ml-6 md:ml-8' : ''} px-4 md:px-0 pb-12`}
     >
       {!showSidebar && (
         <Button
           variant="outline"
           size="sm"
           onClick={toggleSidebar}
-          className="mb-4 flex items-center gap-1"
+          className="mb-6 flex items-center gap-1.5 shadow-sm"
         >
           <AlignLeft size={16} />
           <span>Show Contents</span>
@@ -240,7 +213,7 @@ export function EnhancedMaterialContent({
       
       <div 
         ref={contentRef}
-        className={`article-container notebook-paper rounded-xl shadow-md overflow-hidden ${
+        className={`notebook-paper rounded-xl shadow-lg overflow-hidden ${
           theme === 'dark' ? 'paper-lines-dark' : 'paper-lines-light'
         }`}
         style={{ 
@@ -248,50 +221,18 @@ export function EnhancedMaterialContent({
           transformOrigin: 'top left', 
         }}
       >
-        <article className="prose prose-sm md:prose-base lg:prose-lg dark:prose-invert max-w-none enhanced-note">
-          <div className="article-header">
-            <div className="flex justify-between items-start">
-              <h1 className="text-primary font-bold mb-1">{material.title}</h1>
-              {renderDifficultyBadge()}
-            </div>
-            
-            <p className="text-muted-foreground">{material.description}</p>
+        <article className="font-playfair">
+          <div className="material-header">
+            <h1 className="material-title text-3xl md:text-4xl">{material.title}</h1>
+            <p className="material-description">{material.description}</p>
             
             {renderTags()}
             {renderMetadata()}
           </div>
           
-          {renderPageContent()}
-          {renderPrerequisites()}
-          
-          <div className="mt-8 pt-4 border-t flex justify-between items-center">
-            <div className="flex items-center gap-6">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex items-center gap-1"
-                onClick={() => toast.success("Liked!")}
-              >
-                <ThumbsUp size={16} />
-                <span>Like</span>
-              </Button>
-              <Button
-                variant="ghost" 
-                size="sm" 
-                className="flex items-center gap-1"
-                onClick={() => toast.success("Comment submitted!")}
-              >
-                <MessageSquare size={16} />
-                <span>Comment</span>
-              </Button>
-            </div>
-            <Button
-              variant="outline" 
-              size="sm"
-              onClick={() => window.print()}
-            >
-              Print
-            </Button>
+          <div className="px-6 md:px-10 pb-12">
+            {renderPageContent()}
+            {renderPrerequisites()}
           </div>
           
           <div className="page-fold"></div>
@@ -299,7 +240,7 @@ export function EnhancedMaterialContent({
       </div>
       
       {totalPages > 1 && (
-        <div className="flex items-center justify-center mt-8">
+        <div className="flex items-center justify-center mt-10">
           <Pagination>
             <PaginationContent>
               <PaginationItem>

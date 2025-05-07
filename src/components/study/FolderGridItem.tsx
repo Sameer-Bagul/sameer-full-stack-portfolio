@@ -36,18 +36,15 @@ export function FolderGridItem({ folder, index, onSelect, isActive }: FolderGrid
     >
       <Card 
         onClick={onSelect}
-        className={`h-full overflow-hidden relative cursor-pointer transition-all duration-300 ring-2 ${
-          isActive ? `${colors.accent} shadow-xl` : 'ring-transparent group-hover:ring-primary/70'
-        } glass-morphism shadow-lg border-none`}
-        style={{
-          background: 'none'
-        }}
+        className={`h-full overflow-hidden relative cursor-pointer transition-all duration-300 ${
+          isActive ? 'shadow-xl ring-2 ring-primary/70' : 'shadow-md hover:shadow-lg'
+        } glass-morphism border border-background/10`}
       >
-        {/* Glass/gradient background */}
-        <div className={`absolute inset-0 z-0 opacity-80 ${colors.gradient}`} />
-        
         {/* Top accent bar */}
         <div className={`absolute h-1.5 w-full top-0 left-0 z-10 ${colors.accent}`} />
+        
+        {/* Glass/gradient background */}
+        <div className={`absolute inset-0 z-0 opacity-70 ${colors.gradient}`} />
         
         {/* Protected indicator */}
         {folder.isProtected && (
@@ -59,14 +56,14 @@ export function FolderGridItem({ folder, index, onSelect, isActive }: FolderGrid
         <CardContent className="p-0 z-10 relative">
           <div className="p-6 pt-7">
             <div className="flex items-start justify-between mb-4">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-md border-2 border-white/20 glass-panel bg-white/10 backdrop-blur-md ${colors.text}`}>
+              <div className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-md border border-white/20 glass-panel bg-white/10 backdrop-blur-md ${colors.text}`}>
                 <Icon size={28} />
               </div>
               <Badge className={`rounded-md px-3 ${colors.bg} ${colors.text} border-none backdrop-blur-sm`}>
                 {subfolders.length > 0 ? `${subfolders.length} subfolder${subfolders.length > 1 ? 's' : ''}` : 'Folder'}
               </Badge>
             </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">{folder.name}</h3>
+            <h3 className="text-xl font-bold mb-2 font-playfair group-hover:text-primary transition-colors">{folder.name}</h3>
             <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{folder.description}</p>
             
             <div className="flex flex-wrap gap-2 mb-3">

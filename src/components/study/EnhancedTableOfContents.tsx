@@ -66,7 +66,7 @@ export function EnhancedTableOfContents({ tableOfContents, material, toggleSideb
       initial={{ opacity: 0, x: -20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.3 }}
-      className={`w-72 border-r border-border/50 h-[calc(100vh-120px)] flex flex-col ${isMobile ? 'absolute z-50 bg-background/95 backdrop-blur-md' : ''}`}
+      className={`w-72 border-r border-border/50 flex flex-col sticky top-20 h-[calc(100vh-120px)] ${isMobile ? 'absolute z-50 bg-background/95 backdrop-blur-md' : ''}`}
     >
       <div className="p-4 flex justify-between items-center border-b">
         <h3 className="font-semibold flex items-center gap-2">
@@ -111,13 +111,15 @@ export function EnhancedTableOfContents({ tableOfContents, material, toggleSideb
         </div>
       </div>
       
-      <ScrollArea className="flex-1 px-4 py-3">
+      <div className="px-4 py-3">
         <h4 className="font-medium text-sm flex items-center gap-1.5 mb-3 text-muted-foreground">
           <Hash size={14} />
           Sections
         </h4>
-        
-        <div className="space-y-1 pl-1">
+      </div>
+      
+      <ScrollArea className="flex-1 px-4 enhanced-scroll-area">
+        <div className="space-y-1 pl-1 pb-4">
           {tableOfContents.length > 0 ? (
             tableOfContents.map((heading, index) => (
               <Button
@@ -147,7 +149,7 @@ export function EnhancedTableOfContents({ tableOfContents, material, toggleSideb
         </div>
       </ScrollArea>
       
-      <div className="p-4 border-t">
+      <div className="p-4 border-t mt-auto">
         <Button variant="outline" className="w-full flex items-center gap-2" size="sm">
           <Bookmark size={16} />
           Bookmark

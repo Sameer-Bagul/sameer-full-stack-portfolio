@@ -1,13 +1,18 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Phone, Twitter } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, Phone, Twitter, Facebook, Instagram, Youtube, MapPin, Globe } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTheme } from '@/contexts/ThemeContext';
 import WidgetUI from '../ui-components/widgetUi';
+import { 
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 export const Hero = () => {
   const [splineLoaded, setSplineLoaded] = useState(false);
@@ -64,17 +69,17 @@ export const Hero = () => {
         />
       </div>
 
-      {/* Contact Box - Enhanced with premium glass effect - Fixed in upper right corner */}
+      {/* Enhanced Connect With Me Box - Moved to bottom right corner */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1, duration: 0.5 }}
         whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
-        className={`fixed ${isMobile ? 'top-20 left-4 right-4 w-auto' : 'top-24 right-8 max-w-xs'} backdrop-blur-md ${
+        className={`fixed bottom-8 right-8 z-50 max-w-sm backdrop-blur-lg ${
           isDark 
-            ? 'bg-white/10 border border-white/20' 
-            : 'bg-black/5 border border-black/10'
-        } rounded-2xl shadow-xl p-5 flex flex-col gap-3 z-30`}
+            ? 'bg-white/10 border border-white/20 shadow-lg shadow-violet-500/10' 
+            : 'bg-black/5 border border-black/10 shadow-lg shadow-violet-500/10'
+        } rounded-2xl p-5 flex flex-col gap-3`}
       >
         <h3 className="text-base font-semibold gradient-heading">Connect With Me</h3>
         <div className="flex flex-wrap gap-3 justify-center sm:justify-start">
@@ -83,6 +88,11 @@ export const Hero = () => {
           <SocialLink href="https://linkedin.com/in/sameerbagul" label="LinkedIn" icon={<Linkedin size={18} />} />
           <SocialLink href="https://twitter.com/sameerybagul" label="Twitter" icon={<Twitter size={18} />} />
           <SocialLink href="https://github.com/SameerBagul" label="GitHub" icon={<Github size={18} />} />
+          <SocialLink href="https://facebook.com/sameerbagul" label="Facebook" icon={<Facebook size={18} />} />
+          <SocialLink href="https://instagram.com/sameer.bagul" label="Instagram" icon={<Instagram size={18} />} />
+          <SocialLink href="https://youtube.com/@sameerbagul" label="YouTube" icon={<Youtube size={18} />} />
+          <SocialLink href="https://maps.google.com/?q=Mumbai,India" label="Location" icon={<MapPin size={18} />} />
+          <SocialLink href="https://sameerbagul.com" label="Website" icon={<Globe size={18} />} />
         </div>
       </motion.div>
 
@@ -203,7 +213,7 @@ export const Hero = () => {
   );
 };
 
-// Social Link Component with enhanced animations
+// Enhanced Social Link Component with hover card details
 const SocialLink = ({
   icon,
   href,
@@ -216,21 +226,34 @@ const SocialLink = ({
   const { isDark } = useTheme();
   
   return (
-    <motion.a
-      href={href}
-      aria-label={label}
-      whileHover={{ scale: 1.1, rotate: 5 }}
-      whileTap={{ scale: 0.95 }}
-      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`w-9 h-9 flex items-center justify-center rounded-full ${
-        isDark 
-          ? 'bg-white/10 border border-white/20 hover:bg-white/15 hover:border-white/30 text-white' 
-          : 'bg-black/5 border border-black/10 hover:bg-black/10 hover:border-black/20 text-black'
-      } transition-colors`}
-    >
-      {icon}
-    </motion.a>
+    <HoverCard>
+      <HoverCardTrigger asChild>
+        <motion.a
+          href={href}
+          aria-label={label}
+          whileHover={{ scale: 1.1, rotate: 3 }}
+          whileTap={{ scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`w-9 h-9 flex items-center justify-center rounded-full ${
+            isDark 
+              ? 'bg-white/10 border border-white/20 hover:bg-violet-500/20 hover:border-violet-500/30 text-white' 
+              : 'bg-black/5 border border-black/10 hover:bg-violet-500/20 hover:border-violet-500/30 text-black'
+          } transition-colors`}
+        >
+          {icon}
+        </motion.a>
+      </HoverCardTrigger>
+      <HoverCardContent 
+        className={`${isDark ? 'bg-black/60 border-white/10' : 'bg-white/90 border-black/5'} backdrop-blur-md`}
+        side="top"
+      >
+        <div className="flex flex-col gap-1">
+          <p className="text-sm font-medium">{label}</p>
+          <p className="text-xs text-muted-foreground">{href.replace(/(mailto:|tel:|https?:\/\/)/, '')}</p>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   );
 };

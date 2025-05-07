@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, PlusCircle, ArrowLeft } from 'lucide-react';
+import { Search, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
@@ -9,9 +9,9 @@ import { StudyMaterial, studyMaterials } from '@/data/studyData';
 import { getRootFolders, getFolderById, getFolderMaterials } from '@/data/studyFolders';
 import { StudyMaterialViewer } from '@/components/study/StudyMaterialViewer';
 import { FolderBreadcrumb } from '@/components/study/FolderBreadcrumb';
-import { Card } from '@/components/ui/card';
 import { StudyCard } from '@/components/study/StudyCard';
 import { WelcomeSection } from '@/components/study/WelcomeSection';
+import { FolderView } from '@/components/study/FolderView';
 
 const StudyPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,7 +84,7 @@ const StudyPage = () => {
 
   // Simplified navigation bar
   const SimpleNavigation = () => (
-    <div className="flex items-center justify-between mb-6 bg-background/70 backdrop-blur-sm p-2 rounded-lg border shadow-sm">
+    <div className="flex items-center justify-between mb-6 bg-background/70 backdrop-blur-sm p-3 rounded-xl border shadow-sm">
       <div className="flex items-center gap-2">
         <Button
           variant="ghost"
@@ -120,7 +120,7 @@ const StudyPage = () => {
     
     return (
       <div>
-        <h2 className="text-xl font-semibold mb-6">Study Materials</h2>
+        <h2 className="text-xl font-semibold mb-6 font-playfair">Study Materials</h2>
         {filteredMaterials.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredMaterials.map((material, index) => (
@@ -135,39 +135,10 @@ const StudyPage = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-10">
+          <div className="text-center py-10 bg-muted/20 rounded-xl border border-dashed">
             <p className="text-muted-foreground">No study materials found.</p>
           </div>
         )}
-      </div>
-    );
-  };
-
-  // Render folder grid
-  const renderFolderGrid = () => {
-    const rootFolders = getRootFolders();
-    
-    return (
-      <div className="mt-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {rootFolders.map((folder, index) => (
-            <Card 
-              key={folder.id}
-              onClick={() => handleSelectFolder(folder.id)}
-              className="p-6 cursor-pointer hover:shadow-md transition-all border-none bg-background/50 backdrop-blur-sm"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-full bg-primary/10">
-                  <folder.icon size={24} className="text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-medium">{folder.name}</h3>
-                  <p className="text-sm text-muted-foreground">{folder.description}</p>
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
       </div>
     );
   };
@@ -181,14 +152,14 @@ const StudyPage = () => {
       className="min-h-screen pt-24 pb-16"
     >
       <div className="container px-4 mx-auto">
-        {/* Simplified Header with Search Bar */}
+        {/* Header with Search Bar */}
         <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
           <div>
-            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-gradient-primary">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2 bg-gradient-to-r from-violet-400 via-purple-500 to-violet-600 bg-clip-text text-transparent font-playfair">
               {currentFolder ? currentFolder.name : 'Study Library'}
             </h1>
             <p className="text-muted-foreground">
-              {currentFolder ? currentFolder.description : 'Browse your study materials and notes'}
+              {currentFolder ? currentFolder.description : 'Browse through your study materials and resources'}
             </p>
           </div>
           
@@ -197,15 +168,11 @@ const StudyPage = () => {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 placeholder="Search materials..."
-                className="w-full md:w-64 pl-9 minimalist-input bg-background/70 backdrop-blur-sm"
+                className="w-full md:w-64 pl-9 bg-background/70 backdrop-blur-sm"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <Button variant="secondary" className="flex-shrink-0">
-              <PlusCircle size={18} className="mr-2" />
-              New
-            </Button>
           </div>
         </div>
         
@@ -217,7 +184,14 @@ const StudyPage = () => {
           {currentFolderId === null ? (
             <div>
               <WelcomeSection />
-              {renderFolderGrid()}
+              <div className="mt-8">
+                <h2 className="text-xl font-semibold mb-6 font-playfair">Categories</h2>
+                <FolderView 
+                  folders={getRootFolders()} 
+                  onSelectFolder={handleSelectFolder}
+                  currentFolderId={currentFolderId}
+                />
+              </div>
             </div>
           ) : (
             renderFolderContent()

@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-lg neon-card gradient-border bg-card text-card-foreground",
+      "rounded-lg bg-card text-card-foreground glass-morphism",
       className
     )}
     {...props}
@@ -63,7 +63,7 @@ const CardContent = React.forwardRef<
   <div 
     ref={ref} 
     className={cn(
-      "p-6 pt-0 relative z-10 group-hover:bg-gradient-to-b group-hover:from-transparent group-hover:to-violet-500/5 transition-all duration-300",
+      "p-6 pt-0 relative z-10",
       className
     )} 
     {...props} 

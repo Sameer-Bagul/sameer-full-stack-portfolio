@@ -37,23 +37,24 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
     }, 2000);
   };
   
-  // Clean code by removing unnecessary markdown backticks and HTML tags if present
+  // Clean code by removing unnecessary paragraph tags and HTML tags
   const cleanCode = code
     .replace(/^```\w*\n|```$/g, '')
     .replace(/<pre><code[^>]*>/g, '')
     .replace(/<\/code><\/pre>/g, '')
+    .replace(/<p class="book-paragraph">|<\/p>/g, '')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&amp;/g, '&');
   
   return (
-    <div className="relative my-6 rounded-md overflow-hidden border border-border bg-muted/50 shadow-md">
-      <div className="flex items-center justify-between px-4 py-2 bg-muted border-b">
+    <div className="relative my-8 rounded-xl overflow-hidden border border-border/60 bg-muted/30 shadow-md hover:shadow-lg transition-shadow book-code-block">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-muted/50 border-b border-border/50">
         <div className="flex items-center gap-2">
           {filename ? (
-            <FileCode size={14} className="text-primary" />
+            <FileCode size={16} className="text-primary/80" />
           ) : (
-            <Terminal size={14} className="text-primary" />
+            <Terminal size={16} className="text-primary/80" />
           )}
           <span className="text-xs font-mono font-medium">
             {filename || displayLang}
@@ -62,7 +63,7 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
         <Button 
           variant="ghost" 
           size="sm"
-          className="h-7 gap-1.5 text-xs"
+          className="h-7 gap-1.5 text-xs hover:bg-muted"
           onClick={handleCopy}
         >
           {copied ? (
@@ -79,8 +80,8 @@ export function CodeSnippet({ language, code, filename }: CodeSnippetProps) {
         </Button>
       </div>
       
-      <div className="p-4 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
-        <pre className={cn("m-0 p-0 bg-transparent")}>
+      <div className="p-5 max-h-[500px] overflow-auto scrollbar-thin scrollbar-thumb-muted-foreground/20 scrollbar-track-transparent">
+        <pre className={cn("m-0 p-0 bg-transparent text-sm font-mono")}>
           <code className={`language-${normalizedLang}`}>{cleanCode}</code>
         </pre>
       </div>
