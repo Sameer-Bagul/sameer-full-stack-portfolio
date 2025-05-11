@@ -49,7 +49,7 @@ const techCategories = [
     icon: <GitBranch className="h-6 w-6" />,
     color: "bg-red-500/10 text-red-500 border-red-500/20",
     technologies: [
-      "Git", "Docker", "CI/CD", "AWS", "GitHub Actions", "Webpack"
+      "Git", "Docker", "AWS", "GitHub Actions", "Webpack"
     ]
   },
   {

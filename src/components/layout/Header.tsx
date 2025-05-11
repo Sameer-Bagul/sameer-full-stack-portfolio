@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ThemeToggle } from '@/components/ui-components/ThemeToggle';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 
 const navLinks = [
@@ -37,8 +38,7 @@ export const Header = () => {
   }, [location]);
 
   return (
-
-    // Header Component - yaa pe u can see the whole patch of the header, iske andar u can see the navbar 
+    // Header Component with enhanced shadow
     <motion.header
       initial={{ y: -100, opacity: 0 }}
       animate={{
@@ -48,33 +48,32 @@ export const Header = () => {
       transition={{ duration: 0.3 }}
       className="fixed top-0 left-0 right-0 z-50 p-4 pointer-events-none"
     >
-
-      {/* this is the main navbar with all options */}
+      {/* Enhanced navbar with shadow */}
       <motion.div
-        className={`mx-auto rounded-xl pointer-events-auto transition-all duration-300 shadow-lg ${
-          isScrolled
-        ? 'glass-panel backdrop-blur-md shadow-2xl border border-border/40'
-        : 'bg-background/60 backdrop-blur-sm border border-border/20'
+        className={`mx-auto rounded-xl pointer-events-auto transition-all duration-300 
+        ${isScrolled
+          ? 'glass-panel backdrop-blur-md shadow-xl border border-violet-500/20 violet-glow'
+          : 'bg-background/60 backdrop-blur-sm border border-border/20 shadow-lg'
         } max-w-6xl px-6 py-3`}
-        style={{
-          border: '1px solid rgba(255, 255, 255, 0.2)',
-          boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-        }}
       >
-        
         {/* Logo and Desktop Navigation */}
         <div className="flex items-center justify-between">
           <Link
             to="/"
             className="text-xl font-bold flex items-center gap-2 transition-transform hover:scale-105"
           >
-            <span className="bg-primary text-primary-foreground px-3 py-1 rounded-md shadow-md border border-primary-foreground">
+            <motion.span 
+              whileHover={{ rotate: [0, -15, 10, -15, 0] }}
+              transition={{ duration: 0.5 }}
+              //animate={{ rotate: [0, -10, 10, -10, 0] }}
+              // transition={{ duration: 0.5, repeat: Infinity, repeatType: "loop" }}
+              className="bg-primary text-primary-foreground px-3 py-1 rounded-md shadow-md border border-primary-foreground"
+            >
               S
-            </span>
-            <span className="hidden sm:inline text-foreground">AMEER</span>
+            </motion.span>
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation with improved active state and box indicator */}
           <nav className="hidden md:flex items-center gap-6">
             {navLinks.map((link) => (
               <Link
@@ -86,13 +85,16 @@ export const Header = () => {
                     : 'text-foreground/80'
                 }`}
               >
-                {link.name}
-                {location.pathname === link.path && (
+                {location.pathname === link.path ? (
                   <motion.span
-                    layoutId="nav-underline"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full"
+                    layoutId="active-nav-pill"
+                    className="absolute inset-0 -mx-3 -my-2 px-3 py-2 bg-primary/10 rounded-lg"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
-                )}
+                ) : null}
+                <span className="relative z-10">{link.name}</span>
               </Link>
             ))}
             <div className="ml-4">
@@ -114,7 +116,7 @@ export const Header = () => {
         </div>
       </motion.div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu with improved active state */}
       {isMobileMenuOpen && (
         <div className="md:hidden pointer-events-auto">
           <motion.nav
@@ -128,13 +130,26 @@ export const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`p-3 mx-2 rounded-lg transition-colors ${
-                  location.pathname === link.path
-                    ? 'bg-primary/10 text-primary font-semibold'
-                    : 'text-foreground hover:bg-background/60 hover:text-foreground'
-                }`}
+                className="relative"
               >
-                {link.name}
+                <div className={`p-3 mx-2 rounded-lg transition-all duration-300 ${
+                  location.pathname === link.path
+                    ? 'bg-primary/10 text-primary font-semibold scale-105 shadow-sm'
+                    : 'text-foreground hover:bg-background/60 hover:text-foreground'
+                }`}>
+                  {link.name}
+                  {location.pathname === link.path && (
+                    <motion.div
+                      layoutId="mobile-nav-indicator"
+                      className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-violet-400 to-violet-600 rounded-r-full"
+                      transition={{ 
+                        type: "spring", 
+                        stiffness: 500, 
+                        damping: 30 
+                      }}
+                    />
+                  )}
+                </div>
               </Link>
             ))}
           </motion.nav>
