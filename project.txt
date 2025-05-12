@@ -32,7 +32,7 @@ thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988899/is
 thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988882/Anonymous-mern-chat-app_2_bsk1sc.png
 
 12. Ninja-block-Slicer-Game - Ninja block slicer game where players slice 100+ blocks to earn points. Built with MERN stack and Tailwind CSS.
-thumbnail url - 
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988913/ninja-block-slice_1_nsc12v.png
 
 13. password_manager - Password manager app for storing 100+ passwords and notes. Built with MERN stack, Tailwind CSS, and JWT authentication.
 thumbnail url - 
