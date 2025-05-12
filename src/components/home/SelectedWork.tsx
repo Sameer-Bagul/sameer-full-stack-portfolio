@@ -93,8 +93,8 @@ export const SelectedWork = () => {
                 ))}
               </CarouselContent>
               <div className="flex justify-center gap-2 mt-6">
-                <CarouselPrevious className="relative static h-8 w-8 translate-y-0" />
-                <CarouselNext className="relative static h-8 w-8 translate-y-0" />
+                <CarouselPrevious className="relative h-8 w-8 translate-y-0" />
+                <CarouselNext className="relative h-8 w-8 translate-y-0" />
               </div>
             </Carousel>
           </div>
