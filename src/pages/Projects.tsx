@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, ExternalLink, Github, X, Code, Calendar } from 'lucide-react';
@@ -20,7 +19,7 @@ const projectsData = [
     tags: ['Next.js', 'SEO', 'Tailwind CSS'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988916/pratham-agro_2_ynzdzf.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://agrotech-pratham.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -32,7 +31,7 @@ const projectsData = [
     tags: ['Landing Page', 'Next.js', 'Tailwind CSS'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988885/app-club-landing-page_2_lfrag5.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://app-club-landingpage.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -43,7 +42,7 @@ const projectsData = [
     longDescription: 'A secure authentication system built with the MERN stack, offering multiple layers of security including email OTP, JWT-based authentication, 2FA, and password reset functionality.',
     tags: ['MERN', 'Authentication', 'JWT', '2FA'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988911/mern-authentication-system_3_bok1sh.png',
-    githubUrl: '',
+    githubUrl: 'https://github.com/Sameer-Bagul/best-mern-auth.git',
     liveUrl: '',
     startDate: '',
     endDate: '',
@@ -56,7 +55,7 @@ const projectsData = [
     tags: ['MERN', 'Billing System', 'JWT', '2FA'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1747075474/billing_4_qz24v5.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://business-billing-suite.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -68,7 +67,7 @@ const projectsData = [
     tags: ['Library', 'Notes', 'Web Development', 'MERN', 'AI/ML'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988889/dev-lib_1_koknyj.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://developers-library.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -80,7 +79,7 @@ const projectsData = [
     tags: ['Next.js', 'Event Management', 'JWT', 'Razorpay', 'MongoDB'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988892/evento_1_tc9m73.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://appclub-evento.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -92,7 +91,7 @@ const projectsData = [
     tags: ['React', 'Gita', 'JWT', 'Authentication'],
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1747075622/gfa-v1_2_ypfgfq.png',
     githubUrl: '',
-    liveUrl: '',
+    liveUrl: 'https://bhagwat-geeta-for-all.vercel.app/',
     startDate: '',
     endDate: '',
   },
@@ -613,7 +612,7 @@ const Projects = () => {
           {selectedProject && (
             <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
               <DialogContent className="max-w-4xl p-0 overflow-hidden border border-border/50 bg-background/95 backdrop-blur-md">
-                <ProjectDetail project={selectedProject} tagColors={tagColors} onClose={() => setSelectedProject(null)} />
+                <ProjectDetail project={selectedProject} tagColors={tagColors} />
               </DialogContent>
             </Dialog>
           )}
@@ -632,11 +631,6 @@ interface ProjectCardProps {
 }
 
 const ProjectCard = ({ project, index, onClick, tagColors }: ProjectCardProps) => {
-
-  // Card animation and hover effects
-  // The card uses Framer Motion for animations and hover effects
-  // The card has a gradient overlay and a button to view details
-  // The card also displays the project image, title, description, and tags
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -647,56 +641,62 @@ const ProjectCard = ({ project, index, onClick, tagColors }: ProjectCardProps) =
     >
       <div
         onClick={onClick}
-        className="h-full rounded-xl border border-border/40 bg-card overflow-hidden cursor-pointer flex flex-col transition-all duration-300 hover:shadow-xl hover:border-primary/30 relative"
+        className="h-full rounded-xl border border-border/40 bg-card/80 backdrop-blur-sm overflow-hidden cursor-pointer flex flex-col transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 hover:border-primary/30 relative"
       >
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-52 overflow-hidden">
           <img
             src={project.image}
             alt={project.title}
-            className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-4">
-            <span className="text-xs text-white/70 flex items-center gap-1">
+          <div className="absolute bottom-0 left-0 right-0 p-4 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+            <span className="text-xs text-white/90 flex items-center gap-1 backdrop-blur-sm bg-black/20 px-2 py-1 rounded-full w-fit">
               <Calendar className="h-3 w-3" />
-              {project.startDate} - {project.endDate}
+              {project.startDate || 'Ongoing'} {project.endDate && `- ${project.endDate}`}
             </span>
           </div>
 
-          <div className="absolute top-3 right-3 flex gap-2">
+          <div className="absolute top-3 right-3 flex gap-2 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
             {project.liveUrl && (
-              <motion.div
-                whileHover={{ scale: 1.2 }}
+              <motion.a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center shadow-md"
+                className="h-8 w-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg hover:bg-primary hover:text-white transition-colors"
               >
-                <ExternalLink className="h-4 w-4 text-foreground" />
-              </motion.div>
+                <ExternalLink className="h-4 w-4" />
+              </motion.a>
             )}
             {project.githubUrl && (
-              <motion.div
-                whileHover={{ scale: 1.2 }}
+              <motion.a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center shadow-md"
+                className="h-8 w-8 rounded-full bg-white/90 backdrop-blur-md flex items-center justify-center shadow-lg hover:bg-primary hover:text-white transition-colors"
               >
-                <Github className="h-4 w-4 text-foreground" />
-              </motion.div>
+                <Github className="h-4 w-4" />
+              </motion.a>
             )}
           </div>
         </div>
 
-        <div className="p-5 flex flex-col flex-grow">
-          <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-          <p className="text-muted-foreground mb-4 line-clamp-3 text-sm flex-grow">{project.description}</p>
+        <div className="p-5 flex flex-col flex-grow bg-gradient-to-b from-background/50 to-background">
+          <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-1">{project.title}</h3>
+          <p className="text-muted-foreground mb-4 line-clamp-2 text-sm flex-grow">{project.description}</p>
 
           <div className="flex flex-wrap gap-2 mt-auto">
             {project.tags.slice(0, 3).map(tag => (
               <span
                 key={tag}
                 className={cn(
-                  "px-2 py-0.5 text-xs rounded-full",
+                  "px-2.5 py-0.5 text-xs rounded-full font-medium transition-transform hover:scale-105",
                   tagColors[tag] || "bg-secondary text-secondary-foreground"
                 )}
               >
@@ -704,15 +704,17 @@ const ProjectCard = ({ project, index, onClick, tagColors }: ProjectCardProps) =
               </span>
             ))}
             {project.tags.length > 3 && (
-              <span className="px-2 py-0.5 bg-secondary/30 text-secondary-foreground text-xs rounded-full">
+              <span className="px-2.5 py-0.5 bg-secondary/30 text-secondary-foreground text-xs rounded-full hover:bg-secondary/40 transition-colors">
                 +{project.tags.length - 3}
               </span>
             )}
           </div>
 
-          <button className="mt-4 text-sm text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-            View details <ExternalLink className="h-3 w-3" />
-          </button>
+          <div className="mt-4 flex items-center justify-between">
+            <button className="text-sm text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:text-primary/80">
+              View details <ExternalLink className="h-3 w-3" />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
@@ -723,82 +725,105 @@ const ProjectCard = ({ project, index, onClick, tagColors }: ProjectCardProps) =
 interface ProjectDetailProps {
   project: typeof projectsData[0];
   tagColors: Record<string, string>;
-  onClose: () => void;
 }
 
-const ProjectDetail = ({ project, tagColors, onClose }: ProjectDetailProps) => {
-
-  // Project detail dialog with animations
-  const navigate = useNavigate();
-
+const ProjectDetail = ({ project, tagColors }: ProjectDetailProps) => {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-h-[80vh] overflow-y-auto"
+      className="max-h-[85vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary/10 scrollbar-track-transparent"
     >
-      <div className="relative h-72 md:h-80">
+      <div className="relative h-80 md:h-96">
         <img
           src={project.image}
           alt={project.title}
           className="object-cover w-full h-full"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent"></div>
 
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          onClick={onClose}
-          className="absolute top-4 right-4 h-10 w-10 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center border border-border/50"
-        >
-          <X className="h-5 w-5" />
-        </motion.button>
-
-        <div className="absolute bottom-4 left-6 right-6">
+        <div className="absolute bottom-6 left-6 right-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.4 }}
+            className="space-y-4"
           >
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">{project.title}</h1>
-            <div className="flex items-center gap-2 text-white/80 text-sm">
-              <Calendar className="h-4 w-4" />
-              <span>{project.startDate} - {project.endDate}</span>
-            </div>
-          </motion.div>
-        </div>
-      </div>
-
-      <div className="p-6 space-y-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
-          className="space-y-4"
-        >
-          <div>
-            <h2 className="text-xl font-semibold mb-3 flex items-center gap-2">
-              <Code className="h-5 w-5 text-primary" /> About this project
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">{project.longDescription}</p>
-          </div>
-
-          <div>
-            <h3 className="font-medium mb-3 text-lg">Technologies</h3>
             <div className="flex flex-wrap gap-2">
               {project.tags.map(tag => (
                 <span
                   key={tag}
                   className={cn(
-                    "px-3 py-1 rounded-full text-sm",
-                    tagColors[tag] || "bg-secondary text-secondary-foreground"
+                    "px-3 py-1 rounded-full text-sm font-medium shadow-lg backdrop-blur-sm",
+                    tagColors[tag] || "bg-secondary/80 text-secondary-foreground"
                   )}
                 >
                   {tag}
                 </span>
               ))}
+            </div>
+            
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+              {project.title}
+            </h1>
+            
+            <div className="flex items-center gap-4 text-white/90 text-sm">
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4" />
+                <span>{project.startDate || 'Ongoing'} {project.endDate && `- ${project.endDate}`}</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+
+      <div className="p-8 space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.4 }}
+          className="space-y-6"
+        >
+          <div className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
+            <h2 className="text-xl font-semibold mb-4 flex items-center gap-2 text-primary">
+              <Code className="h-5 w-5" /> Project Overview
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">{project.longDescription}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
+              <h3 className="font-medium mb-4 text-lg flex items-center gap-2">
+                <Code className="h-5 w-5 text-primary" /> Key Features
+              </h3>
+              <ul className="space-y-2 text-muted-foreground">
+                {project.description.split('. ').map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2">
+                    <span className="h-2 w-2 rounded-full bg-primary mt-2"></span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
+              <h3 className="font-medium mb-4 text-lg flex items-center gap-2">
+                <Code className="h-5 w-5 text-primary" /> Technical Details
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {project.tags.map(tag => (
+                  <span
+                    key={tag}
+                    className={cn(
+                      "px-3 py-1.5 rounded-lg text-sm font-medium",
+                      tagColors[tag] || "bg-secondary text-secondary-foreground"
+                    )}
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>
@@ -807,19 +832,17 @@ const ProjectDetail = ({ project, tagColors, onClose }: ProjectDetailProps) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.4 }}
-          className="flex flex-col sm:flex-row gap-4"
+          className="flex flex-col sm:flex-row gap-4 pt-4"
         >
           {project.githubUrl && (
             <a
-              // href={project.githubUrl}
-              // onClick={() => navigate("/collab")}
-              onClick={() => navigate(project.githubUrl)}
+              href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-card border border-border/50 text-foreground hover:bg-secondary/10 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-card/80 backdrop-blur-sm border border-border/50 text-foreground hover:bg-card hover:border-primary/30 hover:text-primary transition-all duration-300 group"
             >
-              <Github className="h-5 w-5" />
-              GitHub Repository
+              <Github className="h-5 w-5 group-hover:rotate-12 transition-transform" />
+              View Source Code
             </a>
           )}
 
@@ -828,10 +851,10 @@ const ProjectDetail = ({ project, tagColors, onClose }: ProjectDetailProps) => {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+              className="flex-1 flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 transition-colors group"
             >
-              <ExternalLink className="h-5 w-5" />
-              Live Demo
+              <ExternalLink className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              Visit Live Site
             </a>
           )}
         </motion.div>
