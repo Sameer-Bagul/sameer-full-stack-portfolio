@@ -1,4 +1,3 @@
-
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Index from './pages/Index'
@@ -21,22 +20,26 @@ function App() {
     <ThemeProvider>
       <TooltipProvider>
         <BrowserRouter>
-          {/* Star Background for the entire app */}
-          <StarBackground />
-          
-          <ScrollAwareHeader />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/resume" element={<Resume />} />
-            {/* <Route path="/achievements" element={<Achievements />} /> */}
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/study" element={<StudyPage />} />
-            <Route path="/permission" element={<CollabPermisson />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <Footer />
-          <Toaster />
+          <div className="relative min-h-screen w-full overflow-x-hidden">
+            {/* Star Background for the entire app */}
+            <StarBackground />
+            
+            <ScrollAwareHeader />
+            <main className="relative z-10">
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/resume" element={<Resume />} />
+                {/* <Route path="/achievements" element={<Achievements />} /> */}
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/study" element={<StudyPage />} />
+                <Route path="/permission" element={<CollabPermisson />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+            <Toaster />
+          </div>
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>

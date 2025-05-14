@@ -60,23 +60,23 @@ const Index = () => {
 
       <AnimatePresence>
         <motion.div 
-          className="flex flex-col relative z-10"
+          className="flex flex-col relative z-10 w-full overflow-x-hidden"
           initial="hidden"
           animate="show"
           variants={staggerContainer}
           exit={{ opacity: 0, transition: { duration: 0.4 } }}
         >
           <motion.div 
-            className="relative z-20" 
+            className="relative z-20 w-full" 
             variants={sectionVariant}
             viewport={{ once: true }}
           >
             <Hero />
           </motion.div>
           
-          <div className="relative z-10">
+          <div className="relative z-10 w-full">
             <motion.div 
-              className={`pt-20 ${isDark 
+              className={`pt-20 w-full ${isDark 
                 ? "bg-gradient-to-b from-black/0 via-black/50 to-black/80" 
                 : "bg-gradient-to-b from-transparent via-gray-100/70 to-gray-100/95"
               }`}
@@ -84,8 +84,9 @@ const Index = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 0.5 }}
             >
-              <div className="backdrop-blur-sm">
+              <div className="backdrop-blur-sm w-full">
                 <motion.div 
+                  className="section-padding"
                   variants={sectionVariant}
                   viewport={{ once: true, margin: "-100px" }}
                 >
@@ -93,6 +94,7 @@ const Index = () => {
                 </motion.div>
                 
                 <motion.div 
+                  className="section-padding"
                   variants={sectionVariant}
                   viewport={{ once: true, margin: "-100px" }}
                 >
@@ -100,6 +102,7 @@ const Index = () => {
                 </motion.div>
                 
                 <motion.div 
+                  className="section-padding"
                   variants={sectionVariant}
                   viewport={{ once: true, margin: "-100px" }}
                 >
@@ -107,6 +110,7 @@ const Index = () => {
                 </motion.div>
                 
                 <motion.div 
+                  className="section-padding"
                   variants={sectionVariant}
                   viewport={{ once: true, margin: "-100px" }}
                 >
@@ -114,6 +118,7 @@ const Index = () => {
                 </motion.div>
                 
                 <motion.div 
+                  className="section-padding"
                   variants={sectionVariant}
                   viewport={{ once: true, margin: "-100px" }}
                 >

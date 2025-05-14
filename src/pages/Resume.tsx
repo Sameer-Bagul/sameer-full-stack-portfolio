@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Download, Briefcase, GraduationCap, Award, Code, Languages, User, Mail, Phone, MapPin, Calendar, Github, Linkedin, Globe, Heart, Coffee } from 'lucide-react';
+import { Download, Briefcase, GraduationCap, Award, Code, Languages, User, Mail, Phone, MapPin, Calendar, Github, Linkedin, Globe, Heart, Coffee, 
+  Braces, Layout, Server, Cloud, Brain, Wrench, Palette, Code2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
@@ -7,6 +8,65 @@ import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+
+interface SkillCategory {
+  name: string;
+  icon: any;
+  color: string;
+  skills: string[];
+}
+
+const skillCategories: SkillCategory[] = [
+  {
+    name: "Languages",
+    icon: Braces,
+    color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
+    skills: [
+      "JavaScript", "TypeScript", "Python", "Java", "C++", "C", "SQL", "HTML/CSS"
+    ]
+  },
+  {
+    name: "Frontend Development",
+    icon: Layout,
+    color: "bg-purple-500/10 text-purple-500 border-purple-500/20",
+    skills: [
+      "React.js", "Next.js", "Tailwind CSS", "Redux", "Framer Motion", "Three.js", "R3F", "SASS/SCSS"
+    ]
+  },
+  {
+    name: "Backend Development",
+    icon: Server,
+    color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+    skills: [
+      "Node.js", "Express.js", "NestJS", "Django", "FastAPI", "GraphQL", "RESTful APIs", "WebSockets"
+    ]
+  },
+  {
+    name: "Database & Cloud",
+    icon: Cloud,
+    color: "bg-amber-500/10 text-amber-500 border-amber-500/20",
+    skills: [
+      "MongoDB", "PostgreSQL", "MySQL", "Redis", "Firebase", "AWS", "Docker", "Vercel"
+    ]
+  },
+  {
+    name: "AI/ML & Data Science",
+    icon: Brain,
+    color: "bg-rose-500/10 text-rose-500 border-rose-500/20",
+    skills: [
+      "TensorFlow", "PyTorch", "OpenAI API", "Langchain", "Hugging Face", "Scikit-learn", "Pandas", "NumPy"
+    ]
+  },
+  {
+    name: "Tools & Design",
+    icon: Wrench,
+    color: "bg-sky-500/10 text-sky-500 border-sky-500/20",
+    skills: [
+      "Git", "GitHub Actions", "CI/CD", "Figma", "Blender", "Spline", "UI/UX Design", "Canva"
+    ]
+  }
+];
 
 const Resume = () => {
   return (
@@ -290,97 +350,34 @@ const Resume = () => {
 
             <TabsContent value="skills" className="animate-fade-in mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md">
-                  <CardHeader className="bg-muted/50 pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code size={16} />
-                      Programming Languages
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <SkillBar name="JavaScript" value={90} />
-                      <SkillBar name="TypeScript" value={85} />
-                      <SkillBar name="Python" value={85} />
-                      <SkillBar name="Java" value={80} />
-                      <SkillBar name="C++" value={75} />
-                      <SkillBar name="C" value={75} />
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md">
-                  <CardHeader className="bg-muted/50 pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code size={16} />
-                      Frameworks & Libraries
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <SkillBar name="MERN Stack" value={90} />
-                      <SkillBar name="Next.js" value={85} />
-                      <SkillBar name="React.js" value={90} />
-                      <SkillBar name="Three.js" value={80} />
-                      <SkillBar name="R3F" value={75} />
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md">
-                  <CardHeader className="bg-muted/50 pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code size={16} />
-                      AI & ML Technologies
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <SkillBar name="PyTorch" value={85} />
-                      <SkillBar name="TensorFlow" value={80} />
-                      <SkillBar name="Hugging Face" value={85} />
-                      <SkillBar name="LangChain" value={80} />
-                      <SkillBar name="LlamaIndex" value={75} />
-                      <SkillBar name="OpenAI API" value={90} />
-                    </div>
-                  </CardContent>
-                </Card>
-                
-                <Card className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md">
-                  <CardHeader className="bg-muted/50 pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code size={16} />
-                      Databases & Tools
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <SkillBar name="MongoDB" value={90} />
-                      <SkillBar name="Firebase" value={85} />
-                      <SkillBar name="SQL" value={80} />
-                      <SkillBar name="PLSQL" value={75} />
-                      <SkillBar name="Git" value={90} />
-                      <SkillBar name="Docker" value={85} />
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md">
-                  <CardHeader className="bg-muted/50 pb-2">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Code size={16} />
-                      Design Tools
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <SkillBar name="Figma" value={90} />
-                      <SkillBar name="Canva" value={85} />
-                      <SkillBar name="Blender" value={75} />
-                      <SkillBar name="Spline" value={80} />
-                    </div>
-                  </CardContent>
-                </Card>
+                {skillCategories.map((category) => (
+                  <Card key={category.name} className="border-border/40 bg-card/95 backdrop-blur-sm shadow-md hover:shadow-lg transition-all duration-300">
+                    <CardHeader className="bg-muted/50 pb-2">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${category.color}`}>
+                          <category.icon className="w-4 h-4" />
+                        </div>
+                        {category.name}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="flex flex-wrap gap-2">
+                        {category.skills.map((skill) => (
+                          <Badge
+                            key={skill}
+                            variant="outline"
+                            className={`
+                              px-2.5 py-1 text-xs font-medium rounded-full
+                              ${category.color} hover:bg-opacity-20 transition-colors
+                            `}
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
               </div>
             </TabsContent>
 
