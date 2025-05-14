@@ -1,8 +1,7 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink, Github, Calendar } from 'lucide-react';
+import { ArrowRight, ExternalLink, Github, Calendar, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -17,19 +16,19 @@ const projects = [
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988895/hire-me_2_b6mmuv.png',
     githubUrl: '',
     liveUrl: '',
-    startDate: '',
-    endDate: '',
+    startDate: 'Jan 2024',
+    endDate: 'Present',
   },
   {
     id: 2,
-    title: "Skillify - National Hackathon 1st Prize Winner (Top 1)",
+    title: "Skillify - National Hackathon 1st Prize Winner",
     description: "Skill development app with 5+ AI agents as teachers, roadmap and study material generation, and a complete learning environment.",
     tags: ["MERN", "Tailwind CSS", "AI", "JWT Authentication", "LLM", "MongoDB"],
     image: "https://res.cloudinary.com/dceysplwm/image/upload/v1746988921/skillify_1_q91pxm.png",
     githubUrl: "",
     liveUrl: "",
-    startDate: "",
-    endDate: ""
+    startDate: "Nov 2023",
+    endDate: "Dec 2023"
   },
   {
     id: 3,
@@ -39,50 +38,72 @@ const projects = [
     image: "https://res.cloudinary.com/dceysplwm/image/upload/v1746988882/Anonymous-mern-chat-app_2_bsk1sc.png",
     githubUrl: "https://github.com/your-github/anonymous-mern-chat-app",
     liveUrl: "https://your-live-url.com",
-    startDate: "2024-03-01",
-    endDate: "2024-04-01"
+    startDate: "Oct 2023",
+    endDate: "Nov 2023"
   },
 ];
 
 // Tag color mapping for consistency
 const tagColors: Record<string, string> = {
-  'React': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-  'Node.js': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-  'MongoDB': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
-  'Stripe': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
-  'Firebase': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
+  'MERN': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
+  'AI': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
+  'Hiring': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
+  'Resume Builder': 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300',
   'Tailwind CSS': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
-  'JavaScript': 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-  'API Integration': 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300',
-  'Chart.js': 'bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-300',
+  'JWT Authentication': 'bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-300',
+  'LLM': 'bg-violet-100 text-violet-800 dark:bg-violet-900 dark:text-violet-300',
+  'MongoDB': 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-300',
+  'Chat app': 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300',
+  'College app': 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
 };
 
 export const SelectedWork = () => {
   const isMobile = useIsMobile();
 
   return (
-    <section id="projects" className="py-24 bg-secondary/5">
-      <div className="container max-w-6xl mx-auto px-4">
-        <div className="flex flex-col items-center mb-16 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
+    <section id="work" className="py-20 relative">
+      {/* Background decoration */}
+      <div className="absolute inset-0 -z-10 opacity-30">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-pink-500/30 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6"
           >
-            <span className="text-sm font-medium text-primary mb-2 block">SELECTED WORK</span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
-              Featured Projects
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              A showcase of my recent development work, highlighting key projects and technical achievements.
-            </p>
+            <Sparkles className="w-4 h-4 text-primary" />
+            <span className="text-sm text-primary font-medium">Featured Projects</span>
           </motion.div>
+
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            className="text-3xl md:text-4xl font-bold mb-4"
+          >
+            Selected Work
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+            className="text-muted-foreground max-w-2xl mx-auto text-lg"
+          >
+            Here are some of my recent projects that showcase my skills and experience
+          </motion.p>
         </div>
         
         {isMobile ? (
           // Mobile Carousel View
           <div className="mt-8">
-            <Carousel>
+            <Carousel className="w-full">
               <CarouselContent>
                 {projects.map((project, index) => (
                   <CarouselItem key={project.id}>
@@ -92,9 +113,9 @@ export const SelectedWork = () => {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-              <div className="flex justify-center gap-2 mt-6">
-                <CarouselPrevious className="relative h-8 w-8 translate-y-0" />
-                <CarouselNext className="relative h-8 w-8 translate-y-0" />
+              <div className="flex justify-center gap-4 mt-8">
+                <CarouselPrevious className="relative h-10 w-10 translate-y-0 bg-background border-primary/20 hover:bg-primary/5" />
+                <CarouselNext className="relative h-10 w-10 translate-y-0 bg-background border-primary/20 hover:bg-primary/5" />
               </div>
             </Carousel>
           </div>
@@ -117,7 +138,7 @@ export const SelectedWork = () => {
             <Button
               size="lg"
               variant="outline"
-              className="group border-primary/30 hover:bg-primary/5"
+              className="group border-primary/30 hover:bg-primary/5 h-12 px-8"
             >
               View All Projects
               <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
@@ -145,7 +166,7 @@ const ProjectCard = ({ project, index, tagColors }: ProjectCardProps) => {
       whileHover={{ y: -8 }}
       className="group h-full"
     >
-      <div className="h-full rounded-xl border border-border/40 bg-card overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:border-primary/30 relative">
+      <div className="h-full rounded-xl border border-border/40 bg-card overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:border-primary/30">
         <div className="relative overflow-hidden aspect-video">
           <img 
             src={project.image}
@@ -190,16 +211,16 @@ const ProjectCard = ({ project, index, tagColors }: ProjectCardProps) => {
           </div>
         </div>
         
-        <div className="flex flex-col flex-grow p-5">
-          <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
-          <p className="text-muted-foreground mb-4 line-clamp-3 text-sm">{project.description}</p>
+        <div className="flex flex-col flex-grow p-6">
+          <h3 className="text-xl font-semibold mb-3 line-clamp-2">{project.title}</h3>
+          <p className="text-muted-foreground mb-6 line-clamp-3 text-sm">{project.description}</p>
           
           <div className="flex flex-wrap gap-2 mt-auto">
             {project.tags.map((tag) => (
               <span 
                 key={tag} 
                 className={cn(
-                  "px-2 py-0.5 text-xs rounded-full", 
+                  "px-2.5 py-1 text-xs rounded-full font-medium", 
                   tagColors[tag] || "bg-secondary text-secondary-foreground"
                 )}
               >
@@ -210,7 +231,7 @@ const ProjectCard = ({ project, index, tagColors }: ProjectCardProps) => {
           
           <Link 
             to={`/projects`}
-            className="mt-4 text-sm text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+            className="mt-6 text-sm text-primary flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
           >
             View details <ArrowRight className="h-3 w-3" />
           </Link>

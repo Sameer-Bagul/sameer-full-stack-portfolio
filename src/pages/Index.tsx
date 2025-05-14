@@ -1,6 +1,5 @@
-
 import { useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 import { Hero } from '@/components/home/Hero';
 import { About } from '@/components/home/About';
 import { SelectedWork } from '@/components/home/SelectedWork';
@@ -11,9 +10,21 @@ import { useTheme } from '@/contexts/ThemeContext';
 
 const Index = () => {
   const { isDark } = useTheme();
-  
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
   useEffect(() => {
+    // Enable smooth scrolling
+    document.documentElement.style.scrollBehavior = 'smooth';
     window.scrollTo(0, 0);
+
+    return () => {
+      document.documentElement.style.scrollBehavior = 'auto';
+    };
   }, []);
 
   const staggerContainer = {
@@ -28,65 +39,92 @@ const Index = () => {
   };
 
   const sectionVariant = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 50 },
     show: { 
       opacity: 1, 
       y: 0,
       transition: { 
-        duration: 0.6, 
-        ease: [0.25, 0.1, 0.25, 1.0]
+        duration: 0.8, 
+        ease: [0.25, 0.1, 0.25, 1.0],
       } 
     }
   };
 
   return (
-    <AnimatePresence>
-      <motion.div 
-        className="flex flex-col relative z-10"
-        initial="hidden"
-        animate="show"
-        variants={staggerContainer}
-        exit={{ opacity: 0, transition: { duration: 0.4 } }}
-      >
-        <motion.div className="relative z-20" variants={sectionVariant}>
-          <Hero />
-        </motion.div>
-        
-        <div className="relative z-10 mt-[-4rem]">
+    <>
+      {/* Scroll Progress Indicator */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1 bg-primary/50 origin-left z-50"
+        style={{ scaleX }}
+      />
+
+      <AnimatePresence>
+        <motion.div 
+          className="flex flex-col relative z-10"
+          initial="hidden"
+          animate="show"
+          variants={staggerContainer}
+          exit={{ opacity: 0, transition: { duration: 0.4 } }}
+        >
           <motion.div 
-            className={`pt-20 ${isDark 
-              ? "bg-gradient-to-b from-black/0 via-black/50 to-black/80" 
-              : "bg-gradient-to-b from-transparent via-gray-100/70 to-gray-100/95"
-            }`}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
+            className="relative z-20" 
+            variants={sectionVariant}
+            viewport={{ once: true }}
           >
-            <div className="backdrop-blur-sm">
-              <motion.div variants={sectionVariant}>
-                <About />
-              </motion.div>
-              
-              <motion.div variants={sectionVariant}>
-                <Skills />
-              </motion.div>
-              
-              <motion.div variants={sectionVariant}>
-                <SelectedWork />
-              </motion.div>
-              
-              <motion.div variants={sectionVariant}>
-                <Testimonials />
-              </motion.div>
-              
-              <motion.div variants={sectionVariant}>
-                <Contact />
-              </motion.div>
-            </div>
+            <Hero />
           </motion.div>
-        </div>
-      </motion.div>
-    </AnimatePresence>
+          
+          <div className="relative z-10">
+            <motion.div 
+              className={`pt-20 ${isDark 
+                ? "bg-gradient-to-b from-black/0 via-black/50 to-black/80" 
+                : "bg-gradient-to-b from-transparent via-gray-100/70 to-gray-100/95"
+              }`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <div className="backdrop-blur-sm">
+                <motion.div 
+                  variants={sectionVariant}
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <About />
+                </motion.div>
+                
+                <motion.div 
+                  variants={sectionVariant}
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <Skills />
+                </motion.div>
+                
+                <motion.div 
+                  variants={sectionVariant}
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <SelectedWork />
+                </motion.div>
+                
+                <motion.div 
+                  variants={sectionVariant}
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <Testimonials />
+                </motion.div>
+                
+                <motion.div 
+                  variants={sectionVariant}
+                  viewport={{ once: true, margin: "-100px" }}
+                >
+                  <Contact />
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </>
   );
 };
 
