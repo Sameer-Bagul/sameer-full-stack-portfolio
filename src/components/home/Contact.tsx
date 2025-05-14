@@ -190,15 +190,15 @@ export const Contact = () => {
                   <ContactItem 
                     icon={<Mail className="h-5 w-5" />}
                     title="Email"
-                    value="sameerbagul2003@gmail.com"
-                    href="mailto:sameerbagul2003@gmail.com"
+                    value="sameerbagul2004@gmail.com"
+                    href="mailto:sameerbagul2004@gmail.com"
                   />
                   
                   <ContactItem 
                     icon={<Phone className="h-5 w-5" />}
                     title="Phone"
-                    value="+91 9834583904"
-                    href="tel:+919834583904"
+                    value="+91 7841941033"
+                    href="tel:+917841941033"
                   />
                   
                   <ContactItem 
