@@ -10,7 +10,7 @@ import { Footer } from './components/layout/Footer'
 import { ScrollAwareHeader } from './components/layout/ScrollAwareHeader'
 import CollabPermisson from './pages/CollabPermisson'
 import { Toaster } from 'sonner'
-import StudyPage from './pages/StudyPage'
+import StudyRoutes from './pages/study'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { TooltipProvider } from './components/ui/tooltip'
 import StarBackground from './components/ui-components/StarBackground'
@@ -29,11 +29,11 @@ function App() {
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/resume" element={<Resume />} />
-                {/* <Route path="/achievements" element={<Achievements />} /> */}
                 <Route path="/projects" element={<Projects />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/study" element={<StudyPage />} />
+                <Route path="/study/*" element={<StudyRoutes />} />
                 <Route path="/permission" element={<CollabPermisson />} />
+                <Route path="/achievements" element={<Achievements />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>
