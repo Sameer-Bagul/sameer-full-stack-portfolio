@@ -1,14 +1,12 @@
-
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Search, ArrowLeft } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { StudyMaterial, studyMaterials } from '@/data/studyData';
-import { getRootFolders, getFolderById, getFolderMaterials } from '@/data/studyFolders';
+import { getAllFolders, getFolderById, getFolderMaterials } from '@/data/studyFolders';
 import { StudyMaterialViewer } from '@/components/study/StudyMaterialViewer';
-import { FolderBreadcrumb } from '@/components/study/FolderBreadcrumb';
 import { StudyCard } from '@/components/study/StudyCard';
 import { WelcomeSection } from '@/components/study/WelcomeSection';
 import { FolderView } from '@/components/study/FolderView';
@@ -17,40 +15,19 @@ const StudyPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentFolderId, setCurrentFolderId] = useState<number | null>(null);
   const [openMaterialId, setOpenMaterialId] = useState<number | null>(null);
-  const [folderHistory, setFolderHistory] = useState<(number | null)[]>([null]);
-  const [currentHistoryIndex, setCurrentHistoryIndex] = useState(0);
 
   // Get current folder details for the header
   const currentFolder = currentFolderId ? getFolderById(currentFolderId) : null;
   
-  // Handle folder selection with history tracking
+  // Handle folder selection
   const handleSelectFolder = (folderId: number) => {
-    // Add to history, removing any "forward" history
-    const newHistory = folderHistory.slice(0, currentHistoryIndex + 1);
-    newHistory.push(folderId);
-    setFolderHistory(newHistory);
-    setCurrentHistoryIndex(newHistory.length - 1);
     setCurrentFolderId(folderId);
     setOpenMaterialId(null);
   };
   
-  // Navigate through history
-  const navigateBack = () => {
-    if (currentHistoryIndex > 0) {
-      setCurrentHistoryIndex(currentHistoryIndex - 1);
-      setCurrentFolderId(folderHistory[currentHistoryIndex - 1]);
-      setOpenMaterialId(null);
-    }
-  };
-  
-  // Direct navigation (breadcrumb)
-  const navigateToFolder = (folderId: number | null) => {
-    // Add to history
-    const newHistory = folderHistory.slice(0, currentHistoryIndex + 1);
-    newHistory.push(folderId);
-    setFolderHistory(newHistory);
-    setCurrentHistoryIndex(newHistory.length - 1);
-    setCurrentFolderId(folderId);
+  // Handle back to folders
+  const handleBackToFolders = () => {
+    setCurrentFolderId(null);
     setOpenMaterialId(null);
   };
 
@@ -82,27 +59,6 @@ const StudyPage = () => {
     );
   }
 
-  // Simplified navigation bar
-  const SimpleNavigation = () => (
-    <div className="flex items-center justify-between mb-6 bg-background/70 backdrop-blur-sm p-3 rounded-xl border shadow-sm">
-      <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={navigateBack}
-          disabled={currentHistoryIndex <= 0}
-          className="text-muted-foreground h-9 w-9 p-0"
-        >
-          <ArrowLeft size={16} />
-        </Button>
-        <FolderBreadcrumb
-          currentFolderId={currentFolderId}
-          onNavigate={navigateToFolder}
-        />
-      </div>
-    </div>
-  );
-
   // Function to render folder content
   const renderFolderContent = () => {
     if (!currentFolderId) return null;
@@ -120,6 +76,14 @@ const StudyPage = () => {
     
     return (
       <div>
+        <Button
+          variant="ghost"
+          onClick={handleBackToFolders}
+          className="mb-6"
+        >
+          ← Back to Folders
+        </Button>
+        
         <h2 className="text-xl font-semibold mb-6 font-playfair">Study Materials</h2>
         {filteredMaterials.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -176,18 +140,15 @@ const StudyPage = () => {
           </div>
         </div>
         
-        {/* Navigation bar */}
-        {currentFolderId !== null && <SimpleNavigation />}
-        
         {/* Main Content */}
         <div className="mt-6">
           {currentFolderId === null ? (
             <div>
               <WelcomeSection />
               <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-6 font-playfair">Categories</h2>
+                <h2 className="text-xl font-semibold mb-6 font-playfair">Study Folders</h2>
                 <FolderView 
-                  folders={getRootFolders()} 
+                  folders={getAllFolders()} 
                   onSelectFolder={handleSelectFolder}
                   currentFolderId={currentFolderId}
                 />

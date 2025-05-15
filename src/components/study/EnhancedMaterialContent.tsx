@@ -1,4 +1,3 @@
-
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { 
@@ -51,7 +50,7 @@ export function EnhancedMaterialContent({
   const contentRef = useRef<HTMLDivElement>(null);
   
   // Use the custom hook for markdown processing
-  const { processedContent, renderPageContent } = useMarkdownProcessor(material.content);
+  const { renderPageContent, totalPages: calculatedTotalPages } = useMarkdownProcessor(material.content);
   
   // Calculate estimated read time 
   if (material.content) {
@@ -231,7 +230,7 @@ export function EnhancedMaterialContent({
           </div>
           
           <div className="px-6 md:px-10 pb-12">
-            {renderPageContent()}
+            {renderPageContent(currentPage - 1)}
             {renderPrerequisites()}
           </div>
           
@@ -239,7 +238,7 @@ export function EnhancedMaterialContent({
         </article>
       </div>
       
-      {totalPages > 1 && (
+      {calculatedTotalPages > 1 && (
         <div className="flex items-center justify-center mt-10">
           <Pagination>
             <PaginationContent>
@@ -252,7 +251,7 @@ export function EnhancedMaterialContent({
               
               {currentPage > 2 && (
                 <PaginationItem>
-                  <PaginationLink>1</PaginationLink>
+                  <PaginationLink onClick={() => handlePrevPage()}>1</PaginationLink>
                 </PaginationItem>
               )}
               
@@ -264,7 +263,7 @@ export function EnhancedMaterialContent({
               
               {currentPage > 1 && (
                 <PaginationItem>
-                  <PaginationLink onClick={handlePrevPage}>
+                  <PaginationLink onClick={() => handlePrevPage()}>
                     {currentPage - 1}
                   </PaginationLink>
                 </PaginationItem>
@@ -276,24 +275,24 @@ export function EnhancedMaterialContent({
                 </PaginationLink>
               </PaginationItem>
               
-              {currentPage < totalPages && (
+              {currentPage < calculatedTotalPages && (
                 <PaginationItem>
-                  <PaginationLink onClick={handleNextPage}>
+                  <PaginationLink onClick={() => handleNextPage()}>
                     {currentPage + 1}
                   </PaginationLink>
                 </PaginationItem>
               )}
               
-              {currentPage < totalPages - 2 && (
+              {currentPage < calculatedTotalPages - 2 && (
                 <PaginationItem>
                   <span className="flex h-9 w-9 items-center justify-center">...</span>
                 </PaginationItem>
               )}
               
-              {currentPage < totalPages - 1 && (
+              {currentPage < calculatedTotalPages - 1 && (
                 <PaginationItem>
-                  <PaginationLink>
-                    {totalPages}
+                  <PaginationLink onClick={() => handleNextPage()}>
+                    {calculatedTotalPages}
                   </PaginationLink>
                 </PaginationItem>
               )}
@@ -301,7 +300,7 @@ export function EnhancedMaterialContent({
               <PaginationItem>
                 <PaginationNext 
                   onClick={handleNextPage}
-                  className={currentPage >= totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                  className={currentPage >= calculatedTotalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
                 />
               </PaginationItem>
             </PaginationContent>

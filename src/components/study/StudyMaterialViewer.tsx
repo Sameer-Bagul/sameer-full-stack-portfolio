@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
@@ -8,6 +7,7 @@ import { EnhancedTableOfContents } from './EnhancedTableOfContents';
 import { EnhancedMaterialContent } from './EnhancedMaterialContent';
 import { StudyToolbar } from './StudyToolbar';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useMarkdownProcessor } from './useMarkdownProcessor';
 import './studyMaterial.css';
 
 interface StudyMaterialViewerProps {
@@ -24,6 +24,9 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
   const [tableOfContents, setTableOfContents] = useState<{title: string; level: number}[]>([]);
   const { theme } = useTheme();
   const isMobile = useIsMobile();
+  
+  // Get total pages from the markdown processor
+  const { totalPages } = useMarkdownProcessor(material.content);
   
   // Automatically hide sidebar on mobile
   useEffect(() => {
@@ -51,19 +54,6 @@ export function StudyMaterialViewer({ material, onClose }: StudyMaterialViewerPr
       setTableOfContents(headings);
     }
   }, [material.content]);
-
-  // Calculate total pages based on content length
-  const calculateTotalPages = () => {
-    if (!material.content) return 1;
-    
-    // Calculate based on content length
-    const contentChars = material.content.length;
-    const charsPerPage = isMobile ? 1500 : 3000; // Fewer characters per page on mobile
-    
-    return Math.max(1, Math.ceil(contentChars / charsPerPage));
-  };
-
-  const totalPages = calculateTotalPages();
 
   const handleZoomIn = () => {
     setZoomLevel(prev => Math.min(prev + 0.1, 1.5));
