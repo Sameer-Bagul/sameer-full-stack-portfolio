@@ -4,7 +4,7 @@ import { StudyMaterial, studyMaterials } from './studyData';
 
 // FOLDER TYPE
 export type StudyFolder = {
-  id: number;
+  id: number; 
   name: string;
   description: string;
   icon: any;
