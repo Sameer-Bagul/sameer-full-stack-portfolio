@@ -225,7 +225,7 @@ export const Hero = () => {
           )}
           <div className="absolute inset-0">
             <Spline 
-              scene="https://prod.spline.design/kskmZQ9fjllluKJ8/scene.splinecode" 
+              scene="https://prod.spline.design/x42iT3yfv4uLjFiP/scene.splinecode" 
               onLoad={handleSplineLoad} 
             />
           </div>
