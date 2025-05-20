@@ -23,12 +23,12 @@ export const Footer = () => {
               Crafting digital experiences with passion and precision.
             </p>
             <div className="flex gap-4 mt-4">
-              <SocialIcon icon={<Facebook size={18} />} href="#" label="Facebook" />
-              <SocialIcon icon={<Instagram size={18} />} href="#" label="Instagram" />
+              {/* <SocialIcon icon={<Facebook size={18} />} href="#" label="Facebook" /> */}
+              {/* <SocialIcon icon={<Instagram size={18} />} href="#" label="Instagram" /> */}
               <SocialIcon icon={<Linkedin size={18} />} href="#" label="LinkedIn" />
-              <SocialIcon icon={<Youtube size={18} />} href="#" label="YouTube" />
+              {/* <SocialIcon icon={<Youtube size={18} />} href="#" label="YouTube" /> */}
               <SocialIcon icon={<Github size={18} />} href="#" label="GitHub" />
-              <SocialIcon icon={<Twitter size={18} />} href="#" label="Twitter" />
+              {/* <SocialIcon icon={<Twitter size={18} />} href="#" label="Twitter" /> */}
             </div>
           </div>
           
@@ -57,8 +57,8 @@ export const Footer = () => {
               <div className="text-muted-foreground space-y-2">
                 <p className="flex items-center gap-2">
                   <Mail size={16} /> 
-                  <a href="mailto:email@example.com" className="hover:text-primary transition-colors">
-                    email@example.com
+                  <a href="mailto:sameerbagul2004@gmail.com" className="hover:text-primary transition-colors">
+                    sameerbagul2004@gmail.com
                   </a>
                 </p>
               </div>
