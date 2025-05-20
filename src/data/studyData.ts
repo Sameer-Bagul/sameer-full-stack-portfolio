@@ -1689,7 +1689,27 @@ Add these to your \`.gitconfig\` file to save time:
 ## Conclusion
 
 Mastering Git and GitHub workflows will significantly improve your productivity and collaboration in software development projects. Regular practice and consistent use of best practices will help you become proficient with these essential tools.`
+
+  },{
+    id: 8,
+    title: "Rt Camp Interview Questions",
+    description: "A collection of common interview questions and answers for rtCamp.",
+    category: "cheatsheet",
+    tags: ["rtCamp", "Interview Questions", "Placement", "Internship"],
+    date: "May 19, 2025",
+    fileSize: "",
+    icon: FileText,
+    author: "Sameer Bagul",
+    lastUpdated: "May 19, 2025",
+    difficulty: "Advanced",
+    estimatedReadTime: "20 mins",
+    content: `
+    rt Camp Interview Questions
+    [will be added soon]
+    `
   }
+
+
 ];
 
 export default studyMaterials;

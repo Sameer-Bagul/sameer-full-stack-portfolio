@@ -101,6 +101,17 @@ export let studyFolders: StudyFolder[] = [
     updatedAt: "7 days ago",
     lastViewed: "2 days ago",
     tags: ["git", "github", "version-control"],
+  },
+  {
+    id: 8,
+    name: "Rt Camp Interview Questions",
+    description: "Best practices and common interview questions",
+    icon: Book,
+    color: "red",
+    materials: [8],
+    updatedAt: "1 day ago",
+    lastViewed: "1 hour ago",
+    tags: ["rtCamp", "Placement", "interview"],
   }
 ];
 
