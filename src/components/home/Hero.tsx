@@ -94,7 +94,8 @@ export const Hero = () => {
     { icon: <Github size={18} />, href: "https://github.com/Sameer-Bagul", label: "GitHub" },
     { icon: <Linkedin size={18} />, href: "https://www.linkedin.com/in/sameer-bagul/", label: "LinkedIn" },
     // { icon: <Twitter size={18} />, href: "https://twitter.com/sameerybagul", label: "Twitter" },
-    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" }
+    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" }  
+    // { icon: <Instagram size={18} />, href: "https://www.instagram.com/sameer_bagul_/", label: "Instagram" },
   ];
 
   return (
