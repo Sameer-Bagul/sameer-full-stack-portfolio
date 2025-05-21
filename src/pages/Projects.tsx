@@ -745,7 +745,8 @@ const ProjectDetail = ({ project, tagColors, onClose }: ProjectDetailProps) => {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent"></div>
         
-        <motion.button
+        {/* Only one close button is rendered here */}
+        {/* <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
@@ -753,7 +754,7 @@ const ProjectDetail = ({ project, tagColors, onClose }: ProjectDetailProps) => {
           className="absolute top-4 right-4 h-10 w-10 rounded-full bg-background/80 backdrop-blur-md flex items-center justify-center border border-border/50"
         >
           <X className="h-5 w-5" />
-        </motion.button>
+        </motion.button> */}
         
         <div className="absolute bottom-4 left-6 right-6">
           <motion.div
