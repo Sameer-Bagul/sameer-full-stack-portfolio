@@ -260,7 +260,7 @@ export const projects: Project[] =
     "longDescription": "Skillify is an AI-powered skill development platform that won 1st prize in a national-level hackathon. It features 5+ AI mentors that guide users through personalized learning roadmaps in tech domains like Web Dev, ML, Cybersecurity, and more. Built with the MERN stack, the app also integrates an LLM server to generate real-time content, recommend resources, and summarize study material. A central dashboard shows roadmap progress, completed modules, and AI feedback. Each user gets a unique path based on their profile, test results, and interest areas. Features include AI chat assistant, document summarization, content generation, and a resource explorer. Secure login with JWT, email OTP, and 2FA ensures account safety. Designed to make self-learning faster, smarter, and tailored.",
     "tags": ["MERN", "LLM", "Tailwind", "AI", "Roadmap Generator", "JWT", "2FA"],
     "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988921/skillify_1_q91pxm.png",
-    "githubUrl": "/collab",
+    "githubUrl": "https://github.com/Sameer-Bagul/Wcareer",
     "liveUrl": "#",
     "startDate": "Jan 2025",
     "endDate": "Feb 2025"
@@ -272,7 +272,7 @@ export const projects: Project[] =
     "longDescription": "TheAviator Master is a browser-based 3D game where players pilot a stylized plane across dynamic environments to collect points and dodge obstacles. Built using Three.js and Vite, the game features smooth animations, real-time lighting, skyboxes, and responsive controls. Players unlock 50+ levels, with each introducing new difficulty elements such as speed boosts, wind resistance, and bonus zones. Designed with a minimalistic yet engaging UI, the game includes a scoring system, sound effects, pause/resume functionality, and performance optimization for low-end devices. It was built as a fun side project to explore 3D graphics in JavaScript and game physics simulation.",
     "tags": ["Three.js", "Vite", "JavaScript", "WebGL", "3D Game"],
     "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988881/airoplane-three.js-game_1_n1egmo.png",
-    "githubUrl": "/collab",
+    "githubUrl": "https://github.com/Sameer-Bagul/TheAviator-master.git",
     "liveUrl": "#",
     "startDate": "Feb 2025",
     "endDate": "Feb 2025"
@@ -284,7 +284,7 @@ export const projects: Project[] =
     "longDescription": "The Todo MERN App is a full-stack productivity tool for tracking personal and professional tasks. Users can create an account, manage multiple task lists, and mark tasks as complete or pending. It features CRUD functionality, JWT-based authentication, and MongoDB for persistent storage. The UI is built with React and Tailwind for clean and responsive design. Each user gets a productivity dashboard showing daily task completion stats and upcoming deadlines. Notifications and reminders are planned for future updates. The app handles 100+ tasks efficiently and includes filtering, tagging, and color-coded priorities to streamline task management.",
     "tags": ["MERN", "React", "Tailwind", "JWT", "Todo App"],
     "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988912/mern-todo_2_h7n2tc.png",
-    "githubUrl": "/collab",
+    "githubUrl": "https://github.com/Sameer-Bagul/todo-mern-app",
     "liveUrl": "#",
     "startDate": "Feb 2025",
     "endDate": "Feb 2025"
@@ -296,7 +296,7 @@ export const projects: Project[] =
     "longDescription": "Web MineCraft is a browser game that recreates the Minecraft-style building experience using Three.js and voxel rendering logic. Players can place or remove blocks in a 3D world, explore terrain, and create custom environments. The game includes block types (grass, stone, water, wood), day-night cycles, and WASD controls for movement. Built with Vite and Three.js, the game engine supports real-time rendering and optimized performance even with 1000+ blocks placed. Designed for fun and educational purposes, it demonstrates physics, raycasting, and camera logic in 3D games. The game interface is smooth and suitable for both desktop and mobile platforms.",
     "tags": ["Three.js", "JavaScript", "Voxel Engine", "Vite", "Game Dev"],
     "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988928/web-mine-craft_2_vvjio2.png",
-    "githubUrl": "/collab",
+    "githubUrl": "https://github.com/Sameer-Bagul/web-mine-craft",
     "liveUrl": "#",
     "startDate": "Feb 2025",
     "endDate": "Feb 2025"

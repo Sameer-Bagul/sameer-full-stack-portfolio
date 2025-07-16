@@ -94,7 +94,7 @@ export const Hero = () => {
     { icon: <Github size={18} />, href: "https://github.com/Sameer-Bagul", label: "GitHub" },
     { icon: <Linkedin size={18} />, href: "https://www.linkedin.com/in/sameer-bagul/", label: "LinkedIn" },
     // { icon: <Twitter size={18} />, href: "https://twitter.com/sameerybagul", label: "Twitter" },
-    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" }  
+    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" }
     // { icon: <Instagram size={18} />, href: "https://www.instagram.com/sameer_bagul_/", label: "Instagram" },
   ];
 
@@ -110,7 +110,7 @@ export const Hero = () => {
             transition={{ duration: 0.8 }}
             className="mb-6"
           >
-            <motion.div 
+            <motion.div
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 hover:bg-violet-500/20 transition-colors shadow-[0_0_15px_rgba(139,92,246,0.15)]"
             >
               <Sparkles className="w-4 h-4 text-violet-500" />
@@ -135,6 +135,22 @@ export const Hero = () => {
                 <span className="bg-gradient-to-r from-violet-500 to-purple-500 text-transparent bg-clip-text">
                   <TypingTextEffect textArray={roles} />
                 </span>
+
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.7 }}
+                  className="w-full md:w-auto pt-5"
+                >
+                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                    </span>
+                    <span className="text-sm text-green-600 dark:text-green-400 font-medium">Available for work</span>
+                  </div>
+                </motion.div>
               </h1>
             </motion.div>
 
@@ -170,17 +186,16 @@ export const Hero = () => {
                 variant="outline"
                 size="default"
                 onClick={toggleWidgetUI}
-                className={`rounded-full px-6 py-2.5 flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 ${
-                  isDark 
-                    ? 'border-violet-500/30 hover:bg-violet-500/10 text-violet-300' 
+                className={`rounded-full px-6 py-2.5 flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 ${isDark
+                    ? 'border-violet-500/30 hover:bg-violet-500/10 text-violet-300'
                     : 'border-violet-500/30 hover:bg-violet-500/10 text-violet-700'
-                }`}
+                  }`}
               >
                 <Layers className="w-4 h-4" />
                 <span className="text-base">{widgetsVisible ? "Close" : "Open"} Widgets</span>
               </Button>
 
-              <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
@@ -193,7 +208,7 @@ export const Hero = () => {
                   </span>
                   <span className="text-sm text-green-600 dark:text-green-400 font-medium">Available for work</span>
                 </div>
-              </motion.div>
+              </motion.div> */}
             </motion.div>
 
             {/* Social Links */}
@@ -225,9 +240,9 @@ export const Hero = () => {
             </motion.div>
           )}
           <div className="absolute inset-0">
-            <Spline 
-              scene="https://prod.spline.design/x42iT3yfv4uLjFiP/scene.splinecode" 
-              onLoad={handleSplineLoad} 
+            <Spline
+              scene="https://prod.spline.design/x42iT3yfv4uLjFiP/scene.splinecode"
+              onLoad={handleSplineLoad}
             />
           </div>
         </div>
@@ -254,7 +269,7 @@ const SocialLink = ({
   label: string;
 }) => {
   const { isDark } = useTheme();
-  
+
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
@@ -262,11 +277,10 @@ const SocialLink = ({
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className={`p-2.5 rounded-full transition-all duration-300 hover:scale-110 ${
-            isDark 
-              ? 'bg-white/5 hover:bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]' 
+          className={`p-2.5 rounded-full transition-all duration-300 hover:scale-110 ${isDark
+              ? 'bg-white/5 hover:bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]'
               : 'bg-black/5 hover:bg-black/10 text-black shadow-[0_0_15px_rgba(0,0,0,0.1)]'
-          }`}
+            }`}
           whileHover={{ scale: 1.1, rotate: 5 }}
           whileTap={{ scale: 0.95 }}
         >
