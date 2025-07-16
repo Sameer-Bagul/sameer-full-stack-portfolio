@@ -18,57 +18,57 @@ export type StudyFolder = {
 
 // Define folders that match the content from studyData.ts
 export let studyFolders: StudyFolder[] = [
-  {
-    id: 1,
-    name: "React Development",
-    description: "Modern React development guides and best practices",
-    icon: Book,
-    color: "blue",
-    // Contains "Introduction to React Hooks" (ID: 1)
-    materials: [1],
-    updatedAt: "2 days ago",
-    lastViewed: "1 hour ago",
-    tags: ["react", "frontend", "hooks"],
-  },
-  {
-    id: 2,
-    name: "TypeScript Guide",
-    description: "Advanced TypeScript features and patterns",
-    icon: NotebookPen,
-    color: "purple",
-    // Contains "Advanced TypeScript Features" (ID: 2)
-    materials: [2],
-    updatedAt: "1 day ago",
-    lastViewed: "5 hours ago",
-    tags: ["typescript", "javascript"],
-  },
-  {
-    id: 3,
-    name: "JavaScript Concepts",
-    description: "Core JavaScript concepts and patterns",
-    icon: BookOpen,
-    color: "orange",
-    // Contains "Understanding Closures in JavaScript" (ID: 3)
-    materials: [3],
-    updatedAt: "3 days ago",
-    lastViewed: "2 days ago",
-    tags: ["javascript", "closures", "fundamentals"],
-  },
-  {
-    id: 4,
-    name: "CSS & Layout",
-    description: "Modern CSS techniques and layouts",
-    icon: Book,
-    color: "green",
-    // Contains "CSS Grid Layout: Complete Guide" (ID: 4)
-    materials: [4],
-    updatedAt: "4 days ago",
-    lastViewed: "1 day ago",
-    tags: ["css", "layout", "frontend"],
-  },
+  // {
+  //   id: 1,
+  //   name: "React Development",
+  //   description: "Modern React development guides and best practices",
+  //   icon: Book,
+  //   color: "blue",
+  //   // Contains "Introduction to React Hooks" (ID: 1)
+  //   materials: [1],
+  //   updatedAt: "2 days ago",
+  //   lastViewed: "1 hour ago",
+  //   tags: ["react", "frontend", "hooks"],
+  // },
+  // {
+  //   id: 2,
+  //   name: "TypeScript Guide",
+  //   description: "Advanced TypeScript features and patterns",
+  //   icon: NotebookPen,
+  //   color: "purple",
+  //   // Contains "Advanced TypeScript Features" (ID: 2)
+  //   materials: [2],
+  //   updatedAt: "1 day ago",
+  //   lastViewed: "5 hours ago",
+  //   tags: ["typescript", "javascript"],
+  // },
+  // {
+  //   id: 3,
+  //   name: "JavaScript Concepts",
+  //   description: "Core JavaScript concepts and patterns",
+  //   icon: BookOpen,
+  //   color: "orange",
+  //   // Contains "Understanding Closures in JavaScript" (ID: 3)
+  //   materials: [3],
+  //   updatedAt: "3 days ago",
+  //   lastViewed: "2 days ago",
+  //   tags: ["javascript", "closures", "fundamentals"],
+  // },
+  // {
+  //   id: 4,
+  //   name: "CSS & Layout",
+  //   description: "Modern CSS techniques and layouts",
+  //   icon: Book,
+  //   color: "green",
+  //   // Contains "CSS Grid Layout: Complete Guide" (ID: 4)
+  //   materials: [4],
+  //   updatedAt: "4 days ago",
+  //   lastViewed: "1 day ago",
+  //   tags: ["css", "layout", "frontend"],
+  // },
   {
     id: 5,
-    name: "Algorithms & Data Structures",
+    name: "Data Structures & Algorithms",
     description: "Implementation and analysis of common algorithms",
     icon: Book,
     color: "magenta",
@@ -78,41 +78,41 @@ export let studyFolders: StudyFolder[] = [
     lastViewed: "3 days ago",
     tags: ["algorithms", "data-structures", "computer-science"],
   },
-  {
-    id: 6,
-    name: "Backend Development",
-    description: "Server-side development and API design",
-    icon: Book,
-    color: "cyan",
-    // Contains "Node.js: Build a RESTful API" (ID: 6)
-    materials: [6],
-    updatedAt: "6 days ago",
-    lastViewed: "4 days ago",
-    tags: ["nodejs", "api", "backend"],
-  },
-  {
-    id: 7,
-    name: "Version Control",
-    description: "Git and GitHub workflows and best practices",
-    icon: Book,
-    color: "blue",
-    // Contains "Git and GitHub Workflow" (ID: 7)
-    materials: [7],
-    updatedAt: "7 days ago",
-    lastViewed: "2 days ago",
-    tags: ["git", "github", "version-control"],
-  },
-  {
-    id: 8,
-    name: "Rt Camp Interview Questions",
-    description: "Best practices and common interview questions",
-    icon: Book,
-    color: "red",
-    materials: [8],
-    updatedAt: "1 day ago",
-    lastViewed: "1 hour ago",
-    tags: ["rtCamp", "Placement", "interview"],
-  }
+  // {
+  //   id: 6,
+  //   name: "Backend Development",
+  //   description: "Server-side development and API design",
+  //   icon: Book,
+  //   color: "cyan",
+  //   // Contains "Node.js: Build a RESTful API" (ID: 6)
+  //   materials: [6],
+  //   updatedAt: "6 days ago",
+  //   lastViewed: "4 days ago",
+  //   tags: ["nodejs", "api", "backend"],
+  // },
+  // {
+  //   id: 7,
+  //   name: "Version Control",
+  //   description: "Git and GitHub workflows and best practices",
+  //   icon: Book,
+  //   color: "blue",
+  //   // Contains "Git and GitHub Workflow" (ID: 7)
+  //   materials: [7],
+  //   updatedAt: "7 days ago",
+  //   lastViewed: "2 days ago",
+  //   tags: ["git", "github", "version-control"],
+  // },
+  // {
+  //   id: 8,
+  //   name: "Rt Camp Interview Questions",
+  //   description: "Best practices and common interview questions",
+  //   icon: Book,
+  //   color: "red",
+  //   materials: [8],
+  //   updatedAt: "1 day ago",
+  //   lastViewed: "1 hour ago",
+  //   tags: ["rtCamp", "Placement", "interview"],
+  // }
 ];
 
 // Helper function to generate a new ID for materials

@@ -29,7 +29,7 @@ export const studyMaterials: StudyMaterial[] = [
     date: "Apr 15, 2023",
     fileSize: "120 KB",
     icon: NotebookPen,
-    author: "John Doe",
+    author: "Sameer Bagul",
     lastUpdated: "May 2, 2023",
     difficulty: "Beginner",
     estimatedReadTime: "15 mins",
