@@ -7,6 +7,16 @@ import { useTheme } from "@/contexts/ThemeContext";
 // @ts-ignore
 import * as random from "maath/random/dist/maath-random.esm";
 
+// Helper function to sanitize Float32Array and replace NaN values
+const sanitizePositions = (positions: Float32Array): Float32Array => {
+  for (let i = 0; i < positions.length; i++) {
+    if (isNaN(positions[i])) {
+      positions[i] = 0;
+    }
+  }
+  return positions;
+};
+
 const StarField = () => {
   const smallStarsRef = useRef<any>(null);
   const mediumStarsRef = useRef<any>(null);
@@ -17,19 +27,19 @@ const StarField = () => {
 
   // Reduced number of stars in each layer
   const [smallStars] = useState(() =>
-    random.inSphere(new Float32Array(1500), { radius: 1.5 })
+    sanitizePositions(random.inSphere(new Float32Array(1500), { radius: 1.5 }))
   );
   
   const [mediumStars] = useState(() =>
-    random.inSphere(new Float32Array(500), { radius: 1.3 })
+    sanitizePositions(random.inSphere(new Float32Array(500), { radius: 1.3 }))
   );
   
   const [largeStars] = useState(() =>
-    random.inSphere(new Float32Array(100), { radius: 1.4 })
+    sanitizePositions(random.inSphere(new Float32Array(100), { radius: 1.4 }))
   );
 
   const [glowingStars] = useState(() =>
-    random.inSphere(new Float32Array(30), { radius: 1.6 })
+    sanitizePositions(random.inSphere(new Float32Array(30), { radius: 1.6 }))
   );
 
   useFrame((state, delta) => {
