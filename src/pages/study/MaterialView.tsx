@@ -42,3 +42,4 @@ export default function MaterialView() {
       onClose={() => navigate(-1)} 
     />
   );
+}
