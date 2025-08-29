@@ -1,20 +1,36 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { studyMaterials } from '@/data/studyData';
+import { useStudyAPI } from '@/hooks/useStudyAPI';
 import { StudyMaterialViewer } from '@/components/study/StudyMaterialViewer';
 import { Button } from '@/components/ui/button';
+import { StudyPageLoadingSkeleton } from '@/components/study/LoadingStates';
+import { EmptyState } from '@/components/study/ErrorStates';
+import { ArrowLeft } from 'lucide-react';
 
 export default function MaterialView() {
   const { materialId } = useParams();
   const navigate = useNavigate();
+  const { materials, loading } = useStudyAPI();
   
-  const material = materialId ? studyMaterials.find(m => m.id === parseInt(materialId)) : null;
+  const material = materialId ? materials.find(m => m.id === parseInt(materialId)) : null;
+  
+  if (loading) {
+    return <StudyPageLoadingSkeleton />;
+  }
   
   if (!material) {
     return (
-      <div className="container px-4 pt-24">
-        <div className="text-center py-10">
-          <h2 className="text-2xl font-semibold mb-4">Material not found</h2>
-          <Button onClick={() => navigate('/study')}>Back to Study Library</Button>
+      <div className="min-h-screen pt-24 pb-16">
+        <div className="container px-4 mx-auto">
+          <EmptyState
+            title="Material not found"
+            description="The study material you're looking for doesn't exist or has been moved."
+            action={
+              <Button onClick={() => navigate('/study')}>
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back to Study Library
+              </Button>
+            }
+          />
         </div>
       </div>
     );
@@ -26,4 +42,3 @@ export default function MaterialView() {
       onClose={() => navigate(-1)} 
     />
   );
-} 
