@@ -1,0 +1,19 @@
+study/
+├── Core Components
+│   ├── StudyPage.tsx           # Main page component
+│   ├── FolderView.tsx          # Folder grid view
+│   ├── StudyCard.tsx           # Material card component
+│   └── WelcomeSection.tsx      # Welcome section
+│
+├── Material Viewer Components
+│   ├── StudyMaterialViewer.tsx      # Material viewer container
+│   ├── EnhancedTableOfContents.tsx  # Table of contents
+│   ├── EnhancedMaterialContent.tsx  # Content display
+│   └── StudyToolbar.tsx             # Toolbar controls
+│
+├── Utilities
+│   ├── CodeSnippet.tsx         # Code syntax highlighting
+│   ├── useMarkdownProcessor.tsx # Content processing
+│   ├── prismSetup.ts          # Syntax highlighting setup
+│   ├── noteColors.ts          # Color utilities
+│   └── studyMaterial.css      # Styles

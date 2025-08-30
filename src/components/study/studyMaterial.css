@@ -1,0 +1,189 @@
+:root {
+  --paper-bg: #ffffff;
+  --paper-bg-dark: #000000; /* true dark mode */
+  --text: #1a1a1a;
+  --text-dark: #eaeaea;
+  --muted: #666;
+  --muted-dark: #999;
+  --border: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.15);
+  --accent: #8a5cf6;
+  --accent-faded: rgba(138, 92, 246, 0.15);
+  --code-bg: #f5f5f5;
+  --code-bg-dark: #111; /* darker code blocks for contrast */
+  --radius: 12px;
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.12);
+  --transition: 0.25s ease-in-out;
+}
+
+/* Notebook paper */
+.notebook-paper {
+  background: var(--paper-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm), var(--shadow-md);
+  transition: background var(--transition), box-shadow var(--transition);
+}
+
+.dark .notebook-paper {
+  background: var(--paper-bg-dark);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+}
+
+/* Book content */
+.book-content {
+  font-family: 'Inter', 'Playfair Display', serif;
+  font-size: 1rem;
+  line-height: 1; /* tighter spacing */
+  padding: 2rem 2.5rem;
+  color: var(--text);
+  background: #18181c;
+  position: relative;
+}
+.dark .book-content {
+  color: var(--text-dark);
+  background: #101014;
+  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
+/* Paragraphs */
+.book-paragraph {
+  text-align: justify;
+}
+
+/* Headings */
+.book-content h1,
+.book-content .heading-1 {
+  font-size: 2.2rem;
+  margin: 1.5rem 0 1rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+}
+.book-content h2,
+.book-content .heading-2 {
+  font-size: 1.6rem;
+  margin: 1.2rem 0 0.8rem;
+  font-weight: 600;
+}
+.book-content h3,
+.book-content .heading-3 {
+  font-size: 1.3rem;
+  margin: 1rem 0 0.6rem;
+  font-weight: 500;
+}
+.dark .book-content h1,
+.dark .book-content h2,
+.dark .book-content h3 {
+  border-color: var(--border-dark);
+}
+
+.book-content {
+  margin-bottom: 3.5rem;
+}
+/* Lists */
+.book-list,
+.book-ordered-list {
+  margin: 1rem 0;
+  padding-left: 1.2rem;
+  line-height: 1.4;
+}
+.book-list-item {
+  margin-bottom: 0.4rem;
+}
+
+/* Quotes */
+.book-quote {
+  margin: 1.2rem 0;
+  padding: 0.8rem 1.2rem;
+  border-left: 4px solid var(--accent);
+  background: var(--accent-faded);
+  font-style: italic;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: background var(--transition);
+  
+}
+.book-quote:hover {
+  background: rgba(138, 92, 246, 0.25);
+}
+
+/* Code blocks */
+.book-code-block {
+  background: var(--code-bg);
+  padding: 0.8rem 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  border: 1.5px solid #222;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+.book-code-block:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--accent);
+}
+.dark .book-code-block {
+  background: var(--code-bg-dark);
+  border: 1.5px solid #23232a;
+}
+
+/* Inline code */
+.inline-code {
+  background: var(--code-bg);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: 'Fira Code', monospace;
+}
+.dark .inline-code {
+  background: var(--code-bg-dark);
+}
+
+/* Metadata */
+.material-header {
+  padding: 1rem 1.5rem;
+  background: rgba(245, 245, 250, 0.4);
+  border-bottom: 1px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.dark .material-header {
+  background: rgba(20, 20, 30, 0.35);
+  border-color: var(--border-dark);
+}
+
+.material-meta {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.dark .material-meta {
+  border-color: var(--border-dark);
+  color: var(--muted-dark);
+}
+
+/* Scrollbars */
+.enhanced-scroll-area {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+.enhanced-scroll-area::-webkit-scrollbar {
+  width: 6px;
+}
+.enhanced-scroll-area::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 10px;
+}
+.enhanced-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}

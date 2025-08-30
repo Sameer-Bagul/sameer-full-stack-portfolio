@@ -1,0 +1,95 @@
+1. Agrotech-Pratham - Freelancing project for an Agrotech shop. Built with Next.js, SEO, and Tailwind CSS.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988916/pratham-agro_2_ynzdzf.png
+
+2. app-club-landing-page - Landing page for the App Club at my college, where I mentor 200+ students and assist with 50+ projects.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988885/app-club-landing-page_2_lfrag5.png
+
+3. best-mern-auth - Advanced MERN stack authentication system featuring 5+ security features: email verification (OTP), JWT-based authentication, 2FA, and password reset functionality.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988911/mern-authentication-system_3_bok1sh.png
+
+4. business-billing-suite - Freelancing project: Billing system for a cement business in Nashik (Maharashtra) with 12+ shops. Improved efficiency by 50% and saved 2 hours of work daily. Built with MERN stack, Tailwind CSS, JWT authentication, email OTP, 2FA, and password reset.
+thumbnail url - 
+
+5. dev-library - Personal library containing 1000+ notes on 15+ topics such as Web Development, MERN, Next.js, React, JavaScript, Python, C++, C, Data Structures & Algorithms, Gen AI, AI/ML, ML/DL, Cloud Computing, Cyber Security, Blockchain, Web 3.0, and more.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988889/dev-lib_1_koknyj.png
+
+6. event-management-application - Event management app for my college, allowing 100+ event creations and management with payment integration. Built with Next.js, Tailwind CSS, JWT authentication, email OTP, 2FA, password reset, MongoDB, and Razorpay.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988892/evento_1_tc9m73.png
+
+7. gita-react-app-2-languages - Gita app to read the Bhagavad Gita in 2 languages (Hindi & English). Built with React, Tailwind CSS, JWT authentication, email OTP, 2FA, and password reset.
+thumbnail url - 
+
+8. gita-verse-navigator - Gita app to read the Bhagavad Gita in Hindi and English, with daily email delivery of 1 shloka and meaning. Built with React, Tailwind CSS, JWT authentication, email OTP, 2FA, and password reset.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988878/advanced-geeta-for-all_4_zdtstb.png
+
+9. Hire Me - National Hackathon Runner Up (Smart India Hackathon 2024, Top 2). MERN stack web app for hiring and upskilling, featuring Gen AI-powered study content, 4+ resume/cover letter/job description/interview tools, Tailwind CSS, and advanced authentication.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988895/hire-me_2_b6mmuv.png
+
+10. isha-home-stay-nextjs - Freelancing project: Home stay website for a property in Dhule (Maharashtra). Built with Next.js, Tailwind CSS, JWT authentication, email OTP, 2FA, password reset, and MongoDB.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988899/isha-pg_2_whs7u2.png
+
+11. Anonymous-mern-chat-app - Anonymous chat app for college students to connect and make new friends. 1000+ messages exchanged. Built with MERN stack, Tailwind CSS, and JWT authentication.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988882/Anonymous-mern-chat-app_2_bsk1sc.png
+
+12. Ninja-block-Slicer-Game - Ninja block slicer game where players slice 100+ blocks to earn points. Built with MERN stack and Tailwind CSS.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988913/ninja-block-slice_1_nsc12v.png
+
+13. password_manager - Password manager app for storing 100+ passwords and notes. Built with MERN stack, Tailwind CSS, and JWT authentication.
+thumbnail url - 
+
+14. pes_mcoe-hack - Hackathon launching website for my college hackathon (500+ participants).
+thumbnail url - 
+
+15. quotehub - Quote hub app for reading and sharing 1000+ quotes with friends. Built with MERN stack, Tailwind CSS, and JWT authentication.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988918/quote-hub_2_l8f0oo.png
+
+16. shayari-react-app - Shayari app for reading and sharing 500+ shayari with friends. Built with MERN stack and Tailwind CSS.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988918/shayaripage_1_axgw1t.png
+
+17. react-admin-dashboard - Admin dashboard UI template built with React and Tailwind CSS. Features 10+ charts, 5+ data management pages, and a user-friendly interface.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988876/admin-panel_4_wuvden.png
+
+18. react-local-storage-todo-list-app - Todo list app with add, edit, delete, and mark-as-done features. Built with React and Tailwind CSS, using local storage. 100+ tasks managed.
+thumbnail url - 
+
+19. resume-builder - Resume builder app for creating and downloading 100+ resumes. Built with MERN stack, Tailwind CSS, and JWT authentication.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988918/resume-builder_2_twp32a.png
+
+20. sam-link - Link shortener built with Next.js, Tailwind CSS, JWT authentication, email OTP, 2FA, password reset, and MongoDB. 1000+ links shortened.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988909/link-shortner_2_muiwzy.png
+
+21. skillify - National Hackathon 1st Prize Winner (Top 1). Skill development app with 5+ AI agents as teachers, roadmap and study material generation, and a complete learning environment. Built with MERN stack, Tailwind CSS, JWT authentication, email OTP, 2FA, password reset, MongoDB, and LLM server (Python/Node.js).
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988921/skillify_1_q91pxm.png
+
+22. (Number intentionally left blank for consistency.)
+thumbnail url - 
+
+23. TheAviator-master - Three.js game where players fly a plane and earn points. Built with Vite, Three.js, and Tailwind CSS. 50+ levels.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988881/airoplane-three.js-game_1_n1egmo.png
+
+24. todo-mern-app - Todo list app with add, edit, delete, and mark-as-done features. Built with MERN stack, React, and Tailwind CSS. 100+ tasks managed.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988912/mern-todo_2_h7n2tc.png
+
+25. web-mine-craft - Web-based Minecraft replica game, recreating the physics and mechanics of the original. Built with Three.js and Vite. 1000+ blocks placed.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988928/web-mine-craft_2_vvjio2.png
+
+26. GEN AI roadmap maker - GEN AI tool for generating 10+ skill roadmaps using MERN stack, React Flow, Tailwind CSS, JWT authentication, and integration with Gemini API, LLM, or other AI providers.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988878/ai-road-map_1_tgwqeb.png
+
+27. digital Board for performing Electric Lab - Digital board for performing 20+ electric lab experiments, demonstrating basic electricity and electronics concepts. Built with MERN stack, Tailwind CSS, and React Flow.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988891/e-lab_2_mbn5uu.png
+
+28. Gen AI Database schema generator - GEN AI tool for generating 10+ database schemas using MERN stack, React Flow, Tailwind CSS, JWT authentication, and integration with Gemini API, LLM, or other AI providers.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988886/database-visu_1_iehtuq.png 
+
+29. mern-finance-tracker - Finance tracker app for monitoring 100+ expenses and income entries. Built with MERN stack, Tailwind CSS, and JWT authentication.
+thumbnail url - 
+
+30. drag-drop-js-main - Drag-and-drop todo list board. 50+ tasks managed.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988890/drag-and-drop-todo-wall_a6v7zy.png
+
+31. fruit ninja game - Fruit Ninja-style game where players slice 100+ fruits to earn points. Built with MERN stack and Tailwind CSS.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988913/ninja-block-slice_1_nsc12v.png
+
+32. SAAS Landing page Frontend - SaaS landing page frontend template built with React and Tailwind CSS. Features 10+ sections, 5+ components, and a user-friendly interface.
+thumbnail url - https://res.cloudinary.com/dceysplwm/image/upload/v1746988909/landing-page_2_a0df10.png

@@ -1,0 +1,54 @@
+Name: Sameer Bagul
+Phone: +91 7841941033
+Location: Pune, India
+Email: sameerbagul2004@gmail.com
+LinkedIn: https://www.linkedin.com/in/sameer-bagul/
+Portfolio: https://sameerbagul.vercel.app/
+GitHub: https://github.com/Sameer-Bagul
+
+Objective:
+Aspiring Software Developer skilled in full-stack development, Web Development, machine learning, and creative UI/UX design. Experienced in AI/ML technologies and backend development, with a proven track record of delivering impactful projects and driving user engagement. Seeking dynamic opportunities to contribute innovative software solutions.
+
+Education:
+- Bachelor of Engineering in Information Technology, PES Modern College of Engineering (2022 - Present)
+  CGPA: 7.62
+  Relevant Coursework: Data Structures, Algorithms, Machine Learning, Full Stack Development, and Software Engineering
+
+Skills:
+- Programming Languages: JavaScript, Python, JAVA, C, C++, TypeScript
+- Frameworks & Libraries: MERN Stack, Next.js, React.js, Three.js, R3F
+- Databases: SQL, PLSQL, MongoDB, Firebase
+- Tools: Git, GitHub, Figma, Canva, Blender, Docker, Spline
+- Technologies: Machine Learning, AI/ML, Generative AI, DSA, UI/UX
+- AI Expertise: Python, PyTorch, TensorFlow, Hugging Face Transformers, LangChain, LlamaIndex, OpenAI API, Vector Databases (Pinecone, FAISS), Prompt Engineering, NLP, REST APIs, Streamlit/Gradio, Docker, Git, and VS Code
+
+Experience:
+Freelancer at Hariom Cement Agency Nashik (Remote) | May 2025 - Present
+- Creating a smart billing and inventory app for Indian construction shops with GST billing, customer tracking, and multi-shop support.
+
+Freelance Developer
+- Developed Isha Girls PG, a MERN-based platform connecting girls with PG accommodations, leading to increased client sign-ups for the business.
+- Created Pratham Agro, an intuitive website showcasing premium agro-products, enhancing online visibility and resulting in a 30% increase in inquiries.
+
+Projects:
+- Skillify: National Award winning GEN AI Project for Skill Development [SIH, Techathon]
+- WCareers: AI-powered career guidance platform using Agentic AI and Adaptive Assessment Engine for personalized career insights
+- AnonChat: Anonymous Chatting Application for College students [MERN Stack]
+- AIPaths: EdTech Gen AI SAAS Tool for Making dynamic Roadmaps [LLMs and MERN]
+- WebMineCraft: Web version of MineCraft with Node Backend
+- DevCollab: Global platform for students to share and discover innovative projects [MERN Stack]
+- DevLibrary: Global platform to share notes for engineering Students [MERN Stack]
+- Road Map Generator: Gen AI application for creating Roadmaps with AI support [GenAI + MERN]
+- Evento: Event Management Application with Payment Gateway for college [Next.js]
+- Geeta For All: Spiritual website with daily new verses and chapters [MERN Stack]
+And 45+ more projects
+
+Achievements:
+- Grand Finalist and Runner-up in Smart India Hackathon 2024
+- National Winner for problem Statement in Inovate You Hackathon 2025
+- National Winner for Ematix Hackathon (Accredited by the Ministry of Corporate Affairs - Govt of India)
+- College Winner of UI/UX Competition
+- Scored 95th percentile in MHT-CET and 85th percentile in JEE Mains
+
+Leadership & Extracurricular Activities:
+- Technical Head of the APP Club at PES Modern College of Engineering, contributing to software development initiatives and collaborating on innovative projects.
