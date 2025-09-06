@@ -58,7 +58,8 @@ export interface APIResponse<T> {
 // const API_BASE_URL = 'https://your-ngrok-url.ngrok.io';
 
 // Option 2: Use localhost (requires CORS setup on server)
-const API_BASE_URL = 'http://localhost:10000';
+// const API_BASE_URL = 'http://localhost:10000';
+const API_BASE_URL = 'https://notes-studio-server.onrender.com';
 
 const USERNAME = 'sameerbagul'; // Replace with your hardcoded username
 
