@@ -21,7 +21,8 @@ export default {
     extend: {
       fontFamily: {
         'playfair': ['"Playfair Display"', 'Georgia', 'serif'],
-        'sans': ['"Inter"', 'system-ui', 'sans-serif'],
+        'sans': ['"Noto Sans"', 'system-ui', 'sans-serif'],
+        'space-grotesk': ['"Space Grotesk"', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

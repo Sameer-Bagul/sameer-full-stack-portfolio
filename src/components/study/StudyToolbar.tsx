@@ -79,74 +79,129 @@ export function StudyToolbar({
   // }, [prevScrollPos]);
   
   return (
-    <motion.div 
+    <motion.div
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 right-0 z-40 border-b bg-background/95 backdrop-blur"
+      className="fixed top-0 left-0 right-0 z-40 border-b border-white/20 bg-background/95 backdrop-blur-xl shadow-lg"
     >
       <div className="container flex items-center justify-between h-16 px-4">
-        <div className="flex items-center gap-2">
-          <Button variant="ghost" size="icon" onClick={onClose}>
+        <div className="flex items-center gap-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onClose}
+            className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50 transition-all duration-300"
+          >
             <ArrowLeft className="h-5 w-5" />
             <span className="sr-only">Back</span>
           </Button>
-          <span className="text-lg font-semibold truncate max-w-[300px]">{title}</span>
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
+            <span className="text-lg font-semibold truncate max-w-[300px] bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
+              {title}
+            </span>
+          </div>
         </div>
         
         <div className="hidden md:flex items-center gap-2">
           <form onSubmit={handleSearch} className="relative w-64">
-            <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               placeholder="Search in document..."
-              className="pl-8 h-9"
+              className="pl-10 h-9 bg-background/70 backdrop-blur-sm border-white/20 focus:border-violet-400/50 transition-colors"
             />
           </form>
-          
+
+          <div className="flex items-center gap-1 bg-background/70 backdrop-blur-sm border border-white/20 rounded-lg p-1">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={onZoomOut}
+                    className="h-8 w-8 hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                  >
+                    <ZoomOut className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Zoom Out</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <span className="text-sm text-muted-foreground px-2 min-w-[3rem] text-center">
+              {Math.round(zoomLevel * 100)}%
+            </span>
+
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={onZoomIn}
+                    className="h-8 w-8 hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                  >
+                    <ZoomIn className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Zoom In</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+
+          <Separator orientation="vertical" className="h-6 mx-2" />
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={onZoomOut}>
-                  <ZoomOut className="h-4 w-4" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={toggleBookmark}
+                  className={`hover:bg-violet-100/50 dark:hover:bg-violet-900/50 ${isBookmarked ? "text-violet-600 dark:text-violet-400" : ""}`}
+                >
+                  <BookmarkIcon className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Zoom Out</TooltipContent>
+              <TooltipContent>Bookmark</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          
-          <span className="text-sm text-muted-foreground">{Math.round(zoomLevel * 100)}%</span>
-          
+
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon" onClick={onZoomIn}>
-                  <ZoomIn className="h-4 w-4" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleDownload}
+                  className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                >
+                  <Download className="h-4 w-4" />
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Zoom In</TooltipContent>
+              <TooltipContent>Download</TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          
-          <Separator orientation="vertical" className="h-6" />
-          
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleBookmark}
-            className={isBookmarked ? "text-primary" : ""}
-          >
-            <BookmarkIcon className="h-4 w-4" />
-          </Button>
-          
-          <Button variant="ghost" size="icon" onClick={handleDownload}>
-            <Download className="h-4 w-4" />
-          </Button>
-          
-          <Button variant="ghost" size="icon" onClick={handleShare}>
-            <Share2 className="h-4 w-4" />
-          </Button>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleShare}
+                  className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Share</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
         
         <div className="md:hidden">

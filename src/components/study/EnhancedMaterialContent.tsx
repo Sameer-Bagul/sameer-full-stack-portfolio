@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface EnhancedMaterialContentProps {
 	note: APINote;
@@ -18,42 +19,112 @@ interface EnhancedMaterialContentProps {
 
 export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoomLevel, onZoomIn, onZoomOut }: EnhancedMaterialContentProps) {
 	const [copied, setCopied] = useState(false);
-	const [theme, setTheme] = useState<'light' | 'dark'>('light');
+	const { theme } = useTheme();
 	const contentRef = useRef<HTMLDivElement>(null);
 
 	// Preprocess note HTML to inject custom classes for styling
 	function enhanceNoteHtml(html: string): string {
 		if (!html) return '';
-		let temp = document.createElement('div');
+		const temp = document.createElement('div');
 		temp.innerHTML = html;
-		temp.querySelectorAll('p').forEach(p => p.classList.add('book-paragraph'));
+
+		// Enhanced HTML element styling
+		temp.querySelectorAll('p').forEach(p => {
+			p.classList.add('book-paragraph');
+		});
+
 		temp.querySelectorAll('h1').forEach(h => h.classList.add('heading-1'));
 		temp.querySelectorAll('h2').forEach(h => h.classList.add('heading-2'));
 		temp.querySelectorAll('h3').forEach(h => h.classList.add('heading-3'));
+		temp.querySelectorAll('h4').forEach(h => h.classList.add('heading-4'));
+		temp.querySelectorAll('h5').forEach(h => h.classList.add('heading-5'));
+		temp.querySelectorAll('h6').forEach(h => h.classList.add('heading-6'));
+
 		temp.querySelectorAll('blockquote').forEach(bq => bq.classList.add('book-quote'));
-		temp.querySelectorAll('pre').forEach(pre => pre.classList.add('book-code-block'));
+		temp.querySelectorAll('pre').forEach(pre => {
+			pre.classList.add('book-code-block');
+		});
+
 		temp.querySelectorAll('code').forEach(code => {
 			if (!code.parentElement || code.parentElement.tagName !== 'PRE') {
 				code.classList.add('inline-code');
 			}
 		});
+
 		temp.querySelectorAll('ul').forEach(ul => ul.classList.add('book-list'));
 		temp.querySelectorAll('ol').forEach(ol => ol.classList.add('book-ordered-list'));
 		temp.querySelectorAll('li').forEach(li => li.classList.add('book-list-item'));
+
+		// Handle tables
+		temp.querySelectorAll('table').forEach(table => {
+			table.classList.add('book-table');
+		});
+
+		// Handle links
+		temp.querySelectorAll('a').forEach(link => {
+			link.classList.add('book-link');
+		});
+
+		// Handle images
+		temp.querySelectorAll('img').forEach(img => {
+			img.classList.add('book-image');
+		});
+
+		// Handle strong/bold text
+		temp.querySelectorAll('strong, b').forEach(strong => {
+			strong.classList.add('book-strong');
+		});
+
+		// Handle emphasis/italic text
+		temp.querySelectorAll('em, i').forEach(em => {
+			em.classList.add('book-emphasis');
+		});
+
+		// Handle horizontal rules
+		temp.querySelectorAll('hr').forEach(hr => {
+			hr.classList.add('book-hr');
+		});
+
+		// Handle definition lists
+		temp.querySelectorAll('dl').forEach(dl => {
+			dl.classList.add('book-definition-list');
+		});
+
+		temp.querySelectorAll('dt').forEach(dt => {
+			dt.classList.add('book-definition-term');
+		});
+
+		temp.querySelectorAll('dd').forEach(dd => {
+			dd.classList.add('book-definition-description');
+		});
+
+		// Handle abbreviations
+		temp.querySelectorAll('abbr').forEach(abbr => {
+			abbr.classList.add('book-abbr');
+		});
+
+		// Handle citations
+		temp.querySelectorAll('cite').forEach(cite => {
+			cite.classList.add('book-cite');
+		});
+
+		// Handle mark/highlighted text
+		temp.querySelectorAll('mark').forEach(mark => {
+			mark.classList.add('book-mark');
+		});
+
+		// Handle superscript and subscript
+		temp.querySelectorAll('sup').forEach(sup => {
+			sup.classList.add('book-sup');
+		});
+
+		temp.querySelectorAll('sub').forEach(sub => {
+			sub.classList.add('book-sub');
+		});
+
 		return temp.innerHTML;
 	}
 
-	// Detect theme from the document
-	useState(() => {
-		const isDark = document.documentElement.classList.contains('dark');
-		setTheme(isDark ? 'dark' : 'light');
-		const observer = new MutationObserver(() => {
-			const isDarkNow = document.documentElement.classList.contains('dark');
-			setTheme(isDarkNow ? 'dark' : 'light');
-		});
-		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
-		return () => observer.disconnect();
-	});
 
 	// Handle copy content functionality
 	const handleCopyContent = () => {
@@ -141,10 +212,10 @@ export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoom
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, x: 20 }}
-			animate={{ opacity: 1, x: 0 }}
-			transition={{ duration: 0.3 }}
-			className={`flex-1 ${showSidebar ? 'ml-6 md:ml-8' : ''} px-4 md:px-0 pb-12`}
+			initial={{ opacity: 0, x: 20, rotateY: -5 }}
+			animate={{ opacity: 1, x: 0, rotateY: 0 }}
+			transition={{ duration: 0.5, ease: "easeOut" }}
+			className={`flex-1 ${showSidebar ? 'ml-6 md:ml-8' : ''} px-4 md:px-0 pb-32`}
 		>
 			{!showSidebar && (
 				<Button
@@ -158,15 +229,14 @@ export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoom
 				</Button>
 			)}
 			{renderZoomControls()}
-			<div 
+			<div
 				ref={contentRef}
 				className={`notebook-paper enhanced-note-paper rounded-2xl shadow-2xl overflow-hidden border border-border/40 ${
 					theme === 'dark' ? 'paper-lines-dark' : 'paper-lines-light'
 				}`}
-				style={{ 
+				style={{
 					transform: `scale(${zoomLevel})`,
-					transformOrigin: 'top left', 
-					background: theme === 'dark' ? 'linear-gradient(135deg, #23272f 0%, #2c313a 100%)' : 'linear-gradient(135deg, #f8fafc 0%, #e9ecef 100%)',
+					transformOrigin: 'top left',
 				}}
 			>
 				<article className="font-playfair">

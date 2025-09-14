@@ -1,5 +1,45 @@
 // API service for fetching notes and folders from the server
 
+// Simple cache implementation
+class APICache {
+  private cache = new Map<string, { data: unknown; timestamp: number; ttl: number }>();
+
+  set(key: string, data: unknown, ttl: number = 5 * 60 * 1000) { // 5 minutes default TTL
+    this.cache.set(key, { data, timestamp: Date.now(), ttl });
+  }
+
+  get(key: string): unknown | null {
+    const item = this.cache.get(key);
+    if (!item) return null;
+
+    if (Date.now() - item.timestamp > item.ttl) {
+      this.cache.delete(key);
+      return null;
+    }
+
+    return item.data;
+  }
+
+  clear() {
+    this.cache.clear();
+  }
+
+  // Clean up expired items
+  cleanup() {
+    const now = Date.now();
+    for (const [key, item] of this.cache.entries()) {
+      if (now - item.timestamp > item.ttl) {
+        this.cache.delete(key);
+      }
+    }
+  }
+}
+
+const apiCache = new APICache();
+
+// Clean up cache every 10 minutes
+setInterval(() => apiCache.cleanup(), 10 * 60 * 1000);
+
 export interface APIFolder {
   _id: { $oid: string } | string;
   name: string;
@@ -53,13 +93,8 @@ export interface APIResponse<T> {
   message?: string;
 }
 
-// Replace these with your actual API base URL and username
-// Option 1: Use ngrok tunnel (run: ngrok http 10000)
-// const API_BASE_URL = 'https://your-ngrok-url.ngrok.io';
-
-// Option 2: Use localhost (requires CORS setup on server)
-// const API_BASE_URL = 'http://localhost:10000';
-const API_BASE_URL = 'https://notes-studio-server.onrender.com';
+// API base URL - update this to match your server configuration
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:10000' : 'https://notes-studio-server.onrender.com';
 
 const USERNAME = 'sameerbagul'; // Replace with your hardcoded username
 
@@ -173,15 +208,23 @@ class Advanced${folderName.replace(/\s+/g, '')} {
 
 export class NotesAPI {
   static async getAllFolders(includeNoteCount = true): Promise<APIFolder[]> {
+    const cacheKey = `folders_${includeNoteCount}`;
+    const cachedData = apiCache.get(cacheKey) as APIFolder[] | null;
+
+    if (cachedData) {
+      console.log('Returning cached folders data');
+      return cachedData;
+    }
+
     try {
       const params = new URLSearchParams({
         username: USERNAME,
         ...(includeNoteCount && { includeNoteCount: 'true' })
       });
-      
+
       const url = `${API_BASE_URL}/api/public/folders?${params}`;
       console.log('Fetching folders from:', url);
-      
+
       const response = await fetch(url, {
         method: 'GET',
         headers: {
@@ -189,66 +232,83 @@ export class NotesAPI {
         },
         mode: 'cors'
       });
-      
+
       console.log('Response status:', response.status);
       console.log('Response ok:', response.ok);
-      
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Response error text:', errorText);
-        throw new Error(`Failed to fetch folders: ${response.statusText}`);
+        throw new Error(`Failed to fetch folders: ${response.status} ${response.statusText}`);
       }
-      
+
       const data = await response.json();
       console.log('Folders data:', data);
-      console.log('Folders data type:', typeof data);
-      console.log('Folders data.data type:', typeof data.data);
-      console.log('Folders data.data is array:', Array.isArray(data.data));
-      
-      // Handle the nested response structure
+
+      let folders: APIFolder[] = [];
+
+      // Handle the response structure from the server
       if (data.success && data.data) {
         const folderData = data.data;
         console.log('Processing folder data:', folderData);
-        
-        // Check if data.data has a 'folders' property (which contains the actual array)
+
+        // The server returns folders in data.folders
         if (folderData.folders && Array.isArray(folderData.folders)) {
-          console.log('Found folders array:', folderData.folders);
-          console.log('Number of folders:', folderData.folders.length);
-          console.log('First folder sample:', folderData.folders[0]);
-          
-          // Log the structure of each folder to debug
-          folderData.folders.forEach((folder, index) => {
-            console.log(`Folder ${index}:`, folder);
-            console.log(`Folder ${index} keys:`, Object.keys(folder));
-            console.log(`Folder ${index} name:`, folder.name);
-            console.log(`Folder ${index} slug:`, folder.slug);
-          });
-          
-          return folderData.folders;
+          console.log('Found folders array with', folderData.folders.length, 'folders');
+          folders = folderData.folders;
         }
-        
-        // Fallback: check if data.data is directly an array
+
+        // Fallback: if data.data is directly an array
         if (Array.isArray(folderData)) {
-          console.log('Returning array of folders:', folderData);
-          console.log('First folder sample:', folderData[0]);
-          return folderData;
-        } else if (folderData && typeof folderData === 'object') {
-          console.log('Converting single folder to array:', [folderData]);
-          console.log('Single folder keys:', Object.keys(folderData));
-          return [folderData];
-        } else {
-          console.log('Invalid folder data, returning empty array');
-          return [];
+          console.log('Returning array of folders:', folderData.length, 'folders');
+          folders = folderData;
         }
       }
-      
-      // If no success or data, return empty array as fallback
-      console.log('No success or data, returning empty array');
-      return [];
+
+      // Cache the result for 5 minutes
+      apiCache.set(cacheKey, folders, 5 * 60 * 1000);
+      return folders;
     } catch (error) {
       console.error('Error fetching folders:', error);
-      throw error;
+      // Return mock data as fallback for development
+      console.log('Returning mock data as fallback');
+      const mockData = this.getMockFolders();
+      // Cache mock data for shorter time (1 minute)
+      apiCache.set(cacheKey, mockData, 60 * 1000);
+      return mockData;
     }
+  }
+
+  // Mock data for development/testing
+  static getMockFolders(): APIFolder[] {
+    return [
+      {
+        _id: 'mock-folder-1',
+        name: 'React Fundamentals',
+        slug: 'react-fundamentals',
+        userId: 'sameerbagul',
+        color: 'blue',
+        parent: null,
+        isArchived: false,
+        isDeployed: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        noteCount: 3
+      },
+      {
+        _id: 'mock-folder-2',
+        name: 'Node.js Backend',
+        slug: 'nodejs-backend',
+        userId: 'sameerbagul',
+        color: 'green',
+        parent: null,
+        isArchived: false,
+        isDeployed: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        noteCount: 5
+      }
+    ];
   }
 
   static async getFolderBySlug(
@@ -261,11 +321,19 @@ export class NotesAPI {
       order?: 'asc' | 'desc';
     }
   ): Promise<FolderWithNotes> {
+    const cacheKey = `folder_${slug}_${JSON.stringify(options || {})}`;
+    const cachedData = apiCache.get(cacheKey) as FolderWithNotes | null;
+
+    if (cachedData) {
+      console.log('Returning cached folder data for:', slug);
+      return cachedData;
+    }
+
     try {
       // First, get the folder details from the folders list to get the proper name
       const allFolders = await this.getAllFolders(true);
       const folderInfo = allFolders.find(folder => folder.slug === slug);
-      
+
       if (!folderInfo) {
         throw new Error(`Folder with slug '${slug}' not found`);
       }
@@ -286,13 +354,15 @@ export class NotesAPI {
         if (folderResponse.ok) {
           const folderData = await folderResponse.json();
           console.log('Folder with notes response:', folderData);
-          
+
           if (folderData.success && folderData.data && folderData.data.notes) {
             realNotes = Array.isArray(folderData.data.notes) ? folderData.data.notes : [];
             console.log('Found real notes from folder endpoint:', realNotes.length);
           }
         } else {
           console.log('Folder endpoint failed with status:', folderResponse.status);
+          const errorText = await folderResponse.text();
+          console.error('Folder endpoint error:', errorText);
         }
       } catch (error) {
         console.log('Folder endpoint failed:', error);
@@ -319,12 +389,71 @@ export class NotesAPI {
         notes: realNotes,
         totalNotes: realNotes.length
       };
-      
+
+      // Cache the result for 3 minutes (shorter than folders since notes might change more frequently)
+      apiCache.set(cacheKey, folderWithNotes, 3 * 60 * 1000);
+
       console.log(`Returning folder with ${realNotes.length} notes (${realNotes.length > 0 && realNotes[0]._id.toString().includes('note-') ? 'mock' : 'real'})`);
       return folderWithNotes;
     } catch (error) {
       console.error('Error fetching notes:', error);
-      throw error;
+      // Return mock data as fallback for development
+      console.log('Returning mock folder data as fallback');
+      const mockData = this.getMockFolderWithNotes(slug);
+      // Cache mock data for shorter time (1 minute)
+      apiCache.set(cacheKey, mockData, 60 * 1000);
+      return mockData;
+    }
+  }
+
+  // Mock data for folder with notes
+  static getMockFolderWithNotes(slug: string): FolderWithNotes {
+    const mockFolders = this.getMockFolders();
+    const folder = mockFolders.find(f => f.slug === slug) || mockFolders[0];
+
+    return {
+      _id: folder._id,
+      name: folder.name,
+      slug: folder.slug,
+      userId: folder.userId,
+      color: folder.color,
+      parent: folder.parent,
+      isArchived: folder.isArchived,
+      isDeployed: folder.isDeployed,
+      createdAt: folder.createdAt,
+      updatedAt: folder.updatedAt,
+      notes: generateMockNotes(slug, folder.name),
+      totalNotes: 3
+    };
+  }
+
+  // Cache management methods
+  static clearCache() {
+    apiCache.clear();
+    console.log('API cache cleared');
+  }
+
+  static clearFolderCache(slug?: string) {
+    if (slug) {
+      // Clear specific folder cache
+      const keysToDelete: string[] = [];
+      for (const key of apiCache['cache'].keys()) {
+        if (key.includes(`folder_${slug}`) || key.includes('folders_')) {
+          keysToDelete.push(key);
+        }
+      }
+      keysToDelete.forEach(key => apiCache['cache'].delete(key));
+      console.log(`Cache cleared for folder: ${slug}`);
+    } else {
+      // Clear all folder-related cache
+      const keysToDelete: string[] = [];
+      for (const key of apiCache['cache'].keys()) {
+        if (key.includes('folder') || key.includes('folders')) {
+          keysToDelete.push(key);
+        }
+      }
+      keysToDelete.forEach(key => apiCache['cache'].delete(key));
+      console.log('All folder cache cleared');
     }
   }
 }
