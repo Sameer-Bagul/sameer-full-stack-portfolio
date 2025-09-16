@@ -1,5 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Noto+Sans:wght@300;400;500;600;700;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap');
 
 @tailwind base;
@@ -41,6 +40,26 @@
     /* Color values */
     --violet-400: 252 87% 67%;
     --violet-500: 252 87% 59%;
+
+    /* Study Material Variables */
+    --paper-bg: 255 255 255;
+    --paper-bg-dark: 26 26 26;
+    --text: 240 10% 3.9%;
+    --text-dark: 0 0% 98%;
+    --muted: 240 3.8% 46.1%;
+    --muted-dark: 240 5% 64.9%;
+    --border-study: rgba(0, 0, 0, 0.1);
+    --border-dark-study: rgba(255, 255, 255, 0.2);
+    --accent-study: 252 87% 59%;
+    --accent-faded: rgba(139, 92, 246, 0.1);
+    --code-bg: 248 249 250;
+    --code-bg-dark: 45 55 72;
+    --book-bg: 250 250 250;
+    --book-bg-dark: 18 18 18;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --transition: 0.2s ease;
   }
 
   .dark {
@@ -93,6 +112,11 @@
     overflow-x: hidden;
     position: relative;
     font-family: 'Noto Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6, .heading {
+    font-family: 'Space Grotesk', sans-serif;
+    @apply font-medium tracking-tight;
   }
 
   body.dark {
@@ -152,6 +176,23 @@
 }
 
 @layer utilities {
+  /* Font utilities for Space Grotesk usage */
+  .font-space {
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  
+  .tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-text {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
   /* Enhanced glass panel utilities with better mobile visibility */
   .glass-panel {
     @apply bg-background/60 backdrop-blur-md border border-white/20 shadow-lg;
@@ -292,4 +333,762 @@
   .dark .glass-morphism {
     background: linear-gradient(135deg, rgba(20, 20, 40, 0.5), rgba(10, 10, 20, 0.3));
   }
+
+  /* ========== STUDY MATERIAL STYLES ========== */
+  
+  /* Clean notebook paper style */
+  .notebook-paper, .enhanced-note-paper {
+    background: hsl(var(--paper-bg));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-study);
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .dark .notebook-paper, .dark .enhanced-note-paper {
+    background: hsl(var(--paper-bg-dark));
+    border-color: var(--border-dark-study);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Simple ruled lines */
+  .paper-lines-light {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 100% 24px;
+  }
+
+  .paper-lines-dark {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 100% 24px;
+  }
+
+  /* Paragraphs */
+  .book-paragraph {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* Tables */
+  .book-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: hsl(var(--paper-bg));
+    border: 1px solid var(--border-study);
+    border-radius: var(--radius);
+  }
+
+  .book-table th,
+  .book-table td {
+    padding: 0.75rem;
+    border: 1px solid var(--border-study);
+    text-align: left;
+  }
+
+  .book-table th {
+    background: var(--accent-faded);
+    font-weight: 600;
+    color: hsl(var(--accent-study));
+  }
+
+  .dark .book-table {
+    background: hsl(var(--paper-bg-dark));
+    border-color: var(--border-dark-study);
+  }
+
+  .dark .book-table th,
+  .dark .book-table td {
+    border-color: var(--border-dark-study);
+  }
+
+  /* Links */
+  .book-link {
+    color: hsl(var(--accent-study));
+    text-decoration: underline;
+    transition: color var(--transition);
+  }
+
+  .book-link:hover {
+    color: hsl(252, 87%, 67%);
+  }
+
+  /* Images */
+  .book-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin: 1rem 0;
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Lists */
+  .book-list,
+  .book-ordered-list {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+    line-height: 1.6;
+  }
+
+  .book-list-item {
+    margin-bottom: 0.5rem;
+  }
+
+  /* Text formatting */
+  .book-strong {
+    font-weight: 600;
+    color: hsl(var(--accent-study));
+  }
+
+  .book-emphasis {
+    font-style: italic;
+    color: hsl(var(--muted));
+  }
+
+  .book-mark {
+    background-color: var(--accent-faded);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+  }
+
+  /* Horizontal rules */
+  .book-hr {
+    border: none;
+    height: 1px;
+    background: var(--border-study);
+    margin: 2rem 0;
+  }
+
+  /* Quotes */
+  .book-quote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-left: 4px solid hsl(var(--accent-study));
+    background: var(--accent-faded);
+    font-style: italic;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* Code blocks */
+  .book-code-block {
+    background: hsl(var(--code-bg));
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: var(--radius);
+    font-family: 'Monaco', 'Menlo', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    overflow-x: auto;
+    border: 1px solid var(--border-study);
+    border-left: 4px solid hsl(var(--accent-study));
+  }
+
+  .dark .book-code-block {
+    background: hsl(var(--code-bg-dark));
+    border-color: var(--border-dark-study);
+  }
+
+  /* Inline code */
+  .inline-code {
+    background: hsl(var(--code-bg));
+    padding: 0.15rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: 'Monaco', 'Menlo', monospace;
+  }
+
+  .dark .inline-code {
+    background: hsl(var(--code-bg-dark));
+  }
+
+  /* Material header */
+  .material-header {
+    padding: 1.5rem 2rem;
+    background: hsl(var(--paper-bg));
+    border-bottom: 1px solid var(--border-study);
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .dark .material-header {
+    background: hsl(var(--paper-bg-dark));
+    border-bottom-color: var(--border-dark-study);
+  }
+
+  .material-meta {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-study);
+    font-size: 0.85rem;
+    color: hsl(var(--muted));
+  }
+
+  .material-meta .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--accent-faded);
+    border-radius: 6px;
+  }
+
+  .dark .material-meta {
+    border-top-color: var(--border-dark-study);
+    color: hsl(var(--muted-dark));
+  }
+
+  .dark .material-meta .meta-item {
+    background: rgba(139, 92, 246, 0.2);
+  }
+
+  /* Simple scrollbars */
+  .enhanced-scroll-area {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--accent-study)) transparent;
+  }
+
+  .enhanced-scroll-area::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .enhanced-scroll-area::-webkit-scrollbar-thumb {
+    background: hsl(var(--accent-study));
+    border-radius: 3px;
+  }
+
+  .enhanced-scroll-area::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Study-specific utility classes */
+  .study-card-hover {
+    transition: all var(--transition);
+  }
+
+  .study-card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* Footer spacing */
+  .study-viewer-container {
+    padding-bottom: 4rem;
+  }
+
+  /* Study responsive design */
+  @media (max-width: 768px) {
+    .material-header {
+      padding: 1rem 1.5rem;
+    }
+
+    .book-code-block {
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+    }
+
+    .material-meta {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .material-meta .meta-item {
+      justify-content: center;
+      padding: 0.75rem 1rem;
+    }
+
+    .study-viewer-container {
+      padding-bottom: 2rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .material-header {
+      padding: 0.75rem 1rem;
+    }
+
+    .book-code-block {
+      padding: 0.75rem;
+      margin: 0.75rem 0;
+      font-size: 0.8rem;
+    }
+
+    .material-meta .meta-item {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+  }
+}
+
+/* Enhanced Glassmorphic Note Styles */
+.glassmorphic-note-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.dark .glassmorphic-note-container {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glassmorphic-header {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+}
+
+.dark .glassmorphic-header {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+}
+
+.glassmorphic-footer {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(10px);
+}
+
+.dark .glassmorphic-footer {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+}
+
+.glassmorphic-button {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.glassmorphic-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.dark .glassmorphic-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.dark .glassmorphic-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Glass Button Styles */
+.glass-button {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(39px);
+  -webkit-backdrop-filter: blur(39px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 4px 2px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: white !important;
+}
+
+.glass-button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 6px 3px rgba(255, 255, 255, 0.3);
+}
+
+.glass-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.glass-button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+/* Primary variant - Violet/Purple */
+.glass-button-primary {
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  box-shadow:
+    0 8px 32px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(139, 92, 246, 0.4),
+    inset 0 -1px 0 rgba(139, 92, 246, 0.1),
+    inset 0 0 4px 2px rgba(139, 92, 246, 0.2);
+}
+
+.glass-button-primary:hover {
+  background: rgba(139, 92, 246, 0.25);
+  box-shadow:
+    0 12px 40px rgba(139, 92, 246, 0.15),
+    inset 0 1px 0 rgba(139, 92, 246, 0.5),
+    inset 0 -1px 0 rgba(139, 92, 246, 0.2),
+    inset 0 0 6px 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Secondary variant - Indigo/Purple */
+.glass-button-secondary {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  box-shadow:
+    0 8px 32px rgba(99, 102, 241, 0.1),
+    inset 0 1px 0 rgba(99, 102, 241, 0.4),
+    inset 0 -1px 0 rgba(99, 102, 241, 0.1),
+    inset 0 0 4px 2px rgba(99, 102, 241, 0.2);
+}
+
+.glass-button-secondary:hover {
+  background: rgba(99, 102, 241, 0.25);
+  box-shadow:
+    0 12px 40px rgba(99, 102, 241, 0.15),
+    inset 0 1px 0 rgba(99, 102, 241, 0.5),
+    inset 0 -1px 0 rgba(99, 102, 241, 0.2),
+    inset 0 0 6px 3px rgba(99, 102, 241, 0.3);
+}
+
+/* Accent variant - Emerald/Teal */
+.glass-button-accent {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow:
+    0 8px 32px rgba(16, 185, 129, 0.1),
+    inset 0 1px 0 rgba(16, 185, 129, 0.4),
+    inset 0 -1px 0 rgba(16, 185, 129, 0.1),
+    inset 0 0 4px 2px rgba(16, 185, 129, 0.2);
+}
+
+.glass-button-accent:hover {
+  background: rgba(16, 185, 129, 0.25);
+  box-shadow:
+    0 12px 40px rgba(16, 185, 129, 0.15),
+    inset 0 1px 0 rgba(16, 185, 129, 0.5),
+    inset 0 -1px 0 rgba(16, 185, 129, 0.2),
+    inset 0 0 6px 3px rgba(16, 185, 129, 0.3);
+}
+
+/* Social Button Variant - Same style as glass buttons */
+.glass-button-social {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(39px);
+  -webkit-backdrop-filter: blur(39px);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 0 4px 2px rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  color: white !important;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-button-social:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 0 6px 3px rgba(255, 255, 255, 0.3);
+}
+
+.glass-button-social::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.8),
+    transparent
+  );
+}
+
+.glass-button-social::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.8),
+    transparent,
+    rgba(255, 255, 255, 0.3)
+  );
+}
+
+/* Dotted Background Pattern */
+.dotted-background {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.dark .dotted-background {
+  background-image: 
+    radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+.enhanced-title {
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Comprehensive HTML Content Styles */
+.html-content-area {
+  line-height: 1.7;
+  color: hsl(var(--foreground));
+}
+
+/* Headings */
+.html-content-area .heading-1 {
+  @apply text-4xl font-bold mt-12 mb-6 text-primary leading-tight;
+  font-family: 'Space Grotesk', sans-serif;
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary))/0.8);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.html-content-area .heading-2 {
+  @apply text-3xl font-semibold mt-10 mb-5 text-primary leading-tight;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.html-content-area .heading-3 {
+  @apply text-2xl font-semibold mt-8 mb-4 text-primary leading-tight;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.html-content-area .heading-4 {
+  @apply text-xl font-medium mt-6 mb-3 text-primary;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.html-content-area .heading-5 {
+  @apply text-lg font-medium mt-5 mb-2 text-primary;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.html-content-area .heading-6 {
+  @apply text-base font-medium mt-4 mb-2 text-primary;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+/* Paragraphs */
+.html-content-area .book-paragraph {
+  @apply mb-6 text-base leading-relaxed text-foreground/90;
+  font-family: 'Noto Sans', sans-serif;
+  text-align: justify;
+}
+
+/* Code blocks */
+.html-content-area .book-code-block {
+  @apply my-6 p-4 rounded-xl font-mono text-sm overflow-x-auto;
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .html-content-area .book-code-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.html-content-area .inline-code {
+  @apply px-2 py-1 rounded-md font-mono text-sm;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: hsl(var(--primary));
+}
+
+.dark .html-content-area .inline-code {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Lists */
+.html-content-area .book-list,
+.html-content-area .book-ordered-list {
+  @apply my-4 ml-6;
+}
+
+.html-content-area .book-list-item {
+  @apply mb-2 text-foreground/90 leading-relaxed;
+  position: relative;
+}
+
+.html-content-area .book-list .book-list-item::before {
+  content: "•";
+  color: hsl(var(--primary));
+  font-weight: bold;
+  position: absolute;
+  left: -20px;
+}
+
+.html-content-area .book-ordered-list {
+  counter-reset: item;
+}
+
+.html-content-area .book-ordered-list .book-list-item {
+  counter-increment: item;
+}
+
+.html-content-area .book-ordered-list .book-list-item::before {
+  content: counter(item) ".";
+  color: hsl(var(--primary));
+  font-weight: bold;
+  position: absolute;
+  left: -25px;
+}
+
+/* Blockquotes */
+.html-content-area .book-quote {
+  @apply my-6 pl-6 py-4 border-l-4 rounded-r-lg;
+  border-left-color: hsl(var(--primary));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent);
+  backdrop-filter: blur(5px);
+  font-style: italic;
+  color: hsl(var(--muted-foreground));
+}
+
+.dark .html-content-area .book-quote {
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.02), transparent);
+}
+
+/* Tables */
+.html-content-area .book-table {
+  @apply w-full my-6 rounded-xl overflow-hidden;
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.html-content-area .book-table th {
+  @apply px-4 py-3 font-semibold text-left;
+  background: rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: hsl(var(--primary));
+}
+
+.html-content-area .book-table td {
+  @apply px-4 py-3 border-b border-white/5;
+  color: hsl(var(--foreground))/90;
+}
+
+/* Links */
+.html-content-area .book-link {
+  @apply text-primary underline decoration-primary/30 underline-offset-2;
+  transition: all 0.2s ease;
+}
+
+.html-content-area .book-link:hover {
+  @apply decoration-primary decoration-2;
+  text-shadow: 0 0 8px hsl(var(--primary))/30;
+}
+
+/* Images */
+.html-content-area .book-image {
+  @apply my-6 rounded-xl shadow-lg max-w-full h-auto;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text formatting */
+.html-content-area .book-strong {
+  @apply font-semibold text-primary;
+}
+
+.html-content-area .book-emphasis {
+  @apply italic text-foreground/80;
+}
+
+.html-content-area .book-mark {
+  @apply px-1 rounded;
+  background: linear-gradient(120deg, hsl(var(--primary))/20, hsl(var(--primary))/10);
+  color: hsl(var(--primary));
+}
+
+/* Horizontal rules */
+.html-content-area .book-hr {
+  @apply my-8 border-0 h-px;
+  background: linear-gradient(90deg, transparent, hsl(var(--border)), transparent);
+}
+
+/* Definition lists */
+.html-content-area .book-definition-list {
+  @apply my-4;
+}
+
+.html-content-area .book-definition-term {
+  @apply font-semibold text-primary mt-4 mb-1;
+}
+
+.html-content-area .book-definition-description {
+  @apply ml-4 mb-2 text-foreground/80;
+}
+
+/* Abbreviations */
+.html-content-area .book-abbr {
+  @apply border-b border-dotted border-primary/50 cursor-help;
+  text-decoration: none;
+}
+
+/* Citations */
+.html-content-area .book-cite {
+  @apply italic text-muted-foreground;
+}
+
+/* Superscript and subscript */
+.html-content-area .book-sup {
+  @apply text-xs align-super;
+}
+
+.html-content-area .book-sub {
+  @apply text-xs align-sub;
 }

@@ -7,7 +7,7 @@ import { useFolderNotes } from '@/hooks/useNotesAPI';
 import { normalizeId, normalizeDate } from '@/services/notesApi';
 import { StudyPageLoadingSkeleton } from '@/components/study/LoadingStates';
 import { ErrorState } from '@/components/study/ErrorStates';
-import { StudyMaterialViewer } from '@/components/study/StudyMaterialViewer';
+import { NoteViewer } from '@/components/study/NoteViewer';
 
 const NoteView = () => {
   const { slug, noteId } = useParams<{ slug: string; noteId: string }>();
@@ -23,7 +23,7 @@ const NoteView = () => {
   // If we have the note, show it in the material viewer
   if (note) {
     return (
-      <StudyMaterialViewer 
+      <NoteViewer 
         note={note} 
         onClose={handleBack} 
       />

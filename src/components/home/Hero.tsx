@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Twitter, Sparkles, Layers } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, Phone, MapPin, Sparkles, Layers, Download, FileText } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
-import { Button } from '@/components/ui/button';
+import { GlassButton } from '@/components/ui/glass-button';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTheme } from '@/contexts/ThemeContext';
 import WidgetUI from '../ui-components/widgetUi';
+import MobileWidgetUI from '../ui-components/MobileWidgetUI';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 // Typing text effect component
@@ -63,7 +64,7 @@ export const Hero = () => {
   const isMobile = useIsMobile();
   const { isDark } = useTheme();
   const [widgetsVisible, setWidgetsVisible] = useState(false);
-  const roles = ["Software Developer", "AIML Enthusiast", "Content Creator", "Poet", "Youtuber"];
+  const roles = ["Full-Stack Developer", "AI Developer", "DevOps Engineer", "Tech Lead", "Problem Solver"];
 
   const handleSplineLoad = () => {
     setSplineLoaded(true);
@@ -92,137 +93,175 @@ export const Hero = () => {
 
   const socialLinks = [
     { icon: <Github size={18} />, href: "https://github.com/Sameer-Bagul", label: "GitHub" },
-    { icon: <Linkedin size={18} />, href: "https://www.linkedin.com/in/sameer-bagul/", label: "LinkedIn" },
-    // { icon: <Twitter size={18} />, href: "https://twitter.com/sameerybagul", label: "Twitter" },
-    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" }
-    // { icon: <Instagram size={18} />, href: "https://www.instagram.com/sameer_bagul_/", label: "Instagram" },
+    { icon: <Linkedin size={18} />, href: "https://linkedin.com/in/sameer-bagul", label: "LinkedIn" },
+    { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" },
+    { icon: <Phone size={18} />, href: "tel:+917841941033", label: "Phone" },
+    { icon: <MapPin size={18} />, href: "https://maps.google.com/?q=Pune,India", label: "Location: Pune, India" }
   ];
 
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <div className="container mx-auto relative px-4 md:px-8 min-h-screen flex items-center">
-        {/* Content Container */}
-        <div className="relative z-20 max-w-2xl">
-          {/* Welcome Badge */}
+
+      <div className={`container mx-auto relative px-4 md:px-8 min-h-screen ${isMobile ? 'flex items-center justify-center' : 'flex items-center'}`}>
+        {/* Content Container - Centered on Mobile */}
+        <div className={`relative z-20 ${isMobile ? 'max-w-sm w-full text-center' : 'max-w-2xl'}`}>
+          {/* Enhanced Welcome Badge with Glass Effect */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-6"
+            initial={{ opacity: 0, y: isMobile ? 0 : -30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, type: "spring", stiffness: 100 }}
+            className={`${isMobile ? 'mb-4 flex justify-center' : 'mb-6'}`}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-violet-500/10 border border-violet-500/20 hover:bg-violet-500/20 transition-colors shadow-[0_0_15px_rgba(139,92,246,0.15)]"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass-button glass-button-accent text-white font-medium shadow-lg backdrop-blur-md"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              <Sparkles className="w-4 h-4 text-violet-500" />
-              <span className="text-sm text-violet-500 font-medium">Welcome to my digital space</span>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              >
+                <Sparkles className="w-4 h-4" />
+              </motion.div>
+              <span className="text-sm">Welcome to my digital space</span>
             </motion.div>
           </motion.div>
 
-          {/* Main Content */}
-          <div className="relative">
-            {/* Glow Effect */}
-            <div className="absolute -inset-1 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-lg blur-2xl opacity-20"></div>
 
-            {/* Heading */}
+
+          {/* Main Content - Centered on Mobile */}
+          <div className={`relative ${isMobile ? 'text-center' : ''}`}>
+            {/* Glow Effect */}
+            <div className={`absolute -inset-1 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-lg blur-2xl ${isMobile ? 'opacity-15' : 'opacity-20'}`}></div>
+
+            {/* Enhanced Heading with Glow Effects */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="mb-6 relative"
+              className={`${isMobile ? 'mb-4' : 'mb-6'} relative`}
             >
-              <h1 className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
-                <span className="text-foreground block mb-2">Hi, I'm Sameer</span>
-                <span className="bg-gradient-to-r from-violet-500 to-purple-500 text-transparent bg-clip-text">
-                  <TypingTextEffect textArray={roles} />
-                </span>
+              {/* Background glow for heading */}
+              <div className="absolute -inset-2 bg-gradient-to-r from-violet-500/20 to-purple-500/20 rounded-xl blur-xl opacity-30"></div>
 
-
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.7 }}
-                  className="w-full md:w-auto pt-5"
+              <motion.h1
+                className={`${isMobile ? 'text-3xl' : 'text-4xl md:text-5xl'} font-bold tracking-tight mb-2 relative`}
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <motion.span
+                  className="text-foreground block mb-2 drop-shadow-lg"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
                 >
-                  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                    </span>
-                    <span className="text-sm text-green-600 dark:text-green-400 font-medium">Available for work</span>
-                  </div>
-                </motion.div>
-              </h1>
+                  Hi, I'm Sameer
+                </motion.span>
+                <motion.span
+                  className="bg-gradient-to-r from-violet-500 to-purple-500 text-transparent bg-clip-text drop-shadow-sm"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <TypingTextEffect textArray={roles} />
+                </motion.span>
+              </motion.h1>
             </motion.div>
 
-            {/* Description */}
+            {/* Description - Centered on Mobile */}
             <motion.p
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: isMobile ? 0 : -30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-base md:text-lg text-foreground/70 max-w-xl mb-8 leading-relaxed relative backdrop-blur-sm"
+              className={`${isMobile ? 'text-sm' : 'text-base md:text-lg'} text-foreground/70 ${isMobile ? 'max-w-xs mx-auto' : 'max-w-xl'} ${isMobile ? 'mb-6' : 'mb-8'} leading-relaxed relative backdrop-blur-sm`}
             >
-              Passionate about creating innovative solutions and bringing ideas to life through code.
-              Specialized in full-stack development and AI/ML technologies.
+              {isMobile ?
+                'Scaling business processes with AI automation. DevOps expert achieving 99% uptime.' :
+                'Designing scalable full-stack systems and automating business processes with AI. DevOps engineer with expertise in Docker, CI/CD pipelines, and achieving 99% uptime.'
+              }
             </motion.p>
 
-            {/* CTA Buttons */}
+            {/* Enhanced CTA Buttons - Centered on Mobile */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex flex-wrap items-center gap-4 mb-8 relative"
+              className={`flex ${isMobile ? 'flex-col gap-3 items-center' : 'flex-wrap items-center gap-4'} ${isMobile ? 'mb-6' : 'mb-8'} relative`}
             >
-              <Link to="/projects">
-                <Button
-                  size="default"
-                  className="group bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-full px-6 py-2.5 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+              {/* Primary Action - View Projects */}
+              <Link to="/projects" className={isMobile ? 'w-full max-w-xs' : ''}>
+                <GlassButton
+                  variant="primary"
+                  className={`${isMobile ? 'w-full px-8 py-3 text-sm' : 'px-6 py-2.5'}`}
                 >
                   View Projects
-                  <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                  <ArrowRight className={`${isMobile ? 'w-5 h-5' : 'w-4 h-4'} group-hover:translate-x-1 transition-transform`} />
+                </GlassButton>
               </Link>
 
-              <Button
-                variant="outline"
-                size="default"
-                onClick={toggleWidgetUI}
-                className={`rounded-full px-6 py-2.5 flex items-center gap-2 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105 ${isDark
-                    ? 'border-violet-500/30 hover:bg-violet-500/10 text-violet-300'
-                    : 'border-violet-500/30 hover:bg-violet-500/10 text-violet-700'
-                  }`}
-              >
-                <Layers className="w-4 h-4" />
-                <span className="text-base">{widgetsVisible ? "Close" : "Open"} Widgets</span>
-              </Button>
+              {/* Secondary Actions Row - Centered on Mobile */}
+              <div className={`flex ${isMobile ? 'gap-2 w-full max-w-xs justify-center' : 'gap-4'}`}>
+                {/* Resume Download - Glass Morphism Style */}
+                <GlassButton
+                  variant="secondary"
+                  onClick={() => {
+                    const link = document.createElement('a');
+                    link.href = '/sameerbagul-resume.pdf';
+                    link.download = 'Sameer_Bagul_Resume.pdf';
+                    link.click();
+                  }}
+                  className={`${isMobile ? 'flex-1 px-3 py-2 text-xs' : 'px-6 py-2.5'}`}
+                >
+                  <FileText className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} />
+                  <span className={`${isMobile ? 'text-xs' : 'text-base'}`}>Resume</span>
+                  <Download className={`${isMobile ? 'w-2.5 h-2.5' : 'w-3.5 h-3.5'} opacity-70 group-hover:translate-y-0.5 transition-transform`} />
+                </GlassButton>
 
-              {/* <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="w-full md:w-auto"
-              >
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
-                  </span>
-                  <span className="text-sm text-green-600 dark:text-green-400 font-medium">Available for work</span>
-                </div>
-              </motion.div> */}
+                {/* Widget Toggle - Hidden on Mobile */}
+                {!isMobile && (
+                  <GlassButton
+                    variant="accent"
+                    onClick={toggleWidgetUI}
+                    className="px-6 py-2.5"
+                  >
+                    <Layers className="w-4 h-4" />
+                    <span className="text-base">
+                      {(widgetsVisible ? "Close" : "Open") + " Widgets"}
+                    </span>
+                  </GlassButton>
+                )}
+
+
+              </div>
             </motion.div>
 
-            {/* Social Links */}
+            {/* Enhanced Social Links - Centered on Mobile */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: isMobile ? 0 : 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
               className="relative"
             >
-              <div className="flex gap-3">
+              <div className={`flex ${isMobile ? 'gap-2 justify-center flex-wrap' : 'gap-3'}`}>
                 {socialLinks.map((link) => (
-                  <SocialLink key={link.label} {...link} />
+                  <SocialLink key={link.label} {...link} isMobile={isMobile} />
                 ))}
               </div>
+
+              {/* Mobile Location Info - Centered */}
+              {isMobile && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1 }}
+                  className="mt-4 text-center"
+                >
+                  <p className="text-xs text-muted-foreground flex items-center justify-center gap-1">
+                    <MapPin className="w-3 h-3" />
+                    Pune, India • Available for work
+                  </p>
+                </motion.div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -251,25 +290,25 @@ export const Hero = () => {
       {/* WidgetUI Layer */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 100 }}>
         <div className="pointer-events-auto">
-          <WidgetUI />
+          {isMobile ? <MobileWidgetUI /> : <WidgetUI />}
         </div>
       </div>
     </section>
   );
 };
 
-// Social Link Component
+// Enhanced Social Link Component with Glass Button Style
 const SocialLink = ({
   icon,
   href,
-  label
+  label,
+  isMobile = false
 }: {
   icon: React.ReactNode;
   href: string;
   label: string;
+  isMobile?: boolean;
 }) => {
-  const { isDark } = useTheme();
-
   return (
     <HoverCard>
       <HoverCardTrigger asChild>
@@ -277,14 +316,13 @@ const SocialLink = ({
           href={href}
           target="_blank"
           rel="noopener noreferrer"
-          className={`p-2.5 rounded-full transition-all duration-300 hover:scale-110 ${isDark
-              ? 'bg-white/5 hover:bg-white/10 text-white shadow-[0_0_15px_rgba(255,255,255,0.1)]'
-              : 'bg-black/5 hover:bg-black/10 text-black shadow-[0_0_15px_rgba(0,0,0,0.1)]'
-            }`}
-          whileHover={{ scale: 1.1, rotate: 5 }}
+          className={`glass-button glass-button-social ${isMobile ? 'p-3' : 'p-3'} transition-all duration-300 hover:scale-105 ${isMobile ? 'active:scale-95' : ''}`}
+          whileHover={{ scale: isMobile ? 1.02 : 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {icon}
+          <span className="relative z-10 flex items-center justify-center">
+            {icon}
+          </span>
         </motion.a>
       </HoverCardTrigger>
       <HoverCardContent side="bottom" className="w-auto">

@@ -76,9 +76,10 @@ export const DottedBackground = ({ dotSize = 1.5, spacing = 28 }: DottedBackgrou
     resizeCanvas();
     animateDots();
 
+    let timeoutId: NodeJS.Timeout;
     const throttledResize = () => {
-      clearTimeout((resizeCanvas as any)._timeout);
-      (resizeCanvas as any)._timeout = setTimeout(resizeCanvas, 200);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(resizeCanvas, 200);
     };
 
     window.addEventListener('resize', throttledResize);

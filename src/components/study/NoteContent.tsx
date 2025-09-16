@@ -1,26 +1,28 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { AlignLeft, ZoomIn, ZoomOut, Copy, Check, Clock, Calendar, BookOpen, Tag } from 'lucide-react';
+import { AlignLeft, Copy, Check, Clock, Calendar, BookOpen, Tag } from 'lucide-react';
 import { APINote } from '@/services/notesApi';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '../ui/scroll-area';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useLocation } from 'react-router-dom';
 
-interface EnhancedMaterialContentProps {
+interface NoteContentProps {
 	note: APINote;
 	showSidebar: boolean;
 	toggleSidebar: () => void;
-	zoomLevel: number;
-	onZoomIn: () => void;
-	onZoomOut: () => void;
 }
 
-export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoomLevel, onZoomIn, onZoomOut }: EnhancedMaterialContentProps) {
+export function NoteContent({ note, showSidebar, toggleSidebar }: NoteContentProps) {
 	const [copied, setCopied] = useState(false);
 	const { theme } = useTheme();
 	const contentRef = useRef<HTMLDivElement>(null);
+	const location = useLocation();
+	
+	// Check if the current URL matches the pattern for study notes pages
+	const shouldShowFooter = !location.pathname.includes('/study/note/');
 
 	// Preprocess note HTML to inject custom classes for styling
 	function enhanceNoteHtml(html: string): string {
@@ -186,29 +188,7 @@ export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoom
 		</div>
 	);
 
-	const renderZoomControls = () => (
-		<div className="flex items-center gap-1 mt-6 mb-4 justify-end">
-			<Button 
-				variant="outline" 
-				size="icon" 
-				onClick={onZoomOut} 
-				className="h-8 w-8 rounded-full"
-			>
-				<ZoomOut size={15} />
-			</Button>
-			<span className="text-sm text-muted-foreground w-16 text-center">
-				{Math.round(zoomLevel * 100)}%
-			</span>
-			<Button 
-				variant="outline" 
-				size="icon" 
-				onClick={onZoomIn}
-				className="h-8 w-8 rounded-full"
-			>
-				<ZoomIn size={15} />
-			</Button>
-		</div>
-	);
+	// Zoom controls removed
 
 	return (
 		<motion.div
@@ -222,37 +202,61 @@ export function EnhancedMaterialContent({ note, showSidebar, toggleSidebar, zoom
 					variant="outline"
 					size="sm"
 					onClick={toggleSidebar}
-					className="mb-6 flex items-center gap-1.5 shadow-sm"
+					className="mb-6 flex items-center gap-1.5 glassmorphic-button"
 				>
 					<AlignLeft size={16} />
 					<span>Show Contents</span>
 				</Button>
 			)}
-			{renderZoomControls()}
 			<div
 				ref={contentRef}
-				className={`notebook-paper enhanced-note-paper rounded-2xl shadow-2xl overflow-hidden border border-border/40 ${
-					theme === 'dark' ? 'paper-lines-dark' : 'paper-lines-light'
-				}`}
+				className="glassmorphic-note-container rounded-t-3xl rounded-b-3xl overflow-hidden dotted-background"
 				style={{
-					transform: `scale(${zoomLevel})`,
 					transformOrigin: 'top left',
 				}}
 			>
-				<article className="font-playfair">
-					<div className="material-header px-8 pt-8 pb-2">
-						<h1 className="material-title text-4xl md:text-5xl font-bold text-primary mb-2 tracking-tight leading-tight drop-shadow-sm">{note.title}</h1>
-						{note.tags.length > 0 && renderTags()}
-						{renderMetadata()}
-					</div>
-					<hr className="my-4 border-border/30" />
-					<ScrollArea className="px-8 md:px-12 pb-14 book-content enhanced-note-content">
+				<article className="font-noto relative">
+					{/* Enhanced Header */}
+					<header className="glassmorphic-header px-8 pt-10 pb-8 border-b border-white/10">
+						<div className="flex flex-col gap-4">
+							<div className="flex items-start justify-between">
+								<h1 className="enhanced-title text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-4 leading-tight">
+									{note.title}
+								</h1>
+							</div>
+							{note.tags.length > 0 && renderTags()}
+							{renderMetadata()}
+						</div>
+					</header>
+					
+					{/* Content Area */}
+					<ScrollArea className="px-8 md:px-12 py-8 enhanced-html-content min-h-[60vh]">
 						<div 
-							className="enhanced-note-content"
+							className="html-content-area"
 							dangerouslySetInnerHTML={{ __html: enhanceNoteHtml(note.content) }}
 						/>
 					</ScrollArea>
-					<div className="page-fold"></div>
+					
+					{/* Enhanced Footer - conditionally rendered */}
+					{shouldShowFooter && (
+						<footer className="glassmorphic-footer px-8 py-6 mt-8 border-t border-white/10 rounded-b-3xl">
+							<div className="flex items-center justify-between text-sm text-muted-foreground">
+								<div className="flex items-center gap-4">
+									<span className="flex items-center gap-1">
+										<BookOpen size={14} />
+										{Math.ceil(note.content.length / 1000)} KB
+									</span>
+									<span className="flex items-center gap-1">
+										<Calendar size={14} />
+										Created {formatDate(note.createdAt)}
+									</span>
+								</div>
+								<div className="flex items-center gap-2">
+									<span className="text-xs opacity-60">Last updated {formatDate(note.lastEditedAt)}</span>
+								</div>
+							</div>
+						</footer>
+					)}
 				</article>
 			</div>
 		</motion.div>

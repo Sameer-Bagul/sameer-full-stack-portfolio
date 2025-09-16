@@ -38,12 +38,12 @@ export const apiClient = {
     return { success: true, data: [] };
   },
   
-  post: async (url: string, data: any) => {
+  post: async (url: string, data: unknown) => {
     console.log(`POST request to ${url}`, data);
     return { success: true, data: {} };
   },
-  
-  put: async (url: string, data: any) => {
+
+  put: async (url: string, data: unknown) => {
     console.log(`PUT request to ${url}`, data);
     return { success: true, data: {} };
   },

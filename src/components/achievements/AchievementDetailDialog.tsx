@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -14,7 +14,7 @@ interface Achievement {
   date: string;
   description: string;
   type: string;
-  icon: any;
+  icon: React.ComponentType;
   color: string;
   details: string;
   image?: string;

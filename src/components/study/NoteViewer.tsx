@@ -4,26 +4,26 @@ import { toast } from 'sonner';
 import { APINote, normalizeId } from '@/services/notesApi';
 import { useTheme } from '@/contexts/ThemeContext';
 import { EnhancedTableOfContents } from './EnhancedTableOfContents';
-import { EnhancedMaterialContent } from './EnhancedMaterialContent';
+import { NoteContent } from './NoteContent';
 import { StudyToolbar } from './StudyToolbar';
 import { NoteContentSkeleton } from './LoadingStates';
 import { useIsMobile } from '@/hooks/use-mobile';
-import './studyMaterial.css';
 
-interface StudyMaterialViewerProps {
+interface NoteViewerProps {
   note: APINote;
   onClose: () => void;
 }
 
-export function StudyMaterialViewer({ note, onClose }: StudyMaterialViewerProps) {
+export function NoteViewer({ note, onClose }: NoteViewerProps) {
   const [showSidebar, setShowSidebar] = useState(true);
-  const [zoomLevel, setZoomLevel] = useState(1);
   const [searchText, setSearchText] = useState('');
   const [isBookmarked, setIsBookmarked] = useState(note?.isPinned || false);
   const [tableOfContents, setTableOfContents] = useState<{title: string; level: number}[]>([]);
   const [isLoading, setIsLoading] = useState(!note);
   const { theme } = useTheme();
   const isMobile = useIsMobile();
+  
+  // Zoom features removed
   
   // Automatically hide sidebar on mobile
   useEffect(() => {
@@ -62,13 +62,7 @@ export function StudyMaterialViewer({ note, onClose }: StudyMaterialViewerProps)
     }
   }, [note]);
 
-  const handleZoomIn = () => {
-    setZoomLevel(prev => Math.min(prev + 0.1, 1.5));
-  };
-
-  const handleZoomOut = () => {
-    setZoomLevel(prev => Math.max(prev - 0.1, 0.7));
-  };
+  // Zoom features removed
 
   const toggleBookmark = () => {
     setIsBookmarked(prev => !prev);
@@ -228,32 +222,63 @@ export function StudyMaterialViewer({ note, onClose }: StudyMaterialViewerProps)
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="flex flex-col bg-gradient-to-br from-background via-background/95 to-background/90 pb-40 study-viewer-container"
+      className="min-h-screen flex flex-col relative overflow-hidden mt-8"
     >
-      {/* Background decorations with notebook theme */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className={`absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl ${theme === 'dark' ? 'bg-gradient-to-br from-amber-500/5 to-orange-500/5' : 'bg-gradient-to-br from-amber-500/8 to-orange-500/8'}`}></div>
-        <div className={`absolute -bottom-40 -left-40 w-96 h-96 rounded-full blur-3xl ${theme === 'dark' ? 'bg-gradient-to-tr from-violet-500/5 to-purple-500/5' : 'bg-gradient-to-tr from-violet-500/8 to-purple-500/8'}`}></div>
-        <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-3xl ${theme === 'dark' ? 'bg-gradient-to-r from-violet-500/2 via-transparent to-purple-500/2' : 'bg-gradient-to-r from-violet-500/3 via-transparent to-purple-500/3'}`}></div>
-        {/* Subtle ruled paper background */}
-        <div className={`absolute inset-0 opacity-[0.02] ${theme === 'dark' ? 'bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)]' : 'bg-[linear-gradient(rgba(0,0,0,0.5)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.3)_1px,transparent_1px)]'} bg-[size:100%_24px,24px_100%]`}></div>
+      {/* Enhanced glassmorphic background */}
+      <div className="fixed inset-0 -z-10">
+        {/* Primary gradient background */}
+        <div className={`absolute inset-0 ${theme === 'dark' 
+          ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950' 
+          : 'bg-gradient-to-br from-slate-50 via-white to-blue-50'
+        }`}></div>
+        
+        {/* Animated gradient orbs */}
+        <div className={`absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl opacity-20 animate-pulse ${
+          theme === 'dark' 
+            ? 'bg-gradient-to-br from-purple-600 to-pink-600' 
+            : 'bg-gradient-to-br from-purple-400 to-pink-400'
+        }`}></div>
+        <div className={`absolute bottom-40 left-20 w-80 h-80 rounded-full blur-3xl opacity-15 animate-pulse delay-1000 ${
+          theme === 'dark' 
+            ? 'bg-gradient-to-tr from-blue-600 to-cyan-600' 
+            : 'bg-gradient-to-tr from-blue-400 to-cyan-400'
+        }`}></div>
+        <div className={`absolute top-1/2 left-1/3 w-64 h-64 rounded-full blur-3xl opacity-10 animate-pulse delay-500 ${
+          theme === 'dark' 
+            ? 'bg-gradient-to-r from-emerald-600 to-teal-600' 
+            : 'bg-gradient-to-r from-emerald-400 to-teal-400'
+        }`}></div>
+        
+        {/* Glassmorphic noise pattern */}
+        <div className={`absolute inset-0 opacity-30 ${
+          theme === 'dark'
+            ? 'bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.1)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,rgba(120,119,198,0.05)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,rgba(255,119,198,0.05)_0%,transparent_50%)]'
+            : 'bg-[radial-gradient(circle_at_50%_50%,rgba(0,0,0,0.05)_0%,transparent_50%),radial-gradient(circle_at_80%_20%,rgba(59,130,246,0.1)_0%,transparent_50%),radial-gradient(circle_at_40%_80%,rgba(147,51,234,0.1)_0%,transparent_50%)]'
+        }`}></div>
+
+        {/* Subtle grid pattern */}
+        <div 
+          className={`absolute inset-0 opacity-[0.03] ${
+            theme === 'dark' 
+              ? 'bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)]' 
+              : 'bg-[linear-gradient(rgba(0,0,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.1)_1px,transparent_1px)]'
+          } bg-[size:50px_50px]`}
+        ></div>
       </div>
 
-      <StudyToolbar
-        title={note.title}
-        searchText={searchText}
-        setSearchText={setSearchText}
-        zoomLevel={zoomLevel}
-        onZoomIn={handleZoomIn}
-        onZoomOut={handleZoomOut}
-        isBookmarked={isBookmarked}
-        toggleBookmark={toggleBookmark}
-        onClose={onClose}
-        handleSearch={handleSearch}
-        handleDownload={handleDownload}
-        handleShare={handleShare}
-        isMobile={isMobile}
-      />
+      {/* Glassmorphic StudyToolbar */}
+      <div className="relative z-20">
+        <StudyToolbar
+          title={note.title} 
+          isBookmarked={isBookmarked}
+          toggleBookmark={toggleBookmark}
+          onClose={onClose}
+          handleDownload={handleDownload}
+          handleShare={handleShare}
+          isMobile={isMobile}
+          // Dummy zoom props to maintain interface compatibility
+        />
+      </div>
 
       <div className="container pt-16 flex-1 relative z-10">
         <div className="flex flex-col md:flex-row gap-6">
@@ -263,33 +288,43 @@ export function StudyMaterialViewer({ note, onClose }: StudyMaterialViewerProps)
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
+              className="md:w-80 flex-shrink-0"
             >
-              <EnhancedTableOfContents
-                tableOfContents={tableOfContents}
-                material={note}
-                toggleSidebar={toggleSidebar}
-              />
+              {/* Glassmorphic sidebar container */}
+              <div className={`backdrop-blur-xl rounded-2xl border p-6 ${
+                theme === 'dark'
+                  ? 'bg-white/5 border-white/10 shadow-2xl shadow-black/20'
+                  : 'bg-white/40 border-white/20 shadow-2xl shadow-black/5'
+              }`}>
+                <EnhancedTableOfContents
+                  tableOfContents={tableOfContents}
+                  material={note}
+                  toggleSidebar={toggleSidebar}
+                />
+              </div>
             </motion.div>
           )}
 
           <motion.div
-            className="flex-1"
+            className="flex-1 min-w-0"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           >
-            {isLoading || !note ? (
-              <NoteContentSkeleton />
-            ) : (
-              <EnhancedMaterialContent
-                note={note}
-                showSidebar={showSidebar}
-                toggleSidebar={toggleSidebar}
-                zoomLevel={zoomLevel}
-                onZoomIn={handleZoomIn}
-                onZoomOut={handleZoomOut}
-              />
-            )}
+            {/* Glassmorphic content container */}
+            <div >
+              {isLoading || !note ? (
+                <div>
+                  <NoteContentSkeleton />
+                </div>
+              ) : (
+                <NoteContent
+                  note={note}
+                  showSidebar={showSidebar}
+                  toggleSidebar={toggleSidebar}
+                />
+              )}
+            </div>
           </motion.div>
         </div>
       </div>

@@ -12,42 +12,42 @@ import { Badge } from '@/components/ui/badge';
 
 interface SkillCategory {
   name: string;
-  icon: any;
+  icon: React.ComponentType<{className?: string}>;
   color: string;
   skills: string[];
 }
 
 const skillCategories: SkillCategory[] = [
   {
-    name: "Languages",
+    name: "Programming Languages",
     icon: Braces,
     color: "bg-blue-500/10 text-blue-500 border-blue-500/20",
     skills: [
-      "JavaScript", "TypeScript", "Python", "Java", "C++", "C", "SQL", "HTML/CSS"
+      "JavaScript", "TypeScript", "Python", "Java", "C", "C++", "SQL", "HTML/CSS"
     ]
   },
   {
-    name: "Frontend Development",
+    name: "Frameworks & Libraries",
     icon: Layout,
     color: "bg-purple-500/10 text-purple-500 border-purple-500/20",
     skills: [
-      "React.js", "Next.js", "Tailwind CSS", "Redux", "Framer Motion", "Three.js", "R3F", "SASS/SCSS"
+      "MERN Stack", "React.js", "Next.js", "Three.js", "R3F", "Express.js", "Node.js"
     ]
   },
   {
-    name: "Backend Development",
+    name: "Databases",
     icon: Server,
     color: "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
     skills: [
-      "Node.js", "Express.js", "NestJS", "Django", "FastAPI", "GraphQL", "RESTful APIs", "WebSockets"
+      "MongoDB", "SQL", "Firebase", "PostgreSQL", "MySQL"
     ]
   },
   {
-    name: "Database & Cloud",
+    name: "DevOps & Tools",
     icon: Cloud,
     color: "bg-amber-500/10 text-amber-500 border-amber-500/20",
     skills: [
-      "MongoDB", "PostgreSQL", "MySQL", "Redis", "Firebase", "AWS", "Docker", "Vercel"
+      "Git", "Docker", "Nginx", "Portainer", "Postman", "VS Code", "CI/CD"
     ]
   },
   {
@@ -55,15 +55,15 @@ const skillCategories: SkillCategory[] = [
     icon: Brain,
     color: "bg-rose-500/10 text-rose-500 border-rose-500/20",
     skills: [
-      "TensorFlow", "PyTorch", "OpenAI API", "Langchain", "Hugging Face", "Scikit-learn", "Pandas", "NumPy"
+      "PyTorch", "TensorFlow", "Hugging Face", "LangChain", "LlamaIndex", "OpenAI API", "Pinecone", "FAISS", "Streamlit", "Gradio", "Prompt Engineering", "NLP"
     ]
   },
   {
-    name: "Tools & Design",
+    name: "Additional Technologies",
     icon: Wrench,
     color: "bg-sky-500/10 text-sky-500 border-sky-500/20",
     skills: [
-      "Git", "GitHub Actions", "CI/CD", "Figma", "Blender", "Spline", "UI/UX Design", "Canva"
+      "REST APIs", "Electron.js", "MongoDB Atlas", "Render", "Flask", "LLMs"
     ]
   }
 ];
@@ -230,26 +230,29 @@ const Resume = () => {
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="space-y-6">
-                        <ExperienceItem 
-                          title="Freelancer"
-                          company="Hariom Cement Agency Nashik"
-                          period="May 2025 - Present"
+                        <ExperienceItem
+                          title="Full Stack Software Developer & DevOps Engineer"
+                          company="WyseTree – Business Process Transformation Services, Pune"
+                          period="Aug 2025 - Present"
                           description={[
-                            "Creating a smart billing and inventory app for Indian construction shops with GST billing, customer tracking, and multi-shop support"
+                            "Designed and implemented scalable full-stack systems to optimize business processes across departments",
+                            "Automated Marketing and Lead operations using an AI agent, handling over 100,000 leads for outreach and follow-ups",
+                            "Developed an end-to-end medical lab platform, providing price-sorted recommendations and seamless user experience",
+                            "Deployed applications using Nginx, Docker, Portainer, and CI/CD pipelines, achieving 99% uptime"
                           ]}
                         />
                         
                         <Separator />
                         
-                        <ExperienceItem 
-                          title="Freelance Developer"
-                          company="Remote"
-                          period="Jan 2025 - Present"
+                        <ExperienceItem
+                          title="Web Developer Intern"
+                          company="Walnut Solutions, Dhule"
+                          period="Jan 2025 - June 2025"
                           description={[
-                            "Developed Isha Girls PG, a MERN-based platform connecting girls with PG accommodations, leading to increased client sign-ups",
-                            "Created Pratham Agro, an intuitive website showcasing premium agro-products, enhancing online visibility and resulting in a 30% increase in inquiries",
-                            "Built EduNurture, an EdTech platform offering video lessons and blogs, achieving a user base of 500+ within the first month",
-                            "Designed DevCollab, a global platform for students to share and discover innovative projects"
+                            "Developed and deployed responsive web applications using Next.js, improving SEO and user engagement by 30%",
+                            "Integrated RESTful APIs and interactive UI components to reduce page load times by 30%",
+                            "Optimized websites for SEO and accessibility, boosting organic traffic and search rankings",
+                            "Delivered high-quality web solutions while collaborating with remote teams; recognized for initiative and efficiency"
                           ]}
                         />
                       </div>
@@ -287,14 +290,14 @@ const Resume = () => {
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="space-y-6">
-                        <ExperienceItem 
-                          title="Bachelor of Engineering in Information Technology"
-                          company="PES Modern College of Engineering"
-                          period="2022 - Present"
+                        <ExperienceItem
+                          title="Bachelor of Technology - Information Technology"
+                          company="PES Modern College of Engineering, Pune"
+                          period="Nov 2022 - June 2026"
                           description={[
-                            "CGPA: 7.62",
+                            "CGPA: 8.21 / 10",
                             "Relevant Coursework: Data Structures, Algorithms, Machine Learning, Full Stack Development, and Software Engineering",
-                            "Technical Head of APP Club",
+                            "Technical Lead of APP Club, mentoring over 200 students and guiding multiple projects to completion",
                             "Active participant in hackathons and technical competitions"
                           ]}
                         />
@@ -317,28 +320,28 @@ const Resume = () => {
                           <div className="w-2 h-2 rounded-full bg-primary"></div>
                           <div>
                             <span className="font-medium">Smart India Hackathon 2024</span>
-                            <span className="text-muted-foreground text-sm block">Grand Finalist and Runner-up</span>
+                            <span className="text-muted-foreground text-sm block">Grand Finalist and Runner-up - Rs. 30,000 cash prize</span>
                           </div>
                         </li>
                         <li className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-primary"></div>
                           <div>
-                            <span className="font-medium">Inovate You Hackathon 2025</span>
-                            <span className="text-muted-foreground text-sm block">National Winner</span>
+                            <span className="font-medium">Innovate You Hackathon 2025</span>
+                            <span className="text-muted-foreground text-sm block">National Winner - Rs. 10,000 award</span>
                           </div>
                         </li>
                         <li className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-primary"></div>
                           <div>
-                            <span className="font-medium">MHT-CET</span>
-                            <span className="text-muted-foreground text-sm block">95th percentile</span>
+                            <span className="font-medium">APP Club Technical Lead</span>
+                            <span className="text-muted-foreground text-sm block">PESMCOE - Mentored 200+ students</span>
                           </div>
                         </li>
                         <li className="flex items-center gap-2">
                           <div className="w-2 h-2 rounded-full bg-primary"></div>
                           <div>
-                            <span className="font-medium">JEE Mains</span>
-                            <span className="text-muted-foreground text-sm block">85th percentile</span>
+                            <span className="font-medium">Academic Excellence</span>
+                            <span className="text-muted-foreground text-sm block">CGPA: 8.21/10 in Information Technology</span>
                           </div>
                         </li>
                       </ul>

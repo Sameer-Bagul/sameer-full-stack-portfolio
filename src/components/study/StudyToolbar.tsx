@@ -1,14 +1,11 @@
-
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   ArrowLeft, BookmarkIcon, Download, Share2, 
-  Search, ZoomIn, ZoomOut, Menu 
+  Menu 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { toast } from 'sonner';
 import { 
   Tooltip, 
   TooltipContent, 
@@ -25,136 +22,56 @@ import {
 
 interface StudyToolbarProps {
   title: string;
-  searchText: string;
-  setSearchText: (text: string) => void;
-  zoomLevel: number;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
   isBookmarked: boolean;
   toggleBookmark: () => void;
   onClose: () => void;
-  handleSearch: (e: React.FormEvent) => void;
   handleDownload: () => void;
   handleShare: () => void;
-  isMobile: boolean; // Added this prop to fix the type error
+  isMobile: boolean;
 }
 
 export function StudyToolbar({
   title,
-  searchText,
-  setSearchText,
-  zoomLevel,
-  onZoomIn,
-  onZoomOut,
   isBookmarked,
   toggleBookmark,
   onClose,
-  handleSearch,
   handleDownload,
   handleShare,
   isMobile
 }: StudyToolbarProps) {
   const [visible, setVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-  
-  // Handle toolbar visibility on scroll
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     const currentScrollPos = window.scrollY;
-      
-  //     // Always show toolbar at the top of the page
-  //     if (currentScrollPos < 50) {
-  //       setVisible(true);
-  //       setPrevScrollPos(currentScrollPos);
-  //       return;
-  //     }
-      
-  //     // Hide on scroll down, show on scroll up
-  //     setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-  //     setPrevScrollPos(currentScrollPos);
-  //   };
-    
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, [prevScrollPos]);
-  
+
   return (
     <motion.div
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: visible ? 0 : -100, opacity: visible ? 1 : 0 }}
       transition={{ duration: 0.3 }}
-      className="fixed top-0 left-0 right-0 z-40 border-b border-white/20 bg-background/95 backdrop-blur-xl shadow-lg"
+      className="fixed top-0 left-0 right-0 z-40 border-b border-white/10 backdrop-blur-2xl shadow-2xl bg-white/10 dark:bg-black/10"
     >
       <div className="container flex items-center justify-between h-16 px-4">
+        {/* Left section */}
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             size="icon"
             onClick={onClose}
-            className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50 transition-all duration-300"
+            className="hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
           >
             <ArrowLeft className="h-5 w-5" />
             <span className="sr-only">Back</span>
           </Button>
           <div className="flex items-center gap-2">
-            <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full"></div>
-            <span className="text-lg font-semibold truncate max-w-[300px] bg-gradient-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
-              {title}
-            </span>
+            <div className="w-1 h-6 bg-gradient-to-b from-violet-500 to-purple-500 rounded-full shadow-lg shadow-violet-500/25"></div>
+            <span className="text-lg font-semibold truncate max-w-[300px] bg-gradient-to-r from-violet-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+            {title}</span>
           </div>
         </div>
         
+        {/* Desktop actions */}
         <div className="hidden md:flex items-center gap-2">
-          <form onSubmit={handleSearch} className="relative w-64">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              placeholder="Search in document..."
-              className="pl-10 h-9 bg-background/70 backdrop-blur-sm border-white/20 focus:border-violet-400/50 transition-colors"
-            />
-          </form>
+          <Separator orientation="vertical" className="h-6 mx-2 bg-white/20" />
 
-          <div className="flex items-center gap-1 bg-background/70 backdrop-blur-sm border border-white/20 rounded-lg p-1">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={onZoomOut}
-                    className="h-8 w-8 hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
-                  >
-                    <ZoomOut className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Zoom Out</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <span className="text-sm text-muted-foreground px-2 min-w-[3rem] text-center">
-              {Math.round(zoomLevel * 100)}%
-            </span>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={onZoomIn}
-                    className="h-8 w-8 hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
-                  >
-                    <ZoomIn className="h-4 w-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Zoom In</TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          </div>
-
-          <Separator orientation="vertical" className="h-6 mx-2" />
-
+          {/* Bookmark */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -162,7 +79,7 @@ export function StudyToolbar({
                   variant="ghost"
                   size="icon"
                   onClick={toggleBookmark}
-                  className={`hover:bg-violet-100/50 dark:hover:bg-violet-900/50 ${isBookmarked ? "text-violet-600 dark:text-violet-400" : ""}`}
+                  className={`hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300 ${isBookmarked ? "text-violet-400 bg-violet-500/20" : ""}`}
                 >
                   <BookmarkIcon className="h-4 w-4" />
                 </Button>
@@ -171,6 +88,7 @@ export function StudyToolbar({
             </Tooltip>
           </TooltipProvider>
 
+          {/* Download */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -178,7 +96,7 @@ export function StudyToolbar({
                   variant="ghost"
                   size="icon"
                   onClick={handleDownload}
-                  className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                  className="hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300"
                 >
                   <Download className="h-4 w-4" />
                 </Button>
@@ -187,6 +105,7 @@ export function StudyToolbar({
             </Tooltip>
           </TooltipProvider>
 
+          {/* Share */}
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -194,7 +113,7 @@ export function StudyToolbar({
                   variant="ghost"
                   size="icon"
                   onClick={handleShare}
-                  className="hover:bg-violet-100/50 dark:hover:bg-violet-900/50"
+                  className="hover:bg-white/20 dark:hover:bg-white/10 transition-all duration-300"
                 >
                   <Share2 className="h-4 w-4" />
                 </Button>
@@ -204,6 +123,7 @@ export function StudyToolbar({
           </TooltipProvider>
         </div>
         
+        {/* Mobile Drawer */}
         <div className="md:hidden">
           <Drawer>
             <DrawerTrigger asChild>
@@ -216,28 +136,6 @@ export function StudyToolbar({
                 <DrawerTitle>Options</DrawerTitle>
               </DrawerHeader>
               <div className="p-4 flex flex-col gap-4">
-                <form onSubmit={handleSearch}>
-                  <Input
-                    value={searchText}
-                    onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="Search in document..."
-                    className="w-full"
-                  />
-                </form>
-                
-                <div className="flex items-center justify-between">
-                  <span>Zoom</span>
-                  <div className="flex items-center gap-2">
-                    <Button variant="outline" size="icon" onClick={onZoomOut}>
-                      <ZoomOut className="h-4 w-4" />
-                    </Button>
-                    <span className="w-12 text-center">{Math.round(zoomLevel * 100)}%</span>
-                    <Button variant="outline" size="icon" onClick={onZoomIn}>
-                      <ZoomIn className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
-                
                 <div className="grid grid-cols-3 gap-2">
                   <Button 
                     onClick={toggleBookmark}

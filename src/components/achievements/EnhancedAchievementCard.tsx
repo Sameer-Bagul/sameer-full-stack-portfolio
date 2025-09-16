@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Calendar, Building } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -11,7 +12,7 @@ interface Achievement {
   date: string;
   description: string;
   type: string;
-  icon: any;
+  icon: React.ComponentType<{size?: number}>;
   color: string;
   details: string;
   image?: string;

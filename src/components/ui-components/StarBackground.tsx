@@ -3,9 +3,9 @@
 import React, { useState, useRef, Suspense, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
-import { useTheme } from "@/contexts/ThemeContext";
-// @ts-ignore
+import * as THREE from "three";
 import * as random from "maath/random/dist/maath-random.esm";
+import { useTheme } from "@/contexts/ThemeContext";
 
 // Helper function to sanitize Float32Array and replace NaN values
 const sanitizePositions = (positions: Float32Array): Float32Array => {
@@ -18,10 +18,10 @@ const sanitizePositions = (positions: Float32Array): Float32Array => {
 };
 
 const StarField = () => {
-  const smallStarsRef = useRef<any>(null);
-  const mediumStarsRef = useRef<any>(null);
-  const largeStarsRef = useRef<any>(null);
-  const glowingStarsRef = useRef<any>(null);
+  const smallStarsRef = useRef<THREE.Points>(null);
+  const mediumStarsRef = useRef<THREE.Points>(null);
+  const largeStarsRef = useRef<THREE.Points>(null);
+  const glowingStarsRef = useRef<THREE.Points>(null);
   const { theme } = useTheme();
   const [time, setTime] = useState(0);
 
