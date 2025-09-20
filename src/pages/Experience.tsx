@@ -1,0 +1,313 @@
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Users, ChevronRight, Search, Folder, FolderOpen, ArrowLeft } from 'lucide-react';
+import { Briefcase, Building, Calendar, Clock, MapPin } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { ExperienceDetailDialog } from '@/components/experience/ExperienceDetailDialog';
+import { experiences } from '@/data/experiences';
+import type { Experience } from '@/data/experiences';
+
+const getTypeBadgeColor = (type: string) => {
+  switch (type) {
+    case 'full-time': return 'bg-green-100 text-green-800 dark:bg-green-950/50 dark:text-green-300';
+    case 'internship': return 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300';
+    case 'freelance': return 'bg-purple-100 text-purple-800 dark:bg-purple-950/50 dark:text-purple-300';
+    default: return 'bg-muted text-muted-foreground';
+  }
+};
+
+const ExperienceCard = ({
+  experience,
+  index,
+  onClick
+}: {
+  experience: Experience;
+  index: number;
+  onClick: () => void;
+}) => {
+  const typeBadgeColor = getTypeBadgeColor(experience.type);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className="group cursor-pointer"
+      onClick={onClick}
+    >
+      <Card className="h-full overflow-hidden border-border/40 backdrop-blur-sm bg-card/95 hover:shadow-lg transition-all duration-300 hover:scale-[1.02] hover:border-primary/20">
+        <CardContent className="p-6 relative">
+          <div className="absolute top-0 right-0 mt-4 mr-4">
+            <Badge className={typeBadgeColor}>
+              {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
+            </Badge>
+          </div>
+
+          <div className="flex items-start gap-4 pt-2">
+            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
+              <Briefcase size={28} className="text-primary" />
+            </div>
+
+            <div className="pt-1.5">
+              <h3 className="text-xl font-semibold group-hover:text-primary transition-colors">
+                {experience.title}
+              </h3>
+
+              <div className="flex items-center gap-2 mt-1.5 mb-2 text-sm text-muted-foreground">
+                <Building className="w-3.5 h-3.5" />
+                <span>{experience.company}</span>
+                <span className="w-1 h-1 rounded-full bg-border"></span>
+                <Calendar className="w-3.5 h-3.5" />
+                <span>{experience.period}</span>
+              </div>
+
+              <p className="text-muted-foreground line-clamp-2">
+                {experience.description[0]}
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute bottom-2 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+            <span className="text-xs text-muted-foreground font-medium flex items-center">
+              View details
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1">
+                <path d="m9 18 6-6-6-6"/>
+              </svg>
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+    </motion.div>
+  );
+};
+
+const TimelineView = ({
+  filteredExperiences
+}: {
+  filteredExperiences: Experience[];
+}) => {
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleCardClick = (experience: Experience) => {
+    setSelectedExperience(experience);
+    setIsDialogOpen(true);
+  };
+
+  const experiencesByYear = filteredExperiences.reduce((acc, experience) => {
+    // Extract year from period (e.g., "Aug 2025 - Present" -> "2025")
+    const yearMatch = experience.period.match(/\b(20\d{2})\b/);
+    const year = yearMatch ? yearMatch[1] : 'Present';
+
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(experience);
+    return acc;
+  }, {} as Record<string, Experience[]>);
+
+  const sortedYears = Object.keys(experiencesByYear).sort((a, b) => {
+    if (a === 'Present') return -1;
+    if (b === 'Present') return 1;
+    return parseInt(b) - parseInt(a);
+  });
+
+  return (
+    <div className="relative mt-8">
+      <div className="absolute left-[21px] top-2 bottom-0 w-0.5 bg-border/60 dark:bg-border/30"></div>
+
+      {sortedYears.map((year) => (
+        <div key={year} className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="relative z-10 w-10 h-10 rounded-full bg-muted/80 border border-border flex items-center justify-center">
+              <Clock className="w-5 h-5 text-muted-foreground" />
+            </div>
+            <h3 className="text-2xl font-bold">{year}</h3>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 ml-12">
+            {experiencesByYear[year].map((experience, index) => (
+              <ExperienceCard
+                key={experience.id}
+                experience={experience}
+                index={index}
+                onClick={() => handleCardClick(experience)}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <ExperienceDetailDialog
+        experience={selectedExperience}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
+    </div>
+  );
+};
+
+const GridView = ({
+  filteredExperiences
+}: {
+  filteredExperiences: Experience[];
+}) => {
+  const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isMobile = useIsMobile();
+
+  const handleCardClick = (experience: Experience) => {
+    setSelectedExperience(experience);
+    setIsDialogOpen(true);
+  };
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+      {filteredExperiences.map((experience, index) => (
+        <ExperienceCard
+          key={experience.id}
+          experience={experience}
+          index={index}
+          onClick={() => handleCardClick(experience)}
+        />
+      ))}
+
+      <ExperienceDetailDialog
+        experience={selectedExperience}
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
+    </div>
+  );
+};
+
+const Experience = () => {
+  const [displayMode, setDisplayMode] = useState<'grid' | 'timeline'>('grid');
+  const [activeTab, setActiveTab] = useState('all');
+
+  const fullTimeExperiences = experiences.filter(e => e.type === 'full-time');
+  const internships = experiences.filter(e => e.type === 'internship');
+  const freelanceExperiences = experiences.filter(e => e.type === 'freelance');
+
+  const filteredExperiences = activeTab === 'all'
+    ? experiences
+    : activeTab === 'full-time'
+      ? fullTimeExperiences
+      : activeTab === 'internship'
+        ? internships
+        : freelanceExperiences;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen pt-20 pb-16"
+    >
+      <div className="container max-w-5xl">
+        <div className="flex flex-col items-center mb-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <div className="w-16 h-16 mb-4 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+              <Briefcase className="w-8 h-8 text-primary" />
+            </div>
+            <span className="text-sm font-medium text-primary mb-2 inline-block">PROFESSIONAL EXPERIENCE</span>
+            <h1 className="text-3xl md:text-4xl font-bold mb-4">My Career Journey</h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              A comprehensive overview of my professional experience, showcasing my growth and expertise
+              across different roles and industries.
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+          <Tabs
+            defaultValue="all"
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full sm:max-w-md"
+          >
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="all">All</TabsTrigger>
+              <TabsTrigger value="full-time">Full-Time</TabsTrigger>
+              <TabsTrigger value="internship">Internship</TabsTrigger>
+              <TabsTrigger value="freelance">Freelance</TabsTrigger>
+            </TabsList>
+          </Tabs>
+
+          <div className="flex items-center justify-end space-x-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs px-2.5"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
+                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+                  </svg>
+                  View
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-60 p-4">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">Display Options</h4>
+                    <div className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant={displayMode === 'grid' ? 'default' : 'outline'}
+                        onClick={() => setDisplayMode('grid')}
+                        className="w-full"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
+                          <rect x="3" y="3" width="7" height="7" />
+                          <rect x="14" y="3" width="7" height="7" />
+                          <rect x="3" y="14" width="7" height="7" />
+                          <rect x="14" y="14" width="7" height="7" />
+                        </svg>
+                        Grid
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={displayMode === 'timeline' ? 'default' : 'outline'}
+                        onClick={() => setDisplayMode('timeline')}
+                        className="w-full"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-1.5">
+                          <line x1="12" y1="5" x2="12" y2="19" />
+                          <circle cx="12" cy="5" r="2" />
+                          <circle cx="12" cy="12" r="2" />
+                          <circle cx="12" cy="19" r="2" />
+                        </svg>
+                        Timeline
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+        </div>
+
+        {displayMode === 'grid' ? (
+          <GridView filteredExperiences={filteredExperiences} />
+        ) : (
+          <TimelineView filteredExperiences={filteredExperiences} />
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+export default Experience;

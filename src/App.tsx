@@ -6,6 +6,7 @@ import Resume from './pages/Resume'
 import Achievements from './pages/Achievements'
 import Projects from './pages/Projects'
 import Blog from './pages/Blog'
+import Experience from './pages/Experience'
 import { Footer } from './components/layout/Footer'
 import { ScrollAwareHeader } from './components/layout/ScrollAwareHeader'
 import CollabPermisson from './pages/CollabPermisson'
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/study/*" element={<StudyRoutes />} />
                 <Route path="/permission" element={<CollabPermisson />} />
                 <Route path="/achievements" element={<Achievements />} />
+                <Route path="/experience" element={<Experience />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

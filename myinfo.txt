@@ -1,54 +1,62 @@
-Name: Sameer Bagul
-Phone: +91 7841941033
-Location: Pune, India
-Email: sameerbagul2004@gmail.com
-LinkedIn: https://www.linkedin.com/in/sameer-bagul/
-Portfolio: https://sameerbagul.vercel.app/
-GitHub: https://github.com/Sameer-Bagul
-
-Objective:
-Aspiring Software Developer skilled in full-stack development, Web Development, machine learning, and creative UI/UX design. Experienced in AI/ML technologies and backend development, with a proven track record of delivering impactful projects and driving user engagement. Seeking dynamic opportunities to contribute innovative software solutions.
-
-Education:
-- Bachelor of Engineering in Information Technology, PES Modern College of Engineering (2022 - Present)
-  CGPA: 7.62
-  Relevant Coursework: Data Structures, Algorithms, Machine Learning, Full Stack Development, and Software Engineering
-
-Skills:
-- Programming Languages: JavaScript, Python, JAVA, C, C++, TypeScript
-- Frameworks & Libraries: MERN Stack, Next.js, React.js, Three.js, R3F
-- Databases: SQL, PLSQL, MongoDB, Firebase
-- Tools: Git, GitHub, Figma, Canva, Blender, Docker, Spline
-- Technologies: Machine Learning, AI/ML, Generative AI, DSA, UI/UX
-- AI Expertise: Python, PyTorch, TensorFlow, Hugging Face Transformers, LangChain, LlamaIndex, OpenAI API, Vector Databases (Pinecone, FAISS), Prompt Engineering, NLP, REST APIs, Streamlit/Gradio, Docker, Git, and VS Code
-
-Experience:
-Freelancer at Hariom Cement Agency Nashik (Remote) | May 2025 - Present
-- Creating a smart billing and inventory app for Indian construction shops with GST billing, customer tracking, and multi-shop support.
-
-Freelance Developer
-- Developed Isha Girls PG, a MERN-based platform connecting girls with PG accommodations, leading to increased client sign-ups for the business.
-- Created Pratham Agro, an intuitive website showcasing premium agro-products, enhancing online visibility and resulting in a 30% increase in inquiries.
-
-Projects:
-- Skillify: National Award winning GEN AI Project for Skill Development [SIH, Techathon]
-- WCareers: AI-powered career guidance platform using Agentic AI and Adaptive Assessment Engine for personalized career insights
-- AnonChat: Anonymous Chatting Application for College students [MERN Stack]
-- AIPaths: EdTech Gen AI SAAS Tool for Making dynamic Roadmaps [LLMs and MERN]
-- WebMineCraft: Web version of MineCraft with Node Backend
-- DevCollab: Global platform for students to share and discover innovative projects [MERN Stack]
-- DevLibrary: Global platform to share notes for engineering Students [MERN Stack]
-- Road Map Generator: Gen AI application for creating Roadmaps with AI support [GenAI + MERN]
-- Evento: Event Management Application with Payment Gateway for college [Next.js]
-- Geeta For All: Spiritual website with daily new verses and chapters [MERN Stack]
-And 45+ more projects
-
-Achievements:
-- Grand Finalist and Runner-up in Smart India Hackathon 2024
-- National Winner for problem Statement in Inovate You Hackathon 2025
-- National Winner for Ematix Hackathon (Accredited by the Ministry of Corporate Affairs - Govt of India)
-- College Winner of UI/UX Competition
-- Scored 95th percentile in MHT-CET and 85th percentile in JEE Mains
-
-Leadership & Extracurricular Activities:
-- Technical Head of the APP Club at PES Modern College of Engineering, contributing to software development initiatives and collaborating on innovative projects.
+Sameer Bagul
+Full-Stack & AI Developer | DevOps Engineer
+Pune, India
++91 7841941033 sameerbagul2004@gmail.com Portfolio linkedin.com/in/sameer-bagul GitHub
+Education
+PES Modern College of Engineering, Pune
+Bachelor of Technology - Information Technology CGPA: 8.21 / 10
+Experience
+Full Stack Software Developer & DevOps Engineer
+LabsCheck, Pune
+Pune
+Nov 2022 – June 2026
+Aug 2025 – Present
+– Designed and implemented scalable full-stack systems to optimize business processes across departments.
+– Automated Marketing and Lead operations using an AI agent, handling over 100,000 leads for outreach and follow-ups.
+– Developed an end-to-end medical lab platform, providing price-sorted recommendations and seamless user experience.
+– Deployed applications using Nginx, Docker, Portainer, and CI/CD pipelines, achieving 99% uptime.
+Web Developer Intern
+Walnut Solutions, Dhule
+Jan 2025 – June 2025
+– Developed and deployed responsive web applications using Next.js, improving SEO and user engagement by 30%.
+– Integrated RESTful APIs and interactive UI components to reduce page load times by 30%.
+– Optimized websites for SEO and accessibility, boosting organic traffic and search rankings.
+– Delivered high-quality web solutions while collaborating with remote teams; recognized for initiative and efficiency.
+Projects
+HireMe | Skillify – Smart India Hackathon Winner
+Tech Stack: MERN, Electron.js, MongoDB Atlas, Render, Python, Flask, LLMs
+GitHub | Preview
+Dec 2024
+– Developed an AI-powered skill development platform supporting over 1,000 users.
+– Fine-tuned ML models to generate personalized learning roadmaps based on GMAT-style assessments.
+– Automated skill, certification, and career path recommendations, increasing user engagement by 35%.
+– Awarded Smart India Hackathon Winner for innovative AI-driven career guidance solutions.
+BillCraft – Freelance Work
+Tech Stack: MERN, Electron.js, MongoDB Atlas, Render
+GitHub | Preview
+Apr 2025
+– Designed and implemented a multi-shop billing platform for a construction company managing 18+ outlets and 200+ products.
+– Integrated business intelligence dashboards providing actionable insights for inventory and sales management.
+– Managed 2,000+ customer records using data-driven reporting to improve operational accuracy.
+– Optimized billing workflows, reducing manual errors and improving overall efficiency.
+Evento – College Event Management Platform
+Tech Stack: Next.js, MongoDB Atlas, Render
+GitHub | Preview
+Mar 2025
+– Developed a Next.js-based platform for managing college events, RSVPs, and notifications.
+– Implemented centralized dashboards providing real-time updates and analytics for organizers.
+– Streamlined event planning and communication, increasing event participation by 25%.
+– Optimized platform performance to support 500+ concurrent users with minimal latency.
+Technical Skills
+Programming Languages: JavaScript, TypeScript, Python, Java, C, C++
+Frameworks/Libraries: MERN Stack, Next.js, React.js, Three.js, R3F
+Databases: MongoDB, SQL, Firebase
+DevOps & Tools: Git, Docker, Nginx, Portainer, Postman, VS Code
+AI/ML: PyTorch, TensorFlow, Hugging Face, LangChain, LlamaIndex, OpenAI API, Pinecone, FAISS, REST APIs, Streamlit, Gradio, Prompt
+Engineering, NLP
+Achievements and Leadership
+Grand Finalist and Runner-up in the Smart India Hackathon 2024, receiving a cash prize of Rs. 30,000.
+National Winner for a problem statement in the Innovate You Hackathon 2025, awarded Rs. 10,000.
+• Served as Technical Lead of the APP Club at PESMCOE, mentoring over 200 students and guiding multiple projects to completion.
+•
+•
