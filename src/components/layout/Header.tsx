@@ -8,7 +8,7 @@ import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
 const navLinks = [
   { name: 'Home', path: '/' },
   { name: 'Projects', path: '/projects' },
-  // { name: 'Achievements', path: '/achievements' },
+  { name: 'Achievements', path: '/achievements' },
   { name: 'Blog', path: '/blog' },
   { name: 'Study', path: '/study' },
   { name: 'Resume', path: '/resume' },
