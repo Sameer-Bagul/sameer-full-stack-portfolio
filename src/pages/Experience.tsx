@@ -100,49 +100,106 @@ const TimelineView = ({
     setIsDialogOpen(true);
   };
 
-  const experiencesByYear = filteredExperiences.reduce((acc, experience) => {
-    // Extract year from period (e.g., "Aug 2025 - Present" -> "2025")
-    const yearMatch = experience.period.match(/\b(20\d{2})\b/);
-    const year = yearMatch ? yearMatch[1] : 'Present';
+  // Sort experiences by start date (most recent first)
+  const sortedExperiences = [...filteredExperiences].sort((a, b) => {
+    const getDateValue = (period: string) => {
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const match = period.match(/^(\w{3}) (\d{4})/);
+      if (match) {
+        const month = months.indexOf(match[1]);
+        const year = parseInt(match[2]);
+        return year * 12 + month;
+      }
+      return 0; // Default for "Present"
+    };
 
-    if (!acc[year]) {
-      acc[year] = [];
-    }
-    acc[year].push(experience);
-    return acc;
-  }, {} as Record<string, Experience[]>);
-
-  const sortedYears = Object.keys(experiencesByYear).sort((a, b) => {
-    if (a === 'Present') return -1;
-    if (b === 'Present') return 1;
-    return parseInt(b) - parseInt(a);
+    return getDateValue(b.period) - getDateValue(a.period);
   });
 
   return (
     <div className="relative mt-8">
-      <div className="absolute left-[21px] top-2 bottom-0 w-0.5 bg-border/60 dark:bg-border/30"></div>
+      {/* Central timeline line */}
+      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/20 transform -translate-x-1/2"></div>
 
-      {sortedYears.map((year) => (
-        <div key={year} className="mb-12">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="relative z-10 w-10 h-10 rounded-full bg-muted/80 border border-border flex items-center justify-center">
-              <Clock className="w-5 h-5 text-muted-foreground" />
-            </div>
-            <h3 className="text-2xl font-bold">{year}</h3>
-          </div>
+      <div className="space-y-12">
+        {sortedExperiences.map((experience, index) => {
+          const isLeft = index % 2 === 0;
+          const typeBadgeColor = getTypeBadgeColor(experience.type);
 
-          <div className="grid grid-cols-1 gap-4 ml-12">
-            {experiencesByYear[year].map((experience, index) => (
-              <ExperienceCard
-                key={experience.id}
-                experience={experience}
-                index={index}
-                onClick={() => handleCardClick(experience)}
-              />
-            ))}
-          </div>
-        </div>
-      ))}
+          return (
+            <motion.div
+              key={experience.id}
+              initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              className={`relative flex items-center ${isLeft ? 'justify-start' : 'justify-end'} w-full`}
+            >
+              {/* Timeline dot */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10"></div>
+
+              {/* Connecting line */}
+              <div
+                className={`absolute top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-primary/40 ${isLeft ? 'left-1/2 -translate-x-4' : 'right-1/2 translate-x-4'}`}
+              ></div>
+
+              {/* Experience card */}
+              <div className={`w-full max-w-md ${isLeft ? 'pr-8' : 'pl-8'}`}>
+                <motion.div
+                  className="group cursor-pointer"
+                  onClick={() => handleCardClick(experience)}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <Card className="overflow-hidden border-border/40 backdrop-blur-sm bg-card/95 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
+                    <CardContent className="p-6">
+                      {/* Header with period */}
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-medium text-primary">{experience.period}</span>
+                        </div>
+                        <Badge className={typeBadgeColor}>
+                          {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
+                        </Badge>
+                      </div>
+
+                      {/* Content */}
+                      <div className="space-y-3">
+                        <div className="flex items-start gap-3">
+                          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <Briefcase size={20} className="text-primary" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                              {experience.title}
+                            </h3>
+                            <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
+                              <Building className="w-3.5 h-3.5" />
+                              <span className="truncate">{experience.company}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <p className="text-muted-foreground text-sm leading-relaxed">
+                          {experience.description[0]}
+                        </p>
+
+                        {/* Hover indicator */}
+                        <div className="flex items-center justify-end pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <span className="text-xs text-primary font-medium flex items-center">
+                            View details
+                            <ChevronRight className="w-3 h-3 ml-1" />
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
 
       <ExperienceDetailDialog
         experience={selectedExperience}
@@ -188,7 +245,7 @@ const GridView = ({
 };
 
 const Experience = () => {
-  const [displayMode, setDisplayMode] = useState<'grid' | 'timeline'>('grid');
+  const [displayMode, setDisplayMode] = useState<'grid' | 'timeline'>('timeline');
   const [activeTab, setActiveTab] = useState('all');
 
   const fullTimeExperiences = experiences.filter(e => e.type === 'full-time');
