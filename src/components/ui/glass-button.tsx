@@ -18,11 +18,11 @@ export const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>
       <Button
         ref={ref}
         className={cn(
-          "glass-button",
-          variantClasses[variant],
-          "group relative overflow-hidden font-medium transition-all duration-300 hover:scale-105 active:scale-95 text-white",
-          className
-        )}
+            "glass-button",
+            variantClasses[variant],
+            "group relative overflow-hidden font-medium transition-all duration-300 hover:scale-105 active:scale-95",
+            className
+          )}
         {...props}
       >
         {/* Content */}
