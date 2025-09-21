@@ -697,7 +697,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  color: white !important;
+  color: hsl(var(--foreground));
 }
 
 .glass-button:hover {
@@ -814,7 +814,7 @@
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
-  color: white !important;
+  color: hsl(var(--foreground));
   width: 48px;
   height: 48px;
   display: flex;
