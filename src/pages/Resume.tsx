@@ -77,7 +77,7 @@ const Resume = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen pt-20 pb-16"
     >
-      <div className="container max-w-5xl">
+      <div className="container max-w-5xl mt-12">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold mb-2">Professional Resume</h1>

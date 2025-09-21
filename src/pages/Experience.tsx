@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Users, ChevronRight, Search, Folder, FolderOpen, ArrowLeft } from 'lucide-react';
 import { Briefcase, Building, Calendar, Clock, MapPin } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -94,6 +93,7 @@ const TimelineView = ({
 }) => {
   const [selectedExperience, setSelectedExperience] = useState<Experience | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const handleCardClick = (experience: Experience) => {
     setSelectedExperience(experience);
@@ -118,59 +118,65 @@ const TimelineView = ({
 
   return (
     <div className="relative mt-8">
-      {/* Central timeline line */}
-      <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/20 transform -translate-x-1/2"></div>
+      {/* Timeline line - positioned differently for mobile vs desktop */}
+      <div className={`absolute top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/20 ${
+        isMobile ? 'left-6' : 'left-1/2 transform -translate-x-1/2'
+      }`}></div>
 
-      <div className="space-y-12">
+      <div className={`space-y-8 ${isMobile ? 'ml-16' : ''}`}>
         {sortedExperiences.map((experience, index) => {
-          const isLeft = index % 2 === 0;
+          const isLeft = !isMobile && index % 2 === 0; // Only alternate on desktop
           const typeBadgeColor = getTypeBadgeColor(experience.type);
 
           return (
             <motion.div
               key={experience.id}
-              initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+              initial={{ opacity: 0, x: isMobile ? 0 : (isLeft ? -50 : 50) }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative flex items-center ${isLeft ? 'justify-start' : 'justify-end'} w-full`}
+              className={`relative flex items-center ${isMobile ? 'justify-start' : (isLeft ? 'justify-start' : 'justify-end')} w-full`}
             >
               {/* Timeline dot */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10"></div>
+              <div className={`absolute w-4 h-4 rounded-full bg-primary border-4 border-background shadow-lg z-10 ${
+                isMobile ? 'left-[-28px]' : 'left-1/2 transform -translate-x-1/2'
+              }`}></div>
 
-              {/* Connecting line */}
-              <div
-                className={`absolute top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-primary/40 ${isLeft ? 'left-1/2 -translate-x-4' : 'right-1/2 translate-x-4'}`}
-              ></div>
+              {/* Connecting line - only show on desktop */}
+              {!isMobile && (
+                <div
+                  className={`absolute top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-primary/40 ${isLeft ? 'left-1/2 -translate-x-4' : 'right-1/2 translate-x-4'}`}
+                ></div>
+              )}
 
               {/* Experience card */}
-              <div className={`w-full max-w-md ${isLeft ? 'pr-8' : 'pl-8'}`}>
+              <div className={`w-full ${isMobile ? 'max-w-none' : `max-w-md ${isLeft ? 'pr-8' : 'pl-8'}`}`}>
                 <motion.div
                   className="group cursor-pointer"
                   onClick={() => handleCardClick(experience)}
-                  whileHover={{ scale: 1.02 }}
+                  whileHover={{ scale: isMobile ? 1.01 : 1.02 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
                   <Card className="overflow-hidden border-border/40 backdrop-blur-sm bg-card/95 hover:shadow-xl transition-all duration-300 hover:border-primary/30">
-                    <CardContent className="p-6">
+                    <CardContent className={`${isMobile ? 'p-4' : 'p-6'}`}>
                       {/* Header with period */}
-                      <div className="flex items-center justify-between mb-4">
+                      <div className={`flex items-center justify-between mb-4 ${isMobile ? 'mb-3' : 'mb-4'}`}>
                         <div className="flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-primary" />
-                          <span className="text-sm font-medium text-primary">{experience.period}</span>
+                          <Calendar className={`text-primary ${isMobile ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+                          <span className={`font-medium text-primary ${isMobile ? 'text-xs' : 'text-sm'}`}>{experience.period}</span>
                         </div>
-                        <Badge className={typeBadgeColor}>
+                        <Badge className={`${typeBadgeColor} ${isMobile ? 'text-xs px-2 py-0.5' : ''}`}>
                           {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
                         </Badge>
                       </div>
 
                       {/* Content */}
-                      <div className="space-y-3">
+                      <div className={`space-y-3 ${isMobile ? 'space-y-2' : 'space-y-3'}`}>
                         <div className="flex items-start gap-3">
-                          <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
-                            <Briefcase size={20} className="text-primary" />
+                          <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0`}>
+                            <Briefcase size={isMobile ? 16 : 20} className="text-primary" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <h3 className="text-lg font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                            <h3 className={`${isMobile ? 'text-base' : 'text-lg'} font-semibold group-hover:text-primary transition-colors line-clamp-2`}>
                               {experience.title}
                             </h3>
                             <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
@@ -180,15 +186,15 @@ const TimelineView = ({
                           </div>
                         </div>
 
-                        <p className="text-muted-foreground text-sm leading-relaxed">
+                        <p className={`text-muted-foreground leading-relaxed ${isMobile ? 'text-xs' : 'text-sm'}`}>
                           {experience.description[0]}
                         </p>
 
                         {/* Hover indicator */}
                         <div className="flex items-center justify-end pt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <span className="text-xs text-primary font-medium flex items-center">
+                          <span className={`text-primary font-medium flex items-center ${isMobile ? 'text-xs' : 'text-xs'}`}>
                             View details
-                            <ChevronRight className="w-3 h-3 ml-1" />
+                            <ChevronRight className={`${isMobile ? 'w-2.5 h-2.5' : 'w-3 h-3'} ml-1`} />
                           </span>
                         </div>
                       </div>
@@ -246,19 +252,13 @@ const GridView = ({
 
 const Experience = () => {
   const [displayMode, setDisplayMode] = useState<'grid' | 'timeline'>('timeline');
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeFilter, setActiveFilter] = useState('all');
 
-  const fullTimeExperiences = experiences.filter(e => e.type === 'full-time');
-  const internships = experiences.filter(e => e.type === 'internship');
-  const freelanceExperiences = experiences.filter(e => e.type === 'freelance');
-
-  const filteredExperiences = activeTab === 'all'
+  const filteredExperiences = activeFilter === 'all'
     ? experiences
-    : activeTab === 'full-time'
-      ? fullTimeExperiences
-      : activeTab === 'internship'
-        ? internships
-        : freelanceExperiences;
+    : activeFilter === 'jobs'
+      ? experiences.filter(e => e.type === 'full-time' || e.type === 'internship')
+      : experiences.filter(e => e.type === 'freelance');
 
   return (
     <motion.div
@@ -268,7 +268,7 @@ const Experience = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen pt-20 pb-16"
     >
-      <div className="container max-w-5xl">
+      <div className="container max-w-5xl mt-12">
         <div className="flex flex-col items-center mb-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -288,19 +288,41 @@ const Experience = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <Tabs
-            defaultValue="all"
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="w-full sm:max-w-md"
-          >
-            <TabsList className="grid w-full grid-cols-4">
-              <TabsTrigger value="all">All</TabsTrigger>
-              <TabsTrigger value="full-time">Full-Time</TabsTrigger>
-              <TabsTrigger value="internship">Internship</TabsTrigger>
-              <TabsTrigger value="freelance">Freelance</TabsTrigger>
-            </TabsList>
-          </Tabs>
+          {/* Custom Segmented Filter */}
+          <div className="flex items-center bg-muted/50 rounded-lg p-1 border border-border/40">
+            <button
+              onClick={() => setActiveFilter('all')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                activeFilter === 'all'
+                  ? 'bg-background text-foreground shadow-sm border border-border/40'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              ALL
+            </button>
+            <div className="w-px h-4 bg-border/40 mx-1"></div>
+            <button
+              onClick={() => setActiveFilter('jobs')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                activeFilter === 'jobs'
+                  ? 'bg-background text-foreground shadow-sm border border-border/40'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Job / Internship
+            </button>
+            <div className="w-px h-4 bg-border/40 mx-1"></div>
+            <button
+              onClick={() => setActiveFilter('freelance')}
+              className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 ${
+                activeFilter === 'freelance'
+                  ? 'bg-background text-foreground shadow-sm border border-border/40'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Freelancing
+            </button>
+          </div>
 
           <div className="flex items-center justify-end space-x-2">
             <Popover>

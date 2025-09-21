@@ -280,7 +280,7 @@ const Achievements = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen pt-20 pb-16"
     >
-      <div className="container max-w-5xl">
+      <div className="container max-w-5xl mt-12">
         <div className="flex flex-col items-center mb-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}

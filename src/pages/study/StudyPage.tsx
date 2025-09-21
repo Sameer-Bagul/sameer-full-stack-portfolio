@@ -55,7 +55,7 @@ const StudyPage = () => {
       transition={{ duration: 0.3 }}
       className="pt-24 pb-80"
     >
-      <div className="container px-4 mx-auto">
+      <div className="container px-4 mx-auto mt-12">
         {/* Enhanced Header with Search Bar */}
         <div className="relative mb-12">
           <div className="absolute inset-0 bg-gradient-to-r from-violet-500/10 via-purple-500/10 to-violet-500/10 rounded-3xl blur-3xl"></div>

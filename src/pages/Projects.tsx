@@ -451,7 +451,7 @@ const Projects = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen py-20"
     >
-      <div className="container max-w-7xl mx-auto px-4">
+      <div className="container max-w-7xl mx-auto px-4 mt-12">
         <div className="flex flex-col items-center mb-16 text-center">
           <motion.div
             initial={{ opacity: 0, y: -20 }}

@@ -320,7 +320,7 @@ const Blog = () => {
       transition={{ duration: 0.3 }}
       className="min-h-screen pt-20 pb-16"
     >
-      <div className="container">
+      <div className="container mt-12">
         {/* Blog Header */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
