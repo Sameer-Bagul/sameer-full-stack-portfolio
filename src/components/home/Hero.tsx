@@ -113,7 +113,7 @@ export const Hero = () => {
             className={`${isMobile ? 'mb-4 flex justify-center' : 'mb-6'}`}
           >
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass-button glass-button-accent text-white font-medium shadow-lg backdrop-blur-md"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg glass-button glass-button-accent text-foreground font-medium shadow-lg backdrop-blur-md"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
