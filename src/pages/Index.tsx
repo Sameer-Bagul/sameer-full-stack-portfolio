@@ -84,7 +84,7 @@ const Index = () => {
 
       <AnimatePresence>
         <motion.div
-          className="flex flex-col relative z-10 w-full overflow-x-hidden"
+          className="flex flex-col relative z-10 w-full"
           initial="hidden"
           animate="show"
           variants={staggerContainer}

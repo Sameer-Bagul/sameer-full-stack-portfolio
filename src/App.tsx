@@ -21,7 +21,7 @@ function App() {
     <ThemeProvider>
       <TooltipProvider>
         <BrowserRouter>
-          <div className="relative min-h-screen w-full overflow-x-hidden flex flex-col">
+          <div className="relative w-full overflow-x-hidden flex flex-col">
             {/* Star Background for the entire app */}
             <StarBackground />
             <ScrollAwareHeader />

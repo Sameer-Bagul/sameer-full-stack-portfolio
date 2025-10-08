@@ -100,9 +100,9 @@ export const Hero = () => {
   ];
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
+    <section className="relative w-screen overflow-hidden" style={{ height: '100vh', width: '100vw' }}>
 
-      <div className={`container mx-auto relative px-4 md:px-8 min-h-screen ${isMobile ? 'flex items-center justify-center' : 'flex items-center'}`}>
+      <div className={`container mx-auto relative px-4 md:px-8 ${isMobile ? 'flex items-center justify-center' : 'flex items-center'}`} style={{ height: '100vh' }}>
         {/* Content Container - Centered on Mobile */}
         <div className={`relative z-20 ${isMobile ? 'max-w-sm w-full text-center' : 'max-w-2xl'}`}>
           {/* Enhanced Welcome Badge with Glass Effect */}
