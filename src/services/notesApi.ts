@@ -94,7 +94,7 @@ export interface APIResponse<T> {
 }
 
 // API base URL - update this to match your server configuration
-const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:10000' : 'https://notes-studio-server.onrender.com';
+const API_BASE_URL = import.meta.env.DEV ? 'http://localhost:10000' : 'https://notestudio.azurewebsites.net';
 
 const USERNAME = 'sameerbagul'; // Replace with your hardcoded username
 
