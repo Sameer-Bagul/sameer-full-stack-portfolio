@@ -4,9 +4,10 @@ export interface Experience {
   company: string;
   period: string;
   description: string[];
-  type: 'full-time' | 'internship' | 'freelance';
+  type: 'full-time' | 'internship' | 'freelance' | 'full-time Internship';
   details: string;
   certificateImage?: string;
+  skills?: string[];
 }
 
 export const experiences: Experience[] = [
@@ -21,7 +22,7 @@ export const experiences: Experience[] = [
       'Developed an end-to-end medical lab platform, providing price-sorted recommendations and seamless user experience',
       'Deployed applications using Nginx, Docker, Portainer, and CI/CD pipelines, achieving 99% uptime'
     ],
-    type: 'full-time',
+    type: 'full-time Internship',
     details: 'Led development of enterprise-level solutions with focus on automation and scalability',
     certificateImage: '/images/experience1-cert.jpg'
   },
@@ -39,5 +40,48 @@ export const experiences: Experience[] = [
     type: 'internship',
     details: 'Focused on front-end development and performance optimization',
     certificateImage: '/images/internship-cert.jpg'
+  },
+  {
+    id: 'exp3',
+    title: 'Smart Billing and Inventory System Developer',
+    company: 'Hariom Cement Agency Nashik',
+    period: 'Apr 2025 - Jun 2025',
+    description: [
+      'Built a smart billing and inventory system for construction businesses with GST-compliant invoicing and multi-store support',
+      'Achieved 70% reduction in manual operations through integrated analytics',
+      'Implemented comprehensive billing solutions with automated GST calculations and multi-location inventory tracking'
+    ],
+    type: 'freelance',
+    details: 'Developed a comprehensive business management system that streamlined operations and improved efficiency for construction businesses. The system included GST-compliant invoicing, multi-store inventory management, and integrated analytics dashboard.',
+    skills: ['MERN Stack', 'Back-End Web Development', 'GST Integration', 'Inventory Management', 'Analytics', 'Business Process Automation']
+  },
+  {
+    id: 'exp4',
+    title: 'MERN Stack Developer',
+    company: 'Isha Girl PG',
+    period: 'Feb 2024 - Apr 2024',
+    description: [
+      'Created a MERN-based platform to connect girls with PG accommodations, resulting in a 40% increase in client sign-ups',
+      'Designed an SEO-optimized website for premium agro-products, leading to a 30% boost in product inquiries',
+      'Developed user-friendly interfaces with responsive design and seamless user experience'
+    ],
+    type: 'freelance',
+    details: 'Built a comprehensive platform connecting accommodation seekers with PG options, featuring advanced search filters, user authentication, and booking management. Also developed an e-commerce website for agricultural products with SEO optimization and modern UI/UX design.',
+    skills: ['MERN Stack', 'React.js', 'Node.js', 'MongoDB', 'Express.js', 'SEO Optimization', 'Responsive Design']
+  },
+  {
+    id: 'exp5',
+    title: 'E-commerce Platform Developer',
+    company: 'Pratham Agro',
+    period: 'Jun 2024 - Jun 2024',
+    description: [
+      'Built an e-commerce website for Pratham Agro to help farmers showcase and sell machinery and hardware products online',
+      'Developed with Node.js, HTML, CSS, and JavaScript, ensuring a robust and scalable platform',
+      'Used GSAP animations for smooth navigation and visually appealing product displays',
+      'Implemented Web3Forms for secure inquiries, allowing potential buyers to connect directly through the website'
+    ],
+    type: 'freelance',
+    details: 'Created a professional e-commerce platform specifically designed for the agricultural community. The website featured smooth GSAP animations, secure contact forms, and an intuitive interface tailored for farmers to showcase and sell their machinery and hardware products. The platform provided a seamless online shopping experience with modern web technologies.',
+    skills: ['Node.js', 'HTML', 'CSS', 'JavaScript', 'GSAP', 'Web Development', 'E-commerce', 'User Interface Design', 'Front-End Development', 'Web3Forms']
   }
 ];

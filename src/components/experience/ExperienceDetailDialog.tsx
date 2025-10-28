@@ -113,6 +113,19 @@ export function ExperienceDetailDialog({
 
             <p className="text-foreground">{experience.details}</p>
 
+            {experience.skills && experience.skills.length > 0 && (
+              <div>
+                <h4 className="font-semibold mb-3">Skills & Technologies:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {experience.skills.map((skill, index) => (
+                    <Badge key={index} variant="secondary" className="text-xs">
+                      {skill}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="flex items-center gap-2 justify-end">
               <Button variant="outline" size="sm" onClick={handleShare} className="flex items-center gap-1.5">
                 <Share2 size={16} />
