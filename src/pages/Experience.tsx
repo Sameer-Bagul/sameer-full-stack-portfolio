@@ -16,6 +16,7 @@ const getTypeBadgeColor = (type: string) => {
   switch (type) {
     case 'full-time': return 'bg-green-100 text-green-800 dark:bg-green-950/50 dark:text-green-300';
     case 'internship': return 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300';
+    case 'full-time Internship': return 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300';
     case 'freelance': return 'bg-purple-100 text-purple-800 dark:bg-purple-950/50 dark:text-purple-300';
     default: return 'bg-muted text-muted-foreground';
   }
@@ -44,7 +45,7 @@ const ExperienceCard = ({
         <CardContent className="p-6 relative">
           <div className="absolute top-0 right-0 mt-4 mr-4">
             <Badge className={typeBadgeColor}>
-              {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
+              {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : experience.type === 'full-time Internship' ? 'Full-Time Internship' : 'Freelance'}
             </Badge>
           </div>
 
@@ -165,7 +166,7 @@ const TimelineView = ({
                           <span className={`font-medium text-primary ${isMobile ? 'text-xs' : 'text-sm'}`}>{experience.period}</span>
                         </div>
                         <Badge className={`${typeBadgeColor} ${isMobile ? 'text-xs px-2 py-0.5' : ''}`}>
-                          {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
+                          {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : experience.type === 'full-time Internship' ? 'Full-Time Internship' : 'Freelance'}
                         </Badge>
                       </div>
 
@@ -257,7 +258,7 @@ const Experience = () => {
   const filteredExperiences = activeFilter === 'all'
     ? experiences
     : activeFilter === 'jobs'
-      ? experiences.filter(e => e.type === 'full-time' || e.type === 'internship')
+      ? experiences.filter(e => e.type === 'full-time' || e.type === 'internship' || e.type === 'full-time Internship')
       : experiences.filter(e => e.type === 'freelance');
 
   return (

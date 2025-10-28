@@ -34,6 +34,7 @@ export function ExperienceDetailDialog({
     switch (type) {
       case 'full-time': return 'bg-green-100 text-green-800 dark:bg-green-950/50 dark:text-green-300';
       case 'internship': return 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300';
+      case 'full-time Internship': return 'bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300';
       case 'freelance': return 'bg-purple-100 text-purple-800 dark:bg-purple-950/50 dark:text-purple-300';
       default: return 'bg-muted text-muted-foreground';
     }
@@ -57,7 +58,7 @@ export function ExperienceDetailDialog({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge className={typeBadgeColor}>
-                  {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : 'Freelance'}
+                  {experience.type === 'full-time' ? 'Full-Time' : experience.type === 'internship' ? 'Internship' : experience.type === 'full-time Internship' ? 'Full-Time Internship' : 'Freelance'}
                 </Badge>
               </div>
               <div className="flex items-center gap-1 text-sm text-muted-foreground">
