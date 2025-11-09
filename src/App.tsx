@@ -15,8 +15,13 @@ import StudyRoutes from './pages/study'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { TooltipProvider } from './components/ui/tooltip'
 import StarBackground from './components/ui-components/StarBackground'
+import MobileWidgetUI from './components/ui-components/MobileWidgetUI'
+import WidgetUI from './components/ui-components/widgetUi'
+import { useIsMobile } from './hooks/use-mobile'
 
 function App() {
+  const isMobile = useIsMobile()
+  
   return (
     <ThemeProvider>
       <TooltipProvider>
@@ -40,6 +45,13 @@ function App() {
             </main>
             <Footer />
             <Toaster />
+            
+            {/* Global WidgetUI Layer - Available on all pages */}
+            <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 100 }}>
+              <div className="pointer-events-auto">
+                {isMobile ? <MobileWidgetUI /> : <WidgetUI />}
+              </div>
+            </div>
           </div>
         </BrowserRouter>
       </TooltipProvider>

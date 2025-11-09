@@ -1,101 +1,120 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useDragControls, PanInfo } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import {
-  ArrowDownUp,
-  Plus,
-  Settings,
   X,
-  Clock,
-  Calendar,
-  Music,
-  Image,
-  Mail,
-  Search,
-  Info,
   Battery,
   Wifi,
   Phone,
   MessageCircle,
   Camera,
   MapPin,
-  Heart,
   Star,
-  TrendingUp,
   Activity,
   Zap,
   Home,
-  User,
   Briefcase,
   Code,
   Coffee,
-  Sun
+  Sun,
+  FileText,
+  BookOpen,
+  Trophy,
+  Building,
+  Globe,
+  Brain,
+  Sparkles,
+  Calculator,
+  Layers,
+  Server,
+  Palette,
+  Download,
+  Github,
+  Linkedin,
+  Mail,
+  Calendar,
+  Clock,
+  Music,
+  Search,
+  Settings,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  Share2,
+  Image,
+  TrendingUp,
+  Award
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 
-// iOS-style Widgets
-const iosWidgets = [
-  {
-    id: 1,
-    title: 'Weather',
-    size: 'small',
-    content: 'Sunny, 28°C',
-    subtitle: 'Pune, India',
-    icon: <Sun size={20} className="text-yellow-400" />,
-    color: 'bg-gradient-to-br from-blue-500/20 to-cyan-500/20',
-    borderColor: 'border-blue-400/30'
-  },
-  {
-    id: 2,
-    title: 'Calendar',
-    size: 'medium',
-    content: 'Next: Team Meeting',
-    subtitle: '2:00 PM - 3:00 PM',
-    icon: <Calendar size={20} className="text-red-400" />,
-    color: 'bg-gradient-to-br from-red-500/20 to-pink-500/20',
-    borderColor: 'border-red-400/30'
-  },
-  {
-    id: 3,
-    title: 'Fitness',
-    size: 'small',
-    content: '1,247 steps',
-    subtitle: 'Goal: 10,000',
-    icon: <Activity size={20} className="text-green-400" />,
-    color: 'bg-gradient-to-br from-green-500/20 to-emerald-500/20',
-    borderColor: 'border-green-400/30'
-  },
-  {
-    id: 4,
-    title: 'Music',
-    size: 'large',
-    content: 'Now Playing',
-    subtitle: 'Blinding Lights - The Weeknd',
-    icon: <Music size={24} className="text-purple-400" />,
-    color: 'bg-gradient-to-br from-purple-500/20 to-violet-500/20',
-    borderColor: 'border-purple-400/30'
-  }
-];
-
-// iOS-style App Icons
+// iOS-style App Icons - Comprehensive Portfolio Apps
 const iosApps = [
-  { id: 1, name: 'Portfolio', icon: <Briefcase size={28} />, color: 'bg-gradient-to-br from-violet-500 to-purple-600', link: '/projects' },
-  { id: 2, name: 'Resume', icon: <User size={28} />, color: 'bg-gradient-to-br from-blue-500 to-cyan-600', link: '/resume' },
-  { id: 3, name: 'Blog', icon: <Mail size={28} />, color: 'bg-gradient-to-br from-orange-500 to-red-500', link: '/blog' },
-  { id: 4, name: 'Skills', icon: <Code size={28} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '/resume' },
-  { id: 5, name: 'Projects', icon: <Star size={28} />, color: 'bg-gradient-to-br from-pink-500 to-rose-600', link: '/projects' },
-  { id: 6, name: 'Contact', icon: <Phone size={28} />, color: 'bg-gradient-to-br from-indigo-500 to-blue-600', link: 'mailto:sameerbagul2004@gmail.com' },
-  { id: 7, name: 'GitHub', icon: <Code size={28} />, color: 'bg-gradient-to-br from-gray-700 to-gray-900', link: 'https://github.com/Sameer-Bagul' },
-  { id: 8, name: 'LinkedIn', icon: <User size={28} />, color: 'bg-gradient-to-br from-blue-600 to-blue-800', link: 'https://linkedin.com/in/sameer-bagul' },
-  { id: 9, name: 'Coffee', icon: <Coffee size={28} />, color: 'bg-gradient-to-br from-amber-600 to-orange-600', link: '#' },
-  { id: 10, name: 'Music', icon: <Music size={28} />, color: 'bg-gradient-to-br from-purple-600 to-violet-600', link: '#' },
-  { id: 11, name: 'Photos', icon: <Camera size={28} />, color: 'bg-gradient-to-br from-teal-500 to-cyan-600', link: '#' },
-  { id: 12, name: 'Maps', icon: <MapPin size={28} />, color: 'bg-gradient-to-br from-red-500 to-pink-600', link: '#' },
-  { id: 13, name: 'Messages', icon: <MessageCircle size={28} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '#' },
-  { id: 14, name: 'Settings', icon: <Settings size={28} />, color: 'bg-gradient-to-br from-gray-500 to-gray-700', link: '#' },
-  { id: 15, name: 'Calendar', icon: <Calendar size={28} />, color: 'bg-gradient-to-br from-red-500 to-rose-600', link: '#' },
-  { id: 16, name: 'Clock', icon: <Clock size={28} />, color: 'bg-gradient-to-br from-black to-gray-800', link: '#' },
+  // Row 1: Core Portfolio Pages
+  { id: 1, name: 'Home', icon: <Home size={28} />, color: 'bg-gradient-to-br from-violet-500 to-purple-600', link: '/' },
+  { id: 2, name: 'Projects', icon: <Briefcase size={28} />, color: 'bg-gradient-to-br from-blue-500 to-cyan-600', link: '/projects' },
+  { id: 3, name: 'Resume', icon: <FileText size={28} />, color: 'bg-gradient-to-br from-cyan-500 to-teal-600', link: '/resume' },
+  { id: 4, name: 'Blog', icon: <BookOpen size={28} />, color: 'bg-gradient-to-br from-orange-500 to-red-500', link: '/blog' },
+  
+  // Row 2: Professional Pages
+  { id: 5, name: 'Experience', icon: <Building size={28} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '/experience' },
+  { id: 6, name: 'Achievements', icon: <Trophy size={28} />, color: 'bg-gradient-to-br from-amber-500 to-yellow-600', link: '/achievements' },
+  { id: 7, name: 'Skills', icon: <Award size={28} />, color: 'bg-gradient-to-br from-purple-500 to-violet-600', link: '/resume' },
+  { id: 8, name: 'Certifications', icon: <Star size={28} />, color: 'bg-gradient-to-br from-yellow-500 to-amber-600', link: '/achievements' },
+  
+  // Row 3: Social Media - Professional
+  { id: 9, name: 'GitHub', icon: <Github size={28} />, color: 'bg-gradient-to-br from-gray-700 to-gray-900', link: 'https://github.com/Sameer-Bagul' },
+  { id: 10, name: 'LinkedIn', icon: <Linkedin size={28} />, color: 'bg-gradient-to-br from-blue-600 to-blue-800', link: 'https://linkedin.com/in/sameer-bagul' },
+  { id: 11, name: 'LeetCode', icon: <Code size={28} />, color: 'bg-gradient-to-br from-orange-500 to-yellow-500', link: 'https://leetcode.com/sameerbagul' },
+  { id: 12, name: 'Portfolio', icon: <Globe size={28} />, color: 'bg-gradient-to-br from-indigo-500 to-violet-600', link: 'https://sameerbagul.vercel.app' },
+  
+  // Row 4: Social Media - Creative
+  { id: 13, name: 'Twitter', icon: <Twitter size={28} />, color: 'bg-gradient-to-br from-sky-400 to-blue-500', link: 'https://twitter.com/sameerbagul' },
+  { id: 14, name: 'Instagram', icon: <Instagram size={28} />, color: 'bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500', link: 'https://instagram.com/sameerbagul' },
+  { id: 15, name: 'Pinterest', icon: <Image size={28} />, color: 'bg-gradient-to-br from-red-600 to-red-700', link: 'https://pinterest.com/sameerbagul' },
+  { id: 16, name: 'YouTube', icon: <Youtube size={28} />, color: 'bg-gradient-to-br from-red-500 to-red-600', link: 'https://youtube.com/@sameerbagul' },
+  
+  // Row 5: Social Media - More
+  { id: 17, name: 'Facebook', icon: <Facebook size={28} />, color: 'bg-gradient-to-br from-blue-500 to-blue-700', link: 'https://facebook.com/sameerbagul' },
+  { id: 18, name: 'Medium', icon: <BookOpen size={28} />, color: 'bg-gradient-to-br from-gray-800 to-black', link: 'https://medium.com/@sameerbagul' },
+  { id: 19, name: 'Dev.to', icon: <Code size={28} />, color: 'bg-gradient-to-br from-gray-900 to-black', link: 'https://dev.to/sameerbagul' },
+  { id: 20, name: 'Dribbble', icon: <Palette size={28} />, color: 'bg-gradient-to-br from-pink-500 to-rose-600', link: 'https://dribbble.com/sameerbagul' },
+  
+  // Row 6: Contact & Location
+  { id: 21, name: 'Email', icon: <Mail size={28} />, color: 'bg-gradient-to-br from-red-500 to-rose-600', link: 'mailto:sameerbagul2004@gmail.com' },
+  { id: 22, name: 'Phone', icon: <Phone size={28} />, color: 'bg-gradient-to-br from-teal-500 to-cyan-600', link: 'tel:+917841941033' },
+  { id: 23, name: 'Location', icon: <MapPin size={28} />, color: 'bg-gradient-to-br from-pink-500 to-rose-600', link: 'https://maps.google.com/?q=Pune,India' },
+  { id: 24, name: 'Share', icon: <Share2 size={28} />, color: 'bg-gradient-to-br from-indigo-500 to-purple-600', link: '#' },
+  
+  // Row 7: Featured Projects
+  { id: 25, name: 'Bug0', icon: <Zap size={28} />, color: 'bg-gradient-to-br from-yellow-500 to-orange-600', link: '/experience' },
+  { id: 26, name: 'Skillify', icon: <Sparkles size={28} />, color: 'bg-gradient-to-br from-purple-600 to-violet-700', link: '/projects' },
+  { id: 27, name: 'Dev Library', icon: <BookOpen size={28} />, color: 'bg-gradient-to-br from-emerald-500 to-green-600', link: 'https://developers-library.vercel.app/' },
+  { id: 28, name: 'Billing App', icon: <Calculator size={28} />, color: 'bg-gradient-to-br from-slate-600 to-gray-700', link: '/projects' },
+  
+  // Row 8: Tech Stack
+  { id: 29, name: 'MERN Stack', icon: <Layers size={28} />, color: 'bg-gradient-to-br from-green-600 to-teal-700', link: '/resume' },
+  { id: 30, name: 'AI/ML', icon: <Brain size={28} />, color: 'bg-gradient-to-br from-pink-600 to-purple-700', link: '/resume' },
+  { id: 31, name: 'DevOps', icon: <Server size={28} />, color: 'bg-gradient-to-br from-sky-500 to-blue-600', link: '/resume' },
+  { id: 32, name: 'Design', icon: <Palette size={28} />, color: 'bg-gradient-to-br from-rose-500 to-pink-600', link: '/resume' },
+  
+  // Row 9: Utilities (Page 2)
+  { id: 33, name: 'Calendar', icon: <Calendar size={28} />, color: 'bg-gradient-to-br from-red-500 to-rose-600', link: '#' },
+  { id: 34, name: 'Clock', icon: <Clock size={28} />, color: 'bg-gradient-to-br from-black to-gray-800', link: '#' },
+  { id: 35, name: 'Weather', icon: <Sun size={28} />, color: 'bg-gradient-to-br from-blue-400 to-cyan-500', link: '#' },
+  { id: 36, name: 'Music', icon: <Music size={28} />, color: 'bg-gradient-to-br from-purple-600 to-violet-600', link: '#' },
+  
+  // Row 10: More Utilities
+  { id: 37, name: 'Photos', icon: <Camera size={28} />, color: 'bg-gradient-to-br from-teal-500 to-cyan-600', link: '#' },
+  { id: 38, name: 'Messages', icon: <MessageCircle size={28} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '#' },
+  { id: 39, name: 'Search', icon: <Search size={28} />, color: 'bg-gradient-to-br from-gray-500 to-slate-600', link: '#' },
+  { id: 40, name: 'Settings', icon: <Settings size={28} />, color: 'bg-gradient-to-br from-gray-600 to-gray-800', link: '#' },
+  
+  // Row 11: Quick Actions
+  { id: 41, name: 'Download CV', icon: <Download size={28} />, color: 'bg-gradient-to-br from-indigo-500 to-blue-600', link: '/resume' },
+  { id: 42, name: 'Coffee Chat', icon: <Coffee size={28} />, color: 'bg-gradient-to-br from-amber-600 to-orange-700', link: '#' },
+  { id: 43, name: 'Analytics', icon: <TrendingUp size={28} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '#' },
+  { id: 44, name: 'Activity', icon: <Activity size={28} />, color: 'bg-gradient-to-br from-blue-500 to-cyan-600', link: '#' },
 ];
 
 const MobileWidgetUI: React.FC = () => {
@@ -104,6 +123,11 @@ const MobileWidgetUI: React.FC = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const dragControls = useDragControls();
   const isMobile = useIsMobile();
+
+  // Helper function to determine if link is internal
+  const isInternalLink = (link: string) => {
+    return link.startsWith('/') && !link.startsWith('//');
+  };
 
   // Only show on mobile devices
   useEffect(() => {
@@ -142,7 +166,7 @@ const MobileWidgetUI: React.FC = () => {
       setCurrentPage(prev => Math.max(0, prev - 1));
     } else if (info.offset.x < -swipeThreshold) {
       // Swipe left - next page
-      setCurrentPage(prev => Math.min(1, prev + 1));
+      setCurrentPage(prev => Math.min(2, prev + 1)); // 3 pages total (0, 1, 2)
     }
   };
 
@@ -183,138 +207,180 @@ const MobileWidgetUI: React.FC = () => {
           dragElastic={0.1}
           onDragEnd={handleDragEnd}
           className="h-full flex"
-          style={{ width: '200%' }}
+          style={{ width: '300%' }} // 3 pages
         >
           {/* Page 1: Home Screen */}
-          <div className="w-full h-full p-4">
-            {/* Widgets Section */}
-            <div className="mb-6">
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                {iosWidgets.map((widget) => (
-                  <motion.div
-                    key={widget.id}
-                    whileTap={{ scale: 0.95 }}
-                    className={`rounded-2xl p-4 text-white backdrop-blur-xl border ${widget.color} ${widget.borderColor} ${
-                      widget.size === 'large' ? 'col-span-2 row-span-2' :
-                      widget.size === 'medium' ? 'col-span-2' : ''
-                    }`}
-                  >
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        {widget.icon}
-                        <h3 className="text-sm font-semibold">{widget.title}</h3>
-                      </div>
-                      {isEditMode && (
-                        <button className="w-5 h-5 rounded-full bg-black/30 flex items-center justify-center">
-                          <X size={10} />
-                        </button>
-                      )}
-                    </div>
-                    <div className="text-lg font-medium mb-1">{widget.content}</div>
-                    <div className="text-xs text-white/70">{widget.subtitle}</div>
-
-                    {widget.id === 4 && (
-                      <div className="mt-3 flex items-center gap-2">
-                        <button className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                          <span className="text-xs">⏮</span>
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                          <span className="text-xs">⏸</span>
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                          <span className="text-xs">⏭</span>
-                        </button>
-                      </div>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-
+          <div className="w-full h-full p-4 pt-8">
             {/* App Grid */}
-            <div className="flex-1">
-              <div className="grid grid-cols-4 gap-4">
-                {iosApps.slice(0, 16).map((app) => (
-                  <motion.a
-                    key={app.id}
-                    href={app.link}
-                    whileTap={{ scale: 0.9 }}
-                    className="flex flex-col items-center gap-1 group"
-                  >
-                    <div className={`w-14 h-14 rounded-2xl ${app.color} flex items-center justify-center shadow-lg group-active:scale-95 transition-transform`}>
-                      <div className="text-white">
-                        {app.icon}
-                      </div>
-                    </div>
-                    <span className="text-xs text-white/90 font-medium text-center leading-tight">
-                      {app.name}
-                    </span>
-                  </motion.a>
-                ))}
+            <div className="flex-1 pb-4">
+              <div className="grid grid-cols-4 gap-6">
+                {iosApps.slice(0, 24).map((app) => {
+                  const isInternal = isInternalLink(app.link);
+                  
+                  return (
+                    <motion.div
+                      key={app.id}
+                      whileTap={{ scale: 0.85 }}
+                      className="flex flex-col items-center gap-2 group relative"
+                    >
+                      {isInternal ? (
+                        <Link
+                          to={app.link}
+                          className="flex flex-col items-center gap-2"
+                        >
+                          <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                            {/* Shine effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                            <div className="text-white relative z-10">
+                              {app.icon}
+                            </div>
+                          </div>
+                          <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                            {app.name}
+                          </span>
+                        </Link>
+                      ) : (
+                        <a
+                          href={app.link}
+                          target={app.link.startsWith('http') ? '_blank' : undefined}
+                          rel={app.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                          className="flex flex-col items-center gap-2"
+                        >
+                          <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                            {/* Shine effect */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                            <div className="text-white relative z-10">
+                              {app.icon}
+                            </div>
+                          </div>
+                          <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                            {app.name}
+                          </span>
+                        </a>
+                      )}
+                      {isEditMode && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg"
+                        >
+                          <X size={12} className="text-white" />
+                        </motion.div>
+                      )}
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* Page 2: Today View */}
-          <div className="w-full h-full p-4 bg-gradient-to-b from-blue-900/20 to-purple-900/20">
-            <div className="text-white mb-6">
-              <h2 className="text-2xl font-bold mb-2">Today</h2>
-              <p className="text-white/70">{new Date().toLocaleDateString('en-US', {
-                weekday: 'long',
-                month: 'long',
-                day: 'numeric'
-              })}</p>
+          {/* Page 2: More Apps */}
+          <div className="w-full h-full p-4 pt-8">
+            {/* More Apps Grid */}
+            <div className="grid grid-cols-4 gap-6 pb-4">
+              {iosApps.slice(24, 48).map((app) => {
+                const isInternal = isInternalLink(app.link);
+                
+                return (
+                  <motion.div
+                    key={app.id}
+                    whileTap={{ scale: 0.85 }}
+                    className="flex flex-col items-center gap-2 group relative"
+                  >
+                    {isInternal ? (
+                      <Link
+                        to={app.link}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                          <div className="text-white relative z-10">
+                            {app.icon}
+                          </div>
+                        </div>
+                        <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                          {app.name}
+                        </span>
+                      </Link>
+                    ) : (
+                      <a
+                        href={app.link}
+                        target={app.link.startsWith('http') ? '_blank' : undefined}
+                        rel={app.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                          <div className="text-white relative z-10">
+                            {app.icon}
+                          </div>
+                        </div>
+                        <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                          {app.name}
+                        </span>
+                      </a>
+                    )}
+                    {isEditMode && (
+                      <motion.div
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center shadow-lg"
+                      >
+                        <X size={12} className="text-white" />
+                      </motion.div>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
+          </div>
 
-            {/* Today Widgets */}
-            <div className="space-y-4">
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20"
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
-                    <Calendar size={20} className="text-red-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-medium">Team Standup</h3>
-                    <p className="text-white/70 text-sm">10:00 AM - 10:30 AM</p>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20"
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
-                    <Activity size={20} className="text-blue-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-medium">Fitness Goal</h3>
-                    <p className="text-white/70 text-sm">8,432 / 10,000 steps</p>
-                    <div className="w-full bg-white/20 rounded-full h-1 mt-2">
-                      <div className="bg-blue-400 h-1 rounded-full" style={{ width: '84%' }}></div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-
-              <motion.div
-                className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 border border-white/20"
-                whileTap={{ scale: 0.98 }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
-                    <TrendingUp size={20} className="text-green-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-medium">Portfolio Views</h3>
-                    <p className="text-white/70 text-sm">+12% this week</p>
-                  </div>
-                </div>
-              </motion.div>
+          {/* Page 3: Even More Apps */}
+          <div className="w-full h-full p-4 pt-8">
+            <div className="grid grid-cols-4 gap-6 pb-4">
+              {iosApps.slice(48).map((app) => {
+                const isInternal = isInternalLink(app.link);
+                
+                return (
+                  <motion.div
+                    key={app.id}
+                    whileTap={{ scale: 0.85 }}
+                    className="flex flex-col items-center gap-2 group relative"
+                  >
+                    {isInternal ? (
+                      <Link
+                        to={app.link}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                          <div className="text-white relative z-10">
+                            {app.icon}
+                          </div>
+                        </div>
+                        <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                          {app.name}
+                        </span>
+                      </Link>
+                    ) : (
+                      <a
+                        href={app.link}
+                        className="flex flex-col items-center gap-2"
+                      >
+                        <div className={`w-16 h-16 rounded-[22%] ${app.color} flex items-center justify-center shadow-xl group-active:scale-90 transition-transform relative overflow-hidden`}>
+                          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-50"></div>
+                          <div className="text-white relative z-10">
+                            {app.icon}
+                          </div>
+                        </div>
+                        <span className="text-[11px] text-white/95 font-medium text-center leading-tight max-w-[70px] truncate">
+                          {app.name}
+                        </span>
+                      </a>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </motion.div>
@@ -322,7 +388,7 @@ const MobileWidgetUI: React.FC = () => {
 
       {/* Page Indicators */}
       <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2">
-        {[0, 1].map((page) => (
+        {[0, 1, 2].map((page) => (
           <div
             key={page}
             className={`w-2 h-2 rounded-full transition-colors ${
@@ -335,44 +401,53 @@ const MobileWidgetUI: React.FC = () => {
       {/* iOS-style Dock */}
       <div className="absolute bottom-0 left-0 right-0 bg-black/30 backdrop-blur-xl border-t border-white/10">
         <div className="flex justify-center items-end py-2">
-          <div className="flex gap-6 px-6 py-2 bg-white/10 rounded-2xl backdrop-blur-xl">
-            <motion.a
-              href="/"
-              whileTap={{ scale: 0.9 }}
-              className="flex flex-col items-center gap-1"
-            >
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                <Home size={24} className="text-white" />
-              </div>
-              <span className="text-xs text-white/80">Home</span>
-            </motion.a>
+          <div className="flex gap-4 px-4 py-2 bg-white/10 rounded-2xl backdrop-blur-xl">
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <Link
+                to="/"
+                className="flex flex-col items-center gap-1"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg">
+                  <Home size={28} className="text-white" />
+                </div>
+              </Link>
+            </motion.div>
+
+            <motion.div whileTap={{ scale: 0.9 }}>
+              <Link
+                to="/projects"
+                className="flex flex-col items-center gap-1"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center shadow-lg">
+                  <Briefcase size={28} className="text-white" />
+                </div>
+              </Link>
+            </motion.div>
 
             <motion.a
-              href="/projects"
+              href="mailto:sameerbagul2004@gmail.com"
               whileTap={{ scale: 0.9 }}
               className="flex flex-col items-center gap-1"
             >
-              <div className="w-12 h-12 rounded-2xl bg-violet-500/30 flex items-center justify-center">
-                <Briefcase size={24} className="text-violet-300" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-red-500 to-rose-600 flex items-center justify-center shadow-lg">
+                <Mail size={28} className="text-white" />
               </div>
-              <span className="text-xs text-white/80">Work</span>
             </motion.a>
 
             <motion.button
-              onClick={() => setIsEditMode(!isEditMode)}
+              onClick={() => setShowWidgetUi(false)}
               whileTap={{ scale: 0.9 }}
               className="flex flex-col items-center gap-1"
             >
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                <Settings size={24} className="text-white" />
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center shadow-lg">
+                <X size={28} className="text-white" />
               </div>
-              <span className="text-xs text-white/80">Edit</span>
             </motion.button>
           </div>
         </div>
 
         {/* Home Indicator */}
-        <div className="flex justify-center py-1">
+        <div className="flex justify-center py-1.5">
           <div className="w-32 h-1 bg-white/30 rounded-full"></div>
         </div>
       </div>

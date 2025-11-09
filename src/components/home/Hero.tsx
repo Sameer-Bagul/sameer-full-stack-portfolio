@@ -6,8 +6,6 @@ import { GlassButton } from '@/components/ui/glass-button';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTheme } from '@/contexts/ThemeContext';
-import WidgetUI from '../ui-components/widgetUi';
-import MobileWidgetUI from '../ui-components/MobileWidgetUI';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 // Typing text effect component
@@ -284,13 +282,6 @@ export const Hero = () => {
               onLoad={handleSplineLoad}
             />
           </div>
-        </div>
-      </div>
-
-      {/* WidgetUI Layer */}
-      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 100 }}>
-        <div className="pointer-events-auto">
-          {isMobile ? <MobileWidgetUI /> : <WidgetUI />}
         </div>
       </div>
     </section>

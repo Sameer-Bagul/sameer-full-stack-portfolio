@@ -1,71 +1,80 @@
 import React, { useState, useEffect } from 'react';
 import { motion, useDragControls } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
-  ArrowDownUp, 
-  Plus, 
   Settings,
   X, 
-  Clock, 
-  Calendar,
-  Music, 
-  Image, 
   Mail, 
   Search,
-  Info,
   Battery,
-  Wifi
+  Wifi,
+  Github,
+  Linkedin,
+  Code,
+  Twitter,
+  Instagram,
+  Facebook,
+  Youtube,
+  Phone,
+  MapPin,
+  Globe,
+  FileText,
+  BookOpen,
+  Trophy,
+  Building,
+  Award,
+  Star,
+  Sparkles,
+  Calculator,
+  Layers,
+  Brain,
+  Server,
+  Palette,
+  Share2,
+  Home,
+  Briefcase,
+  Image
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-// Widget definitions with colorful backgrounds
-const widgets = [
-  { 
-    id: 1, 
-    title: 'Projects', 
-    size: 'large', 
-    content: '🚀 Latest: Portfolio Redesign', 
-    color: 'bg-gradient-to-br from-[#FF719A] to-[#FFA99F]',
-    link: '/projects'
-  },
-  { 
-    id: 2, 
-    title: 'Skills', 
-    size: 'small', 
-    content: '💻 React, TypeScript, Node.js', 
-    color: 'bg-gradient-to-br from-[#0EA5E9] to-[#D3E4FD]',
-    link: '/resume'
-  },
-  { 
-    id: 3, 
-    title: 'Blog', 
-    size: 'small', 
-    content: '✍️ Latest: UI Design Trends', 
-    color: 'bg-gradient-to-br from-[#FEC6A1] to-[#FEF7CD]',
-    link: '/blog'
-  },
-  { 
-    id: 4, 
-    title: 'Achievements', 
-    size: 'medium', 
-    content: '🏆 Best Design Award 2023', 
-    color: 'bg-gradient-to-br from-[#8B5CF6] to-[#E5DEFF]',
-    link: '/achievements'
-  }
-];
-
-// App Icons with links to relevant sections
+// App Icons with links to relevant sections - EXPANDED WITH SOCIAL MEDIA
 const appIcons = [
-  { id: 1, name: 'Projects', icon: <Image size={24} />, color: 'bg-[#FF719A]', link: '/projects' },
-  { id: 2, name: 'Resume', icon: <Info size={24} />, color: 'bg-[#0EA5E9]', link: '/resume' },
-  { id: 3, name: 'Blog', icon: <Mail size={24} />, color: 'bg-[#FEC6A1]', link: '/blog' },
-  { id: 4, name: 'Calendar', icon: <Calendar size={24} />, color: 'bg-[#8B5CF6]', link: '#' },
-  { id: 5, name: 'Clock', icon: <Clock size={24} />, color: 'bg-[#F97316]', link: '#' },
-  { id: 6, name: 'Music', icon: <Music size={24} />, color: 'bg-[#D946EF]', link: '#' },
-  { id: 7, name: 'Photos', icon: <Image size={24} />, color: 'bg-[#F2FCE2]', link: '#' },
-  { id: 8, name: 'Settings', icon: <Settings size={24} />, color: 'bg-[#222222]', link: '#' },
+  // Core Portfolio
+  { id: 1, name: 'Home', icon: <Home size={20} />, color: 'bg-gradient-to-br from-violet-500 to-purple-600', link: '/' },
+  { id: 2, name: 'Projects', icon: <Briefcase size={20} />, color: 'bg-gradient-to-br from-blue-500 to-cyan-600', link: '/projects' },
+  { id: 3, name: 'Resume', icon: <FileText size={20} />, color: 'bg-gradient-to-br from-cyan-500 to-teal-600', link: '/resume' },
+  { id: 4, name: 'Blog', icon: <BookOpen size={20} />, color: 'bg-gradient-to-br from-orange-500 to-red-500', link: '/blog' },
+  
+  // Professional Pages
+  { id: 5, name: 'Experience', icon: <Building size={20} />, color: 'bg-gradient-to-br from-green-500 to-emerald-600', link: '/experience' },
+  { id: 6, name: 'Achievements', icon: <Trophy size={20} />, color: 'bg-gradient-to-br from-amber-500 to-yellow-600', link: '/achievements' },
+  { id: 7, name: 'Skills', icon: <Award size={20} />, color: 'bg-gradient-to-br from-purple-500 to-violet-600', link: '/resume' },
+  { id: 8, name: 'Certifications', icon: <Star size={20} />, color: 'bg-gradient-to-br from-yellow-500 to-amber-600', link: '/achievements' },
+  
+  // Social Media - Professional
+  { id: 9, name: 'GitHub', icon: <Github size={20} />, color: 'bg-gradient-to-br from-gray-700 to-gray-900', link: 'https://github.com/Sameer-Bagul' },
+  { id: 10, name: 'LinkedIn', icon: <Linkedin size={20} />, color: 'bg-gradient-to-br from-blue-600 to-blue-800', link: 'https://linkedin.com/in/sameer-bagul' },
+  { id: 11, name: 'LeetCode', icon: <Code size={20} />, color: 'bg-gradient-to-br from-orange-500 to-yellow-500', link: 'https://leetcode.com/sameerbagul' },
+  { id: 12, name: 'Portfolio', icon: <Globe size={20} />, color: 'bg-gradient-to-br from-indigo-500 to-violet-600', link: 'https://sameerbagul.vercel.app' },
+  
+  // Social Media - Creative
+  { id: 13, name: 'Twitter', icon: <Twitter size={20} />, color: 'bg-gradient-to-br from-sky-400 to-blue-500', link: 'https://twitter.com/sameerbagul' },
+  { id: 14, name: 'Instagram', icon: <Instagram size={20} />, color: 'bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500', link: 'https://instagram.com/sameerbagul' },
+  { id: 15, name: 'Pinterest', icon: <Image size={20} />, color: 'bg-gradient-to-br from-red-600 to-red-700', link: 'https://pinterest.com/sameerbagul' },
+  { id: 16, name: 'YouTube', icon: <Youtube size={20} />, color: 'bg-gradient-to-br from-red-500 to-red-600', link: 'https://youtube.com/@sameerbagul' },
+  
+  // Social Media - More Platforms
+  { id: 17, name: 'Facebook', icon: <Facebook size={20} />, color: 'bg-gradient-to-br from-blue-500 to-blue-700', link: 'https://facebook.com/sameerbagul' },
+  { id: 18, name: 'Medium', icon: <BookOpen size={20} />, color: 'bg-gradient-to-br from-gray-800 to-black', link: 'https://medium.com/@sameerbagul' },
+  { id: 19, name: 'Dev.to', icon: <Code size={20} />, color: 'bg-gradient-to-br from-gray-900 to-black', link: 'https://dev.to/sameerbagul' },
+  { id: 20, name: 'Dribbble', icon: <Palette size={20} />, color: 'bg-gradient-to-br from-pink-500 to-rose-600', link: 'https://dribbble.com/sameerbagul' },
+  
+  // Contact & More
+  { id: 21, name: 'Email', icon: <Mail size={20} />, color: 'bg-gradient-to-br from-red-500 to-rose-600', link: 'mailto:sameerbagul2004@gmail.com' },
+  { id: 22, name: 'Phone', icon: <Phone size={20} />, color: 'bg-gradient-to-br from-teal-500 to-cyan-600', link: 'tel:+917841941033' },
+  { id: 23, name: 'Location', icon: <MapPin size={20} />, color: 'bg-gradient-to-br from-pink-500 to-rose-600', link: 'https://maps.google.com/?q=Pune,India' },
+  { id: 24, name: 'Share', icon: <Share2 size={20} />, color: 'bg-gradient-to-br from-indigo-500 to-purple-600', link: '#' },
 ];
 
 const WidgetUi: React.FC = () => {
@@ -74,6 +83,11 @@ const WidgetUi: React.FC = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const dragControls = useDragControls();
   const isMobile = useIsMobile();
+
+  // Helper function to determine if link is internal
+  const isInternalLink = (link: string) => {
+    return link.startsWith('/') && !link.startsWith('//');
+  };
 
   // Keep widget UI closed on mobile devices by default
   useEffect(() => {
@@ -130,7 +144,7 @@ const WidgetUi: React.FC = () => {
       initial={{ x: position.x, y: position.y, opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="fixed w-[340px] h-[560px] overflow-hidden rounded-3xl shadow-2xl border border-white/20 z-50"
+      className="fixed w-[380px] h-[680px] overflow-hidden rounded-3xl shadow-2xl border border-white/20 z-50"
       style={{ 
         background: 'rgba(20, 20, 20, 0.85)',
         backdropFilter: 'blur(10px)',
@@ -173,115 +187,51 @@ const WidgetUi: React.FC = () => {
               </div>
             </div>
             
-            <div className="grid grid-cols-4 gap-3">
-              {appIcons.map((app) => (
-                <motion.a
-                  key={app.id}
-                  href={app.link}
-                  whileHover={{ scale: isEditMode ? 1 : 1.05 }}
-                  animate={{ 
-                    rotate: isEditMode ? [-1, 1, -1] : 0,
-                    transition: { 
-                      repeat: isEditMode ? Infinity : 0, 
-                      duration: isEditMode ? 0.2 : 0
-                    }
-                  }}
-                  className={`${app.color} rounded-2xl p-2 flex flex-col items-center justify-center aspect-square ${isEditMode ? 'relative' : ''}`}
-                >
-                  {isEditMode && (
-                    <div className="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-black/50 text-white flex items-center justify-center text-[10px]">
-                      ✕
-                    </div>
-                  )}
-                  <div className="p-1.5 rounded-xl mb-1 flex items-center justify-center">
-                    {app.icon}
-                  </div>
-                  <span className="text-[10px] text-white font-medium">{app.name}</span>
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
-          {/* Widgets Section */}
-          <div>
-            <div className="flex justify-between items-center mb-2">
-              <h3 className="text-sm font-medium text-white/70">Widgets</h3>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center text-white/80">
-                    <Plus size={12} />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-64 p-2 bg-black/90 border border-white/20">
-                  <div className="text-xs text-white/70 p-2">Add Widgets</div>
-                  <div className="grid grid-cols-2 gap-2">
-                    {widgets.map((widget) => (
-                      <div key={widget.id} className={`p-2 rounded-lg ${widget.color} bg-opacity-20`}>
-                        <div className="text-xs font-medium">{widget.title}</div>
+            <div className="grid grid-cols-5 gap-2">
+              {appIcons.map((app) => {
+                const isInternal = isInternalLink(app.link);
+                
+                return (
+                  <motion.div
+                    key={app.id}
+                    whileHover={{ scale: isEditMode ? 1 : 1.05 }}
+                    animate={{ 
+                      rotate: isEditMode ? [-1, 1, -1] : 0,
+                      transition: { 
+                        repeat: isEditMode ? Infinity : 0, 
+                        duration: isEditMode ? 0.2 : 0
+                      }
+                    }}
+                    className={`${app.color} rounded-xl p-2 flex flex-col items-center justify-center aspect-square ${isEditMode ? 'relative' : ''} text-white shadow-lg`}
+                  >
+                    {isEditMode && (
+                      <div className="absolute -top-1 -left-1 w-4 h-4 rounded-full bg-black/50 text-white flex items-center justify-center text-[10px]">
+                        ✕
                       </div>
-                    ))}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            </div>
-
-            <div className="grid grid-cols-2 auto-rows-auto gap-3">
-              {widgets.map((widget) => (
-                <motion.a
-                  key={widget.id}
-                  href={widget.link}
-                  whileHover={{ scale: isEditMode ? 1 : 1.02 }}
-                  animate={{ 
-                    rotate: isEditMode ? [-0.5, 0.5, -0.5] : 0,
-                    transition: { 
-                      repeat: isEditMode ? Infinity : 0, 
-                      duration: isEditMode ? 0.3 : 0
-                    }
-                  }}
-                  className={`${widget.color} rounded-2xl p-3.5 text-white shadow-md backdrop-blur-sm ${isEditMode ? 'relative' : 'cursor-pointer'} ${
-                    widget.size === 'large' ? 'col-span-2 aspect-[2/1]' : 
-                    widget.size === 'medium' ? 'col-span-2 aspect-[2/0.8]' : 
-                    'col-span-1 aspect-square'
-                  }`}
-                >
-                  {isEditMode && (
-                    <div className="absolute -top-1.5 -left-1.5 w-4 h-4 rounded-full bg-black/50 text-white flex items-center justify-center text-[10px]">
-                      ✕
-                    </div>
-                  )}
-                  <h3 className="text-sm font-bold mb-1">{widget.title}</h3>
-                  <div className="text-xs">
-                    {widget.content}
-                  </div>
-                  
-                  {widget.id === 1 && (
-                    <div className="mt-2 flex gap-1">
-                      <Avatar className="h-5 w-5">
-                        <AvatarImage src="/placeholder.svg" />
-                        <AvatarFallback>PF</AvatarFallback>
-                      </Avatar>
-                      <Avatar className="h-5 w-5">
-                        <AvatarImage src="/placeholder.svg" />
-                        <AvatarFallback>PF</AvatarFallback>
-                      </Avatar>
-                    </div>
-                  )}
-                </motion.a>
-              ))}
-
-              {/* Current Time Widget */}
-              <motion.div
-                whileHover={{ scale: isEditMode ? 1 : 1.02 }}
-                className="bg-gradient-to-br from-[#222222] to-[#333333] col-span-2 rounded-2xl p-3.5 text-white shadow-md aspect-[2/0.7]"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm font-bold mb-1">Today</h3>
-                    <div className="text-2xl font-light">{new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
-                  </div>
-                  <Clock size={32} className="text-white/70" />
-                </div>
-              </motion.div>
+                    )}
+                    {isInternal ? (
+                      <Link to={app.link} className="flex flex-col items-center justify-center w-full h-full">
+                        <div className="p-1 rounded-lg mb-0.5 flex items-center justify-center">
+                          {app.icon}
+                        </div>
+                        <span className="text-[9px] text-white font-medium text-center leading-tight">{app.name}</span>
+                      </Link>
+                    ) : (
+                      <a 
+                        href={app.link}
+                        target={app.link.startsWith('http') ? '_blank' : undefined}
+                        rel={app.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                        className="flex flex-col items-center justify-center w-full h-full"
+                      >
+                        <div className="p-1 rounded-lg mb-0.5 flex items-center justify-center">
+                          {app.icon}
+                        </div>
+                        <span className="text-[9px] text-white font-medium text-center leading-tight">{app.name}</span>
+                      </a>
+                    )}
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </div>
