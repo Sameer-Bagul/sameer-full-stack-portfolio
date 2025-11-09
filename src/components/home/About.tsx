@@ -70,21 +70,20 @@ export const About = () => {
           >
             <div className="prose prose-lg dark:prose-invert max-w-none">
               <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed ${isMobile ? 'mb-4' : 'mb-6'}`}>
-                I'm a Full-Stack & AI Developer and DevOps Engineer with a passion for building scalable,
-                innovative solutions. Currently pursuing Information Technology at PES Modern College of Engineering,
-                Pune with a CGPA of 8.21/10.
+                I'm a Software Engineer at Bug0 (Hashnode), specializing in full-stack development and AI solutions. 
+                Currently pursuing Information Technology at PES Modern College of Engineering, Pune with a CGPA of 8.21/10.
               </p>
               
               <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed ${isMobile ? 'mb-4' : 'mb-6'}`}>
                 As Technical Lead of APP Club at PESMCOE, I've mentored over 200 students and guided multiple
-                projects to completion. My experience includes automating operations for 100,000+ leads using AI
-                agents and achieving 99% uptime with modern DevOps practices.
+                projects to completion. My experience includes building innovative solutions at Bug0, automating operations 
+                for 100,000+ leads using AI agents, and achieving 99% uptime with modern DevOps practices.
               </p>
               
               <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed`}>
                 I'm a national hackathon winner (Smart India Hackathon 2024 & Innovate You Hackathon 2025)
                 with expertise in MERN stack, AI/ML technologies, and business process transformation.
-                Currently working at WyseTree, developing end-to-end solutions for complex business challenges.
+                Passionate about solving real engineering challenges and building meaningful products with creativity and innovation.
               </p>
             </div>
           </motion.div>

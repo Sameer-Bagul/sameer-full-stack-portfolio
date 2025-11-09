@@ -231,9 +231,23 @@ const Resume = () => {
                     <CardContent className="p-6">
                       <div className="space-y-6">
                         <ExperienceItem
+                          title="Software Engineer"
+                          company="Bug0 (Hashnode)"
+                          period="Nov 2025 - Present"
+                          description={[
+                            "Joined Bug0 full-time as a Software Engineer, working on solving real engineering challenges with innovative solutions",
+                            "Building meaningful products with focus on creativity and innovation",
+                            "Collaborating with passionate team members including Fazle Rahman and Sandeep Panda",
+                            "Contributing to cutting-edge technology solutions and pushing boundaries in software development"
+                          ]}
+                        />
+                        
+                        <Separator />
+                        
+                        <ExperienceItem
                           title="Full Stack Software Developer & DevOps Engineer"
                           company="WyseTree – Business Process Transformation Services, Pune"
-                          period="Aug 2025 - Present"
+                          period="Aug 2025 - Oct 2025"
                           description={[
                             "Designed and implemented scalable full-stack systems to optimize business processes across departments",
                             "Automated Marketing and Lead operations using an AI agent, handling over 100,000 leads for outreach and follow-ups",
@@ -268,9 +282,9 @@ const Resume = () => {
                     </CardHeader>
                     <CardContent className="p-6">
                       <p className="leading-relaxed">
-                        Aspiring Software Developer skilled in full-stack development and Web Development, machine learning, and creative UI/UX design. 
-                        Back-end Expert with proven track record of delivering impactful freelance projects, enhancing client outreach, and driving user engagement. 
-                        Seeking dynamic opportunities to contribute innovative software solutions.
+                        Software Engineer at Bug0 (Hashnode) with expertise in full-stack development, AI/ML, and creative UI/UX design. 
+                        Passionate about building meaningful products and solving real engineering challenges with innovative solutions. 
+                        Proven track record as Technical Lead, national hackathon winner, and delivering impactful projects that enhance user engagement and drive business growth.
                       </p>
                     </CardContent>
                   </Card>

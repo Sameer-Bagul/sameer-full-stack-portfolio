@@ -1,0 +1,631 @@
+===============================================
+PORTFOLIO ADMIN APP - ESSENTIAL API GUIDE
+===============================================
+6 Core Sections to Manage from Admin Panel
+===============================================
+
+API Base URLs:
+- Development: http://localhost:10000
+- Production: https://notestudio.azurewebsites.net
+
+Authentication: JWT Bearer Token required for POST/PUT/DELETE
+
+===============================================
+1. HOME PAGE - 3 SECTIONS
+===============================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1.1 SELECTED/FEATURED PROJECTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET /api/projects/featured
+Endpoint: PUT /api/projects/:id/toggle-featured
+
+Request Body (Toggle Featured):
+{
+  "isFeatured": true
+}
+
+Response:
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "Skillify - National Hackathon 1st Prize Winner",
+      "description": "Skill development app with 5+ AI agents as teachers...",
+      "tags": ["MERN", "AI", "LLM"],
+      "image": "https://res.cloudinary.com/...",
+      "liveUrl": "https://...",
+      "githubUrl": "https://...",
+      "category": "hackathon",
+      "isFeatured": true,
+      "order": 1
+    }
+  ]
+}
+
+Admin Actions:
+✓ View all featured projects
+✓ Toggle any project's featured status
+✓ Reorder featured projects (update order field)
+✓ Maximum 6 featured projects recommended
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1.2 TESTIMONIALS SECTION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET    /api/testimonials
+Endpoint: POST   /api/testimonials
+Endpoint: PUT    /api/testimonials/:id
+Endpoint: DELETE /api/testimonials/:id
+
+Payload:
+{
+  "id": "testimonial-1",
+  "content": "Working with this developer was a game-changer for our project. Their attention to detail and technical expertise far exceeded our expectations.",
+  "author": "Alex Morgan",
+  "position": "CTO, TechVision",
+  "image": "/placeholder.svg",
+  "rating": 5,
+  "isActive": true,
+  "order": 1,
+  "createdAt": "2025-01-09T10:30:00Z",
+  "updatedAt": "2025-01-09T10:30:00Z"
+}
+
+Admin Actions:
+✓ Create new testimonials
+✓ Edit existing testimonials
+✓ Delete testimonials
+✓ Toggle active status (isActive)
+✓ Reorder testimonials (update order)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1.3 CALL TO ACTION (Contact Form Messages)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET    /api/contact-messages
+Endpoint: GET    /api/contact-messages/:id
+Endpoint: PUT    /api/contact-messages/:id (mark as read/replied)
+Endpoint: DELETE /api/contact-messages/:id
+
+Response (List):
+{
+  "success": true,
+  "data": [
+    {
+      "id": "msg-1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "subject": "Project Inquiry",
+      "message": "I would like to discuss a potential project...",
+      "status": "unread",
+      "createdAt": "2025-01-09T14:30:00Z"
+    }
+  ],
+  "total": 45,
+  "unread": 12
+}
+
+Update Status:
+{
+  "status": "read" // Options: "unread", "read", "replied"
+}
+
+Admin Actions:
+✓ View all contact messages
+✓ Mark as read/unread
+✓ Mark as replied
+✓ Delete spam messages
+✓ Filter by status
+✓ Search messages
+
+===============================================
+2. PROJECTS PAGE
+===============================================
+
+Endpoint: GET    /api/projects
+Endpoint: GET    /api/projects/:id
+Endpoint: POST   /api/projects
+Endpoint: PUT    /api/projects/:id
+Endpoint: DELETE /api/projects/:id
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Query Parameters (GET):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+?category=freelance        // Options: "all", "freelance", "hackathon", "personal"
+?isFeatured=true          // Filter featured projects
+?search=skillify          // Search in title, description, tags
+?page=1&limit=10          // Pagination
+?sortBy=date&order=desc   // Sort options
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Full Project Payload:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "id": 21,
+  "title": "Skillify - National Hackathon 1st Prize Winner (Top 1)",
+  "description": "Skill development app with 5+ AI agents as teachers, roadmap and study material generation, and a complete learning environment.",
+  "longDescription": "Skill development app with 5+ AI agents as teachers, roadmap and study material generation, and a complete learning environment. Built with MERN stack, Tailwind CSS, JWT authentication, email OTP, 2FA, password reset, MongoDB, and LLM server (Python/Node.js).",
+  "tags": ["MERN", "Tailwind CSS", "AI", "JWT Authentication", "LLM", "MongoDB"],
+  "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988921/skillify_1_q91pxm.png",
+  "githubUrl": "https://github.com/Sameer-Bagul/skillify.git",
+  "liveUrl": "",
+  "category": "hackathon",
+  "isFeatured": true,
+  "order": 1,
+  "createdAt": "2025-01-09T10:00:00Z",
+  "updatedAt": "2025-01-09T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Categories:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. "freelance"  - Client projects (Agrotech-Pratham, business-billing-suite, etc.)
+2. "hackathon"  - Competition projects (Skillify, Hire Me, pes_mcoe-hack)
+3. "personal"   - Self-initiated projects (dev-library, event-management, etc.)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Admin Actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Create new projects
+✓ Edit project details
+✓ Delete projects
+✓ Toggle featured status (shows on home page)
+✓ Filter by category (freelance/hackathon/personal)
+✓ Reorder projects
+✓ Upload project images
+✓ Manage tags
+
+===============================================
+3. ACHIEVEMENTS PAGE
+===============================================
+
+Endpoint: GET    /api/achievements
+Endpoint: GET    /api/achievements/:id
+Endpoint: POST   /api/achievements
+Endpoint: PUT    /api/achievements/:id
+Endpoint: DELETE /api/achievements/:id
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Query Parameters:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+?type=award              // Options: "all", "award", "certificate"
+?displayMode=timeline    // Options: "grid", "timeline"
+?year=2024              // Filter by year
+?search=hackathon       // Search in title, organization
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Achievement Payload:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "id": 1,
+  "title": "Best Web App Award",
+  "organization": "TechCon 2023",
+  "date": "November 2023",
+  "description": "Awarded for creating an innovative healthcare management application with exceptional UX design.",
+  "type": "award",
+  "icon": "Trophy",
+  "color": "gold",
+  "details": "The project was selected from over 200 entries and recognized for its innovative approach to healthcare management, focusing on patient-centered design and accessibility features that make it easy for users of all abilities to manage their healthcare needs.",
+  "certificateImage": "/images/cert1.jpg",
+  "isActive": true,
+  "order": 1,
+  "createdAt": "2025-01-09T10:00:00Z",
+  "updatedAt": "2025-01-09T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Types & Icons:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Type: "award"
+  Icons: "Trophy", "Medal", "Award"
+  Colors: "gold", "silver", "bronze"
+
+Type: "certificate"
+  Icons: "GraduationCap"
+  Colors: "blue", "cyan", "orange"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Admin Actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Create awards/certificates
+✓ Edit achievement details
+✓ Delete achievements
+✓ Upload certificate images
+✓ Toggle active status
+✓ Filter by type (award/certificate)
+✓ Reorder achievements
+✓ Set icon and color
+
+===============================================
+4. BLOG PAGE
+===============================================
+
+Endpoint: GET    /api/blog
+Endpoint: GET    /api/blog/:id
+Endpoint: POST   /api/blog
+Endpoint: PUT    /api/blog/:id
+Endpoint: DELETE /api/blog/:id
+Endpoint: GET    /api/blog/tags
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Query Parameters:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+?tags=React,JavaScript   // Filter by tags
+?status=published        // Options: "all", "draft", "published", "archived"
+?search=tailwind        // Search in title, excerpt, content
+?page=1&limit=10        // Pagination
+?sortBy=date&order=desc // Sort options
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Blog Post Payload:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "id": 1,
+  "title": "Building Responsive UIs with Tailwind CSS",
+  "excerpt": "Learn how to create beautiful, responsive user interfaces using Tailwind CSS utility classes.",
+  "content": "<h1>Building Responsive UIs with Tailwind CSS</h1><p>Tailwind CSS has revolutionized the way developers approach UI design...</p>",
+  "date": "Nov 15, 2023",
+  "readTime": "6 min read",
+  "image": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&q=80&w=800&h=500",
+  "tags": ["Tailwind CSS", "UI Design", "Web Development"],
+  "author": {
+    "name": "Sameer Bagul",
+    "avatar": "/avatar.jpg",
+    "bio": "Full Stack Developer"
+  },
+  "status": "published",
+  "views": 1234,
+  "isFeatured": false,
+  "tableOfContents": [
+    {
+      "title": "Why Tailwind?",
+      "anchor": "#why-tailwind"
+    },
+    {
+      "title": "Getting Started",
+      "anchor": "#getting-started"
+    }
+  ],
+  "seo": {
+    "metaTitle": "Building Responsive UIs with Tailwind CSS",
+    "metaDescription": "Learn how to create beautiful, responsive user interfaces...",
+    "keywords": ["tailwind", "css", "responsive design"]
+  },
+  "createdAt": "2023-11-15T10:00:00Z",
+  "updatedAt": "2023-11-15T10:00:00Z",
+  "publishedAt": "2023-11-15T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Available Tags with Colors:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "React": "bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-300",
+  "JavaScript": "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/70 dark:text-yellow-300",
+  "Tailwind CSS": "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/70 dark:text-cyan-300",
+  "API": "bg-green-100 text-green-800 dark:bg-green-900/70 dark:text-green-300",
+  "Performance": "bg-orange-100 text-orange-800 dark:bg-orange-900/70 dark:text-orange-300",
+  "CSS": "bg-pink-100 text-pink-800 dark:bg-pink-900/70 dark:text-pink-300"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Admin Actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Create new blog posts
+✓ Edit blog posts (with rich text editor)
+✓ Delete blog posts
+✓ Upload cover images
+✓ Manage tags (create/delete tags)
+✓ Save as draft
+✓ Publish/unpublish posts
+✓ Archive old posts
+✓ Set featured posts
+✓ SEO optimization (meta tags)
+✓ Auto-generate table of contents
+✓ View analytics (views count)
+✓ Filter by category/tags
+✓ Search posts
+
+===============================================
+5. RESUME PAGE
+===============================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5.1 PERSONAL INFO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET /api/resume/personal-info
+Endpoint: PUT /api/resume/personal-info
+
+Payload:
+{
+  "name": "Sameer Bagul",
+  "title": "Full Stack Developer",
+  "email": "sameerbagul2004@gmail.com",
+  "phone": "+91 7841941033",
+  "location": "Pune, India",
+  "linkedin": "https://www.linkedin.com/in/sameer-bagul/",
+  "github": "https://github.com/Sameer-Bagul",
+  "website": "https://sameerbagul.vercel.app/",
+  "avatar": "/avatar.jpg",
+  "summary": "Aspiring Software Developer skilled in full-stack development and Web Development, machine learning, and creative UI/UX design. Back-end Expert with proven track record of delivering impactful freelance projects.",
+  "updatedAt": "2025-01-09T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5.2 EDUCATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET    /api/resume/education
+Endpoint: POST   /api/resume/education
+Endpoint: PUT    /api/resume/education/:id
+Endpoint: DELETE /api/resume/education/:id
+
+Payload:
+{
+  "id": "edu1",
+  "degree": "Bachelor of Technology - Information Technology",
+  "institution": "PES Modern College of Engineering, Pune",
+  "period": "Nov 2022 - June 2026",
+  "cgpa": "8.21",
+  "maxCgpa": "10",
+  "description": [
+    "CGPA: 8.21 / 10",
+    "Relevant Coursework: Data Structures, Algorithms, Machine Learning, Full Stack Development",
+    "Technical Lead of APP Club, mentoring over 200 students",
+    "Active participant in hackathons and technical competitions"
+  ],
+  "location": "Pune, India",
+  "order": 1,
+  "createdAt": "2025-01-09T10:00:00Z",
+  "updatedAt": "2025-01-09T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5.3 SKILLS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET    /api/skills
+Endpoint: GET    /api/skills/categories
+Endpoint: POST   /api/skills
+Endpoint: PUT    /api/skills/:id
+Endpoint: DELETE /api/skills/:id
+
+Skill Category Payload:
+{
+  "id": "skill-cat-1",
+  "name": "Programming Languages",
+  "icon": "Braces",
+  "color": "bg-blue-500/10 text-blue-500 border-blue-500/20",
+  "skills": [
+    {
+      "name": "JavaScript",
+      "level": "Advanced"
+    },
+    {
+      "name": "TypeScript",
+      "level": "Advanced"
+    },
+    {
+      "name": "Python",
+      "level": "Advanced"
+    }
+  ],
+  "order": 1,
+  "createdAt": "2025-01-09T10:00:00Z",
+  "updatedAt": "2025-01-09T10:00:00Z"
+}
+
+Skill Levels: "Basic", "Intermediate", "Advanced"
+
+8 Skill Categories:
+1. Programming Languages (Braces icon, blue)
+2. Frameworks & Libraries (Layout icon, purple)
+3. Databases (Server icon, emerald)
+4. DevOps & Tools (Cloud icon, amber)
+5. AI/ML & Data Science (Brain icon, rose)
+6. Additional Technologies (Wrench icon, sky)
+7. Design & Creative (Palette icon, pink)
+8. Professional & Other (Briefcase icon, violet)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5.4 RESUME PDF DOWNLOAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Endpoint: GET /api/resume/download
+Response: Binary PDF file
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Admin Actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Update personal information
+✓ Upload avatar/profile picture
+✓ Manage education entries
+✓ Manage skills by category
+✓ Add/remove skills
+✓ Set skill proficiency levels
+✓ Generate PDF resume
+✓ Update professional summary
+
+===============================================
+6. EXPERIENCE PAGE
+===============================================
+
+Endpoint: GET    /api/experiences
+Endpoint: GET    /api/experiences/:id
+Endpoint: POST   /api/experiences
+Endpoint: PUT    /api/experiences/:id
+Endpoint: DELETE /api/experiences/:id
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Query Parameters:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+?type=full-time          // Options: "all", "full-time", "internship", "freelance", "full-time Internship"
+?isCurrentRole=true      // Filter current positions
+?search=developer        // Search in title, company
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Experience Payload:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+{
+  "id": "exp0",
+  "title": "Software Engineer",
+  "company": "Bug0 (Hashnode)",
+  "period": "Nov 2025 - Present",
+  "description": [
+    "Joined Bug0 full-time as a Software Engineer, working on solving real engineering challenges with innovative solutions",
+    "Building meaningful products with focus on creativity and innovation",
+    "Collaborating with passionate team members including Fazle Rahman and Sandeep Panda",
+    "Contributing to cutting-edge technology solutions and pushing boundaries in software development"
+  ],
+  "type": "full-time",
+  "details": "Excited to be part of Bug0 and Hashnode teams, working on innovative engineering solutions and building impactful products.",
+  "certificateImage": "",
+  "skills": ["Software Engineering", "Full Stack Development", "Innovation", "Problem Solving", "Team Collaboration", "Product Development"],
+  "location": "Remote",
+  "isCurrentRole": true,
+  "order": 1,
+  "createdAt": "2025-11-09T10:00:00Z",
+  "updatedAt": "2025-11-09T10:00:00Z"
+}
+
+Example (Previous Role):
+{
+  "id": "exp1",
+  "title": "Full Stack Software Developer & DevOps Engineer",
+  "company": "WyseTree – Business Process Transformation Services, Pune",
+  "period": "Aug 2025 - Oct 2025",
+  "description": [
+    "Designed and implemented scalable full-stack systems to optimize business processes across departments",
+    "Automated Marketing and Lead operations using an AI agent, handling over 100,000 leads for outreach and follow-ups",
+    "Developed an end-to-end medical lab platform, providing price-sorted recommendations and seamless user experience",
+    "Deployed applications using Nginx, Docker, Portainer, and CI/CD pipelines, achieving 99% uptime"
+  ],
+  "type": "full-time Internship",
+  "details": "Led development of enterprise-level solutions with focus on automation and scalability",
+  "certificateImage": "/images/experience1-cert.jpg",
+  "skills": ["MERN Stack", "Docker", "Nginx", "Portainer", "AI", "DevOps"],
+  "location": "Pune, India",
+  "isCurrentRole": false,
+  "order": 2,
+  "createdAt": "2025-01-09T10:00:00Z",
+  "updatedAt": "2025-11-09T10:00:00Z"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Experience Types:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. "full-time"           - Full-time employment
+2. "internship"          - Internship positions
+3. "freelance"           - Freelance/Contract work
+4. "full-time Internship" - Full-time internship roles
+
+Type Badge Colors:
+{
+  "full-time": "bg-green-100 text-green-800 dark:bg-green-950/50 dark:text-green-300",
+  "internship": "bg-blue-100 text-blue-800 dark:bg-blue-950/50 dark:text-blue-300",
+  "freelance": "bg-purple-100 text-purple-800 dark:bg-purple-950/50 dark:text-purple-300"
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Admin Actions:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✓ Add new experiences
+✓ Edit experience details
+✓ Delete experiences
+✓ Upload experience certificates
+✓ Mark as current role
+✓ Add skills/technologies used
+✓ Filter by type (full-time/internship/freelance)
+✓ Reorder experiences
+✓ Set employment period
+
+===============================================
+ADDITIONAL ENDPOINTS
+===============================================
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+AUTHENTICATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+POST /api/auth/login
+{
+  "email": "admin@example.com",
+  "password": "securepassword"
+}
+Response:
+{
+  "token": "jwt-token-here",
+  "user": {
+    "id": "user-id",
+    "email": "admin@example.com",
+    "name": "Sameer Bagul",
+    "role": "admin"
+  }
+}
+
+GET /api/auth/me
+Headers: { "Authorization": "Bearer jwt-token" }
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FILE UPLOAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+POST /api/upload
+Form Data:
+{
+  "file": File,
+  "type": "image" | "document" | "certificate",
+  "folder": "projects" | "blog" | "certificates"
+}
+Response:
+{
+  "url": "https://res.cloudinary.com/...",
+  "publicId": "cloudinary-public-id",
+  "format": "png",
+  "size": 123456
+}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANALYTICS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GET /api/analytics/overview
+{
+  "totalProjects": 32,
+  "totalBlogPosts": 6,
+  "totalMessages": 45,
+  "totalAchievements": 6,
+  "totalExperiences": 5,
+  "unreadMessages": 12,
+  "recentActivity": [...]
+}
+
+===============================================
+DATABASE COLLECTIONS
+===============================================
+
+Required MongoDB Collections:
+1. users
+2. projects
+3. experiences
+4. achievements
+5. blog_posts
+6. testimonials
+7. contact_messages
+8. skills
+9. resume_data
+
+===============================================
+ADMIN APP TECH STACK RECOMMENDATION
+===============================================
+
+Frontend:
+- React/Next.js with TypeScript
+- Tailwind CSS
+- Shadcn/ui components
+- React Hook Form (forms)
+- TanStack Query (data fetching)
+- React Router (routing)
+- Monaco Editor or TinyMCE (blog editor)
+
+Backend:
+- Use existing: https://notestudio.azurewebsites.net
+- OR build with Node.js + Express + MongoDB
+
+===============================================
+END OF GUIDE
+=============================================== 

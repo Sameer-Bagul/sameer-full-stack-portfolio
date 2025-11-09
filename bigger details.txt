@@ -1,0 +1,757 @@
+===============================================
+PORTFOLIO ADMIN APP - COMPLETE API STRUCTURE
+===============================================
+
+This document contains all the data models, payloads, and API endpoints needed 
+to build an admin application for managing this portfolio website.
+
+===============================================
+1. HOME PAGE SECTIONS
+===============================================
+
+1.1 HERO SECTION
+----------------
+Endpoint: GET/PUT /api/hero
+Payload:
+{
+  "name": "Sameer Bagul",
+  "roles": ["Full-Stack Developer", "AI Developer", "DevOps Engineer", "Tech Lead", "Problem Solver"],
+  "introduction": "Aspiring Software Developer...",
+  "ctaButtons": [
+    {
+      "label": "View Projects",
+      "link": "/projects",
+      "type": "primary"
+    },
+    {
+      "label": "Download Resume",
+      "link": "/resume",
+      "type": "secondary"
+    }
+  ],
+  "socialLinks": [
+    {
+      "platform": "github",
+      "url": "https://github.com/Sameer-Bagul",
+      "icon": "Github"
+    },
+    {
+      "platform": "linkedin",
+      "url": "https://linkedin.com/in/sameer-bagul",
+      "icon": "Linkedin"
+    },
+    {
+      "platform": "email",
+      "url": "mailto:sameerbagul2004@gmail.com",
+      "icon": "Mail"
+    },
+    {
+      "platform": "phone",
+      "url": "tel:+917841941033",
+      "icon": "Phone"
+    }
+  ],
+  "splineUrl": "https://...", // 3D model URL
+  "updatedAt": "2025-01-09T..."
+}
+
+1.2 ABOUT SECTION
+-----------------
+Endpoint: GET/PUT /api/about
+Payload:
+{
+  "title": "About Me",
+  "description": "Passionate developer with a focus on creating elegant and efficient applications",
+  "mainContent": [
+    "I'm a Full-Stack & AI Developer and DevOps Engineer...",
+    "As Technical Lead of APP Club at PESMCOE...",
+    "I'm a national hackathon winner..."
+  ],
+  "highlights": [
+    {
+      "icon": "Code2",
+      "title": "Full Stack Developer",
+      "description": "Experienced in both frontend and backend development with modern technologies."
+    },
+    {
+      "icon": "Lightbulb",
+      "title": "Problem Solver",
+      "description": "Passionate about finding elegant solutions to complex technical challenges."
+    },
+    {
+      "icon": "GraduationCap",
+      "title": "Continuous Learner",
+      "description": "Always staying updated with the latest technologies and best practices."
+    },
+    {
+      "icon": "Heart",
+      "title": "Open Source",
+      "description": "Active contributor to the open-source community and various projects."
+    }
+  ],
+  "updatedAt": "2025-01-09T..."
+}
+
+1.3 SELECTED PROJECTS (Featured on Home)
+-----------------------------------------
+Endpoint: GET /api/projects/featured
+Endpoint: PUT /api/projects/:id/featured (toggle featured status)
+Payload:
+{
+  "featuredProjects": [
+    {
+      "id": 1,
+      "title": "Agrotech-Pratham",
+      "description": "Freelancing project for an Agrotech shop...",
+      "longDescription": "A freelancing project...",
+      "tags": ["Next.js", "SEO", "Tailwind CSS"],
+      "image": "https://res.cloudinary.com/...",
+      "githubUrl": "",
+      "liveUrl": "https://agrotech-pratham.vercel.app/",
+      "category": "freelance",
+      "isFeatured": true,
+      "order": 1,
+      "createdAt": "2025-01-09T...",
+      "updatedAt": "2025-01-09T..."
+    }
+  ]
+}
+
+1.4 SKILLS SECTION
+------------------
+Endpoint: GET/POST/PUT/DELETE /api/skills
+Endpoint: GET /api/skills/categories
+Payload for Skill Category:
+{
+  "id": "skill-cat-1",
+  "name": "Languages",
+  "icon": "Braces",
+  "color": "bg-blue-500/10 text-blue-500 border-blue-500/20",
+  "skills": [
+    {
+      "name": "JavaScript",
+      "level": "Advanced" // Options: "Basic", "Intermediate", "Advanced"
+    },
+    {
+      "name": "TypeScript",
+      "level": "Advanced"
+    }
+  ],
+  "order": 1,
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+Note: There are 8 skill categories:
+1. Languages
+2. Frontend Development
+3. Backend Development
+4. Database & Cloud
+5. AI/ML & Data Science
+6. Tools & DevOps
+7. Design & Creative
+8. Professional & Other
+
+1.5 TESTIMONIALS SECTION
+-------------------------
+Endpoint: GET/POST/PUT/DELETE /api/testimonials
+Payload:
+{
+  "id": "testimonial-1",
+  "content": "Working with this developer was a game-changer for our project...",
+  "author": "Alex Morgan",
+  "position": "CTO, TechVision",
+  "image": "/placeholder.svg",
+  "rating": 5,
+  "isActive": true,
+  "order": 1,
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+1.6 CONTACT SECTION
+-------------------
+Endpoint: GET/PUT /api/contact-info
+Payload:
+{
+  "email": "sameerbagul2004@gmail.com",
+  "phone": "+91 7841941033",
+  "workingHours": {
+    "weekdays": "Monday to Friday: 9AM - 5PM",
+    "weekend": "Available for urgent matters"
+  },
+  "socialMedia": {
+    "github": "https://github.com/Sameer-Bagul",
+    "linkedin": "https://linkedin.com/in/sameer-bagul"
+  },
+  "updatedAt": "2025-01-09T..."
+}
+
+Endpoint: POST /api/contact-messages
+Payload for Contact Form Submission:
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "subject": "Project Inquiry",
+  "message": "I would like to discuss...",
+  "createdAt": "2025-01-09T...",
+  "status": "unread" // Options: "unread", "read", "replied"
+}
+
+===============================================
+2. PROJECTS PAGE
+===============================================
+
+Endpoint: GET/POST/PUT/DELETE /api/projects
+Endpoint: GET /api/projects?category=freelance&page=1&limit=10
+Endpoint: GET /api/projects/:id
+
+Payload:
+{
+  "id": 1,
+  "title": "Agrotech-Pratham",
+  "description": "Freelancing project for an Agrotech shop. Built with Next.js, SEO, and Tailwind CSS.",
+  "longDescription": "A freelancing project for an Agrotech shop...",
+  "tags": ["Next.js", "SEO", "Tailwind CSS"],
+  "image": "https://res.cloudinary.com/dceysplwm/image/upload/v1746988916/pratham-agro_2_ynzdzf.png",
+  "githubUrl": "",
+  "liveUrl": "https://agrotech-pratham.vercel.app/",
+  "category": "freelance", // Options: "freelance", "hackathon", "personal"
+  "isFeatured": true,
+  "order": 1,
+  "visibility": "public", // Options: "public", "private", "draft"
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+Filter Options:
+- category: "freelance", "hackathon", "personal", "all"
+- visibility: "public", "private", "draft"
+- isFeatured: true/false
+- search: string (searches in title, description, tags)
+- sortBy: "date", "title", "category"
+- order: "asc", "desc"
+
+===============================================
+3. ACHIEVEMENTS PAGE
+===============================================
+
+Endpoint: GET/POST/PUT/DELETE /api/achievements
+Endpoint: GET /api/achievements?type=award&displayMode=timeline
+
+Payload:
+{
+  "id": 1,
+  "title": "Best Web App Award",
+  "organization": "TechCon 2023",
+  "date": "November 2023",
+  "description": "Awarded for creating an innovative healthcare management application...",
+  "type": "award", // Options: "award", "certificate"
+  "icon": "Trophy", // Options: "Trophy", "Medal", "Award", "GraduationCap"
+  "color": "gold", // Options: "gold", "silver", "bronze", "blue", "cyan", "orange"
+  "details": "The project was selected from over 200 entries...",
+  "certificateImage": "/images/cert1.jpg",
+  "isActive": true,
+  "order": 1,
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+Filter Options:
+- type: "all", "award", "certificate"
+- displayMode: "grid", "timeline"
+- year: "2023", "2024", etc.
+- search: string
+
+===============================================
+4. BLOG PAGE
+===============================================
+
+Endpoint: GET/POST/PUT/DELETE /api/blog
+Endpoint: GET /api/blog/:id
+Endpoint: GET /api/blog?category=React&page=1&limit=10
+
+Payload:
+{
+  "id": 1,
+  "title": "Building Responsive UIs with Tailwind CSS",
+  "excerpt": "Learn how to create beautiful, responsive user interfaces using Tailwind CSS utility classes.",
+  "content": "<p>Tailwind CSS has revolutionized...</p>", // HTML content
+  "date": "Nov 15, 2023",
+  "readTime": "6 min read",
+  "image": "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&q=80&w=800&h=500",
+  "tags": ["Tailwind CSS", "UI Design", "Web Development"],
+  "author": {
+    "name": "Sameer Bagul",
+    "avatar": "/avatar.jpg",
+    "bio": "Full Stack Developer"
+  },
+  "status": "published", // Options: "draft", "published", "archived"
+  "views": 1234,
+  "isFeatured": false,
+  "tableOfContents": [
+    {
+      "title": "Why Tailwind?",
+      "anchor": "#why-tailwind"
+    },
+    {
+      "title": "Getting Started",
+      "anchor": "#getting-started"
+    }
+  ],
+  "seo": {
+    "metaTitle": "Building Responsive UIs with Tailwind CSS",
+    "metaDescription": "Learn how to create beautiful, responsive user interfaces...",
+    "keywords": ["tailwind", "css", "responsive design"]
+  },
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T...",
+  "publishedAt": "2025-01-09T..."
+}
+
+Filter Options:
+- tags: string[] (filter by tags)
+- status: "draft", "published", "archived", "all"
+- search: string (searches in title, excerpt, content)
+- sortBy: "date", "views", "title"
+- order: "asc", "desc"
+
+Blog Tags Endpoint:
+GET /api/blog/tags
+Response:
+{
+  "tags": [
+    {
+      "name": "React",
+      "count": 5,
+      "color": "bg-blue-100 text-blue-800 dark:bg-blue-900/70 dark:text-blue-300"
+    },
+    {
+      "name": "JavaScript",
+      "count": 8,
+      "color": "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/70 dark:text-yellow-300"
+    }
+  ]
+}
+
+===============================================
+5. EXPERIENCE PAGE
+===============================================
+
+Endpoint: GET/POST/PUT/DELETE /api/experiences
+Endpoint: GET /api/experiences/:id
+
+Payload:
+{
+  "id": "exp1",
+  "title": "Full Stack Software Developer & DevOps Engineer",
+  "company": "WyseTree – Business Process Transformation Services, Pune",
+  "period": "Aug 2025 - Present",
+  "description": [
+    "Designed and implemented scalable full-stack systems...",
+    "Automated Marketing and Lead operations...",
+    "Developed an end-to-end medical lab platform...",
+    "Deployed applications using Nginx, Docker..."
+  ],
+  "type": "full-time Internship", // Options: "full-time", "internship", "freelance", "full-time Internship"
+  "details": "Led development of enterprise-level solutions...",
+  "certificateImage": "/images/experience1-cert.jpg",
+  "skills": ["MERN Stack", "Docker", "Nginx", "AI"],
+  "location": "Pune, India",
+  "isCurrentRole": true,
+  "order": 1,
+  "visibility": "public",
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+Filter Options:
+- type: "all", "full-time", "internship", "freelance"
+- isCurrentRole: true/false
+- search: string
+
+===============================================
+6. RESUME PAGE
+===============================================
+
+6.1 PERSONAL INFO
+-----------------
+Endpoint: GET/PUT /api/resume/personal-info
+Payload:
+{
+  "name": "Sameer Bagul",
+  "title": "Full Stack Developer",
+  "email": "sameerbagul2004@gmail.com",
+  "phone": "+91 7841941033",
+  "location": "Pune, India",
+  "linkedin": "https://www.linkedin.com/in/sameer-bagul/",
+  "github": "https://github.com/Sameer-Bagul",
+  "website": "https://sameerbagul.vercel.app/",
+  "avatar": "/avatar.jpg",
+  "summary": "Aspiring Software Developer skilled in full-stack development...",
+  "updatedAt": "2025-01-09T..."
+}
+
+6.2 EDUCATION
+-------------
+Endpoint: GET/POST/PUT/DELETE /api/resume/education
+Payload:
+{
+  "id": "edu1",
+  "degree": "Bachelor of Technology - Information Technology",
+  "institution": "PES Modern College of Engineering, Pune",
+  "period": "Nov 2022 - June 2026",
+  "cgpa": "8.21",
+  "maxCgpa": "10",
+  "description": [
+    "CGPA: 8.21 / 10",
+    "Relevant Coursework: Data Structures, Algorithms...",
+    "Technical Lead of APP Club...",
+    "Active participant in hackathons..."
+  ],
+  "location": "Pune, India",
+  "order": 1,
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+6.3 SKILLS (Same as Home Page Skills)
+Endpoint: GET /api/skills (shared with home page)
+
+6.4 ACHIEVEMENTS (Summary for Resume)
+--------------------------------------
+Endpoint: GET /api/resume/achievements
+Payload:
+{
+  "achievements": [
+    {
+      "title": "Smart India Hackathon 2024",
+      "description": "Grand Finalist and Runner-up - Rs. 30,000 cash prize",
+      "date": "2024"
+    },
+    {
+      "title": "Innovate You Hackathon 2025",
+      "description": "National Winner - Rs. 10,000 award",
+      "date": "2025"
+    }
+  ]
+}
+
+6.5 NOTABLE PROJECTS (Summary for Resume)
+------------------------------------------
+Endpoint: GET /api/resume/notable-projects
+Payload:
+{
+  "projects": [
+    {
+      "name": "Skillify",
+      "description": "National Award winning GEN AI Project for Skill Development [SIH, Techathon]",
+      "tags": ["AI", "MERN", "Education"]
+    },
+    {
+      "name": "WCareers",
+      "description": "AI-powered career guidance platform using Agentic AI and Adaptive Assessment Engine",
+      "tags": ["AI", "Career", "Assessment"]
+    }
+  ]
+}
+
+6.6 RESUME PDF
+--------------
+Endpoint: GET /api/resume/download
+Endpoint: POST /api/resume/generate-pdf
+Response: Binary PDF file
+
+===============================================
+7. STUDY/NOTES SECTION (Dev Library)
+===============================================
+
+7.1 FOLDERS
+-----------
+Endpoint: GET /api/study/folders?username=sameerbagul
+Endpoint: GET /api/public/folders/:slug?username=sameerbagul
+Endpoint: POST/PUT/DELETE /api/study/folders (admin only)
+
+Payload:
+{
+  "_id": "folder-id-123",
+  "name": "React Fundamentals",
+  "slug": "react-fundamentals",
+  "userId": "sameerbagul",
+  "color": "blue",
+  "parent": null,
+  "isArchived": false,
+  "isDeployed": true,
+  "noteCount": 3,
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+7.2 NOTES
+---------
+Endpoint: GET /api/study/notes?folderId=xyz
+Endpoint: GET /api/study/notes/:id
+Endpoint: POST/PUT/DELETE /api/study/notes (admin only)
+
+Payload:
+{
+  "_id": "note-id-456",
+  "title": "React Hooks - Introduction",
+  "content": "<h1>React Hooks</h1><p>...</p>", // HTML content with code snippets
+  "folderId": "folder-id-123",
+  "userId": "sameerbagul",
+  "slug": "react-hooks-intro",
+  "tags": ["react", "hooks", "javascript"],
+  "isPinned": true,
+  "isArchived": false,
+  "color": "blue",
+  "order": 1,
+  "lastEditedAt": "2025-01-09T...",
+  "createdAt": "2025-01-09T...",
+  "updatedAt": "2025-01-09T..."
+}
+
+===============================================
+8. SITE SETTINGS & CONFIGURATION
+===============================================
+
+8.1 THEME SETTINGS
+------------------
+Endpoint: GET/PUT /api/settings/theme
+Payload:
+{
+  "defaultTheme": "dark", // Options: "light", "dark", "system"
+  "primaryColor": "#8b5cf6",
+  "accentColor": "#a78bfa",
+  "enableAnimations": true,
+  "updatedAt": "2025-01-09T..."
+}
+
+8.2 SEO SETTINGS
+----------------
+Endpoint: GET/PUT /api/settings/seo
+Payload:
+{
+  "siteName": "Sameer Bagul - Portfolio",
+  "siteDescription": "Full Stack Developer & AI Engineer Portfolio",
+  "siteKeywords": ["full stack developer", "AI engineer", "DevOps"],
+  "ogImage": "https://...",
+  "twitterHandle": "@sameerbagul",
+  "googleAnalyticsId": "G-XXXXXXXXXX",
+  "updatedAt": "2025-01-09T..."
+}
+
+8.3 NAVIGATION MENU
+-------------------
+Endpoint: GET/PUT /api/settings/navigation
+Payload:
+{
+  "menuItems": [
+    {
+      "label": "Home",
+      "path": "/",
+      "order": 1,
+      "isActive": true
+    },
+    {
+      "label": "Projects",
+      "path": "/projects",
+      "order": 2,
+      "isActive": true
+    },
+    {
+      "label": "Experience",
+      "path": "/experience",
+      "order": 3,
+      "isActive": true
+    },
+    {
+      "label": "Achievements",
+      "path": "/achievements",
+      "order": 4,
+      "isActive": true
+    },
+    {
+      "label": "Blog",
+      "path": "/blog",
+      "order": 5,
+      "isActive": true
+    },
+    {
+      "label": "Resume",
+      "path": "/resume",
+      "order": 6,
+      "isActive": true
+    }
+  ]
+}
+
+===============================================
+9. AUTHENTICATION & USER MANAGEMENT
+===============================================
+
+9.1 ADMIN LOGIN
+---------------
+Endpoint: POST /api/auth/login
+Payload:
+{
+  "email": "admin@example.com",
+  "password": "securepassword"
+}
+Response:
+{
+  "token": "jwt-token-here",
+  "user": {
+    "id": "user-id",
+    "email": "admin@example.com",
+    "name": "Sameer Bagul",
+    "role": "admin"
+  }
+}
+
+9.2 USER SESSION
+----------------
+Endpoint: GET /api/auth/me
+Headers: { "Authorization": "Bearer jwt-token" }
+Response:
+{
+  "user": {
+    "id": "user-id",
+    "email": "admin@example.com",
+    "name": "Sameer Bagul",
+    "role": "admin"
+  }
+}
+
+===============================================
+10. ANALYTICS & METRICS
+===============================================
+
+10.1 SITE ANALYTICS
+-------------------
+Endpoint: GET /api/analytics/overview
+Response:
+{
+  "totalViews": 12345,
+  "totalProjects": 32,
+  "totalBlogPosts": 6,
+  "totalMessages": 45,
+  "popularProjects": [
+    {
+      "id": 1,
+      "title": "Skillify",
+      "views": 567
+    }
+  ],
+  "popularBlogPosts": [
+    {
+      "id": 1,
+      "title": "Building Responsive UIs",
+      "views": 1234
+    }
+  ],
+  "recentMessages": [
+    {
+      "id": "msg-1",
+      "name": "John Doe",
+      "subject": "Project Inquiry",
+      "date": "2025-01-09T..."
+    }
+  ]
+}
+
+===============================================
+11. FILE UPLOADS & MEDIA
+===============================================
+
+Endpoint: POST /api/upload
+Form Data:
+{
+  "file": File,
+  "type": "image" | "document" | "certificate",
+  "folder": "projects" | "blog" | "certificates"
+}
+Response:
+{
+  "url": "https://res.cloudinary.com/...",
+  "publicId": "cloudinary-public-id",
+  "format": "png",
+  "size": 123456
+}
+
+===============================================
+12. API BASE CONFIGURATION
+===============================================
+
+Development: http://localhost:10000
+Production: https://notestudio.azurewebsites.net
+
+All API endpoints should be prefixed with the base URL.
+Authentication required for POST, PUT, DELETE operations.
+Public GET operations don't require authentication.
+
+===============================================
+13. DATABASE COLLECTIONS/TABLES
+===============================================
+
+Collections needed for MongoDB:
+1. users
+2. projects
+3. experiences
+4. achievements
+5. blog_posts
+6. testimonials
+7. skills
+8. contact_messages
+9. folders
+10. notes
+11. settings
+12. analytics
+
+===============================================
+14. ADMIN APP FEATURES CHECKLIST
+===============================================
+
+✓ Dashboard with analytics overview
+✓ Project management (CRUD operations)
+✓ Blog management (CRUD operations)
+✓ Experience management (CRUD operations)
+✓ Achievement management (CRUD operations)
+✓ Testimonials management (CRUD operations)
+✓ Skills management (CRUD operations)
+✓ Contact messages inbox
+✓ File/media upload management
+✓ SEO settings
+✓ Theme settings
+✓ Navigation menu editor
+✓ User authentication
+✓ Resume PDF generator
+✓ Analytics and metrics
+✓ Notes/Study content management
+
+===============================================
+15. TECHNOLOGY STACK RECOMMENDATIONS
+===============================================
+
+Admin App Frontend:
+- React/Next.js
+- TypeScript
+- Tailwind CSS
+- Shadcn/ui components
+- React Hook Form (for forms)
+- TanStack Query (for data fetching)
+- Zustand/Redux (for state management)
+
+Admin App Backend (if separate):
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT authentication
+- Cloudinary for media storage
+- Nodemailer for emails
+
+OR use existing backend at:
+https://notestudio.azurewebsites.net
+
+===============================================
+END OF DOCUMENT
+=============================================== 
