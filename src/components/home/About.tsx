@@ -69,22 +69,34 @@ export const About = () => {
             className={isMobile ? 'order-2' : ''}
           >
             <div className="prose prose-lg dark:prose-invert max-w-none">
-              <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed ${isMobile ? 'mb-4' : 'mb-6'}`}>
-                I'm a Software Engineer at Bug0 (Hashnode), specializing in full-stack development and AI solutions. 
-                Currently pursuing Information Technology at PES Modern College of Engineering, Pune with a CGPA of 8.21/10.
+              <p className={`${isMobile ? 'text-base' : 'text-lg'} leading-relaxed ${isMobile ? 'mb-3' : 'mb-4'}`}>
+                I'm Sameer Bagul — a Full‑Stack & AI Developer currently at Bug0 (Hashnode). I design and ship developer
+                tools, scalable backend services and AI-powered features. On the infra side I focus on containerized
+                deployments and CI/CD that make delivery predictable and reliable.
               </p>
-              
-              <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed ${isMobile ? 'mb-4' : 'mb-6'}`}>
-                As Technical Lead of APP Club at PESMCOE, I've mentored over 200 students and guided multiple
-                projects to completion. My experience includes building innovative solutions at Bug0, automating operations 
-                for 100,000+ leads using AI agents, and achieving 99% uptime with modern DevOps practices.
+
+              <p className={`${isMobile ? 'text-base' : 'text-lg'} leading-relaxed ${isMobile ? 'mb-3' : 'mb-4'}`}>
+                Previously I built full‑stack and DevOps solutions at LabsCheck and Walnut Solutions — from a medical-lab
+                platform to an AI automation pipeline that processed 100,000+ leads. I deploy production systems with Docker,
+                Nginx and repeatable CI/CD (99% uptime) and maintain developer tooling such as <span className="font-medium">create-mern-auth</span>.
               </p>
-              
-              <p className={`${isMobile ? 'text-base' : 'text-xl'} leading-relaxed`}>
-                I'm a national hackathon winner (Smart India Hackathon 2024 & Innovate You Hackathon 2025)
-                with expertise in MERN stack, AI/ML technologies, and business process transformation.
-                Passionate about solving real engineering challenges and building meaningful products with creativity and innovation.
+
+              <p className={`${isMobile ? 'text-base' : 'text-lg'} leading-relaxed`}>
+                I'm pursuing B.Tech (IT) at PES Modern College of Engineering (CGPA 8.21). I mentor student teams and have
+                been recognized in Smart India Hackathon 2024 (finalist) and Innovate You Hackathon 2025 (winner). Core
+                skills: JavaScript/TypeScript, MERN, Python, AI/ML, MongoDB, Docker and CI/CD.
               </p>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <Badge variant="secondary" className="text-xs">JavaScript</Badge>
+                <Badge variant="secondary" className="text-xs">TypeScript</Badge>
+                <Badge variant="secondary" className="text-xs">React / Next.js</Badge>
+                <Badge variant="secondary" className="text-xs">Node / Express</Badge>
+                <Badge variant="secondary" className="text-xs">MongoDB</Badge>
+                <Badge variant="secondary" className="text-xs">Docker</Badge>
+                <Badge variant="secondary" className="text-xs">CI/CD</Badge>
+                <Badge variant="secondary" className="text-xs">AI / ML</Badge>
+              </div>
             </div>
           </motion.div>
 
