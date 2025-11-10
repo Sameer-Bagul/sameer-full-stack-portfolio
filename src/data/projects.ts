@@ -11,8 +11,19 @@ export interface Project {
 }
 
 export const projectsData: Project[] = [
-  {
+    {
     id: 1,
+    title: 'create-mern-auth - NPM CLI Package',
+    description: 'Stop wasting time and AI tokens on auth setup! One command to scaffold complete MERN auth: JWT + OTP, email verification, password reset, protected routes, and ready client-server setup.',
+    longDescription: 'Tired of setting up authentication for every new project? This NPM CLI tool generates a production-ready MERN authentication system in seconds. Just run `npx create-mern-auth my-app` and get a complete setup with JWT authentication, OTP-based email verification, password reset, protected routes, and a ready-to-use client + server architecture. Perfect for hackathons, SaaS products, and AI tools. Save development time and AI tokens by avoiding repetitive auth code generation. Open for collaboration - let\'s add dashboards, AI integrations, social logins, payments, and OAuth together!',
+    tags: ['NPM', 'CLI', 'MERN', 'Authentication', 'JWT', 'OTP', 'Email Verification', 'Developer Tools'],
+    image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1762753094/1762526201594_e2cyxv.jpg',
+    githubUrl: 'https://github.com/Sameer-Bagul/create-mern-auth',
+    liveUrl: 'https://www.npmjs.com/package/create-mern-auth',
+    category: 'personal',
+  },
+  {
+    id: 2,
     title: 'Agrotech-Pratham',
     description: 'Freelancing project for an Agrotech shop. Built with Next.js, SEO, and Tailwind CSS.',
     longDescription: 'A freelancing project for an Agrotech shop, built using Next.js, with SEO optimizations and styled using Tailwind CSS to create an efficient online presence.',
@@ -23,7 +34,7 @@ export const projectsData: Project[] = [
     category: 'freelance',
   },
   {
-    id: 2,
+    id: 3,
     title: 'app-club-landing-page',
     description: 'Landing page for the App Club at my college, where I mentor 200+ students and assist with 50+ projects.',
     longDescription: 'A landing page designed for the App Club at my college, showcasing the club\'s projects and activities. I mentor 200+ students and assist in various projects.',
@@ -31,17 +42,6 @@ export const projectsData: Project[] = [
     image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988885/app-club-landing-page_2_lfrag5.png',
     githubUrl: '',
     liveUrl: 'https://app-club-landingpage.vercel.app/',
-    category: 'personal',
-  },
-  {
-    id: 3,
-    title: 'best-mern-auth',
-    description: 'Advanced MERN stack authentication system featuring 5+ security features: email verification (OTP), JWT-based authentication, 2FA, and password reset functionality.',
-    longDescription: 'A secure authentication system built with the MERN stack, offering multiple layers of security including email OTP, JWT-based authentication, 2FA, and password reset functionality.',
-    tags: ['MERN', 'Authentication', 'JWT', '2FA'],
-    image: 'https://res.cloudinary.com/dceysplwm/image/upload/v1746988911/mern-authentication-system_3_bok1sh.png',
-    githubUrl: 'https://github.com/Sameer-Bagul/best-mern-auth.git',
-    liveUrl: '',
     category: 'personal',
   },
   {
