@@ -168,8 +168,12 @@ const Resume = () => {
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="flex flex-col items-center mb-4">
-                        <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                          <User size={32} className="text-primary" />
+                        <div className="w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-primary/20">
+                          <img 
+                            src="/sameer.png" 
+                            alt="Sameer Bagul" 
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <h2 className="text-xl font-bold">Sameer Bagul</h2>
                         <p className="text-muted-foreground">Full Stack Developer</p>
