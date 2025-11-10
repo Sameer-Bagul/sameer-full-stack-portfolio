@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Mail, Phone, MapPin, Sparkles, Layers, Download, FileText } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Mail, Phone, MapPin, Sparkles, Layers, Download, FileText, Briefcase, Youtube } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 import { GlassButton } from '@/components/ui/glass-button';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { useTheme } from '@/contexts/ThemeContext';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { experiences } from '@/data/experiences';
 
 // Typing text effect component
 const TypingTextEffect = ({
@@ -92,10 +93,20 @@ export const Hero = () => {
   const socialLinks = [
     { icon: <Github size={18} />, href: "https://github.com/Sameer-Bagul", label: "GitHub" },
     { icon: <Linkedin size={18} />, href: "https://linkedin.com/in/sameer-bagul", label: "LinkedIn" },
+    { icon: <Youtube size={18} />, href: "https://www.youtube.com/@Byte_with_sam", label: "YouTube" },
     { icon: <Mail size={18} />, href: "mailto:sameerbagul2004@gmail.com", label: "Email" },
     { icon: <Phone size={18} />, href: "tel:+917841941033", label: "Phone" },
     { icon: <MapPin size={18} />, href: "https://maps.google.com/?q=Pune,India", label: "Location: Pune, India" }
   ];
+
+  // find the current (present) experience from experiences data
+  const currentExp = experiences.find(exp => /present/i.test(exp.period));
+  // compute a sensible link for the current company: direct site for Bug0, otherwise a search
+  const currentCompanyUrl = currentExp
+    ? (currentExp.company.toLowerCase().includes('bug0')
+        ? 'https://bug0.com/'
+        : `https://www.google.com/search?q=${encodeURIComponent(currentExp.company)}`)
+    : undefined;
 
   return (
     <section className="relative w-screen overflow-hidden" style={{ height: '100vh', width: '100vw' }}>
@@ -115,15 +126,43 @@ export const Hero = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              >
+             
                 <Sparkles className="w-4 h-4" />
-              </motion.div>
+
               <span className="text-sm">Welcome to my digital space</span>
             </motion.div>
           </motion.div>
+
+          {/* Current Workplace Badge (driven from src/data/experiences.ts) */}
+          {currentExp && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.18 }}
+              className={`mb-4 flex ${isMobile ? 'justify-center' : ''}`}
+            >
+              <HoverCard>
+                <HoverCardTrigger asChild>
+                  <a
+                    href={currentCompanyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-3 glass-button glass-button-accent px-4 py-2 rounded-lg shadow-md"
+                    aria-label={`Currently working at ${currentExp.company}`}
+                  >
+                    <Briefcase className="w-4 h-4 text-foreground" />
+                    <div className="text-left">
+                      <div className="text-sm font-semibold">Currently at <span className="text-violet-400">{currentExp.company}</span></div>
+                      <div className="text-xs text-foreground/70">{currentExp.title} • {currentExp.period}</div>
+                    </div>
+                  </a>
+                </HoverCardTrigger>
+                <HoverCardContent side="bottom" className="w-auto">
+                  <p className="text-sm">{currentExp.description?.[0] ?? currentExp.details ?? 'Working on product development and automation.'}</p>
+                </HoverCardContent>
+              </HoverCard>
+            </motion.div>
+          )}
 
 
 
