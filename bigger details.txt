@@ -386,7 +386,7 @@ Payload:
   "location": "Pune, India",
   "linkedin": "https://www.linkedin.com/in/sameer-bagul/",
   "github": "https://github.com/Sameer-Bagul",
-  "website": "https://sameerbagul.vercel.app/",
+  "website": "https://www.sameerbagul.me/",
   "avatar": "/avatar.jpg",
   "summary": "Aspiring Software Developer skilled in full-stack development...",
   "updatedAt": "2025-01-09T..."

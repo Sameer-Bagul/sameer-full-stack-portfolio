@@ -56,7 +56,7 @@ const appIcons = [
   { id: 9, name: 'GitHub', icon: <Github size={20} />, color: 'bg-gradient-to-br from-gray-700 to-gray-900', link: 'https://github.com/Sameer-Bagul' },
   { id: 10, name: 'LinkedIn', icon: <Linkedin size={20} />, color: 'bg-gradient-to-br from-blue-600 to-blue-800', link: 'https://linkedin.com/in/sameer-bagul' },
   { id: 11, name: 'LeetCode', icon: <Code size={20} />, color: 'bg-gradient-to-br from-orange-500 to-yellow-500', link: 'https://leetcode.com/sameerbagul' },
-  { id: 12, name: 'Portfolio', icon: <Globe size={20} />, color: 'bg-gradient-to-br from-indigo-500 to-violet-600', link: 'https://sameerbagul.vercel.app' },
+  { id: 12, name: 'Portfolio', icon: <Globe size={20} />, color: 'bg-gradient-to-br from-indigo-500 to-violet-600', link: 'https://www.sameerbagul.me/' },
   
   // Social Media - Creative
   { id: 13, name: 'Twitter', icon: <Twitter size={20} />, color: 'bg-gradient-to-br from-sky-400 to-blue-500', link: 'https://twitter.com/sameerbagul' },

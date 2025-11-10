@@ -29,7 +29,7 @@ CONTACT & SOCIAL
 8. Phone - Phone icon - Teal gradient - tel:+917841941033
 9. GitHub - Github icon - Dark Gray gradient - https://github.com/Sameer-Bagul
 10. LinkedIn - LinkedIn icon - Blue gradient - https://linkedin.com/in/sameer-bagul
-11. Portfolio Site - Globe icon - Indigo gradient - https://sameerbagul.vercel.app
+11. Portfolio Site - Globe icon - Indigo gradient - https://www.sameerbagul.me/
 12. Location - MapPin icon - Pink/Rose gradient - Pune, India (Maps link)
 
 FEATURED PROJECTS (Quick Access)

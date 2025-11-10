@@ -204,7 +204,7 @@ const Resume = () => {
                         </div>
                         <div className="flex items-center gap-3">
                           <Globe size={16} className="text-primary" />
-                          <a href="https://sameerbagul.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-primary">sameerbagul.vercel.app</a>
+                          <a href="https://www.sameerbagul.me/" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-primary">sameerbagul.me</a>
                         </div>
                       </div>
                       
