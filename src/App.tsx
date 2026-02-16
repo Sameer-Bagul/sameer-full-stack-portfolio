@@ -14,21 +14,23 @@ import { Toaster } from 'sonner'
 import StudyRoutes from './pages/study'
 import { ThemeProvider } from './contexts/ThemeContext'
 import { TooltipProvider } from './components/ui/tooltip'
-import StarBackground from './components/ui-components/StarBackground'
 import MobileWidgetUI from './components/ui-components/MobileWidgetUI'
 import WidgetUI from './components/ui-components/widgetUi'
 import { useIsMobile } from './hooks/use-mobile'
+import CustomCursor from './components/ui/CustomCursor'
+import Oneko from './components/Oneko/Oneko'
 
 function App() {
   const isMobile = useIsMobile()
-  
+
   return (
     <ThemeProvider>
       <TooltipProvider>
         <BrowserRouter>
           <div className="relative w-full overflow-x-hidden flex flex-col">
-            {/* Star Background for the entire app */}
-            <StarBackground />
+            <CustomCursor />
+            <Oneko />
+            {/* Star Background removed as per migration plan */}
             <ScrollAwareHeader />
             <main className="relative z-10 flex-1">
               <Routes>
@@ -45,7 +47,7 @@ function App() {
             </main>
             <Footer />
             <Toaster />
-            
+
             {/* Global WidgetUI Layer - Available on all pages */}
             <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 100 }}>
               <div className="pointer-events-auto">
