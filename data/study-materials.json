@@ -1,0 +1,214 @@
+[
+    {
+        "id": "1",
+        "topic": "Javascript",
+        "title": "Javascript Mastery",
+        "image": "/study/js.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.8,
+        "difficulty": "Intermediate",
+        "estimatedTime": "12 hours",
+        "tags": [
+            "ES6+",
+            "Async",
+            "Engine"
+        ],
+        "chapters": [
+            {
+                "id": "js-c1",
+                "title": "Introduction to JS Engine",
+                "content": "# The Engine\nUnderstanding how V8 works, the call stack, and memory heap."
+            },
+            {
+                "id": "js-c2",
+                "title": "Closures & Scope Chain",
+                "content": "# Scopes\nA deep dive into lexical environment and how closures capture variables."
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "topic": "React",
+        "title": "React Deep Dive",
+        "image": "/study/react.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.9,
+        "difficulty": "Advanced",
+        "estimatedTime": "15 hours",
+        "tags": [
+            "Hooks",
+            "RSC",
+            "Performance"
+        ],
+        "chapters": [
+            {
+                "id": "r-c1",
+                "title": "The Reconciliation Algorithm",
+                "content": "# Fiber Context\nHow React updates the DOM efficiently using the virtual DOM and Fiber."
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "topic": "HTML+CSS",
+        "title": "Modern Layouts",
+        "image": "/study/css.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.7,
+        "difficulty": "Beginner",
+        "estimatedTime": "8 hours",
+        "tags": [
+            "Flexbox",
+            "Grid",
+            "Animations"
+        ],
+        "chapters": [
+            {
+                "id": "css-c1",
+                "title": "Mastering CSS Grid",
+                "content": "# Grid Systems\nCreating complex 12-column layouts with ease."
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "topic": "Node",
+        "title": "Backend Engineering",
+        "image": "/study/node.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.8,
+        "difficulty": "Intermediate",
+        "estimatedTime": "20 hours",
+        "tags": [
+            "Streams",
+            "Even Loop",
+            "Microservices"
+        ],
+        "chapters": [
+            {
+                "id": "node-c1",
+                "title": "Event Driven Architecture",
+                "content": "# Event Loop\nUnderstanding the phases of the Node.js event loop."
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "topic": "Python",
+        "title": "Python for Engineers",
+        "image": "/study/python.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.6,
+        "difficulty": "Beginner",
+        "estimatedTime": "10 hours",
+        "tags": [
+            "Automation",
+            "Data Science",
+            "Scripting"
+        ],
+        "chapters": [
+            {
+                "id": "py-c1",
+                "title": "Python Data Structures",
+                "content": "# Lists & Dicts\nEfficient data manipulation with Python built-ins."
+            }
+        ]
+    },
+    {
+        "id": "6",
+        "topic": "AI",
+        "title": "Agentic AI Systems",
+        "image": "/study/ai.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.9,
+        "difficulty": "Advanced",
+        "estimatedTime": "25 hours",
+        "tags": [
+            "LLMs",
+            "RAG",
+            "Agents"
+        ],
+        "chapters": [
+            {
+                "id": "ai-c1",
+                "title": "Building Autonomous Agents",
+                "content": "# Agents\nImplementing tool-calling and memory in AI agents."
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "topic": "ML",
+        "title": "Machine Learning Core",
+        "image": "/study/ml.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.7,
+        "difficulty": "Intermediate",
+        "estimatedTime": "30 hours",
+        "tags": [
+            "Regression",
+            "Neural Nets",
+            "Pytorch"
+        ],
+        "chapters": [
+            {
+                "id": "ml-c1",
+                "title": "Gradient Descent",
+                "content": "# Optimization\nFine-tuning model parameters for accuracy."
+            }
+        ]
+    },
+    {
+        "id": "8",
+        "topic": "Git",
+        "title": "Version Control Mastery",
+        "image": "/study/git.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.5,
+        "difficulty": "Beginner",
+        "estimatedTime": "5 hours",
+        "tags": [
+            "Branching",
+            "Rebase",
+            "Workflow"
+        ],
+        "chapters": [
+            {
+                "id": "git-c1",
+                "title": "Git Rebase vs Merge",
+                "content": "# Workflows\nKeeping a clean commit history."
+            }
+        ]
+    },
+    {
+        "id": "9",
+        "topic": "DSA",
+        "title": "Algorithms & Structures",
+        "image": "/study/dsa.png",
+        "videoUrl": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "githubLink": "https://github.com/sameerbagul",
+        "rating": 4.9,
+        "difficulty": "Advanced",
+        "estimatedTime": "40 hours",
+        "tags": [
+            "Graphs",
+            "DP",
+            "Trees"
+        ],
+        "chapters": [
+            {
+                "id": "dsa-c1",
+                "title": "Dynamic Programming",
+                "content": "# DP\nSolving complex problems by breaking them into overlapping subproblems."
+            }
+        ]
+    }
+]

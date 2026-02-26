@@ -1,0 +1,146 @@
+import axios from 'axios';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://sameeradminapi.azurewebsites.net/api';
+
+const api = axios.create({
+    baseURL: API_URL,
+});
+
+export interface Blog {
+    _id: string;
+    title: string;
+    shortDescription: string;
+    longContent: string;
+    coverImage: string;
+    category: string;
+    author: string;
+    readingTime: string;
+    tags: string[];
+    githubLink: string;
+    blogLink: string;
+    publishedAt: string;
+    isPublished: boolean;
+}
+
+export interface Project {
+    _id: string;
+    title: string;
+    shortDescription: string;
+    description: string;
+    tags: string[];
+    techStack: string[];
+    category: string;
+    isFeatured: boolean;
+    image: string;
+    projectDate?: string;
+    videoUrl: string;
+    githubUrl: string;
+    liveUrl: string;
+    contributors: string[];
+    features: string[];
+}
+
+export interface Skill {
+    _id: string;
+    name: string;
+    icon: string;
+    category?: string;
+    row?: number;
+}
+
+export interface Experience {
+    _id: string;
+    id: string; // for compatibility
+    role: string;
+    company: string;
+    location?: string;
+    startDate: string;
+    endDate?: string;
+    duration: string;
+    current: boolean;
+    bullets: string[];
+    techStack: string[];
+}
+
+export interface Testimonial {
+    _id: string;
+    name: string;
+    role: string;
+    company: string;
+    content: string;
+    avatar: string;
+}
+
+export interface Achievement {
+    _id: string;
+    title: string;
+    description: string;
+    date: string;
+    icon?: string;
+}
+
+
+
+export const getBlogs = async (): Promise<Blog[]> => {
+    const response = await api.get('/blog');
+    return response.data;
+};
+
+export const getProjects = async (): Promise<Project[]> => {
+    const response = await api.get('/projects');
+    return response.data;
+};
+
+export const getSkills = async (): Promise<Skill[]> => {
+    const response = await api.get('/skills');
+    return response.data;
+};
+
+export const getExperience = async (): Promise<Experience[]> => {
+    const response = await api.get('/experience');
+    return response.data;
+};
+
+export const getTestimonials = async (): Promise<Testimonial[]> => {
+    const response = await api.get('/testimonials');
+    return response.data;
+};
+
+export const getAchievements = async (): Promise<Achievement[]> => {
+    const response = await api.get('/achievements');
+    return response.data;
+};
+
+
+
+export const sendMessage = async (messageData: { name: string; email: string; subject: string; message: string }) => {
+    const response = await api.post('/messages', messageData);
+    return response.data;
+};
+
+export const getGithubProfile = async () => {
+    const response = await api.get('/github/profile');
+    return response.data;
+};
+
+export const getGithubRepos = async () => {
+    const response = await api.get('/github/repos');
+    return response.data;
+};
+
+export const getPins = async () => {
+    const response = await api.get('/pins');
+    return response.data;
+};
+
+export const getBoards = async () => {
+    const response = await api.get('/boards');
+    return response.data;
+};
+
+export const getCodingPlatforms = async () => {
+    const response = await api.get('/coding-platforms');
+    return response.data;
+};
+
+export default api;

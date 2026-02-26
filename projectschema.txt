@@ -1,0 +1,62 @@
+const mongoose = require('mongoose');
+
+const projectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    trim: true,
+  },
+  shortDescription: {
+    type: String,
+  },
+  description: {
+    type: String,
+  },
+  projectDate: {
+    type: String,
+    default: '',
+  },
+  tags: [{
+    type: String,
+  }],
+  techStack: [{
+    type: String,
+  }],
+  category: {
+    type: String,
+    enum: ['freelancing', 'hackathons', 'saas', 'my-tools', 'web', 'android', 'cli', 'ui-ux', 'games', '3d'],
+  },
+  isFeatured: {
+    type: Boolean,
+    default: false,
+  },
+  image: {
+    type: String,
+    default: '',
+  },
+  videoUrl: {
+    type: String,
+    default: '',
+  },
+  githubUrl: {
+    type: String,
+    default: '',
+  },
+  liveUrl: {
+    type: String,
+    default: '',
+  },
+  contributors: [{
+    type: String,
+  }],
+  features: [{
+    type: String,
+  }],
+  sequence: {
+    type: Number,
+    default: 0,
+  },
+}, {
+  timestamps: true,
+});
+
+module.exports = mongoose.model('Project', projectSchema);
