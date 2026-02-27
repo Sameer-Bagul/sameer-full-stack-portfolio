@@ -23,10 +23,49 @@ export async function generateMetadata(
             description: topic.description,
             images: [topic.image],
         },
+        alternates: {
+            canonical: `https://sameerbagul.me/study/${topicSlug}`,
+        },
     };
 }
 
 export default async function TopicPage({ params }: TopicPageProps) {
     const resolvedParams = await params;
-    return <TopicPageContent params={resolvedParams} />;
+    const { topicSlug } = resolvedParams;
+    const topic = studyData.find(item => item.slug === topicSlug);
+
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://sameerbagul.me"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Study Library",
+                "item": "https://sameerbagul.me/study"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": topic?.topic,
+                "item": `https://sameerbagul.me/study/${topicSlug}`
+            }
+        ]
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <TopicPageContent params={resolvedParams} />
+        </>
+    );
 }

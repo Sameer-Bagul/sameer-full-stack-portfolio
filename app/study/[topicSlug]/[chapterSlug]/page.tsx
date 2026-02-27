@@ -25,6 +25,9 @@ export async function generateMetadata(
             description: `Technical notes on ${topic.topic} - ${chapter.title}`,
             images: [topic.image],
         },
+        alternates: {
+            canonical: `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`,
+        },
     };
 }
 
@@ -35,7 +38,38 @@ export default async function NotePage({ params }: NotePageProps) {
     const topic = studyData.find(item => item.slug === topicSlug);
     const chapter = topic?.chapters.find(c => c.slug === chapterSlug);
 
-    const jsonLd = {
+    const breadcrumbJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://sameerbagul.me"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Study Library",
+                "item": "https://sameerbagul.me/study"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": topic?.topic,
+                "item": `https://sameerbagul.me/study/${topicSlug}`
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": chapter?.title,
+                "item": `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`
+            }
+        ]
+    };
+
+    const articleJsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": chapter?.title,
@@ -60,7 +94,11 @@ export default async function NotePage({ params }: NotePageProps) {
         <>
             <script
                 type="application/ld+json"
-                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
             />
             <NotePageContent params={resolvedParams} />
         </>

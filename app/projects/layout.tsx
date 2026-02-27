@@ -10,5 +10,30 @@ export default function ProjectsLayout({
 }: {
     children: React.ReactNode;
 }) {
-    return <>{children}</>;
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Sameer Bagul's Software Portfolio",
+        "operatingSystem": "Web, Android, iOS, CLI",
+        "applicationCategory": "DeveloperApplication",
+        "author": {
+            "@type": "Person",
+            "name": "Sameer Bagul"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    };
+
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            {children}
+        </>
+    );
 }

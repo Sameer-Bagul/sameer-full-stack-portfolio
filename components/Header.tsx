@@ -8,6 +8,7 @@ import ThemeToggle from './ThemeToggle';
 import { useHeader } from '@/context/HeaderContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import Image from 'next/image';
 import { PERSONAL_INFO } from '@/lib/constants/personalInfo';
 
 const navItems = [
@@ -76,7 +77,14 @@ export default function Header() {
                             href="/"
                             className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary text-primary-foreground font-black text-lg sm:text-xl hover:scale-110 transition-transform shadow-xl shrink-0 z-50 overflow-hidden"
                         >
-                            <img src="/logo.png" alt="Logo" className="w-full h-full object-cover" />
+                            <Image
+                                src="/logo.png"
+                                alt="Logo"
+                                width={40}
+                                height={40}
+                                className="w-full h-full object-cover"
+                                priority
+                            />
                         </Link>
 
                         <AnimatePresence mode="wait">

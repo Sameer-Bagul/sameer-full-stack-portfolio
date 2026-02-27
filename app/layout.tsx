@@ -60,6 +60,9 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  alternates: {
+    canonical: 'https://sameerbagul.me',
+  },
 };
 
 const jsonLd = {

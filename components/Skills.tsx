@@ -1,6 +1,7 @@
 'use client';
 
 import React, { memo, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { STYLES } from '@/lib/constants/styles';
 import { cn } from '@/lib/utils';
 import { usePortfolio } from '@/context/PortfolioContext';
@@ -17,10 +18,12 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
             >
                 {items.map((skill, idx) => (
                     <div key={`${skill.name}-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
-                        <img
+                        <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
                             alt={skill.name}
-                            className="w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-all duration-500 scale-90 group-hover:scale-110"
+                            width={48}
+                            height={48}
+                            className="transition-all duration-500 scale-90 group-hover:scale-110"
                         />
                         <span className="mt-3 sm:mt-4 text-[10px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors font-seona not-italic">{skill.name}</span>
                     </div>
@@ -36,10 +39,12 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
             >
                 {items.map((skill, idx) => (
                     <div key={`${skill.name}-duplicate-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
-                        <img
+                        <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
                             alt={skill.name}
-                            className="w-11 h-11 sm:w-10 sm:h-10 md:w-12 md:h-12 transition-all duration-500 scale-90 group-hover:scale-110"
+                            width={48}
+                            height={48}
+                            className="transition-all duration-500 scale-90 group-hover:scale-110"
                         />
                         <span className="mt-3 sm:mt-4 text-[10px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors">{skill.name}</span>
                     </div>

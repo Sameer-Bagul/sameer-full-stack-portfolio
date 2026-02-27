@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { STYLES } from '@/lib/constants/styles';
 import { cn } from '@/lib/utils';
@@ -103,11 +104,12 @@ export default function Testimonials() {
                                             </div>
 
                                             <div className="mt-12 flex items-center gap-4">
-                                                <div className="w-12 h-12 rounded-full overflow-hidden border border-zinc-200 dark:border-white/10 group-hover:border-primary transition-colors">
-                                                    <img
+                                                <div className="relative w-12 h-12 rounded-full overflow-hidden border border-zinc-200 dark:border-white/10 group-hover:border-primary transition-colors">
+                                                    <Image
                                                         src={testimonial.avatar}
                                                         alt={testimonial.name}
-                                                        className="w-full h-full object-cover"
+                                                        fill
+                                                        className="object-cover"
                                                     />
                                                 </div>
                                                 <div>

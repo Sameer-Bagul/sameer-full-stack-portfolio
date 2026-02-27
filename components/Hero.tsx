@@ -148,10 +148,12 @@ export default function Hero() {
 
                             {/* Main Image Container */}
                             <div className="relative h-full w-full rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
-                                <img
+                                <Image
                                     src="/hero.jpg"
                                     alt={PERSONAL_INFO.name}
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    className="object-cover"
+                                    priority
                                 />
 
                                 {/* Glass Overlay on Image */}
