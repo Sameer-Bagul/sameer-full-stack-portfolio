@@ -8,7 +8,7 @@ import { Search } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { usePortfolio } from '@/context/PortfolioContext';
 
-const categories = ['All', 'Freelancing', 'Hackathons', 'SaaS', 'My Tools', 'Web', 'Android', 'CLI', 'UI UX', 'Games', '3D'];
+const categories = ['All', 'Freelancing', 'Hackathons', 'SaaS', 'My Tools', 'Web', 'Android', 'CLI', 'UI UX', 'Games', '3D', 'AIML'];
 
 // Map display labels to DB values
 const categoryToDbValue: Record<string, string> = {
@@ -23,6 +23,7 @@ const categoryToDbValue: Record<string, string> = {
     'UI UX': 'ui-ux',
     'Games': 'games',
     '3D': '3d',
+    'AIML': 'aiml',
 };
 
 const categoryDescriptions: Record<string, string> = {
@@ -37,6 +38,7 @@ const categoryDescriptions: Record<string, string> = {
     'UI UX': 'Human-centered design systems and interfaces that prioritize clarity, aesthetics, and meaningful interactions.',
     'Games': 'Interactive game experiences built with modern web technologies and creative gameplay mechanics.',
     '3D': 'Three-dimensional experiences, visualizations, and immersive web applications.',
+    'AIML': 'Artificial Intelligence and Machine Learning projects, from neural networks to predictive analytics.',
 };
 
 export default function ProjectsPage() {
