@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -35,11 +35,11 @@ const seona = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://sameerbagul.me"),
   title: {
-    default: "Sameer Bagul | Full Stack & AI Developer",
-    template: "%s | Sameer Bagul",
+    default: "Sameer Bagul | Freelancer & Software AI Developer",
+    template: "%s | Sameer Bagul - Freelancing Services",
   },
-  description: "Senior Full Stack & AI Developer specializing in scalable MERN, Next.js, and AI systems. Smart India Hackathon Winner.",
-  keywords: ["Sameer Bagul", "Full Stack Developer", "AI Engineer", "Next.js", "MERN Stack", "Pune", "India"],
+  description: "Freelance Software AI Developer. Expert coding notes, engineering blogs, and high-quality freelancing services for startups and enterprises specializing in MERN and AI.",
+  keywords: ["Sameer Bagul", "Freelancer", "Freelancing Services", "Software AI Developer", "Coding Notes", "Engineering Blog", "Technical Research", "JavaScript Notes", "Next.js Expert", "AI Engineer"],
   authors: [{ name: "Sameer Bagul", url: "https://sameerbagul.me" }],
   creator: "Sameer Bagul",
   openGraph: {
@@ -65,6 +65,13 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -76,8 +83,50 @@ const jsonLd = {
     "https://linkedin.com/in/sameer-bagul",
     "https://twitter.com/sameer_bagul"
   ],
-  "alumniOf": "PES Modern College of Engineering, Pune",
-  "knowsAbout": ["Full Stack Development", "Artificial Intelligence", "React", "Next.js", "Node.js", "MERN Stack"]
+  "image": {
+    "@type": "ImageObject",
+    "url": "https://sameerbagul.me/hero.jpg",
+    "caption": "Sameer Bagul - Freelance Software AI Developer",
+    "width": "1200",
+    "height": "1200"
+  },
+  "priceRange": "$$",
+  "knowsAbout": ["Full Stack Development", "Artificial Intelligence", "Technical Writing", "Software Engineering Education"],
+  "description": "Expert freelancing services, in-depth coding notes, and engineering blogs by Sameer Bagul. Specializing in advanced technical solutions and software research."
+};
+
+const professionalServiceJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Sameer Bagul - Freelance Software AI Developer",
+  "description": "Expert freelancing services in Full Stack Development and AI Solutions. Specializing in Next.js, MERN, and AI-driven applications.",
+  "image": "https://sameerbagul.me/hero.jpg",
+  "url": "https://sameerbagul.me",
+  "telephone": "+91-XXXXXXXXXX",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Pune",
+    "addressRegion": "Maharashtra",
+    "addressCountry": "IN"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 18.5204,
+    "longitude": 73.8567
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday"
+    ],
+    "opens": "09:00",
+    "closes": "18:00"
+  },
+  "priceRange": "$$"
 };
 
 
@@ -88,6 +137,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${seona.variable} antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden w-full`}
         suppressHydrationWarning
@@ -120,6 +173,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceJsonLd) }}
         />
       </body>
 

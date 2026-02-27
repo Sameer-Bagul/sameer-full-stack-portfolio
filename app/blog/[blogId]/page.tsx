@@ -17,10 +17,10 @@ export async function generateMetadata(
     if (!blog) return { title: 'Blog Post Not Found' };
 
     return {
-        title: `${blog.title} | Blog`,
+        title: `${blog.title} | Technical Coding Blog`,
         description: blog.shortDescription,
         openGraph: {
-            title: blog.title,
+            title: `${blog.title} | Sameer Bagul Engineering Blog`,
             description: blog.shortDescription,
             images: [blog.coverImage],
         },

@@ -107,7 +107,7 @@ export default function Testimonials() {
                                                 <div className="relative w-12 h-12 rounded-full overflow-hidden border border-zinc-200 dark:border-white/10 group-hover:border-primary transition-colors">
                                                     <Image
                                                         src={testimonial.avatar}
-                                                        alt={testimonial.name}
+                                                        alt={`Testimonial from ${testimonial.name} - ${testimonial.role}`}
                                                         fill
                                                         className="object-cover"
                                                     />

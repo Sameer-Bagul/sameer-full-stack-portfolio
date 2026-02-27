@@ -20,7 +20,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
                     <div key={`${skill.name}-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
                         <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
-                            alt={skill.name}
+                            alt={`${skill.name} - Professional Skill in ${skill.name} development`}
                             width={48}
                             height={48}
                             className="transition-all duration-500 scale-90 group-hover:scale-110"
@@ -41,7 +41,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
                     <div key={`${skill.name}-duplicate-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
                         <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
-                            alt={skill.name}
+                            alt={`${skill.name} capability - Mastered in ${skill.name}`}
                             width={48}
                             height={48}
                             className="transition-all duration-500 scale-90 group-hover:scale-110"
@@ -50,7 +50,7 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 };
 

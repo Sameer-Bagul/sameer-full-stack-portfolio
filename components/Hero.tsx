@@ -150,7 +150,7 @@ export default function Hero() {
                             <div className="relative h-full w-full rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
                                 <Image
                                     src="/hero.jpg"
-                                    alt={PERSONAL_INFO.name}
+                                    alt="Sameer Bagul - Freelance Software AI Developer and Expert Engineering Educator"
                                     fill
                                     className="object-cover"
                                     priority

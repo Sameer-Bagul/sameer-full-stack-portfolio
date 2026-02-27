@@ -16,11 +16,11 @@ export async function generateMetadata(
     if (!topic) return { title: 'Topic Not Found' };
 
     return {
-        title: `${topic.topic} | Engineering Study Notes`,
-        description: topic.description || `In-depth engineering research and study notes on ${topic.topic}.`,
+        title: `${topic.topic} | Advanced Coding Notes & Technical Research`,
+        description: `In-depth coding notes, research, and technical guides on ${topic.topic}. Part of Sameer Bagul's engineering knowledge base.`,
         openGraph: {
-            title: `${topic.topic} | Sameer Bagul`,
-            description: topic.description,
+            title: `${topic.topic} Technical Notes | Sameer Bagul`,
+            description: `Professional research and developer notes on ${topic.topic}.`,
             images: [topic.image],
         },
         alternates: {
