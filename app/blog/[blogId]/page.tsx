@@ -1,0 +1,76 @@
+import { getBlogs } from '@/lib/api';
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
+interface BlogPageProps {
+    params: Promise<{ blogId: string }>;
+}
+
+export async function generateMetadata(
+    { params }: BlogPageProps
+): Promise<Metadata> {
+    const { blogId } = await params;
+    const blogs = await getBlogs();
+    const blog = blogs.find(b => b._id === blogId);
+
+    if (!blog) return { title: 'Blog Post Not Found' };
+
+    return {
+        title: `${blog.title} | Blog`,
+        description: blog.shortDescription,
+        openGraph: {
+            title: blog.title,
+            description: blog.shortDescription,
+            images: [blog.coverImage],
+        },
+    };
+}
+
+export default async function BlogDetailPage({ params }: BlogPageProps) {
+    const { blogId } = await params;
+    const blogs = await getBlogs();
+    const blog = blogs.find(b => b._id === blogId);
+
+    if (!blog) notFound();
+
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": blog.title,
+        "description": blog.shortDescription,
+        "image": blog.coverImage,
+        "author": {
+            "@type": "Person",
+            "name": blog.author || "Sameer Bagul",
+            "url": "https://sameerbagul.me"
+        },
+        "datePublished": blog.publishedAt,
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://sameerbagul.me/blog/${blogId}`
+        }
+    };
+
+    return (
+        <div className="pt-32 pb-24 px-6 max-w-4xl mx-auto">
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <article className="prose prose-lg dark:prose-invert max-w-none">
+                <h1 className="text-5xl font-black tracking-tighter mb-8">{blog.title}</h1>
+                <div className="flex items-center gap-4 text-muted-foreground mb-12">
+                    <span>{blog.author}</span>
+                    <span>•</span>
+                    <span>{new Date(blog.publishedAt).toLocaleDateString()}</span>
+                    <span>•</span>
+                    <span>{blog.readingTime}</span>
+                </div>
+                <div className="mb-12">
+                    <img src={blog.coverImage} alt={blog.title} className="rounded-3xl w-full shadow-2xl" />
+                </div>
+                <div dangerouslySetInnerHTML={{ __html: blog.longContent }} />
+            </article>
+        </div>
+    );
+}

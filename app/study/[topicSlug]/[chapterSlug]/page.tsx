@@ -1,54 +1,68 @@
-'use client';
+import { studyData } from '@/data/study-materials';
+import { Metadata } from 'next';
+import NotePageContent from '@/app/study/[topicSlug]/[chapterSlug]/NotePageContent';
 
-import React, { use, useState, useEffect } from 'react';
-import { notFound } from 'next/navigation';
-import { studyData, Chapter } from '@/data/study-materials';
-import EbookReader from '@/components/study/EbookReader';
-import { AnimatePresence } from 'framer-motion';
 
 interface NotePageProps {
     params: Promise<{ topicSlug: string; chapterSlug: string }>;
 }
 
-/**
- * [Hierarchy Level: Page Controller]
- * Responsible for data fetching and coordination between state and UI.
- * Simplified for maximum performance and natural scrolling.
- */
-export default function NotePage({ params }: NotePageProps) {
-    const { topicSlug, chapterSlug } = use(params);
-    const [isLiked, setIsLiked] = useState(false);
-
-    // 1. Data Fetching
+export async function generateMetadata(
+    { params }: NotePageProps
+): Promise<Metadata> {
+    const { topicSlug, chapterSlug } = await params;
     const topic = studyData.find(item => item.slug === topicSlug);
-    if (!topic) notFound();
+    if (!topic) return { title: 'Topic Not Found' };
 
     const chapter = topic.chapters.find(c => c.slug === chapterSlug);
-    if (!chapter) notFound();
+    if (!chapter) return { title: 'Chapter Not Found' };
 
-    const [activeChapter, setActiveChapter] = useState<Chapter | null>(chapter);
+    return {
+        title: `${chapter.title} | ${topic.topic}`,
+        description: `Read "${chapter.title}" in the ${topic.topic} archive. Part of Sameer Bagul's engineering study library.`,
+        openGraph: {
+            title: `${chapter.title} | ${topic.topic}`,
+            description: `Technical notes on ${topic.topic} - ${chapter.title}`,
+            images: [topic.image],
+        },
+    };
+}
 
-    // 2. State Sync
-    useEffect(() => {
-        if (chapter && chapter.slug !== activeChapter?.slug) {
-            setActiveChapter(chapter);
+export default async function NotePage({ params }: NotePageProps) {
+    const resolvedParams = await params;
+    const { topicSlug, chapterSlug } = resolvedParams;
+
+    const topic = studyData.find(item => item.slug === topicSlug);
+    const chapter = topic?.chapters.find(c => c.slug === chapterSlug);
+
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": chapter?.title,
+        "description": `Research notes on ${topic?.topic}: ${chapter?.title}`,
+        "image": topic?.image,
+        "author": {
+            "@type": "Person",
+            "name": "Sameer Bagul",
+            "url": "https://sameerbagul.me"
+        },
+        "publisher": {
+            "@type": "Person",
+            "name": "Sameer Bagul"
+        },
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`
         }
-    }, [chapter, activeChapter?.slug]);
+    };
 
-    // 3. Render
-    // Removed h-screen and overflow-hidden to allow natural document scrolling
     return (
-        <div className="w-full min-h-screen bg-background">
-            <AnimatePresence mode="wait">
-                <EbookReader
-                    key={activeChapter?.id}
-                    item={topic}
-                    activeChapter={activeChapter}
-                    setActiveChapter={setActiveChapter}
-                    isLiked={isLiked}
-                    setIsLiked={setIsLiked}
-                />
-            </AnimatePresence>
-        </div>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <NotePageContent params={resolvedParams} />
+        </>
     );
 }

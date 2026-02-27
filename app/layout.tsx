@@ -33,9 +33,50 @@ const seona = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Sameer Bagul | Portfolio",
-  description: "Senior Full Stack Engineer specializing in AI and modern web technologies.",
+  metadataBase: new URL("https://sameerbagul.me"),
+  title: {
+    default: "Sameer Bagul | Full Stack & AI Developer",
+    template: "%s | Sameer Bagul",
+  },
+  description: "Senior Full Stack & AI Developer specializing in scalable MERN, Next.js, and AI systems. Smart India Hackathon Winner.",
+  keywords: ["Sameer Bagul", "Full Stack Developer", "AI Engineer", "Next.js", "MERN Stack", "Pune", "India"],
+  authors: [{ name: "Sameer Bagul", url: "https://sameerbagul.me" }],
+  creator: "Sameer Bagul",
+  openGraph: {
+    title: "Sameer Bagul | Full Stack & AI Developer",
+    description: "Senior Full Stack & AI Developer specializing in scalable MERN, Next.js, and AI systems.",
+    url: "https://sameerbagul.me",
+    siteName: "Sameer Bagul",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Sameer Bagul | Full Stack & AI Developer",
+    description: "Senior Full Stack & AI Developer specializing in scalable MERN, Next.js, and AI systems.",
+    creator: "@sameer_bagul",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Sameer Bagul",
+  "url": "https://sameerbagul.me",
+  "jobTitle": "Full Stack & AI Developer",
+  "sameAs": [
+    "https://github.com/Sameer-Bagul",
+    "https://linkedin.com/in/sameer-bagul",
+    "https://twitter.com/sameer_bagul"
+  ],
+  "alumniOf": "PES Modern College of Engineering, Pune",
+  "knowsAbout": ["Full Stack Development", "Artificial Intelligence", "React", "Next.js", "Node.js", "MERN Stack"]
+};
+
 
 export default function RootLayout({
   children,
@@ -73,7 +114,12 @@ export default function RootLayout({
           </TooltipProvider>
         </ThemeProvider>
         <Analytics />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
       </body>
+
 
 
     </html>
