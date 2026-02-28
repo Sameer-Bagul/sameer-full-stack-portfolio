@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getBlogs } from '@/lib/api';
+import { getBlogs, getProjects } from '@/lib/api';
 import { studyData } from '@/data/study-materials';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         blogRoutes = blogs
             .filter(blog => blog.isPublished)
             .map((blog) => ({
-                url: `${baseUrl}/blog/${blog._id}`, // Assuming slug or id is used in URL
+                url: `${baseUrl}/blog/${blog._id}`,
                 lastModified: new Date(blog.publishedAt || new Date()),
                 changeFrequency: 'monthly' as const,
                 priority: 0.6,
@@ -35,10 +35,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         console.error('Error fetching blogs for sitemap:', e);
     }
 
+    // Dynamic Project routes (slug-based)
+    let projectRoutes: MetadataRoute.Sitemap = [];
+    try {
+        const projects = await getProjects();
+        projectRoutes = projects
+            .filter((p) => p.slug)
+            .map((p) => ({
+                url: `${baseUrl}/projects/${p.slug}`,
+                lastModified: new Date(),
+                changeFrequency: 'monthly' as const,
+                priority: 0.7,
+            }));
+    } catch (e) {
+        console.error('Error fetching projects for sitemap:', e);
+    }
+
     // Dynamic Study routes
     const studyRoutes: MetadataRoute.Sitemap = [];
     studyData.forEach((topic) => {
-        // Topic pages
         studyRoutes.push({
             url: `${baseUrl}/study/${topic.slug}`,
             lastModified: new Date(),
@@ -46,7 +61,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: 0.7,
         });
 
-        // Chapter pages
         topic.chapters.forEach((chapter) => {
             studyRoutes.push({
                 url: `${baseUrl}/study/${topic.slug}/${chapter.slug}`,
@@ -57,5 +71,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
     });
 
-    return [...staticRoutes, ...blogRoutes, ...studyRoutes];
+    return [...staticRoutes, ...blogRoutes, ...projectRoutes, ...studyRoutes];
 }

@@ -25,6 +25,7 @@ export interface Blog {
 export interface Project {
     _id: string;
     title: string;
+    slug?: string;
     shortDescription: string;
     description: string;
     tags: string[];
@@ -33,6 +34,7 @@ export interface Project {
     isFeatured: boolean;
     image: string;
     projectDate?: string;
+    createdAt?: string;
     videoUrl: string;
     githubUrl: string;
     liveUrl: string;
@@ -88,6 +90,11 @@ export const getBlogs = async (): Promise<Blog[]> => {
 
 export const getProjects = async (): Promise<Project[]> => {
     const response = await api.get('/projects');
+    return response.data;
+};
+
+export const getProjectBySlug = async (slug: string): Promise<Project> => {
+    const response = await api.get(`/projects/slug/${slug}`);
     return response.data;
 };
 
