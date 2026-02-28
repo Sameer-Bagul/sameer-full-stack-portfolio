@@ -15,18 +15,18 @@ import {
     Layers,
     Zap,
     Users,
+    ArrowUpRight,
 } from 'lucide-react';
 
 interface ProjectPageProps {
     params: Promise<{ slug: string }>;
 }
 
-// Helper: resolve a project by slug OR by _id (for pre-migration fallback)
+// ── Resolve by slug OR _id (pre-migration fallback) ───────────────────────
 async function resolveProject(slugOrId: string) {
     try {
         return await getProjectBySlug(slugOrId);
     } catch {
-        // If slug lookup fails, try by MongoDB _id (pre-migration fallback)
         try {
             return await getProjectById(slugOrId);
         } catch {
@@ -35,7 +35,7 @@ async function resolveProject(slugOrId: string) {
     }
 }
 
-// ─── Metadata ────────────────────────────────────────────────────────────────
+// ── Metadata ──────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
     const { slug } = await params;
@@ -63,20 +63,18 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
     };
 }
 
-// ─── Static paths ────────────────────────────────────────────────────────────
+// ── Static paths ──────────────────────────────────────────────────────────
 
 export async function generateStaticParams() {
     try {
         const projects = await getProjects();
-        return projects
-            .filter((p) => p.slug)
-            .map((p) => ({ slug: p.slug as string }));
+        return projects.filter((p) => p.slug).map((p) => ({ slug: p.slug as string }));
     } catch {
         return [];
     }
 }
 
-// ─── Page ────────────────────────────────────────────────────────────────────
+// ── Page ──────────────────────────────────────────────────────────────────
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
     const { slug } = await params;
@@ -92,8 +90,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
     const displayDate = project.projectDate || project.createdAt?.split('T')[0] || null;
 
-    // ─── JSON-LD ────────────────────────────────────────────────────────────
-
+    // ── JSON-LD ────────────────────────────────────────────────────────────
     const breadcrumbJsonLd = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -117,12 +114,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     };
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen pt-20">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
 
-            {/* ── Hero ─────────────────────────────────────────────────────── */}
-            <div className="relative w-full h-[60vh] min-h-[400px] max-h-[650px] flex items-end">
+            {/* ── Hero ────────────────────────────────────────────────── */}
+            <div className="relative w-full h-[55vh] min-h-[360px] max-h-[580px] overflow-hidden">
                 {project.image ? (
                     <Image
                         src={project.image}
@@ -134,188 +131,200 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                     />
                 ) : (
                     <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${gradient}`}>
-                        <Icon className="h-32 w-32 text-white/30" strokeWidth={0.5} />
+                        <Icon className="h-40 w-40 text-white/20" strokeWidth={0.5} />
                     </div>
                 )}
+                {/* gradient overlay — bottom to top */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10" />
 
-                {/* gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10" />
-
-                {/* Back link */}
-                <div className="absolute top-6 left-6 z-10">
-                    <Link
-                        href="/projects"
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold hover:bg-white/20 transition-all"
-                    >
-                        <ArrowLeft size={14} /> Back to Projects
-                    </Link>
-                </div>
-
-                {/* Hero text */}
-                <div className="relative z-10 p-8 sm:p-12 md:p-16 w-full max-w-5xl mx-auto">
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
+                {/* Hero text — anchored to bottom */}
+                <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-[1400px] mx-auto w-full">
+                    <div className="flex flex-wrap items-center gap-3 mb-3">
                         <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-black uppercase tracking-[0.2em] text-white/80">
-                            {project.category}
+                            {project.category?.replace('-', ' ')}
                         </span>
                         {displayDate && (
-                            <span className="flex items-center gap-1.5 text-xs text-white/60 font-medium">
-                                <Calendar size={12} /> {displayDate}
+                            <span className="flex items-center gap-1.5 text-xs text-white/50 font-medium">
+                                <Calendar size={11} /> {displayDate}
                             </span>
                         )}
                     </div>
-                    <h1 className="font-seona text-4xl sm:text-6xl md:text-7xl font-black lowercase tracking-tight text-white drop-shadow-2xl leading-none mb-4">
+                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-black lowercase tracking-tighter text-white drop-shadow-2xl leading-[0.95] mb-3">
                         {project.title}
                     </h1>
-                    <p className="text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
+                    <p className="text-sm sm:text-base text-white/60 max-w-2xl leading-relaxed">
                         {project.shortDescription}
                     </p>
                 </div>
             </div>
 
-            {/* ── Body ─────────────────────────────────────────────────────── */}
-            <div className="max-w-5xl mx-auto px-6 sm:px-8 py-14 grid grid-cols-1 lg:grid-cols-3 gap-12">
+            {/* ── Page body ────────────────────────────────────────────── */}
+            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-10">
 
-                {/* ── Left: main content ─────────────────────────────────── */}
-                <div className="lg:col-span-2 space-y-10">
+                {/* Back link - clearly visible below hero */}
+                <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.15em] text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+                >
+                    <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                    All Projects
+                </Link>
 
-                    {/* Description */}
+                {/* ── BENTO GRID — 12 columns ────────────────────────── */}
+                <div className="grid grid-cols-12 gap-4 sm:gap-5">
+
+                    {/* CELL 1: About — col-span-8 */}
                     {project.description && (
-                        <section>
-                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4">
+                        <div className="col-span-12 lg:col-span-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-7 sm:p-9">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5">
                                 About this project
-                            </h2>
-                            <p className="text-base text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-line font-seona">
+                            </p>
+                            <p className="text-base sm:text-[17px] text-zinc-700 dark:text-zinc-300 leading-[1.85] whitespace-pre-line tracking-[-0.01em]">
                                 {project.description}
                             </p>
-                        </section>
+                        </div>
                     )}
 
-                    {/* Features */}
-                    {project.features && project.features.length > 0 && (
-                        <section>
-                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-                                <Zap size={14} /> Key Features
-                            </h2>
-                            <ul className="space-y-2.5">
-                                {project.features.map((feature, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300">
-                                        <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
-                        </section>
-                    )}
+                    {/* CELL 2: Actions & Meta sidebar — col-span-4 */}
+                    <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
 
-                    {/* Tech Stack */}
+                        {/* Action links bento card */}
+                        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6 space-y-3">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-1">Links</p>
+                            {project.liveUrl && (
+                                <a
+                                    href={project.liveUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:opacity-90 transition-all group"
+                                >
+                                    <span className="flex items-center gap-2"><ExternalLink size={15} /> View Live</span>
+                                    <ArrowUpRight size={15} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                </a>
+                            )}
+                            {project.githubUrl && (
+                                <a
+                                    href={project.githubUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-semibold text-sm hover:opacity-90 transition-all group"
+                                >
+                                    <span className="flex items-center gap-2"><Github size={15} /> GitHub Repo</span>
+                                    <ArrowUpRight size={15} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                </a>
+                            )}
+                            {project.videoUrl && (
+                                <a
+                                    href={project.videoUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-between w-full px-4 py-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold text-sm hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-all group"
+                                >
+                                    <span className="flex items-center gap-2"><Play size={15} /> Watch Demo</span>
+                                    <ArrowUpRight size={15} className="opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                                </a>
+                            )}
+                            {!project.liveUrl && !project.githubUrl && !project.videoUrl && (
+                                <p className="text-sm text-muted-foreground italic">No links available</p>
+                            )}
+                        </div>
+
+                        {/* Meta info bento card */}
+                        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6 grid grid-cols-2 gap-4">
+                            <div>
+                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Category</p>
+                                <p className="text-sm font-bold capitalize text-zinc-800 dark:text-zinc-200">{project.category?.replace('-', ' ')}</p>
+                            </div>
+                            {displayDate && (
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Year</p>
+                                    <p className="text-sm font-bold text-zinc-800 dark:text-zinc-200">{displayDate}</p>
+                                </div>
+                            )}
+                            {project.techStack?.length > 0 && (
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Stack</p>
+                                    <p className="text-sm font-bold text-zinc-800 dark:text-zinc-200">{project.techStack.length} tech</p>
+                                </div>
+                            )}
+                            {project.features?.length > 0 && (
+                                <div>
+                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Features</p>
+                                    <p className="text-sm font-bold text-zinc-800 dark:text-zinc-200">{project.features.length} listed</p>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* CELL 3: Tech Stack — col-span-6 */}
                     {project.techStack && project.techStack.length > 0 && (
-                        <section>
-                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-                                <Layers size={14} /> Tech Stack
-                            </h2>
+                        <div className="col-span-12 sm:col-span-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6 sm:p-7">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5 flex items-center gap-2">
+                                <Layers size={12} /> Tech Stack
+                            </p>
                             <div className="flex flex-wrap gap-2">
                                 {project.techStack.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700"
+                                        className="px-3 py-1.5 rounded-lg bg-white dark:bg-zinc-800 text-xs font-semibold text-zinc-700 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700 hover:border-primary/50 transition-colors"
                                     >
                                         {tech}
                                     </span>
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
 
-                    {/* Tags */}
+                    {/* CELL 4: Features — col-span-6 */}
+                    {project.features && project.features.length > 0 && (
+                        <div className="col-span-12 sm:col-span-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6 sm:p-7">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5 flex items-center gap-2">
+                                <Zap size={12} /> Key Features
+                            </p>
+                            <ul className="space-y-2.5">
+                                {project.features.map((feature, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
+                                        <span className="mt-[7px] w-1.5 h-1.5 rounded-full bg-primary flex-shrink-0" />
+                                        {feature}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+                    {/* CELL 5: Tags — col-span-6 */}
                     {project.tags && project.tags.length > 0 && (
-                        <section>
-                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-                                <Tag size={14} /> Tags
-                            </h2>
+                        <div className="col-span-12 sm:col-span-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5 flex items-center gap-2">
+                                <Tag size={12} /> Tags
+                            </p>
                             <div className="flex flex-wrap gap-2">
                                 {project.tags.map((tag) => (
                                     <span
                                         key={tag}
-                                        className="px-3 py-1.5 rounded-full bg-primary/10 text-xs font-semibold text-primary border border-primary/20"
+                                        className="px-3 py-1.5 rounded-full bg-primary/8 text-xs font-semibold text-primary border border-primary/20 hover:bg-primary/15 transition-colors"
                                     >
                                         #{tag}
                                     </span>
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
-                </div>
 
-                {/* ── Right: sidebar ─────────────────────────────────────── */}
-                <div className="space-y-8">
-
-                    {/* Action links */}
-                    <section className="space-y-3">
-                        {project.liveUrl && (
-                            <a
-                                href={project.liveUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-primary text-white font-semibold text-sm hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
-                            >
-                                <ExternalLink size={16} /> View Live
-                            </a>
-                        )}
-                        {project.githubUrl && (
-                            <a
-                                href={project.githubUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 font-semibold text-sm hover:opacity-90 transition-all"
-                            >
-                                <Github size={16} /> GitHub Repo
-                            </a>
-                        )}
-                        {project.videoUrl && (
-                            <a
-                                href={project.videoUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center gap-2 w-full px-4 py-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-semibold text-sm hover:opacity-90 transition-all border border-zinc-200 dark:border-zinc-700"
-                            >
-                                <Play size={16} /> Watch Demo
-                            </a>
-                        )}
-                    </section>
-
-                    {/* Contributors */}
+                    {/* CELL 6: Contributors — col-span-6 */}
                     {project.contributors && project.contributors.length > 0 && (
-                        <section>
-                            <h2 className="text-xs font-black uppercase tracking-[0.2em] text-muted-foreground mb-4 flex items-center gap-2">
-                                <Users size={14} /> Contributors
-                            </h2>
+                        <div className="col-span-12 sm:col-span-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/50 p-6">
+                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5 flex items-center gap-2">
+                                <Users size={12} /> Contributors
+                            </p>
                             <div className="flex flex-wrap gap-3">
                                 {project.contributors.map((contributor, i) => (
                                     <ContributorAvatar key={i} contributor={contributor} size={44} />
                                 ))}
                             </div>
-                        </section>
+                        </div>
                     )}
 
-                    {/* Meta box */}
-                    <section className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 space-y-4 bg-zinc-50 dark:bg-zinc-900/50">
-                        <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Category</p>
-                            <p className="text-sm font-semibold capitalize text-zinc-800 dark:text-zinc-200">{project.category?.replace('-', ' ')}</p>
-                        </div>
-                        {displayDate && (
-                            <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Date</p>
-                                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{displayDate}</p>
-                            </div>
-                        )}
-                        {project.techStack && project.techStack.length > 0 && (
-                            <div>
-                                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Stack Size</p>
-                                <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{project.techStack.length} technologies</p>
-                            </div>
-                        )}
-                    </section>
                 </div>
             </div>
         </div>
