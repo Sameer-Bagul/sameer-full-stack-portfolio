@@ -98,6 +98,11 @@ export const getProjectBySlug = async (slug: string): Promise<Project> => {
     return response.data;
 };
 
+export const getProjectById = async (id: string): Promise<Project> => {
+    const response = await api.get(`/projects/${id}`);
+    return response.data;
+};
+
 export const getSkills = async (): Promise<Skill[]> => {
     const response = await api.get('/skills');
     return response.data;

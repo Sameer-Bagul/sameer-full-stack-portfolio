@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
-import { getProjectBySlug, getProjects } from '@/lib/api';
+import { getProjectBySlug, getProjectById, getProjects } from '@/lib/api';
 import { getProjectTheme } from '@/lib/project-themes';
 import ContributorAvatar from '@/components/ContributorAvatar';
 import {
@@ -21,34 +21,46 @@ interface ProjectPageProps {
     params: Promise<{ slug: string }>;
 }
 
+// Helper: resolve a project by slug OR by _id (for pre-migration fallback)
+async function resolveProject(slugOrId: string) {
+    try {
+        return await getProjectBySlug(slugOrId);
+    } catch {
+        // If slug lookup fails, try by MongoDB _id (pre-migration fallback)
+        try {
+            return await getProjectById(slugOrId);
+        } catch {
+            return null;
+        }
+    }
+}
+
 // ─── Metadata ────────────────────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: ProjectPageProps): Promise<Metadata> {
     const { slug } = await params;
-    try {
-        const project = await getProjectBySlug(slug);
-        return {
+    const project = await resolveProject(slug);
+    if (!project) return { title: 'Project Not Found' };
+
+    return {
+        title: project.title,
+        description: project.shortDescription,
+        openGraph: {
             title: project.title,
             description: project.shortDescription,
-            openGraph: {
-                title: project.title,
-                description: project.shortDescription,
-                images: project.image ? [{ url: project.image, width: 1200, height: 630, alt: project.title }] : [],
-                type: 'website',
-            },
-            twitter: {
-                card: 'summary_large_image',
-                title: project.title,
-                description: project.shortDescription,
-                images: project.image ? [project.image] : [],
-            },
-            alternates: {
-                canonical: `https://sameerbagul.me/projects/${slug}`,
-            },
-        };
-    } catch {
-        return { title: 'Project Not Found' };
-    }
+            images: project.image ? [{ url: project.image, width: 1200, height: 630, alt: project.title }] : [],
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: project.title,
+            description: project.shortDescription,
+            images: project.image ? [project.image] : [],
+        },
+        alternates: {
+            canonical: `https://sameerbagul.me/projects/${project.slug || slug}`,
+        },
+    };
 }
 
 // ─── Static paths ────────────────────────────────────────────────────────────
@@ -69,12 +81,8 @@ export async function generateStaticParams() {
 export default async function ProjectPage({ params }: ProjectPageProps) {
     const { slug } = await params;
 
-    let project;
-    try {
-        project = await getProjectBySlug(slug);
-    } catch {
-        notFound();
-    }
+    const project = await resolveProject(slug);
+    if (!project) notFound();
 
     const { Icon, gradient } = getProjectTheme(
         project.techStack || [],
