@@ -46,7 +46,7 @@ export function StudyNavigation({
             className="w-full flex flex-col h-full bg-transparent"
         >
             {/* Sidebar Header */}
-            <div className="px-8 py-16 border-b border-white/5 bg-transparent">
+            <div className="px-8 py-10 border-b border-white/5 bg-transparent">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-3 text-primary mb-6">
                     <ListOrdered size={14} /> CURRICULUM ARCHIVE
                 </h3>
@@ -104,7 +104,13 @@ export function StudyNavigation({
                                 {toc.map((h1) => (
                                     <div key={h1.id} className="space-y-1">
                                         <button
-                                            onClick={() => toggleExpand(h1.id)}
+                                            onClick={() => {
+                                                toggleExpand(h1.id);
+                                                const element = document.getElementById(h1.id);
+                                                if (element) {
+                                                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                                }
+                                            }}
                                             className="w-full text-left px-4 py-3 rounded-xl text-[11px] font-black flex items-center justify-between group hover:bg-white/5 text-muted-foreground hover:text-white transition-all duration-300 uppercase tracking-tight"
                                         >
                                             <div className="flex items-center gap-3">

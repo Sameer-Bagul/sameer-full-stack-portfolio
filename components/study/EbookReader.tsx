@@ -7,6 +7,7 @@ import { useHeader } from '@/context/HeaderContext';
 import { Bookmark as BookmarkIcon, Download, Share2 } from 'lucide-react';
 import { StudyNavigation } from './StudyNavigation';
 import { NoteContent } from './NoteContent';
+import { cn } from '@/lib/utils';
  
 interface TOCItem {
     id: string;
@@ -66,44 +67,70 @@ export default function EbookReader({
         return () => clearHeader();
     }, [activeChapter?.id, isLiked, setTitle, setActions, clearHeader, setIsLiked]);
  
-    // Helper to extract TOC items
-    const extractTOC = (html: string): TOCItem[] => {
+    const containerHeight = "h-[calc(100vh-10rem)]";
+ 
+    // Helper to extract TOC items and inject IDs
+    const processContent = (html: string): { toc: TOCItem[], processedHtml: string } => {
         const toc: TOCItem[] = [];
-        const headingRegex = /<h([1-2])(?:[^>]*id="([^"]*)")?[^>]*>(.*?)<\/h\1>/gi;
+        let processedHtml = html;
+        const headingRegex = /<h([1-2])([^>]*)>(.*?)<\/h\1>/gi;
         let match;
  
         let currentH1: TOCItem | null = null;
- 
+        let matches: { full: string, level: number, attrs: string, text: string }[] = [];
+        
+        // Collect all matches first to avoid regex reset issues during replacement
         while ((match = headingRegex.exec(html)) !== null) {
-            const level = parseInt(match[1]);
-            const id = match[2] || match[3].toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
-            const text = match[3].replace(/<\/?[^>]+(>|$)/g, ""); // Strip nested tags
- 
-            const item: TOCItem = { id, text, level, subItems: [] };
- 
-            if (level === 1) {
+            matches.push({
+                full: match[0],
+                level: parseInt(match[1]),
+                attrs: match[2],
+                text: match[3]
+            });
+        }
+
+        matches.forEach((m, index) => {
+            const idMatch = m.attrs.match(/id="([^"]*)"/i);
+            const textContent = m.text.replace(/<\/?[^>]+(>|$)/g, "");
+            const id = idMatch ? idMatch[1] : `heading-${index}-${textContent.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '')}`;
+
+            const item: TOCItem = { id, text: textContent, level: m.level, subItems: [] };
+
+            if (m.level === 1) {
                 toc.push(item);
                 currentH1 = item;
-            } else if (level === 2 && currentH1) {
+            } else if (m.level === 2 && currentH1) {
                 currentH1.subItems.push(item);
             }
-        }
-        return toc;
+
+            // Inject ID into HTML if not present
+            if (!idMatch) {
+                const newTag = `<h${m.level} id="${id}" ${m.attrs}>${m.text}</h${m.level}>`;
+                processedHtml = processedHtml.replace(m.full, newTag);
+            }
+        });
+
+        return { toc, processedHtml };
     };
  
-    const toc = activeChapter ? extractTOC(activeChapter.content) : [];
+    const { toc, processedHtml } = activeChapter 
+        ? processContent(activeChapter.content) 
+        : { toc: [], processedHtml: '' };
 
     if (!activeChapter) return null;
 
     return (
-        <div className="w-full bg-background selection:bg-primary/30 pt-28 pb-12 lg:px-8">
+        <div className="w-full bg-background selection:bg-primary/30 pt-28 pb-12 px-6 lg:px-12">
             {/* Minimal Background */}
             <div className="fixed inset-0 pointer-events-none -z-10 bg-background" />
-
-            <div className="flex w-full min-h-[calc(100vh-10rem)] rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-2xl relative">
-                {/* 1. Sidebar Component (Sticky) */}
-                <aside className="hidden lg:block w-[350px] shrink-0 border-r border-white/5 relative bg-zinc-950/20">
-                    <div className="h-full">
+ 
+            <div className="flex w-full gap-8">
+                {/* 1. Sidebar Pane */}
+                <aside className={cn(
+                    "hidden lg:block w-[350px] shrink-0 sticky top-28",
+                    containerHeight
+                )}>
+                    <div className="h-full rounded-3xl border border-white/5 bg-zinc-950/20 backdrop-blur-3xl overflow-hidden shadow-2xl">
                         <StudyNavigation
                             item={item}
                             topicSlug={topicSlug}
@@ -112,16 +139,21 @@ export default function EbookReader({
                         />
                     </div>
                 </aside>
-
-                {/* 2. Content Component (Natural Scroll) */}
-                <main className="flex-1 min-w-0 notebook-background">
-                    <NoteContent
-                        title={activeChapter.title}
-                        content={activeChapter.content}
-                        topic={item.topic}
-                        id={activeChapter.id}
-                        estimatedTime={item.estimatedTime || '10m'}
-                    />
+ 
+                {/* 2. Content Pane */}
+                <main className={cn(
+                    "flex-1 min-w-0 rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl shadow-2xl relative notebook-background overflow-hidden",
+                    containerHeight
+                )}>
+                    <div className="h-full overflow-y-auto custom-scrollbar scroll-smooth">
+                        <NoteContent
+                            title={activeChapter.title}
+                            content={processedHtml}
+                            topic={item.topic}
+                            id={activeChapter.id}
+                            estimatedTime={item.estimatedTime || '10m'}
+                        />
+                    </div>
                 </main>
             </div>
         </div>

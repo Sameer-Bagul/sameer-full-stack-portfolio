@@ -27,7 +27,7 @@ export const NoteContent: React.FC<NoteContentProps> = ({
         >
             <article className="relative">
                 {/* Header: Academic & Minimal */}
-                <header className="px-8 lg:px-16 py-16 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md relative z-10">
+                <header className="px-8 lg:px-16 py-12 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-20">
                     <h1 className="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white leading-tight uppercase">
                         {title}
                     </h1>
