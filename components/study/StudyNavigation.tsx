@@ -64,37 +64,6 @@ export function StudyNavigation({
             {/* Navigation List */}
             <ScrollArea className="flex-1 py-6">
                 <div className="px-4 space-y-8">
-                    {/* Chapter Selection (Original) */}
-                    <div className="space-y-1">
-                        <div className="px-4 mb-4 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">Select Module</div>
- 
-                        {item.chapters.map((chapter, index) => (
-                            <Link
-                                key={chapter.id}
-                                href={`/study/${topicSlug}/${chapter.slug}`}
-                                className={cn(
-                                    "w-full text-left p-4 rounded-2xl text-xs font-bold flex items-center justify-between group transition-all duration-300",
-                                    activeChapter?.id === chapter.id
-                                        ? "bg-primary/10 text-primary border border-primary/10"
-                                        : "hover:bg-white/5 text-muted-foreground hover:text-white border border-transparent"
-                                )}
-                            >
-                                <div className="flex items-center gap-4">
-                                    <span className={cn(
-                                        "text-[10px] font-black opacity-20 group-hover:opacity-40 transition-opacity",
-                                        activeChapter?.id === chapter.id && "opacity-100"
-                                    )}>
-                                        {(index + 1).toString().padStart(2, '0')}
-                                    </span>
-                                    <span className="tracking-tight line-clamp-1">{chapter.title}</span>
-                                </div>
-                                {activeChapter?.id === chapter.id && (
-                                    <CheckCircle2 size={14} className="text-primary" />
-                                )}
-                            </Link>
-                        ))}
-                    </div>
- 
                     {/* Dynamic Table of Contents */}
                     {toc.length > 0 && (
                         <div className="space-y-1">
