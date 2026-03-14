@@ -155,4 +155,36 @@ export const getCodingPlatforms = async () => {
     return response.data;
 };
 
+export interface NoteFolder {
+    _id: string;
+    name: string;
+    slug: string;
+    color?: string;
+    description?: string;
+    noteCount?: number;
+    updatedAt: string;
+}
+
+export interface Note {
+    _id: string;
+    title: string;
+    content: string;
+    content_html?: string;
+    slug: string;
+    tags: string[];
+    updatedAt: string;
+}
+
+export const getPublicFolders = async (username?: string): Promise<{ success: boolean, data: { folders: NoteFolder[] } }> => {
+    const params = username ? { username } : {};
+    const response = await api.get('/public/notes/folders', { params });
+    return response.data;
+};
+
+export const getPublicFolderBySlug = async (slug: string, username?: string): Promise<{ success: boolean, data: { folder: NoteFolder, notes: Note[] } }> => {
+    const params = username ? { username } : {};
+    const response = await api.get(`/public/notes/folders/${slug}`, { params });
+    return response.data;
+};
+
 export default api;
