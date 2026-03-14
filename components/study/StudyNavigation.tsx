@@ -79,8 +79,6 @@ export function StudyNavigation({
                     </div>
                 </div>
             </ScrollArea>
-
-     
         </motion.div>
     );
 }
