@@ -353,15 +353,14 @@
     background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   }
 
-  /* Notebook Background Pattern */
+  /* Notebook Dot Grid Pattern */
   .notebook-background {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 100% 2.2rem;
-    line-height: 2.2rem;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 2.2rem 2.2rem;
   }
 
   .dark .notebook-background {
-    background-image: linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
   }
 
   /* Animated Orbs */
