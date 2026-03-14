@@ -93,14 +93,10 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 w-full md:w-auto">
-                        <div className="p-6 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800 text-center">
+                    <div className="w-full md:w-auto">
+                        <div className="p-6 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800 text-center min-w-[120px]">
                             <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Files</span>
                             <span className="text-2xl font-black">{notes.length}</span>
-                        </div>
-                        <div className="p-6 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800 text-center">
-                            <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Status</span>
-                            <span className="text-[10px] font-black uppercase text-emerald-500">Deployed</span>
                         </div>
                     </div>
                 </div>
