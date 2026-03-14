@@ -23,13 +23,13 @@ export const NoteContent: React.FC<NoteContentProps> = ({
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full py-12 px-4 lg:px-8"
+            className="w-full py-12"
         >
-            <div className="rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-sm mb-32 relative notebook-background">
+            <div className="rounded-none lg:rounded-3xl border-x-0 lg:border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-sm mb-32 relative notebook-background">
 
                 <article className="relative">
                     {/* Header: Academic & Minimal */}
-                    <header className="px-6 lg:px-12 pt-16 pb-10 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md relative z-10">
+                    <header className="px-4 lg:px-16 pt-16 pb-10 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md relative z-10">
                         <h1 className="text-4xl lg:text-7xl font-black tracking-tighter mb-4 text-white leading-tight">
                             {title}
                         </h1>
@@ -42,7 +42,7 @@ export const NoteContent: React.FC<NoteContentProps> = ({
                     </header>
 
                     {/* Content Section */}
-                    <div className="px-6 lg:px-12 py-16">
+                    <div className="px-4 lg:px-16 py-16">
                         <div
                             className="technical-content"
                             dangerouslySetInnerHTML={{ __html: content }}
@@ -50,7 +50,7 @@ export const NoteContent: React.FC<NoteContentProps> = ({
                     </div>
 
                     {/* Minimal Footer */}
-                    <footer className="px-6 lg:px-12 py-8 border-t border-white/5 flex items-center justify-between opacity-20">
+                    <footer className="px-4 lg:px-16 py-8 border-t border-white/5 flex items-center justify-between opacity-20">
                         <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.5em]">
                             End of Research Module
                         </p>
