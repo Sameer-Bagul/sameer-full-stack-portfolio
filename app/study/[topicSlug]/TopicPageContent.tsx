@@ -80,16 +80,13 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
                     <span className="text-foreground">{folder.name}</span>
                 </div>
 
-                <div className="mb-16 flex flex-col md:flex-row items-end justify-between gap-8 border-b border-zinc-100 dark:border-zinc-800 pb-12">
-                    <div className="space-y-4 max-w-2xl text-center md:text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
-                            <FolderOpen size={12} /> Topic Archive
-                        </div>
-                        <h1 className="text-5xl md:text-7xl font-black lowercase tracking-tighter">
+                <div className="mb-16 flex flex-col md:flex-row items-baseline justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800/50 pb-8">
+                    <div className="space-y-2 max-w-2xl text-left">
+                        <h1 className="text-4xl md:text-6xl font-black lowercase tracking-tighter">
                             {folder.name}<span className="text-primary">.</span>
                         </h1>
-                        <p className="text-muted-foreground text-lg leading-relaxed">
-                            {folder.description || 'Professional research notes and architectural deep-dives.'}
+                        <p className="text-muted-foreground text-sm uppercase tracking-[0.2em] font-bold opacity-60">
+                            {folder.description || 'Neural Repository Asset'}
                         </p>
                     </div>
 

@@ -4,9 +4,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: var(--font-seona), var(--font-geist-sans);
+  --font-sans: 'Poppins', var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-seona: var(--font-seona);
+  --font-seona: 'Poppins', var(--font-seona);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -241,27 +241,19 @@
   }
 
   .technical-content h1 {
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    margin-bottom: 2rem;
-    font-size: 2.5rem;
-    line-height: 1.1;
+    @apply text-5xl font-black tracking-tighter mb-12 text-white leading-tight;
   }
-
+  
   .technical-content h2 {
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    margin-top: 3rem;
-    margin-bottom: 1.5rem;
-    color: var(--primary);
-    font-size: 1.5rem;
-    text-transform: uppercase;
+    @apply text-2xl font-black uppercase tracking-widest mt-16 mb-6 text-primary;
+  }
+  
+  .technical-content h3 {
+    @apply text-xl font-bold tracking-tight mt-12 mb-4 text-white/90;
   }
 
   .technical-content p {
-    color: hsl(var(--muted-foreground));
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+    @apply text-zinc-400 leading-[1.8] mb-6 text-[1.1rem];
   }
 
   .technical-content strong {

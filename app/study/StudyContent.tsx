@@ -30,7 +30,7 @@ export default function StudyContent({ initialFolders }: StudyContentProps) {
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-5 font-seona"
+                        className="text-5xl md:text-6xl font-black tracking-tight leading-none mb-4 lowercase"
                     >
                         study<span className="text-primary">library.</span>
                     </motion.h1>
@@ -38,9 +38,9 @@ export default function StudyContent({ initialFolders }: StudyContentProps) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.15, duration: 0.4 }}
-                        className="text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed"
+                        className="text-sm text-zinc-500 dark:text-zinc-500 max-w-xl leading-relaxed uppercase tracking-widest font-bold"
                     >
-                        An engineering vault for technical research and architectural deep-dives. Sync'd live from the cloud.
+                        Archive / Research / Architectural Assets
                     </motion.p>
                 </div>
 

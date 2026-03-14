@@ -63,11 +63,8 @@ export default function EbookReader({
 
     return (
         <div className="w-full bg-background selection:bg-primary/30 pt-28">
-            {/* Background Orbs */}
-            <div className="fixed inset-0 pointer-events-none -z-10 bg-background">
-                <div className="absolute top-[10%] left-[-5%] w-[50rem] h-[50rem] bg-primary/5 rounded-full blur-[140px]" />
-                <div className="absolute bottom-[10%] right-[-5%] w-[40rem] h-[40rem] bg-blue-500/5 rounded-full blur-[140px]" />
-            </div>
+            {/* Minimal Background */}
+            <div className="fixed inset-0 pointer-events-none -z-10 bg-background" />
 
             <div className="flex w-full max-w-[1400px] mx-auto min-h-screen">
                 {/* 1. Sidebar Component (Sticky) */}
