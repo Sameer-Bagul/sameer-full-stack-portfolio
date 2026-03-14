@@ -124,7 +124,7 @@ export default function EbookReader({
             {/* Minimal Background */}
             <div className="fixed inset-0 pointer-events-none -z-10 bg-background" />
  
-            <div className="flex w-full gap-8">
+            <div className="flex w-full gap-8 items-start">
                 {/* 1. Sidebar Pane */}
                 <aside className={cn(
                     "hidden lg:block w-[350px] shrink-0 sticky top-28",
@@ -141,7 +141,7 @@ export default function EbookReader({
                 </aside>
  
                 {/* 2. Content Pane (Long Note) */}
-                <main className="flex-1 min-w-0 rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl shadow-2xl relative notebook-background overflow-hidden min-h-screen">
+                <main className="flex-1 min-w-0 rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl shadow-2xl relative notebook-background min-h-screen">
                     <NoteContent
                         title={activeChapter.title}
                         content={processedHtml}
