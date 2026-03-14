@@ -1,7 +1,6 @@
-import { studyData } from '@/data/study-materials';
+import { getPublicFolderBySlug, getPublicNoteBySlug } from '@/lib/api';
 import { Metadata } from 'next';
 import NotePageContent from '@/app/study/[topicSlug]/[chapterSlug]/NotePageContent';
-
 
 interface NotePageProps {
     params: Promise<{ topicSlug: string; chapterSlug: string }>;
@@ -11,32 +10,44 @@ export async function generateMetadata(
     { params }: NotePageProps
 ): Promise<Metadata> {
     const { topicSlug, chapterSlug } = await params;
-    const topic = studyData.find(item => item.slug === topicSlug);
-    if (!topic) return { title: 'Topic Not Found' };
+    
+    try {
+        const response = await getPublicNoteBySlug(chapterSlug);
+        if (!response.success) return { title: 'Note Not Found' };
+        
+        const note = response.data.note;
 
-    const chapter = topic.chapters.find(c => c.slug === chapterSlug);
-    if (!chapter) return { title: 'Chapter Not Found' };
-
-    return {
-        title: `${chapter.title} | ${topic.topic}`,
-        description: `Read "${chapter.title}" in the ${topic.topic} archive. Part of Sameer Bagul's engineering study library.`,
-        openGraph: {
-            title: `${chapter.title} | ${topic.topic}`,
-            description: `Technical notes on ${topic.topic} - ${chapter.title}`,
-            images: [topic.image],
-        },
-        alternates: {
-            canonical: `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`,
-        },
-    };
+        return {
+            title: `${note.title} | Technical Research`,
+            description: `Read "${note.title}" in the archive. Part of Sameer Bagul's engineering study library.`,
+            openGraph: {
+                title: `${note.title} | Sameer Bagul`,
+                description: `Technical notes on ${note.title}`,
+                images: [],
+            },
+            alternates: {
+                canonical: `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`,
+            },
+        };
+    } catch (error) {
+        return { title: 'Technical Notes' };
+    }
 }
 
 export default async function NotePage({ params }: NotePageProps) {
     const resolvedParams = await params;
     const { topicSlug, chapterSlug } = resolvedParams;
 
-    const topic = studyData.find(item => item.slug === topicSlug);
-    const chapter = topic?.chapters.find(c => c.slug === chapterSlug);
+    let note = null;
+    let folder = null;
+    try {
+        const [noteRes, folderRes] = await Promise.all([
+            getPublicNoteBySlug(chapterSlug),
+            getPublicFolderBySlug(topicSlug)
+        ]);
+        if (noteRes.success) note = noteRes.data.note;
+        if (folderRes.success) folder = folderRes.data.folder;
+    } catch (e) {}
 
     const breadcrumbJsonLd = {
         "@context": "https://schema.org",
@@ -57,13 +68,13 @@ export default async function NotePage({ params }: NotePageProps) {
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": topic?.topic,
+                "name": folder?.name || 'Topic',
                 "item": `https://sameerbagul.me/study/${topicSlug}`
             },
             {
                 "@type": "ListItem",
                 "position": 4,
-                "name": chapter?.title,
+                "name": note?.title || 'Note',
                 "item": `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`
             }
         ]
@@ -72,9 +83,9 @@ export default async function NotePage({ params }: NotePageProps) {
     const articleJsonLd = {
         "@context": "https://schema.org",
         "@type": "Article",
-        "headline": chapter?.title,
-        "description": `Research notes on ${topic?.topic}: ${chapter?.title}`,
-        "image": topic?.image,
+        "headline": note?.title,
+        "description": `Research notes on ${folder?.name}: ${note?.title}`,
+        "image": "",
         "author": {
             "@type": "Person",
             "name": "Sameer Bagul",
@@ -100,7 +111,7 @@ export default async function NotePage({ params }: NotePageProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
             />
-            <NotePageContent params={resolvedParams} />
+            <NotePageContent params={resolvedParams} initialNote={note} initialFolder={folder} />
         </>
     );
 }

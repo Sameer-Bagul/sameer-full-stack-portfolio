@@ -13,6 +13,10 @@ import { HeaderProvider } from "@/context/HeaderContext";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/next";
+import { getAllPortfolioData } from "@/lib/api";
+
+// Revalidate every 5 minutes (ISR)
+export const revalidate = 300;
 
 
 
@@ -130,11 +134,19 @@ const professionalServiceJsonLd = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Fetch data server-side
+  let portfolioData;
+  try {
+    portfolioData = await getAllPortfolioData();
+  } catch (err) {
+    console.error("Failed to fetch initial portfolio data:", err);
+  }
+
   return (
     <html lang="en" suppressHydrationWarning className="overflow-x-hidden">
       <head>
@@ -153,7 +165,7 @@ export default function RootLayout({
         >
           <TooltipProvider>
             <HeaderProvider>
-              <PortfolioProvider>
+              <PortfolioProvider initialData={portfolioData}>
                 {/* <GridOverlay /> */}
                 <CustomCursor />
 

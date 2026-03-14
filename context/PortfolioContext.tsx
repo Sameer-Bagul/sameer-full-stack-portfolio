@@ -33,8 +33,8 @@ interface PortfolioContextType extends PortfolioData {
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
-export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
-    const [data, setData] = useState<PortfolioData>({
+export const PortfolioProvider = ({ children, initialData }: { children: ReactNode, initialData?: PortfolioData }) => {
+    const [data, setData] = useState<PortfolioData>(initialData || {
         experience: [],
         projects: [],
         blogs: [],
@@ -42,12 +42,12 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
         testimonials: [],
         achievements: []
     });
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(!initialData);
     const [error, setError] = useState<string | null>(null);
 
     const fetchData = async () => {
         try {
-            setLoading(true);
+            if (!initialData) setLoading(true);
             const [exp, proj, blg, skl, tst, ach] = await Promise.all([
                 getExperience(),
                 getProjects(),
@@ -75,8 +75,10 @@ export const PortfolioProvider = ({ children }: { children: ReactNode }) => {
     };
 
     useEffect(() => {
-        fetchData();
-    }, []);
+        if (!initialData) {
+            fetchData();
+        }
+    }, [initialData]);
 
     return (
         <PortfolioContext.Provider value={{ ...data, loading, error, refreshData: fetchData }}>

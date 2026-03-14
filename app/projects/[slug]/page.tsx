@@ -4,6 +4,9 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getProjectBySlug, getProjectById, getProjects } from '@/lib/api';
 import { getProjectTheme } from '@/lib/project-themes';
+
+// Revalidate every 5 minutes (ISR)
+export const revalidate = 300;
 import ContributorAvatar from '@/components/ContributorAvatar';
 import {
     ArrowLeft,

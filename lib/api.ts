@@ -123,6 +123,19 @@ export const getAchievements = async (): Promise<Achievement[]> => {
     return response.data;
 };
 
+export const getAllPortfolioData = async () => {
+    const [experience, projects, blogs, skills, testimonials, achievements] = await Promise.all([
+        getExperience(),
+        getProjects(),
+        getBlogs(),
+        getSkills(),
+        getTestimonials(),
+        getAchievements()
+    ]);
+
+    return { experience, projects, blogs, skills, testimonials, achievements };
+};
+
 
 
 export const sendMessage = async (messageData: { name: string; email: string; subject: string; message: string }) => {
@@ -184,6 +197,12 @@ export const getPublicFolders = async (username?: string): Promise<{ success: bo
 export const getPublicFolderBySlug = async (slug: string, username?: string): Promise<{ success: boolean, data: { folder: NoteFolder, notes: Note[] } }> => {
     const params = username ? { username } : {};
     const response = await api.get(`/public/notes/folders/${slug}`, { params });
+    return response.data;
+};
+
+export const getPublicNoteBySlug = async (slug: string, username?: string): Promise<{ success: boolean, data: { note: Note } }> => {
+    const params = username ? { username } : {};
+    const response = await api.get(`/public/notes/notes/${slug}`, { params });
     return response.data;
 };
 

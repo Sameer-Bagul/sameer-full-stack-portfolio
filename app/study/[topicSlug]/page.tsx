@@ -1,7 +1,6 @@
-import { studyData } from '@/data/study-materials';
+import { getPublicFolderBySlug } from '@/lib/api';
 import { Metadata } from 'next';
 import TopicPageContent from '@/app/study/[topicSlug]/TopicPageContent';
-
 
 interface TopicPageProps {
     params: Promise<{ topicSlug: string }>;
@@ -11,28 +10,41 @@ export async function generateMetadata(
     { params }: TopicPageProps
 ): Promise<Metadata> {
     const { topicSlug } = await params;
-    const topic = studyData.find(item => item.slug === topicSlug);
+    
+    try {
+        const response = await getPublicFolderBySlug(topicSlug);
+        if (!response.success) return { title: 'Topic Not Found' };
+        
+        const folder = response.data.folder;
 
-    if (!topic) return { title: 'Topic Not Found' };
-
-    return {
-        title: `${topic.topic} | Advanced Coding Notes & Technical Research`,
-        description: `In-depth coding notes, research, and technical guides on ${topic.topic}. Part of Sameer Bagul's engineering knowledge base.`,
-        openGraph: {
-            title: `${topic.topic} Technical Notes | Sameer Bagul`,
-            description: `Professional research and developer notes on ${topic.topic}.`,
-            images: [topic.image],
-        },
-        alternates: {
-            canonical: `https://sameerbagul.me/study/${topicSlug}`,
-        },
-    };
+        return {
+            title: `${folder.name} | Advanced Coding Notes & Technical Research`,
+            description: folder.description || `In-depth coding notes, research, and technical guides on ${folder.name}. Part of Sameer Bagul's engineering knowledge base.`,
+            openGraph: {
+                title: `${folder.name} Technical Notes | Sameer Bagul`,
+                description: `Professional research and developer notes on ${folder.name}.`,
+                images: [], // Can add a default or dynamic image here
+            },
+            alternates: {
+                canonical: `https://sameerbagul.me/study/${topicSlug}`,
+            },
+        };
+    } catch (error) {
+        return { title: 'Study Library' };
+    }
 }
 
 export default async function TopicPage({ params }: TopicPageProps) {
     const resolvedParams = await params;
     const { topicSlug } = resolvedParams;
-    const topic = studyData.find(item => item.slug === topicSlug);
+    
+    let folder = null;
+    try {
+        const response = await getPublicFolderBySlug(topicSlug);
+        if (response.success) {
+            folder = response.data.folder;
+        }
+    } catch (e) {}
 
     const jsonLd = {
         "@context": "https://schema.org",
@@ -53,7 +65,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
             {
                 "@type": "ListItem",
                 "position": 3,
-                "name": topic?.topic,
+                "name": folder?.name || 'Topic',
                 "item": `https://sameerbagul.me/study/${topicSlug}`
             }
         ]
@@ -65,7 +77,7 @@ export default async function TopicPage({ params }: TopicPageProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
-            <TopicPageContent params={resolvedParams} />
+            <TopicPageContent params={resolvedParams} initialFolder={folder} />
         </>
     );
 }
