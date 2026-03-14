@@ -14,6 +14,7 @@ import { PERSONAL_INFO } from '@/lib/constants/personalInfo';
 const navItems = [
     { name: 'Projects', href: '/projects' },
     { name: 'Blog', href: '/blog' },
+    { name: 'Achievements', href: '/achievements' },
     { name: 'Study', href: '/study' },
     { name: 'Resume', href: '/resume' },
 ];
