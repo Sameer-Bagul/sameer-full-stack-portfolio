@@ -80,16 +80,7 @@ export function StudyNavigation({
                 </div>
             </ScrollArea>
 
-            {/* Sidebar Footer */}
-            <div className="p-6 border-t border-white/5 bg-black/40 backdrop-blur-md">
-                <Button
-                    variant="outline"
-                    className="w-full flex items-center gap-3 rounded-2xl border-white/10 text-[10px] font-black uppercase tracking-widest hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-500 py-6"
-                >
-                    <Bookmark size={14} />
-                    Download Investigation
-                </Button>
-            </div>
+     
         </motion.div>
     );
 }
