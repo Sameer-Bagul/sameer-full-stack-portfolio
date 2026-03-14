@@ -1,134 +1,56 @@
-'use client';
+import { Metadata } from 'next';
+import BlogContent from './BlogContent';
+import { getBlogs, getPublicFolders } from '@/lib/api';
 
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import BlogCard from '@/components/BlogCard';
-import { Sparkles } from 'lucide-react';
-import { getBlogs, type Blog } from '@/lib/api';
+export const revalidate = 300;
 
-const categories = ['All', 'Tech', 'AI', 'Health', 'Poetry', 'Life'];
-
-const categoryColors: Record<string, string> = {
-    All: 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900',
-    Tech: 'bg-blue-500 text-white',
-    AI: 'bg-violet-500 text-white',
-    Health: 'bg-green-500 text-white',
-    Poetry: 'bg-pink-500 text-white',
-    Life: 'bg-amber-500 text-white',
+export const metadata: Metadata = {
+    title: 'Technical Blog & Engineering Insights',
+    description: 'Deep dives into AI, MERN stack, Next.js, and software architecture. Read technical articles and tutorials by Sameer Bagul.',
+    keywords: ['Engineering Blog', 'AI Tutorials', 'React Tips', 'Software Architecture', 'Full Stack Development'],
+    openGraph: {
+        title: 'Technical Blog | Sameer Bagul',
+        description: 'Sharing knowledge on cutting-edge technology and AI development.',
+    }
 };
 
-const inactiveClass = 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-primary/50 hover:text-primary';
+export default async function BlogPage() {
+    let folders: any[] = [];
+    try {
+        const response = await getPublicFolders();
+        if (response.success) {
+            folders = response.data.folders;
+        }
+    } catch (error) {
+        console.error('Error fetching study folders for Server Component:', error);
+    }
 
-export default function BlogPage() {
-    const [filter, setFilter] = useState('All');
-    const [blogs, setBlogs] = useState<Blog[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchBlogs = async () => {
-            try {
-                const data = await getBlogs();
-                // Filter published blogs for the public portfolio
-                setBlogs(data.filter(b => b.isPublished));
-            } catch (error) {
-                console.error('Error fetching blogs:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchBlogs();
-    }, []);
-
-    const filteredBlogs = blogs.filter(b => filter === 'All' || b.category === filter);
-
-    if (loading) {
-        return (
-            <div className="pt-32 pb-24 px-6 min-h-screen flex items-center justify-center">
-                <div className="animate-pulse flex flex-col items-center">
-                    <div className="w-12 h-12 bg-zinc-200 dark:bg-zinc-800 rounded-full mb-4"></div>
-                    <div className="h-4 w-24 bg-zinc-100 dark:bg-zinc-900 rounded"></div>
-                </div>
-            </div>
-        );
+    let blogs: any[] = [];
+    try {
+        blogs = await getBlogs();
+    } catch (error) {
+        console.error('Error fetching blogs for Server Component:', error);
     }
 
     return (
-        <div className="pt-32 pb-24 px-6">
-            <div className="max-w-6xl mx-auto">
-
-                {/* Page header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 24 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                    className="mb-16"
-                >
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-5 font-seona">
-                        Blog
-                    </h1>
-                    <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
-                        Thoughts, tutorials, and deep-dives on technology, AI, and the things that keep me curious.
-                    </p>
-                </motion.div>
-
-                {/* Category filters */}
-                <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.1 }}
-                    className="flex flex-wrap gap-2 mb-12"
-                >
-                    {categories.map((cat) => (
-                        <button
-                            key={cat}
-                            onClick={() => setFilter(cat)}
-                            className={cn(
-                                'px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-200',
-                                filter === cat
-                                    ? (categoryColors[cat] ?? 'bg-primary text-primary-foreground') + ' shadow-md'
-                                    : inactiveClass
-                            )}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </motion.div>
-
-                {/* Stats row */}
-                <div className="flex items-center gap-2 mb-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
-                    <Sparkles className="w-3 h-3" />
-                    <span>{filteredBlogs.length} {filteredBlogs.length === 1 ? 'Article' : 'Articles'}</span>
-                    {filter !== 'All' && <span className="text-primary">in {filter}</span>}
-                </div>
-
-                {/* Blog grid — fixed 3-col on desktop, equal height rows */}
-                {filteredBlogs.length > 0 ? (
-                    <motion.div
-                        layout
-                        className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"
-                    >
-                        {filteredBlogs.map((blog, i) => (
-                            <motion.div
-                                key={blog._id}
-                                layout
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.35, delay: i * 0.06 }}
-                            >
-                                <BlogCard blog={blog as any} />
-                            </motion.div>
-                        ))}
-                    </motion.div>
-                ) : (
-                    <div className="flex flex-col items-center justify-center py-32 text-center">
-                        <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center mb-6">
-                            <Sparkles className="w-7 h-7 text-muted-foreground/30" />
-                        </div>
-                        <p className="text-sm font-black uppercase tracking-widest text-muted-foreground/40">No articles yet</p>
-                    </div>
-                )}
-            </div>
-        </div>
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        '@context': 'https://schema.org',
+                        '@type': 'CollectionPage',
+                        name: 'Technical Blog | Sameer Bagul',
+                        description: 'Deep dives into AI, MERN stack, Next.js, and software architecture.',
+                        url: 'https://sameerbagul.me/blog',
+                        author: {
+                            '@type': 'Person',
+                            name: 'Sameer Bagul',
+                        },
+                    }),
+                }}
+            />
+            <BlogContent initialBlogs={blogs} />
+        </>
     );
 }

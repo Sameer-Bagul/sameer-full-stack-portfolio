@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { getBlogs, getProjects } from '@/lib/api';
+import { getBlogs, getProjects, getPublicFolders, getPublicFolderBySlug } from '@/lib/api';
 import { studyData } from '@/data/study-materials';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -10,6 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         '',
         '/projects',
         '/blog',
+        '/achievements',
         '/resume',
         '/study',
     ].map((route) => ({
@@ -51,25 +52,40 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         console.error('Error fetching projects for sitemap:', e);
     }
 
-    // Dynamic Study routes
-    const studyRoutes: MetadataRoute.Sitemap = [];
-    studyData.forEach((topic) => {
-        studyRoutes.push({
-            url: `${baseUrl}/study/${topic.slug}`,
-            lastModified: new Date(),
-            changeFrequency: 'monthly' as const,
-            priority: 0.7,
-        });
-
-        topic.chapters.forEach((chapter) => {
-            studyRoutes.push({
-                url: `${baseUrl}/study/${topic.slug}/${chapter.slug}`,
-                lastModified: new Date(),
-                changeFrequency: 'monthly' as const,
-                priority: 0.6,
-            });
-        });
-    });
+    // Dynamic Study routes (API-based)
+    let studyRoutes: MetadataRoute.Sitemap = [];
+    try {
+        const response = await getPublicFolders();
+        if (response.success) {
+            for (const folder of response.data.folders) {
+                studyRoutes.push({
+                    url: `${baseUrl}/study/${folder.slug}`,
+                    lastModified: new Date(),
+                    changeFrequency: 'monthly' as const,
+                    priority: 0.7,
+                });
+                
+                // Fetch notes for each folder
+                try {
+                    const notesRes = await getPublicFolderBySlug(folder.slug);
+                    if (notesRes.success) {
+                        for (const note of notesRes.data.notes) {
+                            studyRoutes.push({
+                                url: `${baseUrl}/study/${folder.slug}/${note.slug}`,
+                                lastModified: new Date(),
+                                changeFrequency: 'monthly' as const,
+                                priority: 0.6,
+                            });
+                        }
+                    }
+                } catch (err) {
+                    console.error(`Error fetching notes for sitemap folder ${folder.slug}:`, err);
+                }
+            }
+        }
+    } catch (e) {
+        console.error('Error fetching folders for sitemap:', e);
+    }
 
     return [...staticRoutes, ...blogRoutes, ...projectRoutes, ...studyRoutes];
 }
