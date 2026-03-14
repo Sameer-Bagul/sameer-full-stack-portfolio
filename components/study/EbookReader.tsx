@@ -7,6 +7,13 @@ import { useHeader } from '@/context/HeaderContext';
 import { Bookmark as BookmarkIcon, Download, Share2 } from 'lucide-react';
 import { StudyNavigation } from './StudyNavigation';
 import { NoteContent } from './NoteContent';
+ 
+interface TOCItem {
+    id: string;
+    text: string;
+    level: number;
+    subItems: TOCItem[];
+}
 
 interface EbookReaderProps {
     item: StudyMaterial;
@@ -58,6 +65,33 @@ export default function EbookReader({
         setActions(actions);
         return () => clearHeader();
     }, [activeChapter?.id, isLiked, setTitle, setActions, clearHeader, setIsLiked]);
+ 
+    // Helper to extract TOC items
+    const extractTOC = (html: string): TOCItem[] => {
+        const toc: TOCItem[] = [];
+        const headingRegex = /<h([1-2])(?:[^>]*id="([^"]*)")?[^>]*>(.*?)<\/h\1>/gi;
+        let match;
+ 
+        let currentH1: TOCItem | null = null;
+ 
+        while ((match = headingRegex.exec(html)) !== null) {
+            const level = parseInt(match[1]);
+            const id = match[2] || match[3].toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+            const text = match[3].replace(/<\/?[^>]+(>|$)/g, ""); // Strip nested tags
+ 
+            const item: TOCItem = { id, text, level, subItems: [] };
+ 
+            if (level === 1) {
+                toc.push(item);
+                currentH1 = item;
+            } else if (level === 2 && currentH1) {
+                currentH1.subItems.push(item);
+            }
+        }
+        return toc;
+    };
+ 
+    const toc = activeChapter ? extractTOC(activeChapter.content) : [];
 
     if (!activeChapter) return null;
 
@@ -74,6 +108,7 @@ export default function EbookReader({
                             item={item}
                             topicSlug={topicSlug}
                             activeChapter={activeChapter}
+                            toc={toc}
                         />
                     </div>
                 </aside>
