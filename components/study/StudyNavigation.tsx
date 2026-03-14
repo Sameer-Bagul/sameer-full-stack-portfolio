@@ -25,10 +25,10 @@ export function StudyNavigation({
         <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            className="w-full flex flex-col h-full bg-zinc-950/20"
+            className="w-full flex flex-col h-full bg-transparent"
         >
             {/* Sidebar Header */}
-            <div className="p-8 border-b border-white/5 bg-white/[0.02]">
+            <div className="px-8 py-16 border-b border-white/5 bg-transparent">
                 <h3 className="text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-3 text-primary mb-6">
                     <ListOrdered size={14} /> CURRICULUM ARCHIVE
                 </h3>

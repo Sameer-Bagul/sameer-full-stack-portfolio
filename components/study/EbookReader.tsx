@@ -62,14 +62,14 @@ export default function EbookReader({
     if (!activeChapter) return null;
 
     return (
-        <div className="w-full bg-background selection:bg-primary/30 pt-28">
+        <div className="w-full bg-background selection:bg-primary/30 pt-28 pb-12 lg:px-8">
             {/* Minimal Background */}
             <div className="fixed inset-0 pointer-events-none -z-10 bg-background" />
 
-            <div className="flex w-full min-h-screen">
+            <div className="flex w-full min-h-[calc(100vh-10rem)] rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-2xl relative">
                 {/* 1. Sidebar Component (Sticky) */}
-                <aside className="hidden lg:block w-[380px] shrink-0 border-r border-white/5 relative">
-                    <div className="sticky top-28 h-[calc(100vh-8rem)]">
+                <aside className="hidden lg:block w-[350px] shrink-0 border-r border-white/5 relative bg-zinc-950/20">
+                    <div className="h-full">
                         <StudyNavigation
                             item={item}
                             topicSlug={topicSlug}
@@ -79,7 +79,7 @@ export default function EbookReader({
                 </aside>
 
                 {/* 2. Content Component (Natural Scroll) */}
-                <main className="flex-1 min-w-0">
+                <main className="flex-1 min-w-0 notebook-background">
                     <NoteContent
                         title={activeChapter.title}
                         content={activeChapter.content}
