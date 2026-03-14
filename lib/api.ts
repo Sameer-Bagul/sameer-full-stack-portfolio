@@ -183,6 +183,7 @@ export interface Note {
     title: string;
     content: string;
     content_html?: string;
+    description?: string;
     slug: string;
     tags: string[];
     updatedAt: string;

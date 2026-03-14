@@ -19,10 +19,10 @@ export async function generateMetadata(
 
         return {
             title: `${note.title} | Technical Research`,
-            description: `Read "${note.title}" in the archive. Part of Sameer Bagul's engineering study library.`,
+            description: note.description || `Read "${note.title}" in the archive. Part of Sameer Bagul's engineering study library.`,
             openGraph: {
                 title: `${note.title} | Sameer Bagul`,
-                description: `Technical notes on ${note.title}`,
+                description: note.description || `Technical notes on ${note.title}`,
                 images: [],
             },
             alternates: {
@@ -84,7 +84,7 @@ export default async function NotePage({ params }: NotePageProps) {
         "@context": "https://schema.org",
         "@type": "Article",
         "headline": note?.title,
-        "description": `Research notes on ${folder?.name}: ${note?.title}`,
+        "description": note?.description || `Research notes on ${folder?.name}: ${note?.title}`,
         "image": "",
         "author": {
             "@type": "Person",

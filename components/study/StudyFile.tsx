@@ -10,10 +10,11 @@ interface StudyFileProps {
     title: string;
     topicSlug: string;
     chapterSlug: string;
+    description?: string;
     className?: string;
 }
 
-export default function StudyFile({ title, topicSlug, chapterSlug, className }: StudyFileProps) {
+export default function StudyFile({ title, topicSlug, chapterSlug, description, className }: StudyFileProps) {
     return (
         <Link href={`/study/${topicSlug}/${chapterSlug}`}>
             <motion.div
@@ -49,11 +50,16 @@ export default function StudyFile({ title, topicSlug, chapterSlug, className }: 
                     </div>
                 </div>
 
-                {/* Title */}
+                {/* Title & Description */}
                 <div className="text-center px-2">
                     <p className="text-[11px] font-bold leading-tight text-foreground/80 group-hover:text-foreground transition-colors line-clamp-2">
                         {title}
                     </p>
+                    {description && (
+                         <p className="mt-2 text-[9px] text-muted-foreground font-medium max-w-[120px] line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            {description}
+                        </p>
+                    )}
                 </div>
             </motion.div>
         </Link>

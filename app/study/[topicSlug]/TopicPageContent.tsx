@@ -138,6 +138,7 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
                                     >
                                         <StudyFile
                                             title={note.title}
+                                            description={note.description}
                                             topicSlug={folder.slug}
                                             chapterSlug={note.slug}
                                         />
