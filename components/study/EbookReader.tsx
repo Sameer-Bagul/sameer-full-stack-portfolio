@@ -140,20 +140,15 @@ export default function EbookReader({
                     </div>
                 </aside>
  
-                {/* 2. Content Pane */}
-                <main className={cn(
-                    "flex-1 min-w-0 rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl shadow-2xl relative notebook-background overflow-hidden",
-                    containerHeight
-                )}>
-                    <div className="h-full overflow-y-auto custom-scrollbar scroll-smooth">
-                        <NoteContent
-                            title={activeChapter.title}
-                            content={processedHtml}
-                            topic={item.topic}
-                            id={activeChapter.id}
-                            estimatedTime={item.estimatedTime || '10m'}
-                        />
-                    </div>
+                {/* 2. Content Pane (Long Note) */}
+                <main className="flex-1 min-w-0 rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl shadow-2xl relative notebook-background overflow-hidden min-h-screen">
+                    <NoteContent
+                        title={activeChapter.title}
+                        content={processedHtml}
+                        topic={item.topic}
+                        id={activeChapter.id}
+                        estimatedTime={item.estimatedTime || '10m'}
+                    />
                 </main>
             </div>
         </div>
