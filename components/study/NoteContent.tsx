@@ -23,24 +23,18 @@ export const NoteContent: React.FC<NoteContentProps> = ({
         <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full max-w-4xl mx-auto py-12 px-6"
+            className="w-full py-12 px-4 lg:px-8"
         >
-            <div className="rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-sm mb-32 relative">
+            <div className="rounded-3xl border border-white/5 bg-zinc-950/10 backdrop-blur-3xl overflow-hidden shadow-sm mb-32 relative notebook-background">
 
                 <article className="relative">
                     {/* Header: Academic & Minimal */}
-                    <header className="px-10 lg:px-20 pt-20 pb-12 border-b border-white/5">
-                        <div className="flex items-center gap-4 mb-8">
-                            <span className="text-[10px] font-black text-primary uppercase tracking-[0.4em]">
-                                INVESTIGATION ASSET / {id.slice(-8).toUpperCase()}
-                            </span>
-                        </div>
- 
-                        <h1 className="text-4xl lg:text-6xl font-black tracking-tighter mb-6 text-white leading-tight">
+                    <header className="px-6 lg:px-12 pt-16 pb-8 border-b border-white/5">
+                        <h1 className="text-4xl lg:text-7xl font-black tracking-tighter mb-4 text-white leading-tight">
                             {title}
                         </h1>
  
-                        <div className="flex items-center gap-4 text-[9px] font-bold text-muted-foreground uppercase tracking-widest opacity-40">
+                        <div className="flex items-center gap-4 text-[9px] font-bold text-muted-foreground uppercase tracking-widest opacity-30">
                             <span>ARCHIVE REF: {topic.toUpperCase()}</span>
                             <span>•</span>
                             <span>{estimatedTime} READ</span>
@@ -48,21 +42,20 @@ export const NoteContent: React.FC<NoteContentProps> = ({
                     </header>
 
                     {/* Content Section */}
-                    <div className="px-10 lg:px-20 py-20">
+                    <div className="px-6 lg:px-12 py-16">
                         <div
                             className="technical-content"
                             dangerouslySetInnerHTML={{ __html: content }}
                         />
                     </div>
 
-                    {/* Simple Footer Decoration */}
-                    <footer className="px-10 lg:px-16 py-10 border-t border-white/5 bg-black/20 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <p className="text-[10px] font-black text-muted-foreground/20 uppercase tracking-[0.5em]">
-                            End of Module {id.toUpperCase()}
+                    {/* Minimal Footer */}
+                    <footer className="px-6 lg:px-12 py-8 border-t border-white/5 flex items-center justify-between opacity-20">
+                        <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.5em]">
+                            End of Research Module
                         </p>
-                        <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-white/5 to-transparent mx-4 hidden sm:block" />
-                        <p className="text-[10px] font-bold text-primary/40 tracking-widest">
-                            Verified Investigation Asset
+                        <p className="text-[8px] font-bold text-primary tracking-widest">
+                            VERIFIED ASSET
                         </p>
                     </footer>
                 </article>

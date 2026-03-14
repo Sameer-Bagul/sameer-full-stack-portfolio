@@ -66,7 +66,7 @@ export default function EbookReader({
             {/* Minimal Background */}
             <div className="fixed inset-0 pointer-events-none -z-10 bg-background" />
 
-            <div className="flex w-full max-w-[1400px] mx-auto min-h-screen">
+            <div className="flex w-full min-h-screen">
                 {/* 1. Sidebar Component (Sticky) */}
                 <aside className="hidden lg:block w-[380px] shrink-0 border-r border-white/5 relative">
                     <div className="sticky top-28 h-[calc(100vh-8rem)]">
