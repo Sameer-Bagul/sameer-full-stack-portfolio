@@ -28,14 +28,14 @@ export const NoteContent: React.FC<NoteContentProps> = ({
             <article className="relative">
                 {/* Header: Academic & Minimal */}
                 <header className="px-8 lg:px-16 py-12 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-20">
-                    <h1 className="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white leading-tight uppercase">
+                    <h1 className="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white leading-tight">
                         {title}
                     </h1>
 
-                    <div className="flex items-center gap-4 text-[9px] font-bold text-muted-foreground uppercase tracking-widest opacity-40">
-                        <span>ARCHIVE REF: {topic.toUpperCase()}</span>
+                    <div className="flex items-center gap-4 text-[9px] font-bold text-muted-foreground tracking-widest opacity-40">
+                        <span>archive ref: {topic}</span>
                         <span>•</span>
-                        <span>{estimatedTime} READ</span>
+                        <span>{estimatedTime} read</span>
                     </div>
                 </header>
 

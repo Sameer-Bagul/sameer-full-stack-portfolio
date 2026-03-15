@@ -47,16 +47,16 @@ export function StudyNavigation({
         >
             {/* Sidebar Header */}
             <div className="px-8 py-10 border-b border-white/5 bg-transparent">
-                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] flex items-center gap-3 text-primary mb-6">
-                    <ListOrdered size={14} /> CURRICULUM ARCHIVE
+                <h3 className="text-[10px] font-black tracking-[0.4em] flex items-center gap-3 text-primary mb-6">
+                    <ListOrdered size={14} /> curriculum archive
                 </h3>
 
                 <div className="space-y-1">
-                    <h4 className="text-lg font-black tracking-tighter text-foreground uppercase truncate">
+                    <h4 className="text-lg font-black tracking-tighter text-foreground truncate">
                         {item.topic}
                     </h4>
                     <div className="flex items-center gap-2 opacity-40">
-                        <span className="text-[10px] font-bold uppercase tracking-widest">{item.chapters.length} Investigation Units</span>
+                        <span className="text-[10px] font-bold tracking-widest">{item.chapters.length} investigation units</span>
                     </div>
                 </div>
             </div>
@@ -67,7 +67,7 @@ export function StudyNavigation({
                     {/* Dynamic Table of Contents */}
                     {toc.length > 0 && (
                         <div className="space-y-1">
-                            <div className="px-4 mb-4 text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">In This Note</div>
+                            <div className="px-4 mb-4 text-[10px] font-black tracking-[0.3em] text-muted-foreground/30">in this note</div>
                             
                             <div className="space-y-1">
                                 {toc.map((h1) => (
@@ -80,7 +80,7 @@ export function StudyNavigation({
                                                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                                 }
                                             }}
-                                            className="w-full text-left px-4 py-3 rounded-xl text-[11px] font-black flex items-center justify-between group hover:bg-white/5 text-muted-foreground hover:text-white transition-all duration-300 uppercase tracking-tight"
+                                            className="w-full text-left px-4 py-3 rounded-xl text-[11px] font-black flex items-center justify-between group hover:bg-white/5 text-muted-foreground hover:text-white transition-all duration-300 tracking-tight"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <Hash size={12} className="text-primary opacity-40" />

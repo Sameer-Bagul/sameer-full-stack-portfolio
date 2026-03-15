@@ -241,19 +241,19 @@
   }
 
   .technical-content h1 {
-    @apply text-5xl font-black tracking-tighter mb-12 text-white leading-tight;
+    @apply text-5xl font-black tracking-tighter mb-8 text-white leading-[1.1];
   }
   
   .technical-content h2 {
-    @apply text-2xl font-black uppercase tracking-widest mt-16 mb-6 text-primary;
+    @apply text-2xl font-black tracking-widest mt-12 mb-4 text-primary;
   }
   
   .technical-content h3 {
-    @apply text-xl font-bold tracking-tight mt-12 mb-4 text-white/90;
+    @apply text-xl font-bold tracking-tight mt-8 mb-3 text-white/90;
   }
 
   .technical-content p {
-    @apply text-zinc-400 leading-[1.8] mb-6 text-[1.1rem];
+    @apply text-zinc-400 leading-[1.7] mb-4 text-[1.05rem];
   }
 
   .technical-content strong {
@@ -261,19 +261,38 @@
     font-weight: 700;
   }
 
-  .technical-content ul,
+  .technical-content ul:not([data-type="taskList"]),
   .technical-content ol {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     padding-left: 1.5rem;
   }
 
   .technical-content li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.35rem;
     color: hsl(var(--muted-foreground));
   }
 
   .technical-content li strong {
     color: hsl(var(--foreground));
+  }
+
+  /* Task Lists */
+  .technical-content ul[data-type="taskList"] {
+    list-style: none;
+    padding: 0 !important;
+    margin: 1rem 0 !important;
+  }
+
+  .technical-content ul[data-type="taskList"] li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .technical-content ul[data-type="taskList"] input[type="checkbox"] {
+    @apply w-4 h-4 mt-1.5 rounded border-zinc-700 bg-zinc-900/50 text-primary focus:ring-primary/50;
+    cursor: pointer;
   }
 
   .technical-content blockquote {
@@ -289,15 +308,26 @@
   .technical-content pre {
     background: #09090b !important;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 2rem !important;
+    padding: 1.5rem !important;
     border-radius: 1.5rem !important;
-    margin: 2.5rem 0;
+    margin: 2rem 0;
     overflow-x: auto;
   }
 
   .technical-content code {
     font-family: var(--font-geist-mono);
     font-size: 0.9em;
+  }
+
+  /* Images & Videos */
+  .technical-content img {
+    @apply rounded-2xl border border-white/10 my-8 shadow-2xl mx-auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .technical-content iframe {
+    @apply rounded-2xl border border-white/5 my-10 aspect-video w-full shadow-2xl;
   }
 
   .technical-content table {
@@ -325,6 +355,7 @@
     font-size: 0.875rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     color: hsl(var(--muted-foreground));
+    line-height: 1.5;
   }
 
   .technical-content tr:last-child td {
