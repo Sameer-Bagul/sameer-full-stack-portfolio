@@ -241,19 +241,19 @@
   }
 
   .technical-content h1 {
-    @apply text-5xl font-black tracking-tighter mb-8 text-white leading-[1.1];
+    @apply text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter mb-6 md:mb-8 text-white leading-[1.1];
   }
   
   .technical-content h2 {
-    @apply text-2xl font-black tracking-widest mt-12 mb-4 text-primary;
+    @apply text-xl md:text-2xl font-black tracking-widest mt-10 md:mt-12 mb-4 text-primary;
   }
   
   .technical-content h3 {
-    @apply text-xl font-bold tracking-tight mt-8 mb-3 text-white/90;
+    @apply text-lg md:text-xl font-bold tracking-tight mt-6 md:mt-8 mb-3 text-white/90;
   }
 
   .technical-content p {
-    @apply text-zinc-400 leading-[1.7] mb-4 text-[1.05rem];
+    @apply text-zinc-400 leading-[1.65] md:leading-[1.7] mb-4 text-base md:text-[1.05rem];
   }
 
   .technical-content strong {
@@ -261,14 +261,16 @@
     font-weight: 700;
   }
 
-  .technical-content ul:not([data-type="taskList"]),
+  .technical-content ul:not([data-type="taskList"]) {
+    @apply list-disc mb-6 pl-6;
+  }
+
   .technical-content ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
+    @apply list-decimal mb-6 pl-6;
   }
 
   .technical-content li {
-    margin-bottom: 0.35rem;
+    @apply mb-2 pl-2;
     color: hsl(var(--muted-foreground));
   }
 
@@ -296,21 +298,15 @@
   }
 
   .technical-content blockquote {
-    border-left: 4px solid var(--primary);
-    background: rgba(var(--primary-rgb), 0.03);
-    padding: 1.5rem 2rem;
-    border-radius: 0 1rem 1rem 0;
-    margin: 3rem 0;
-    font-weight: 500;
-    color: hsl(var(--foreground));
+    @apply border-l-4 border-primary bg-primary/5 px-8 py-6 rounded-r-2xl my-10 text-lg;
+    background: linear-gradient(to right, rgba(var(--primary-rgb), 0.1), transparent);
+    backdrop-filter: blur(10px);
   }
 
   .technical-content pre {
     background: #09090b !important;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 1.5rem !important;
-    border-radius: 1.5rem !important;
-    margin: 2rem 0;
+    @apply p-5 md:p-6 rounded-2xl md:rounded-3xl my-6 md:my-8 text-[0.85rem] md:text-[0.9rem];
     overflow-x: auto;
   }
 
@@ -332,30 +328,35 @@
 
   .technical-content table {
     width: 100%;
-    border-collapse: collapse;
-    margin: 3rem 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    @apply my-8 md:my-12 rounded-2xl md:rounded-3xl;
     border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 1rem;
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(5px);
+    display: block;
+    overflow-x: auto;
   }
 
   .technical-content th {
-    background: rgba(255, 255, 255, 0.02);
-    padding: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    padding: 1.25rem 1.5rem;
     text-align: left;
     font-size: 0.75rem;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    letter-spacing: 0.15em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--primary);
   }
 
   .technical-content td {
-    padding: 1rem;
-    font-size: 0.875rem;
+    padding: 1.25rem 1.5rem;
+    font-size: 0.9rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
     color: hsl(var(--muted-foreground));
-    line-height: 1.5;
+    line-height: 1.6;
   }
 
   .technical-content tr:last-child td {
@@ -382,6 +383,16 @@
 
   .dark .dotted-background {
     background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  }
+
+  /* Custom Scrollbar for Sidebar */
+  [data-radix-scroll-area-viewport] {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  [data-radix-scroll-area-viewport]::-webkit-scrollbar {
+    display: none;
   }
 
   /* Notebook Dot Grid Pattern */

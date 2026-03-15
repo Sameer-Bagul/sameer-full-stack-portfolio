@@ -126,9 +126,9 @@ export default function EbookReader({
  
             <div className="flex w-full gap-8 items-start relative">
                 {/* 1. Sidebar Pane (Fixed Anchor) */}
-                <aside className="hidden lg:block w-[350px] shrink-0">
+                <aside className="hidden lg:block w-[300px] shrink-0">
                     <div className={cn(
-                        "fixed w-[350px] top-28 z-20",
+                        "fixed w-[300px] top-28 z-20",
                         containerHeight
                     )}>
                         <div className="h-full rounded-3xl border border-white/5 bg-zinc-950/20 backdrop-blur-3xl overflow-hidden shadow-2xl">

@@ -27,8 +27,8 @@ export const NoteContent: React.FC<NoteContentProps> = ({
         >
             <article className="relative">
                 {/* Header: Academic & Minimal */}
-                <header className="px-8 lg:px-16 py-12 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-20">
-                    <h1 className="text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white leading-tight">
+                <header className="px-4 md:px-6 lg:px-12 py-10 lg:py-12 border-b border-white/5 bg-zinc-900/40 backdrop-blur-md sticky top-0 z-20">
+                    <h1 className="text-2xl md:text-3xl lg:text-5xl font-black tracking-tighter mb-4 text-white leading-tight">
                         {title}
                     </h1>
 
@@ -40,7 +40,7 @@ export const NoteContent: React.FC<NoteContentProps> = ({
                 </header>
 
                 {/* Content Section */}
-                <div className="px-8 lg:px-16 py-16">
+                <div className="px-4 md:px-6 lg:px-12 py-10 lg:py-16">
                     <div
                         className="technical-content"
                         dangerouslySetInnerHTML={{ __html: content }}
@@ -48,7 +48,7 @@ export const NoteContent: React.FC<NoteContentProps> = ({
                 </div>
 
                 {/* Minimal Footer */}
-                <footer className="px-8 lg:px-16 py-12 border-t border-white/5 flex items-center justify-between opacity-20">
+                <footer className="px-4 md:px-6 lg:px-12 py-12 border-t border-white/5 flex items-center justify-between opacity-20">
                     <p className="text-[8px] font-black text-muted-foreground uppercase tracking-[0.5em]">
                         End of Research Module
                     </p>
