@@ -68,7 +68,7 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
     return (
         <div className="w-full min-h-screen pt-32 pb-20 px-6">
             <div className="max-w-6xl mx-auto">
-                <div className="mb-8 flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                <div className="mb-8 flex items-center gap-4 text-[10px] font-black tracking-widest text-muted-foreground/60 transition-colors">
                     <Link
                         href="/study"
                         className="flex items-center gap-1 hover:text-primary transition-colors group"
@@ -77,7 +77,7 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
                         Back to Library
                     </Link>
                     <span className="opacity-30">/</span>
-                    <span className="text-foreground">{folder.name}</span>
+                    <span className="text-foreground tracking-tight">{folder.name}</span>
                 </div>
 
                 <div className="mb-16 flex flex-col md:flex-row items-baseline justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800/50 pb-8">
@@ -85,27 +85,27 @@ export default function TopicPageContent({ params, initialFolder }: { params: { 
                         <h1 className="text-4xl md:text-6xl font-black lowercase tracking-tighter">
                             {folder.name}<span className="text-primary">.</span>
                         </h1>
-                        <p className="text-muted-foreground text-sm uppercase tracking-[0.2em] font-bold opacity-60">
+                        <p className="text-muted-foreground text-sm tracking-[0.05em] font-medium opacity-80 leading-relaxed italic">
                             {folder.description || 'Neural Repository Asset'}
                         </p>
                     </div>
 
                     <div className="w-full md:w-auto">
-                        <div className="p-6 rounded-[2rem] bg-zinc-50 dark:bg-zinc-900/40 border border-zinc-100 dark:border-zinc-800 text-center min-w-[120px]">
-                            <span className="block text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-1">Files</span>
-                            <span className="text-2xl font-black">{notes.length}</span>
+                        <div className="p-8 rounded-[2.5rem] bg-zinc-950/20 backdrop-blur-2xl border border-white/5 text-center min-w-[140px] shadow-2xl group transition-all duration-300 hover:border-primary/20">
+                            <span className="block text-[10px] font-black uppercase tracking-[0.4em] text-primary/40 group-hover:text-primary transition-colors mb-2">Files</span>
+                            <span className="text-4xl font-black tracking-tighter">{notes.length}</span>
                         </div>
                     </div>
                 </div>
 
                 <div>
                     <div className="flex items-center justify-between mb-8">
-                        <div className="flex items-center gap-3 opacity-50">
+                        <div className="flex items-center gap-3 text-muted-foreground/40">
                             <Info size={14} />
-                            <span className="text-[10px] font-black uppercase tracking-widest">Select a file to start reading</span>
+                            <span className="text-[10px] font-black uppercase tracking-[0.3em]">Select a module to explore</span>
                         </div>
-                        <div className="text-[8px] font-black uppercase tracking-[0.3em] text-muted-foreground/30">
-                            Last Updated: {new Date(folder.updatedAt).toLocaleDateString()}
+                        <div className="text-[8px] font-black uppercase tracking-[0.4em] text-muted-foreground/20">
+                            Archive Updated: {new Date(folder.updatedAt).toLocaleDateString()}
                         </div>
                     </div>
 

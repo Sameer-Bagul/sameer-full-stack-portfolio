@@ -3,7 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { FileText } from 'lucide-react';
+import { BookOpen, Scroll, Bookmark } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface StudyFileProps {
@@ -18,45 +18,47 @@ export default function StudyFile({ title, topicSlug, chapterSlug, description, 
     return (
         <Link href={`/study/${topicSlug}/${chapterSlug}`}>
             <motion.div
-                whileHover={{ scale: 1.05, y: -5 }}
+                whileHover={{ scale: 1.05, y: -10 }}
                 whileTap={{ scale: 0.98 }}
                 className={cn(
-                    "group relative flex flex-col items-center justify-center p-6 transition-all duration-300",
-                    "hover:bg-zinc-100/20 dark:hover:bg-white/5 rounded-[2rem]",
+                    "group relative flex flex-col items-center justify-center p-8 transition-all duration-500",
+                    "bg-zinc-950/10 hover:bg-zinc-950/40 backdrop-blur-3xl rounded-[3rem] border border-white/5 hover:border-primary/20",
+                    "shadow-xl hover:shadow-2xl hover:shadow-primary/5",
                     className
                 )}
             >
+                {/* Decorative Pattern (Subtle) */}
+                <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.07] transition-opacity pointer-events-none notebook-background rounded-[3rem]" />
+
                 {/* macOS File Icon Container */}
-                <div className="relative mb-4">
-                    <div className="relative w-20 h-20 flex items-center justify-center">
+                <div className="relative mb-6">
+                    <div className="relative w-24 h-24 flex items-center justify-center">
                         {/* Shadow/Glow */}
-                        <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <div className="absolute inset-0 bg-primary/10 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                         {/* File Icon */}
                         <div className="relative z-10">
-                            <FileText
-                                size={64}
-                                strokeWidth={1}
-                                className="text-muted-foreground group-hover:text-foreground transition-all duration-300"
-                            />
-
-                            {/* File Decorative Lines */}
-                            <div className="absolute inset-0 flex flex-col items-center justify-center pt-2 gap-1 px-4 pointer-events-none opacity-20 group-hover:opacity-40 transition-opacity">
-                                <div className="h-[2px] w-full bg-current rounded-full" />
-                                <div className="h-[2px] w-full bg-current rounded-full" />
-                                <div className="h-[2px] w-2/3 bg-current rounded-full self-start" />
+                            <div className="relative">
+                                <BookOpen
+                                    size={56}
+                                    strokeWidth={1.5}
+                                    className="text-muted-foreground group-hover:text-primary transition-all duration-500 transform group-hover:-rotate-3 group-hover:scale-110"
+                                />
+                                <div className="absolute -bottom-1 -right-1 p-1.5 rounded-full bg-zinc-900 border border-white/5 shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-zinc-950">
+                                    <Scroll size={12} strokeWidth={2.5} />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Title & Description */}
-                <div className="text-center px-2">
-                    <p className="text-[11px] font-bold leading-tight text-foreground/80 group-hover:text-foreground transition-colors line-clamp-2">
-                        {title}
+                <div className="text-center px-2 relative z-10">
+                    <p className="text-[13px] font-black leading-tight text-foreground tracking-tight group-hover:text-primary transition-colors duration-500 line-clamp-1 mb-2">
+                        {title}.
                     </p>
                     {description && (
-                         <p className="mt-2 text-[9px] text-muted-foreground font-medium max-w-[120px] line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                         <p className="text-[10px] text-muted-foreground/60 font-medium leading-relaxed max-w-[140px] line-clamp-2 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
                             {description}
                         </p>
                     )}
