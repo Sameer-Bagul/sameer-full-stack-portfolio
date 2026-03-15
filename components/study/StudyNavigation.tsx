@@ -62,7 +62,7 @@ export function StudyNavigation({
             </div>
 
             {/* Navigation List */}
-            <ScrollArea className="flex-1">
+            <ScrollArea className="flex-1 w-full min-h-0">
                 <div className="px-4 py-6 space-y-8">
                     {/* Chapter Navigation */}
                     <div className="space-y-1">

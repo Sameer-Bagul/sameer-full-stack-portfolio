@@ -311,8 +311,7 @@
   }
 
   .technical-content code {
-    font-family: var(--font-geist-mono);
-    font-size: 0.9em;
+    @apply font-mono text-[0.9em] bg-white/5 px-1.5 py-0.5 rounded-md;
   }
 
   /* Images & Videos */
@@ -335,8 +334,7 @@
     overflow: hidden;
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(5px);
-    display: block;
-    overflow-x: auto;
+    table-layout: auto;
   }
 
   .technical-content th {
