@@ -46,7 +46,7 @@ export default async function Image({ params }: { params: { topicSlug: string } 
                         }}
                     />
                     <span style={{ color: '#9ca3af', fontSize: '24px', fontWeight: '500' }}>
-                        sameerbagul.me / library
+                        sameerbagul.com / library
                     </span>
                 </div>
                 <h1

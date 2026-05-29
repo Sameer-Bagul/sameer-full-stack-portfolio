@@ -5,15 +5,13 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import ConditionalFooter from "@/components/ConditionalFooter";
 import CustomCursor from "@/components/ui/CustomCursor";
-import GridOverlay from "@/components/GridOverlay";
-import Link from 'next/link';
-import ThemeToggle from "@/components/ThemeToggle";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { HeaderProvider } from "@/context/HeaderContext";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 import Header from "@/components/Header";
 import { Analytics } from "@vercel/analytics/next";
 import { getAllPortfolioData } from "@/lib/api";
+import { SITE_NAME, SITE_URL, absoluteUrl } from "@/lib/site";
 
 // Revalidate every 5 minutes (ISR)
 export const revalidate = 300;
@@ -37,20 +35,20 @@ const seona = localFont({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sameerbagul.me"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Sameer Bagul | Freelancer & Software AI Developer",
-    template: "%s | Sameer Bagul - Freelancing Services",
+    template: `%s | ${SITE_NAME} - Freelancing Services`,
   },
   description: "Freelance Software AI Developer. Expert coding notes, engineering blogs, and high-quality freelancing services for startups and enterprises specializing in MERN and AI.",
   keywords: ["Sameer Bagul", "Freelancer", "Freelancing Services", "Software AI Developer", "Coding Notes", "Engineering Blog", "Technical Research", "JavaScript Notes", "Next.js Expert", "AI Engineer"],
-  authors: [{ name: "Sameer Bagul", url: "https://sameerbagul.me" }],
-  creator: "Sameer Bagul",
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  creator: SITE_NAME,
   openGraph: {
     title: "Sameer Bagul | Full Stack & AI Developer",
     description: "Senior Full Stack & AI Developer specializing in scalable MERN, Next.js, and AI systems.",
-    url: "https://sameerbagul.me",
-    siteName: "Sameer Bagul",
+    url: SITE_URL,
+    siteName: SITE_NAME,
     locale: "en_US",
     type: "website",
   },
@@ -65,7 +63,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: 'https://sameerbagul.me',
+    canonical: SITE_URL,
   },
 };
 
@@ -79,8 +77,8 @@ export const viewport: Viewport = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
-  "name": "Sameer Bagul",
-  "url": "https://sameerbagul.me",
+  "name": SITE_NAME,
+  "url": SITE_URL,
   "jobTitle": "Full Stack & AI Developer",
   "sameAs": [
     "https://github.com/Sameer-Bagul",
@@ -89,7 +87,7 @@ const jsonLd = {
   ],
   "image": {
     "@type": "ImageObject",
-    "url": "https://sameerbagul.me/hero.jpg",
+    "url": absoluteUrl('/hero.jpg'),
     "caption": "Sameer Bagul - Freelance Software AI Developer",
     "width": "1200",
     "height": "1200"
@@ -104,8 +102,8 @@ const professionalServiceJsonLd = {
   "@type": "ProfessionalService",
   "name": "Sameer Bagul - Freelance Software AI Developer",
   "description": "Expert freelancing services in Full Stack Development and AI Solutions. Specializing in Next.js, MERN, and AI-driven applications.",
-  "image": "https://sameerbagul.me/hero.jpg",
-  "url": "https://sameerbagul.me",
+  "image": absoluteUrl('/hero.jpg'),
+  "url": SITE_URL,
   "telephone": "+91-XXXXXXXXXX",
   "address": {
     "@type": "PostalAddress",
@@ -172,7 +170,7 @@ export default async function RootLayout({
                 <Header />
 
                 <main className="min-h-screen flex flex-col items-center w-full overflow-x-hidden">
-                  <div className="w-full max-w-[1400px] overflow-x-hidden">
+                  <div className="w-full max-w-350 overflow-x-hidden">
                     {children}
                   </div>
                 </main>

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import StudyContent from './StudyContent';
 import { getPublicFolders } from '@/lib/api';
+import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
 export const revalidate = 300;
 
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
     openGraph: {
         title: 'Study Library | Sameer Bagul',
         description: 'Explore curated technical notes and research papers.',
+        url: absoluteUrl('/study'),
     }
 };
 
@@ -35,10 +37,10 @@ export default async function StudyPage() {
                         '@type': 'CollectionPage',
                         name: 'Study Library | Sameer Bagul',
                         description: 'An engineering vault for technical research, architectural deep-dives, and coding notes.',
-                        url: 'https://sameerbagul.me/study',
+                        url: absoluteUrl('/study'),
                         author: {
                             '@type': 'Person',
-                            name: 'Sameer Bagul',
+                            name: SITE_NAME,
                         },
                     }),
                 }}

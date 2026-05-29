@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { getProjectBySlug, getProjectById, getProjects } from '@/lib/api';
 import { getProjectTheme } from '@/lib/project-themes';
+import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
 // Revalidate every 5 minutes (ISR)
 export const revalidate = 300;
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: ProjectPageProps): Promise<Me
             description: project.shortDescription,
             images: project.image ? [project.image] : [],
         },
-        alternates: { canonical: `https://sameerbagul.me/projects/${project.slug || slug}` },
+        alternates: { canonical: absoluteUrl(`/projects/${project.slug || slug}`) },
     };
 }
 
@@ -79,9 +80,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
         itemListElement: [
-            { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://sameerbagul.me' },
-            { '@type': 'ListItem', position: 2, name: 'Projects', item: 'https://sameerbagul.me/projects' },
-            { '@type': 'ListItem', position: 3, name: project.title, item: `https://sameerbagul.me/projects/${slug}` },
+            { '@type': 'ListItem', position: 1, name: 'Home', item: absoluteUrl() },
+            { '@type': 'ListItem', position: 2, name: 'Projects', item: absoluteUrl('/projects') },
+            { '@type': 'ListItem', position: 3, name: project.title, item: absoluteUrl(`/projects/${slug}`) },
         ],
     };
 
@@ -91,8 +92,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         name: project.title,
         description: project.shortDescription,
         image: project.image || undefined,
-        url: project.liveUrl || `https://sameerbagul.me/projects/${slug}`,
-        author: { '@type': 'Person', name: 'Sameer Bagul', url: 'https://sameerbagul.me' },
+        url: project.liveUrl || absoluteUrl(`/projects/${slug}`),
+        author: { '@type': 'Person', name: SITE_NAME, url: absoluteUrl() },
         applicationCategory: project.category,
         ...(project.githubUrl ? { codeRepository: project.githubUrl } : {}),
     };
@@ -103,17 +104,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
 
             {/* ── Hero ──────────────────────────────────────────────────── */}
-            <div className="relative w-full h-[55vh] min-h-[360px] max-h-[580px] overflow-hidden">
+            <div className="relative w-full h-[55vh] min-h-90 max-h-145 overflow-hidden">
                 {project.image ? (
                     <Image src={project.image} alt={project.title} fill className="absolute inset-0 object-cover" priority sizes="100vw" />
                 ) : (
-                    <div className={`absolute inset-0 flex items-center justify-center bg-gradient-to-br ${gradient}`}>
+                    <div className={`absolute inset-0 flex items-center justify-center bg-linear-to-br ${gradient}`}>
                         <Icon className="h-40 w-40 text-white/20" strokeWidth={0.5} />
                     </div>
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/75 to-black/40" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/75 to-black/40" />
 
-                <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-[1400px] mx-auto w-full">
+                <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-350 mx-auto w-full">
                     <div className="flex flex-wrap items-center gap-3 mb-3">
                         <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-black uppercase tracking-[0.2em] text-white/80">
                             {project.category?.replace(/-/g, ' ')}
@@ -134,7 +135,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </div>
 
             {/* ── Body ──────────────────────────────────────────────────── */}
-            <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-10 py-10">
+            <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-10 py-10">
 
                 {/* Back button — prominent pill */}
                 <Link
@@ -241,7 +242,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                             <ul className="space-y-2">
                                 {project.features.map((feature: string, i: number) => (
                                     <li key={i} className="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                        <span className="mt-[7px] w-1 h-1 rounded-full bg-primary flex-shrink-0" />
+                                        <span className="mt-1.75 w-1 h-1 rounded-full bg-primary shrink-0" />
                                         {feature}
                                     </li>
                                 ))}

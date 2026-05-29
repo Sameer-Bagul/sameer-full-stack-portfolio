@@ -47,7 +47,7 @@ export default async function Image({ params }: { params: { blogId: string } }) 
                         }}
                     />
                     <span style={{ color: '#94a3b8', fontSize: '24px', fontWeight: '500' }}>
-                        sameerbagul.me / blog
+                        sameerbagul.com / blog
                     </span>
                 </div>
                 <h1

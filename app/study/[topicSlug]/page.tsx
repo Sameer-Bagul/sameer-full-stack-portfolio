@@ -1,6 +1,7 @@
 import { getPublicFolderBySlug } from '@/lib/api';
 import { Metadata } from 'next';
 import TopicPageContent from '@/app/study/[topicSlug]/TopicPageContent';
+import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
 interface TopicPageProps {
     params: Promise<{ topicSlug: string }>;
@@ -24,9 +25,10 @@ export async function generateMetadata(
                 title: `${folder.name} Technical Notes | Sameer Bagul`,
                 description: `Professional research and developer notes on ${folder.name}.`,
                 images: [], // Can add a default or dynamic image here
+                url: absoluteUrl(`/study/${topicSlug}`),
             },
             alternates: {
-                canonical: `https://sameerbagul.me/study/${topicSlug}`,
+                canonical: absoluteUrl(`/study/${topicSlug}`),
             },
         };
     } catch (error) {
@@ -54,19 +56,19 @@ export default async function TopicPage({ params }: TopicPageProps) {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://sameerbagul.me"
+                "item": absoluteUrl()
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Study Library",
-                "item": "https://sameerbagul.me/study"
+                "item": absoluteUrl('/study')
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": folder?.name || 'Topic',
-                "item": `https://sameerbagul.me/study/${topicSlug}`
+                "item": absoluteUrl(`/study/${topicSlug}`)
             }
         ]
     };

@@ -67,7 +67,7 @@ export default async function Image({ params }: { params: { topicSlug: string; c
                     }}
                 >
                     <span style={{ color: '#818cf8', fontSize: '20px', fontWeight: '500' }}>
-                        Read full analysis at sameerbagul.me
+                        Read full analysis at sameerbagul.com
                     </span>
                 </div>
             </div>

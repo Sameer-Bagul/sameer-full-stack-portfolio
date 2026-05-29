@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
 import { getBlogs, getProjects, getPublicFolders, getPublicFolderBySlug } from '@/lib/api';
 import { studyData } from '@/data/study-materials';
+import { absoluteUrl } from '@/lib/site';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-    const baseUrl = 'https://sameerbagul.me';
+    const baseUrl = absoluteUrl();
 
     // Static routes
     const staticRoutes = [
@@ -18,6 +19,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: route === '' ? 1 : 0.8,
+        images: route === '' ? [absoluteUrl('/hero.jpg')] : undefined,
     }));
 
     // Dynamic Blog routes
@@ -31,6 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                 lastModified: new Date(blog.publishedAt || new Date()),
                 changeFrequency: 'monthly' as const,
                 priority: 0.6,
+                images: blog.coverImage ? [blog.coverImage] : undefined,
             }));
     } catch (e) {
         console.error('Error fetching blogs for sitemap:', e);
@@ -44,9 +47,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             .filter((p) => p.slug)
             .map((p) => ({
                 url: `${baseUrl}/projects/${p.slug}`,
-                lastModified: new Date(),
+                lastModified: new Date(p.projectDate || p.createdAt || new Date()),
                 changeFrequency: 'monthly' as const,
                 priority: 0.7,
+                images: p.image ? [p.image] : undefined,
             }));
     } catch (e) {
         console.error('Error fetching projects for sitemap:', e);

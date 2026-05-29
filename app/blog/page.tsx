@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import BlogContent from './BlogContent';
 import { getBlogs, getPublicFolders } from '@/lib/api';
+import { SITE_NAME, SITE_URL, absoluteUrl } from '@/lib/site';
 
 export const revalidate = 300;
 
@@ -8,9 +9,13 @@ export const metadata: Metadata = {
     title: 'Technical Blog & Engineering Insights',
     description: 'Deep dives into AI, MERN stack, Next.js, and software architecture. Read technical articles and tutorials by Sameer Bagul.',
     keywords: ['Engineering Blog', 'AI Tutorials', 'React Tips', 'Software Architecture', 'Full Stack Development'],
+    alternates: {
+        canonical: absoluteUrl('/blog'),
+    },
     openGraph: {
         title: 'Technical Blog | Sameer Bagul',
         description: 'Sharing knowledge on cutting-edge technology and AI development.',
+        url: absoluteUrl('/blog'),
     }
 };
 
@@ -42,10 +47,10 @@ export default async function BlogPage() {
                         '@type': 'CollectionPage',
                         name: 'Technical Blog | Sameer Bagul',
                         description: 'Deep dives into AI, MERN stack, Next.js, and software architecture.',
-                        url: 'https://sameerbagul.me/blog',
+                        url: absoluteUrl('/blog'),
                         author: {
                             '@type': 'Person',
-                            name: 'Sameer Bagul',
+                            name: SITE_NAME,
                         },
                     }),
                 }}

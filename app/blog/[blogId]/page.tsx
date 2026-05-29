@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { getBlogs } from '@/lib/api';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
 interface BlogPageProps {
     params: Promise<{ blogId: string }>;
@@ -23,9 +24,10 @@ export async function generateMetadata(
             title: `${blog.title} | Sameer Bagul Engineering Blog`,
             description: blog.shortDescription,
             images: [blog.coverImage],
+            url: absoluteUrl(`/blog/${blogId}`),
         },
         alternates: {
-            canonical: `https://sameerbagul.me/blog/${blogId}`,
+            canonical: absoluteUrl(`/blog/${blogId}`),
         },
     };
 }
@@ -45,19 +47,19 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://sameerbagul.me"
+                "item": absoluteUrl()
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Blog",
-                "item": "https://sameerbagul.me/blog"
+                "item": absoluteUrl('/blog')
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": blog.title,
-                "item": `https://sameerbagul.me/blog/${blogId}`
+                "item": absoluteUrl(`/blog/${blogId}`)
             }
         ]
     };
@@ -70,13 +72,13 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
         "image": blog.coverImage,
         "author": {
             "@type": "Person",
-            "name": blog.author || "Sameer Bagul",
-            "url": "https://sameerbagul.me"
+                "name": blog.author || SITE_NAME,
+                "url": absoluteUrl()
         },
         "datePublished": blog.publishedAt,
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://sameerbagul.me/blog/${blogId}`
+                "@id": absoluteUrl(`/blog/${blogId}`)
         }
     };
 
@@ -99,7 +101,7 @@ export default async function BlogDetailPage({ params }: BlogPageProps) {
                     <span>•</span>
                     <span>{blog.readingTime}</span>
                 </div>
-                <div className="mb-12 relative h-[400px]">
+                <div className="mb-12 relative h-100">
                     <Image
                         src={blog.coverImage}
                         alt={blog.title}

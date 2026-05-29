@@ -1,6 +1,7 @@
 import { getPublicFolderBySlug, getPublicNoteBySlug } from '@/lib/api';
 import { Metadata } from 'next';
 import NotePageContent from '@/app/study/[topicSlug]/[chapterSlug]/NotePageContent';
+import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
 interface NotePageProps {
     params: Promise<{ topicSlug: string; chapterSlug: string }>;
@@ -24,9 +25,10 @@ export async function generateMetadata(
                 title: `${note.title} | Sameer Bagul`,
                 description: note.description || `Technical notes on ${note.title}`,
                 images: [],
+                url: absoluteUrl(`/study/${topicSlug}/${chapterSlug}`),
             },
             alternates: {
-                canonical: `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`,
+                canonical: absoluteUrl(`/study/${topicSlug}/${chapterSlug}`),
             },
         };
     } catch (error) {
@@ -57,25 +59,25 @@ export default async function NotePage({ params }: NotePageProps) {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://sameerbagul.me"
+                "item": absoluteUrl()
             },
             {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Study Library",
-                "item": "https://sameerbagul.me/study"
+                "item": absoluteUrl('/study')
             },
             {
                 "@type": "ListItem",
                 "position": 3,
                 "name": folder?.name || 'Topic',
-                "item": `https://sameerbagul.me/study/${topicSlug}`
+                "item": absoluteUrl(`/study/${topicSlug}`)
             },
             {
                 "@type": "ListItem",
                 "position": 4,
                 "name": note?.title || 'Note',
-                "item": `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`
+                "item": absoluteUrl(`/study/${topicSlug}/${chapterSlug}`)
             }
         ]
     };
@@ -88,8 +90,8 @@ export default async function NotePage({ params }: NotePageProps) {
         "image": "",
         "author": {
             "@type": "Person",
-            "name": "Sameer Bagul",
-            "url": "https://sameerbagul.me"
+            "name": SITE_NAME,
+            "url": absoluteUrl()
         },
         "publisher": {
             "@type": "Person",
@@ -97,7 +99,7 @@ export default async function NotePage({ params }: NotePageProps) {
         },
         "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": `https://sameerbagul.me/study/${topicSlug}/${chapterSlug}`
+            "@id": absoluteUrl(`/study/${topicSlug}/${chapterSlug}`)
         }
     };
 
