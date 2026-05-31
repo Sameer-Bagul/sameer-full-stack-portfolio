@@ -79,7 +79,7 @@ export default function Hero() {
                             transition={{ duration: 0.8, ease: "easeOut" }}
                             className="space-y-6 sm:space-y-8"
                         >
-                            <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-[130px] font-black uppercase tracking-[-0.05em] leading-[0.82] text-white font-seona not-italic -ml-1">
+                            <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-[130px] font-black uppercase tracking-[-0.05em] leading-[0.82] text-foreground transition-colors duration-300 font-seona not-italic -ml-1">
                                 <span className="block opacity-90">{PERSONAL_INFO.name.split(' ')[0]}</span>
                                 <span className="block">{PERSONAL_INFO.name.split(' ')[1]}</span>
                             </h1>
