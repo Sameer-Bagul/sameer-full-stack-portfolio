@@ -1,4 +1,4 @@
-Good. Since this is your main portfolio at sameerbagul.me and you are positioning yourself as a full stack and AI engineer, SEO should be intentional, not generic.
+Good. Since this is your main portfolio at sameerbagul.com and you are positioning yourself as a full stack and AI engineer, SEO should be intentional, not generic.
 
 I will break this into what actually moves the needle for a technical portfolio.
 
@@ -19,7 +19,7 @@ At minimum:
 Example structure:
 
 export const metadata = {
-metadataBase: new URL("[https://sameerbagul.me](https://sameerbagul.me)"),
+metadataBase: new URL("[https://sameerbagul.com](https://sameerbagul.com)"),
 title: {
 default: "Sameer Bagul | Full Stack & AI Developer",
 template: "%s | Sameer Bagul",
@@ -28,7 +28,7 @@ description: "Full Stack & AI Developer building scalable MERN, Next.js, and AI 
 openGraph: {
 title: "Sameer Bagul | Full Stack & AI Developer",
 description: "...",
-url: "[https://sameerbagul.me](https://sameerbagul.me)",
+url: "[https://sameerbagul.com](https://sameerbagul.com)",
 siteName: "Sameer Bagul",
 type: "website",
 },
@@ -42,9 +42,9 @@ Add app/sitemap.ts:
 
 export default function sitemap() {
 return [
-{ url: "[https://sameerbagul.me](https://sameerbagul.me)", priority: 1 },
-{ url: "[https://sameerbagul.me/projects](https://sameerbagul.me/projects)", priority: 0.9 },
-{ url: "[https://sameerbagul.me/blog](https://sameerbagul.me/blog)", priority: 0.8 },
+{ url: "[https://sameerbagul.com](https://sameerbagul.com)", priority: 1 },
+{ url: "[https://sameerbagul.com/projects](https://sameerbagul.com/projects)", priority: 0.9 },
+{ url: "[https://sameerbagul.com/blog](https://sameerbagul.com/blog)", priority: 0.8 },
 ];
 }
 
@@ -60,7 +60,7 @@ rules: {
 userAgent: "*",
 allow: "/",
 },
-sitemap: "[https://sameerbagul.me/sitemap.xml](https://sameerbagul.me/sitemap.xml)",
+sitemap: "[https://sameerbagul.com/sitemap.xml](https://sameerbagul.com/sitemap.xml)",
 };
 }
 
@@ -81,7 +81,7 @@ Example schema:
 "@context": "[https://schema.org](https://schema.org)",
 "@type": "Person",
 "name": "Sameer Bagul",
-"url": "[https://sameerbagul.me](https://sameerbagul.me)",
+"url": "[https://sameerbagul.com](https://sameerbagul.com)",
 "jobTitle": "Full Stack & AI Developer",
 "sameAs": [
 "[https://github.com/Sameer-Bagul](https://github.com/Sameer-Bagul)",
@@ -190,7 +190,7 @@ Since you are already active in hackathons and AI, leverage that.
 
 If not done:
 
-* Add sameerbagul.me to Search Console
+* Add sameerbagul.com to Search Console
 * Submit sitemap
 * Monitor coverage
 * Check performance queries

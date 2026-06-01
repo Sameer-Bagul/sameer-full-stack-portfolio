@@ -2,18 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import { STYLES } from '@/lib/constants/styles';
 import {
-    ArrowUpRight, Github, Linkedin, Twitter, Globe, Terminal,
-    Code2, User, MapPin, Calendar, Code, Instagram, Loader2
+    ArrowUpRight, Github, Linkedin, Twitter, Terminal,
+    MapPin, Calendar, Code, Instagram, Loader2
 } from 'lucide-react';
 import Link from 'next/link';
 
 import Image from 'next/image';
 import { PERSONAL_INFO } from '@/lib/constants/personalInfo';
 
-const SocialIcon = ({ icon: Icon, href }: { icon: any; href: string }) => (
+const SocialIcon = ({ icon: Icon, href }: { icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number | string }>; href: string }) => (
     <Link
         href={href}
         target="_blank"
@@ -38,12 +36,11 @@ const StatBlock = ({ value, label }: { value: string; label: string }) => (
 
 export default function Hero() {
     const [typedText, setTypedText] = React.useState('');
-    const [mounted, setMounted] = useState(false);
     const [loading, setLoading] = useState(true);
     const fullText = "engineering intelligent systems with minimalist precision.";
 
     useEffect(() => {
-        setMounted(true);
+        // mounted flag not required
         let i = 0;
         const timer = setInterval(() => {
             setTypedText(fullText.slice(0, i));
@@ -66,7 +63,7 @@ export default function Hero() {
     return (
         <section className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 w-full">
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/[0.02] -z-10 blur-3xl rounded-full translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/2 -z-10 blur-3xl rounded-full translate-x-1/2" />
 
             {/* Content Container */}
             <div className="container relative z-10 w-full px-4 sm:px-6 mx-auto max-w-7xl">
@@ -96,7 +93,7 @@ export default function Hero() {
 
                                     <div className="group max-w-sm">
                                         <p className="text-base sm:text-lg md:text-xl text-zinc-400 font-medium leading-relaxed italic">
-                                            "{typedText}"
+                                            &quot;{typedText}&quot;
                                             <span className="inline-block w-1 h-3.5 bg-primary/60 ml-2 animate-pulse align-middle" />
                                         </p>
                                     </div>
@@ -145,7 +142,7 @@ export default function Hero() {
                             initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
                             animate={{ opacity: 1, scale: 1, rotate: 0 }}
                             transition={{ duration: 1, ease: "circOut" }}
-                            className="relative aspect-[4/5] w-full max-w-[350px] sm:max-w-[400px] lg:max-w-[450px] mx-auto z-10"
+                            className="relative aspect-4/5 w-full max-w-87.5 sm:max-w-100 lg:max-w-112.5 mx-auto z-10"
                         >
                             {/* Animated Background Rings */}
                             <div className="absolute inset-0 -m-6 sm:-m-8 border border-primary/10 rounded-[2.5rem] sm:rounded-[3rem] animate-[spin_20s_linear_infinite] opacity-40" />
@@ -153,7 +150,7 @@ export default function Hero() {
 
 
                             {/* Main Image Container */}
-                            <div className="relative h-full w-full rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                            <div className="relative h-full w-full rounded-4xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
                                 <Image
                                     src="/hero.jpg"
                                     alt="Sameer Bagul - Freelance Software AI Developer and Expert Engineering Educator"
@@ -163,7 +160,7 @@ export default function Hero() {
                                 />
 
                                 {/* Glass Overlay on Image */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-60" />
+                                <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 via-transparent to-transparent opacity-60" />
 
                                 {/* Bottom Info in Image */}
                                 <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-center justify-between">

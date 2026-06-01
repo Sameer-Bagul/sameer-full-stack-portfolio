@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sameer Bagul - CV</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --ink:#0C1220;--ink2:#1E2D45;--slate:#3D4F6B;--mid:#5E7088;--soft:#8899AD;
+  --rule:#D8DEE8;--cream:#F8F6F2;--paper:#fff;
+  --lime:#B5D900;--lime-dim:#8FAD00;--lime-bg:#F2F9D4;
+  --sky:#E8F3FF;--sky-dk:#3A7DC4;
+  --rose:#FFF0EC;--rose-dk:#C4513A;
+  --mint:#E6F8F3;--mint-dk:#2B9E7A;
+  --amber:#FFF8E6;
+  --purple:#7C5CBF;--purple-bg:#F3EEFF;
+  --gold:#B45309;--gold-bg:#FFF8E6;
+  /* A4 at 96dpi = 794px × 1123px */
+  --pw:794px;--ph:1123px;
+  --mt:22px;--mb:22px;--ml:50px;--mr:50px;
+  --cw:calc(var(--pw) - var(--ml) - var(--mr));
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:11px}
+body{background:#B8B4AC;font-family:'Lora',serif;color:var(--ink);-webkit-font-smoothing:antialiased;padding:32px 16px}
+
+/* ─── PAGE SHELL ─── */
+.page{
+  width:var(--pw);height:var(--ph);
+  background:var(--paper);
+  margin:0 auto 20px;
+  position:relative;overflow:hidden;
+  box-shadow:0 12px 60px rgba(0,0,0,.22),0 2px 8px rgba(0,0,0,.12);
+  display:flex;flex-direction:column;
+}
+
+/* top header bar on pages 2+ */
+.page-topbar{
+  background:var(--cream);
+  border-bottom:3px solid var(--lime);
+  padding:8px 24px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-shrink:0;
+}
+.ptb-name{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;color:var(--ink2)}
+.ptb-name span{color:var(--lime-dim)}
+.ptb-pg{font-family:'DM Mono',monospace;font-size:.75rem;color:var(--soft)}
+
+/* content area inside each page */
+.page-content{
+  flex:1;
+  padding:0 var(--mr) 0 var(--ml);
+  overflow:hidden;
+  position:relative;
+}
+/* page-content on page 1 has no top padding (hero bleeds) */
+.page-content.p1{padding-top:0}
+.page-content.pN{padding-top:12px}
+
+/* page footer */
+.page-footer{
+  flex-shrink:0;
+  padding:7px var(--mr) 9px var(--ml);
+  border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.pf-txt{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--soft)}
+.pf-accent{color:var(--lime-dim);font-weight:600}
+
+/* ─── HERO ─── */
+.hero{
+  background:var(--ink);
+  padding:15px 24px 12px;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:16px;
+  position:relative;overflow:hidden;
+  margin:0 calc(-1*var(--mr)) 0 calc(-1*var(--ml));
+}
+.hero::after{content:'SB';position:absolute;right:4px;bottom:-18px;
+  font-family:'Syne',sans-serif;font-size:10rem;font-weight:800;
+  color:rgba(255,255,255,.03);line-height:1;pointer-events:none}
+.hero-name{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;
+  color:#fff;line-height:.9;letter-spacing:-.03em}
+.hero-name .lime{color:var(--lime)}
+.hero-role{font-family:'Lora',serif;font-style:italic;
+  font-size:1.0rem;color:rgba(255,255,255,.42);margin-top:7px;line-height:1.4}
+.hero-contact{flex-shrink:0;display:flex;flex-direction:column;gap:4px;margin-top:2px}
+.hc-row{display:flex;align-items:center;gap:6px;text-decoration:none}
+.hc-icon{width:14px;height:14px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.hc-icon svg{width:12px;height:12px;fill:var(--lime)}
+.hc-link{font-family:'DM Mono',monospace;font-size:.78rem;
+  color:rgba(255,255,255,.5);letter-spacing:.01em}
+.hc-row:hover .hc-link{color:var(--lime)}
+
+/* ─── LIME BAR ─── */
+.lime-bar{
+  background:var(--lime);padding:5px 24px;
+  display:flex;gap:0;align-items:center;
+  margin:0 calc(-1*var(--mr)) 0 calc(-1*var(--ml));
+}
+.lt{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.lt-dot{width:3px;height:3px;background:rgba(0,0,0,.2);border-radius:50%;
+  flex-shrink:0;margin:0 10px}
+
+/* ─── SECTION HEADING ─── */
+.sh{display:flex;align-items:center;gap:8px;margin-top:9px;margin-bottom:5px}
+.sh-bar{width:4px;height:14px;background:var(--lime);border-radius:3px;flex-shrink:0}
+.sh-label{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;
+  color:var(--ink2);text-transform:uppercase;letter-spacing:.09em}
+.sh-rule{flex:1;height:1px;background:var(--rule)}
+
+/* ─── SUMMARY ─── */
+.sum-row{display:flex;gap:10px}
+.sum-text{flex:1;font-family:'Lora',serif;font-size:.88rem;line-height:1.58;color:var(--slate)}
+.stats{display:flex;flex-direction:column;gap:3px;width:88px;flex-shrink:0}
+.sbox{border-radius:7px;padding:4px 6px;text-align:center}
+.sb1{background:var(--ink)}.sb2{background:var(--lime-bg)}.sb3{background:var(--sky)}
+.snum{font-family:'Syne',sans-serif;font-size:1.35rem;font-weight:800;line-height:1}
+.sb1 .snum{color:var(--lime)}.sb2 .snum,.sb3 .snum{color:var(--ink)}
+.slbl{font-family:'DM Mono',monospace;font-size:.52rem;text-transform:uppercase;
+  letter-spacing:.07em;margin-top:1px}
+.sb1 .slbl{color:rgba(255,255,255,.35)}.sb2 .slbl,.sb3 .slbl{color:var(--mid)}
+
+/* ─── COMPETENCY PILLS ─── */
+.comp-row{display:flex;flex-wrap:wrap;gap:3px}
+.cp{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:600;
+  padding:3px 10px;border-radius:100px;background:var(--ink);color:var(--lime);letter-spacing:.03em}
+.cp.alt{background:var(--lime-bg);color:var(--ink)}
+
+/* ─── SKILLS BENTO ─── */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.skc{border-radius:7px;padding:7px 10px}
+.sk1{background:var(--sky)}.sk2{background:var(--amber)}.sk3{background:var(--mint)}
+.sk4{background:var(--rose)}.sk5{background:var(--lime-bg)}.sk6{background:var(--ink2)}
+.sk-cat{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.skc:not(.sk6) .sk-cat{color:var(--ink)}.sk6 .sk-cat{color:rgba(255,255,255,.35)}
+.sk-tags{display:flex;flex-wrap:wrap;gap:3px}
+.stag{font-family:'DM Mono',monospace;font-size:.68rem;padding:2px 6px;
+  border-radius:100px;background:rgba(0,0,0,.08);color:var(--ink2)}
+.sk6 .stag{background:rgba(255,255,255,.1);color:rgba(255,255,255,.72)}
+
+/* ─── EXPERIENCE ─── */
+.exp{display:flex;gap:10px;padding-bottom:7px;margin-bottom:5px;border-bottom:1px solid var(--rule)}
+.exp:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.exp-dc{display:flex;flex-direction:column;align-items:center;flex-shrink:0;width:11px;padding-top:3px}
+.exp-dot{width:9px;height:9px;border-radius:50%;border:2px solid var(--paper);flex-shrink:0}
+.dc1{background:var(--lime);box-shadow:0 0 0 2px var(--lime)}
+.dc2{background:var(--ink2);box-shadow:0 0 0 2px var(--ink2)}
+.dc3{background:var(--purple);box-shadow:0 0 0 2px var(--purple)}
+.dc4{background:var(--sky-dk);box-shadow:0 0 0 2px var(--sky-dk)}
+.exp-line{width:1px;flex:1;background:var(--rule);margin-top:3px}
+.exp-body{flex:1}
+.exp-hr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1px}
+.exp-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--ink)}
+.exp-period{font-family:'DM Mono',monospace;font-size:.7rem;color:var(--soft);white-space:nowrap;padding-top:2px}
+.exp-co{font-family:'Lora',serif;font-style:italic;font-size:.88rem;color:var(--mid);margin-bottom:5px}
+.exp-chips{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+.ech{font-family:'DM Mono',monospace;font-size:.66rem;font-weight:500;padding:2px 7px;border-radius:100px}
+.ec1{background:var(--lime-bg);color:var(--lime-dim);border:1px solid #C8E860}
+.ec2{background:var(--sky);color:var(--sky-dk);border:1px solid #BDD8F5}
+.ec3{background:var(--purple-bg);color:var(--purple);border:1px solid #D5C4F5}
+.ec4{background:var(--sky);color:var(--sky-dk);border:1px solid #BDD8F5}
+.exp-buls{list-style:none}
+.exp-buls li{font-family:'Lora',serif;font-size:.82rem;color:var(--slate);
+  line-height:1.42;padding-left:11px;position:relative;margin-bottom:1px}
+.exp-buls li::before{content:'▸';position:absolute;left:0;
+  font-size:.65rem;color:var(--lime-dim);top:3px}
+
+/* ─── PROJECT CARD ─── */
+.proj-card{border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:4px}
+.proj-card:last-child{margin-bottom:0}
+.proj-head{display:flex;align-items:stretch;background:var(--cream);border-bottom:1px solid var(--rule)}
+.proj-num{width:34px;background:var(--ink);display:flex;align-items:center;
+  justify-content:center;flex-shrink:0}
+.proj-num span{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:800;color:var(--lime);
+  writing-mode:vertical-rl;transform:rotate(180deg)}
+.proj-hc{flex:1;padding:7px 10px}
+.proj-name{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.proj-meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.proj-role{font-family:'DM Mono',monospace;font-size:.66rem;color:var(--mid)}
+.proj-stags{display:flex;flex-wrap:wrap;gap:3px}
+.pst{font-family:'DM Mono',monospace;font-size:.62rem;padding:1px 6px;
+  border-radius:100px;background:var(--ink2);color:rgba(255,255,255,.75)}
+.proj-badge-col{display:flex;align-items:center;padding:0 10px;flex-shrink:0}
+.pbadge{font-family:'Syne',sans-serif;font-size:.68rem;font-weight:700;
+  padding:3px 9px;border-radius:100px;white-space:nowrap}
+.pb-lime  {background:var(--lime-bg);  color:var(--lime-dim)}
+.pb-sky   {background:var(--sky);      color:var(--sky-dk)}
+.pb-rose  {background:var(--rose);     color:var(--rose-dk)}
+.pb-mint  {background:var(--mint);     color:var(--mint-dk)}
+.pb-purple{background:var(--purple-bg);color:var(--purple)}
+.pb-gold  {background:var(--gold-bg);  color:var(--gold)}
+.proj-body{padding:4px 10px 4px 44px}
+.proj-buls{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:1px 11px}
+.proj-buls li{font-family:'Lora',serif;font-size:.79rem;color:var(--slate);
+  line-height:1.4;padding-left:10px;position:relative}
+.proj-buls li::before{content:'▸';position:absolute;left:0;font-size:.65rem;color:var(--lime-dim);top:3px}
+.proj-links{display:flex;gap:8px;margin-top:5px;padding-top:5px;border-top:1px solid var(--rule)}
+.proj-link{display:inline-flex;align-items:center;gap:4px;
+  font-family:'DM Mono',monospace;font-size:.7rem;color:var(--sky-dk);text-decoration:none;
+  padding:3px 9px;border-radius:100px;background:var(--sky);border:1px solid #C2DDF5}
+.proj-link:hover{background:var(--sky-dk);color:#fff}
+.proj-link svg{width:10px;height:10px;fill:currentColor;flex-shrink:0}
+.proj-link.live{background:var(--lime-bg);color:var(--lime-dim);border-color:#C8E860}
+.proj-link.live:hover{background:var(--lime-dim);color:#fff}
+
+/* ─── SYSTEM DESIGN ─── */
+.sd-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sd-item{background:var(--cream);border-radius:6px;padding:8px 11px;border-left:3px solid var(--lime)}
+.sd-item.a2{border-left-color:var(--ink2)}.sd-item.a3{border-left-color:var(--purple)}.sd-item.a4{border-left-color:var(--sky-dk)}
+.sd-text{font-family:'Lora',serif;font-size:.84rem;color:var(--slate);line-height:1.52}
+
+/* ─── AI ENGINEERING ─── */
+.ai-grid{background:var(--ink2);border-radius:8px;padding:11px 14px;
+  display:grid;grid-template-columns:1fr 1fr;gap:5px 13px}
+.ai-item{display:flex;gap:6px}
+.ai-arr{color:var(--lime);font-size:.78rem;flex-shrink:0;margin-top:2px}
+.ai-txt{font-family:'Lora',serif;font-size:.83rem;color:rgba(255,255,255,.56);line-height:1.47}
+
+/* ─── PROD GRID ─── */
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.prod-item{background:var(--cream);border-radius:6px;padding:9px 11px}
+.prod-title{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.prod-text{font-family:'Lora',serif;font-size:.8rem;color:var(--slate);line-height:1.47}
+
+/* ─── ACHIEVEMENTS ─── */
+.ach-table{width:100%;border-collapse:separate;border-spacing:0 3px}
+.ach-table thead th{font-family:'DM Mono',monospace;font-size:.64rem;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--soft);
+  padding:0 8px 3px;text-align:left;border-bottom:1px solid var(--rule)}
+.ach-table tbody tr td{padding:6px 8px;background:var(--cream);
+  font-family:'Lora',serif;font-size:.83rem;color:var(--slate)}
+.ach-table tbody tr td:first-child{border-radius:6px 0 0 6px}
+.ach-table tbody tr td:last-child{border-radius:0 6px 6px 0}
+.ach-ev{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:var(--ink)}
+.abadge{display:inline-block;font-family:'Syne',sans-serif;font-size:.68rem;
+  font-weight:700;padding:2px 8px;border-radius:100px}
+.ab-lime  {background:var(--lime-bg);  color:var(--lime-dim)}
+.ab-gold  {background:var(--gold-bg);  color:var(--gold)}
+.ab-purple{background:var(--purple-bg);color:var(--purple)}
+.ab-sky   {background:var(--sky);      color:var(--sky-dk)}
+
+/* ─── EDUCATION ─── */
+.edu-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.edu-main{background:var(--ink);border-radius:8px;padding:13px 15px}
+.edu-lbl{font-family:'DM Mono',monospace;font-size:.65rem;text-transform:uppercase;
+  letter-spacing:.08em;color:rgba(255,255,255,.25);margin-bottom:5px}
+.edu-deg{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;
+  color:#fff;line-height:1.2;margin-bottom:3px}
+.edu-sch{font-family:'Lora',serif;font-style:italic;font-size:.9rem;
+  color:rgba(255,255,255,.4);margin-bottom:9px}
+.edu-chips{display:flex;gap:5px;flex-wrap:wrap}
+.edu-chip{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700;
+  padding:3px 9px;border-radius:100px}
+.ec-lime{background:var(--lime);color:var(--ink)}
+.ec-dim{background:rgba(255,255,255,.07);color:rgba(255,255,255,.35);
+  font-family:'DM Mono',monospace;font-size:.68rem;font-weight:400}
+.edu-course{font-family:'DM Mono',monospace;font-size:.68rem;
+  color:rgba(255,255,255,.25);margin-top:8px;line-height:1.65}
+.edu-side{display:flex;flex-direction:column;gap:5px}
+.os-card{background:var(--lime-bg);border-radius:8px;padding:11px 13px;flex:1}
+.os-title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.os-text{font-family:'Lora',serif;font-size:.8rem;color:var(--slate);line-height:1.52}
+.stack-card{background:var(--cream);border-radius:8px;padding:9px 11px}
+.stack-title{font-family:'Syne',sans-serif;font-size:.76rem;font-weight:700;
+  color:var(--ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.stack-tags{display:flex;flex-wrap:wrap;gap:4px}
+.dtag{font-family:'DM Mono',monospace;font-size:.68rem;padding:2px 7px;
+  border-radius:5px;background:var(--ink);color:rgba(255,255,255,.72)}
+
+/* ─── CLOSE STRIP ─── */
+.close-strip{background:var(--ink);border-radius:9px;padding:12px 16px;
+  margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+.cs-name{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;
+  color:#fff;letter-spacing:-.02em}
+.cs-name span{color:var(--lime)}
+.cs-role{font-family:'Lora',serif;font-style:italic;font-size:.85rem;
+  color:rgba(255,255,255,.4);margin-top:2px}
+.cs-links div{font-family:'DM Mono',monospace;font-size:.75rem;
+  color:rgba(255,255,255,.35);margin-bottom:2px;text-align:right}
+.cs-links a{color:inherit;text-decoration:none;transition:color .2s}
+.cs-links a:hover{color:var(--lime)}
+
+/* ─── HIDDEN OFFSCREEN MEASURING AREA ─── */
+#measure-zone{
+  position:fixed;top:0;left:-9999px;
+  width:var(--cw);
+  visibility:hidden;pointer-events:none;
+  font-family:'Lora',serif;font-size:10px;color:var(--ink);
+}
+
+/* ─── PRINT ─── */
+@media print{
+  @page{size:A4;margin:0}
+  body{background:none;padding:0}
+  .page{box-shadow:none;margin:0;page-break-after:always;break-after:page}
+  .page:last-child{page-break-after:avoid;break-after:avoid}
+}
+</style>
+</head>
+<body>
+
+<!-- SVG icon sprites -->
+<svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="ic-loc"   viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></symbol>
+  <symbol id="ic-ph"    viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></symbol>
+  <symbol id="ic-em"    viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></symbol>
+  <symbol id="ic-li"    viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></symbol>
+  <symbol id="ic-gh"    viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></symbol>
+  <symbol id="ic-gl"    viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></symbol>
+  <symbol id="ic-br"    viewBox="0 0 24 24"><path d="M17 3a4 4 0 0 1 4 4v.757a4 4 0 0 1-1.172 2.829l-8 8A4 4 0 0 1 9 19.757V17H7a4 4 0 0 1-2.829-6.828l8-8A4 4 0 0 1 17 3zM7 15h2v2.757a2 2 0 0 0 .586 1.414l.707.708L4.586 14.17A2 2 0 0 1 7 11h2V9H7a2 2 0 0 0-1.414 3.414L7 14v1zm10-10a2 2 0 0 0-1.414.586l-8 8A2 2 0 0 0 9 17v-4h2V9h-2V7.586L12.757 4H17a2 2 0 0 1 2 2v.757l-1.343 1.344A2 2 0 0 1 17 8h-2v2h2a2 2 0 0 0 1.414-.586L20 7.828V7a2 2 0 0 0-2-2z"/></symbol>
+  <symbol id="ic-lk"    viewBox="0 0 24 24"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/></symbol>
+</svg>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MEASURING ZONE - invisible scratch pad for JS layout engine
+     The JS clones every block here, measures its pixel height,
+     then physically places it into the correct A4 page container.
+═══════════════════════════════════════════════════════════════ -->
+<div id="measure-zone"></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     CONTENT SOURCE - hidden, holds all resume blocks as HTML
+     JS reads these, measures them, paginates them.
+═══════════════════════════════════════════════════════════════ -->
+<div id="content-source" style="display:none">
+
+  <!-- ── BLOCK: hero (always page 1, spans full width) ── -->
+  <div data-block="hero" data-keep="true">
+    <div class="hero">
+      <div>
+        <div class="hero-name">SAMEER<br><span class="lime">BAGUL</span></div>
+        <div class="hero-role">Full-Stack &amp; AI Developer &nbsp;·&nbsp; DevOps Engineer<br>Production AI systems · RAG pipelines · Scalable web architecture</div>
+      </div>
+      <div class="hero-contact">
+        <a class="hc-row" href="https://maps.google.com/?q=Pune,India" target="_blank">
+          <span class="hc-icon"><svg><use href="#ic-loc"/></svg></span><span class="hc-link">Pune, India</span>
+        </a>
+        <a class="hc-row" href="tel:+917841941033">
+          <span class="hc-icon"><svg><use href="#ic-ph"/></svg></span><span class="hc-link">+91 7841941033</span>
+        </a>
+        <a class="hc-row" href="mailto:sameerbagul2004@gmail.com">
+          <span class="hc-icon"><svg><use href="#ic-em"/></svg></span><span class="hc-link">sameerbagul2004@gmail.com</span>
+        </a>
+        <a class="hc-row" href="https://linkedin.com/in/sameer-bagul" target="_blank">
+          <span class="hc-icon"><svg><use href="#ic-li"/></svg></span><span class="hc-link">linkedin.com/in/sameer-bagul</span>
+        </a>
+        <a class="hc-row" href="https://github.com/Sameer-Bagul" target="_blank">
+          <span class="hc-icon"><svg><use href="#ic-gh"/></svg></span><span class="hc-link">github.com/Sameer-Bagul</span>
+        </a>
+        <a class="hc-row" href="https://sameerbagul.com" target="_blank">
+          <span class="hc-icon"><svg><use href="#ic-gl"/></svg></span><span class="hc-link">sameerbagul.com</span>
+        </a>
+      </div>
+    </div>
+    <div class="lime-bar">
+      <span class="lt">AI Developer</span><div class="lt-dot"></div>
+      <span class="lt">Full-Stack Engineer</span><div class="lt-dot"></div>
+      <span class="lt">DevOps</span><div class="lt-dot"></div>
+      <span class="lt">National Hackathon Winner</span><div class="lt-dot"></div>
+      <span class="lt">200+ Engineers Mentored</span>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: summary ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Professional Summary</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="sum-row">
+      <p class="sum-text">Full-Stack and AI Developer with a proven track record of architecting highly scalable applications, spanning high-performance websites and cross-platform mobile apps. I build from first principles, leveraging microservices, robust DevOps pipelines, and rock-solid software engineering to drive measurable impact. As a National Hackathon winner, India Innovates 2026 Finalist, and technical mentor to 200+ engineering students, I seamlessly bridge the gap between traditional development and the bleeding edge - designing and deploying production-ready AI systems, LLM agent frameworks, and advanced RAG pipelines.</p>
+      <div class="stats">
+        <div class="sbox sb1"><div class="snum">2+</div><div class="slbl">Years Building</div></div>
+        <div class="sbox sb2"><div class="snum">200+</div><div class="slbl">Mentees</div></div>
+        <div class="sbox sb3"><div class="snum">25+</div><div class="slbl">Live Projects</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: competencies ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Core Competencies</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="comp-row">
+      <span class="cp">Scalable System Design</span><span class="cp alt">Microservices Architecture</span>
+      <span class="cp">RAG / LLM Pipelines</span><span class="cp alt">API Design &amp; Backend Eng.</span>
+      <span class="cp">Performance Optimization</span><span class="cp alt">DevOps Automation</span>
+      <span class="cp">Prompt Engineering</span><span class="cp alt">LLM Integration</span>
+      <span class="cp">WebGL / 3D Engines</span><span class="cp alt">MLOps &amp; RL Systems</span>
+      <span class="cp">Developer Tooling</span>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: skills ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Technical Skills</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="skills-grid">
+      <div class="skc sk1"><div class="sk-cat">Languages</div><div class="sk-tags"><span class="stag">JavaScript</span><span class="stag">TypeScript</span><span class="stag">Python</span><span class="stag">Java</span><span class="stag">C++</span></div></div>
+      <div class="skc sk2"><div class="sk-cat">Frameworks</div><div class="sk-tags"><span class="stag">React.js</span><span class="stag">Next.js</span><span class="stag">Node.js</span><span class="stag">FastAPI</span><span class="stag">Flask</span><span class="stag">Fastify</span></div></div>
+      <div class="skc sk3"><div class="sk-cat">AI / ML</div><div class="sk-tags"><span class="stag">LangChain</span><span class="stag">LangGraph</span><span class="stag">LlamaIndex</span><span class="stag">RAG</span><span class="stag">NLP</span><span class="stag">PyTorch</span><span class="stag">Ollama</span></div></div>
+      <div class="skc sk4"><div class="sk-cat">Databases</div><div class="sk-tags"><span class="stag">MongoDB</span><span class="stag">PostgreSQL</span><span class="stag">Firebase</span><span class="stag">FAISS</span><span class="stag">Pinecone</span><span class="stag">Redis</span></div></div>
+      <div class="skc sk5"><div class="sk-cat">DevOps &amp; Cloud</div><div class="sk-tags"><span class="stag">Docker</span><span class="stag">Nginx</span><span class="stag">GitHub Actions</span><span class="stag">CI/CD</span><span class="stag">Vercel</span><span class="stag">Azure</span></div></div>
+      <div class="skc sk6"><div class="sk-cat">Tools &amp; Libs</div><div class="sk-tags"><span class="stag">Three.js</span><span class="stag">WebGL</span><span class="stag">Socket.IO</span><span class="stag">Prisma</span><span class="stag">Drizzle</span><span class="stag">TipTap</span></div></div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: experience ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Professional Experience</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="exp"><div class="exp-dc"><div class="exp-dot dc1"></div><div class="exp-line"></div></div>
+    <div class="exp-body">
+      <div class="exp-hr"><div class="exp-title">AI Developer</div><div class="exp-period">Apr 2026 – Present</div></div>
+      <div class="exp-co">Dimakh Consultants · Pune, India · Production-grade AI systems for B2B enterprise clients</div>
+      <div class="exp-chips"><span class="ech ec1">50%+ Manual Effort Eliminated</span><span class="ech ec1">60% Latency Reduction</span><span class="ech ec1">B2B Production AI</span></div>
+      <ul class="exp-buls">
+        <li>Engineered enterprise-grade <strong>AI Agents</strong> and advanced <strong>RAG pipelines</strong>, leveraging high-level tool chaining to automate complex workflows and cut manual B2B operations by <strong>50%+</strong>.</li>
+        <li>Architected scalable AI inference backends deployed on <strong>GCP</strong> and <strong>AWS</strong>, ensuring high availability and seamless connectivity between AI agents and core business applications.</li>
+        <li>Designed and developed highly performant, <strong>SEO-optimized</strong> web platforms and cross-platform <strong>React Native</strong> mobile applications.</li>
+        <li>Owned the <strong>end-to-end delivery lifecycle</strong> - from gathering client requirements to production handoff and iterative optimizations.</li>
+      </ul>
+    </div></div>
+  </div>
+  <div data-block="atom">
+    <div class="exp"><div class="exp-dc"><div class="exp-dot dc2"></div><div class="exp-line"></div></div>
+    <div class="exp-body">
+      <div class="exp-hr"><div class="exp-title">Software Engineer</div><div class="exp-period">Nov 2025 – Mar 2026</div></div>
+      <div class="exp-co">Bug0 (Hashnode) · Remote · AI-integrated developer tools and globally distributed backend systems</div>
+      <div class="exp-chips"><span class="ech ec2">40% Faster Deployments</span><span class="ech ec2">Global User Base</span></div>
+      <ul class="exp-buls">
+        <li>Developed the core architecture of Bug0, an AI-agentic testing platform integrating directly with <strong>GitHub Actions</strong> to automate interval-based <strong>AI Playwright testing</strong>.</li>
+        <li>Built high-throughput <strong>Node.js</strong> backend services and CI/CD pipelines (<strong>Docker, GitHub Actions</strong>), reducing deployment cycle times by <strong>40%</strong>.</li>
+        <li>Acted as a <strong>Forward Deployed Engineer</strong>, directly interfacing with enterprise clients to implement custom testing pipelines and drive core product adoption.</li>
+        <li>Refactored system architectures to halve <strong>cold-start latency</strong> and significantly improve testing reliability on production deployments.</li>
+      </ul>
+    </div></div>
+  </div>
+  <div data-block="atom">
+    <div class="exp"><div class="exp-dc"><div class="exp-dot dc3"></div><div class="exp-line"></div></div>
+    <div class="exp-body">
+      <div class="exp-hr"><div class="exp-title">Full-Stack Developer &amp; DevOps Intern</div><div class="exp-period">Aug – Oct 2025</div></div>
+      <div class="exp-co">LabsCheck · Pune, India · Healthcare SaaS and AI-driven lead automation</div>
+      <div class="exp-chips"><span class="ech ec3">100,000+ Leads Automated</span><span class="ech ec3">35% Faster APIs</span></div>
+      <ul class="exp-buls">
+        <li>Spearheaded the development of a <strong>React Native</strong> mobile app and the core business logic for a B2C healthcare aggregator, connecting users to affordable diagnostic labs.</li>
+        <li>Architected RESTful APIs using the <strong>MERN stack</strong>, facilitating the processing of <strong>100,000+</strong> inbound leads via AI-driven smart routing.</li>
+        <li>Managed end-to-end DevOps operations, configuring <strong>Nginx</strong> reverse proxies, <strong>Contabo VPNs</strong>, and <strong>Docker</strong> containers for secure infrastructure.</li>
+        <li>Optimized backend queries to improve API response times by <strong>35%</strong> and implemented integration testing to reduce post-deployment bugs by <strong>60%</strong>.</li>
+      </ul>
+    </div></div>
+  </div>
+  <div data-block="atom">
+    <div class="exp"><div class="exp-dc"><div class="exp-dot dc4"></div></div>
+    <div class="exp-body">
+      <div class="exp-hr"><div class="exp-title">Web Developer Intern</div><div class="exp-period">Jan – Jun 2025</div></div>
+      <div class="exp-co">Walnut Solutions · Dhule, India · SEO-optimised, high-performance Next.js applications</div>
+      <div class="exp-chips"><span class="ech ec4">30% Engagement Lift</span><span class="ech ec4">30% Load Time Cut</span></div>
+      <ul class="exp-buls">
+        <li>Built high-performance, SEO-friendly SSR/SSG web applications using <strong>Next.js</strong>, collaborating with senior engineers to optimize technical architectures.</li>
+        <li>Cut page load times by <strong>30%</strong> via strategic code splitting, WebP optimization, and <strong>Cloudflare</strong> edge caching, driving a <strong>30%</strong> lift in user engagement.</li>
+        <li>Implemented advanced <strong>technical SEO</strong> strategies - structured data, canonical tags, and <strong>Core Web Vitals</strong> optimizations - measurably boosting organic search rankings.</li>
+      </ul>
+    </div></div>
+  </div>
+
+  <!-- ── BLOCK: projects ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Key Projects</div><div class="sh-rule"></div></div>
+  </div>
+
+  
+  <div id="dynamic-projects-container"></div>
+
+  <!-- ── BLOCK: system design ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Technical Depth &amp; Architecture</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="sd-grid">
+      <div class="sd-item"><div class="sd-text"><strong>RAG &amp; LLM Systems:</strong> End-to-end RAG pipelines (chunking, FAISS/Pinecone vector index, BM25 + dense hybrid retrieval, re-ranking); multi-step LangChain/LangGraph agents with tool-use, memory &amp; conditional branching; fine-tuned Mistral &amp; LLaMA; prompt engineering (CoT, few-shot, JSON output hardening); RAGAS evaluation.</div></div>
+      <div class="sd-item a2"><div class="sd-text"><strong>System Design:</strong> Event-driven microservices, API gateways (Nginx), circuit breakers, horizontal AI inference scaling with Redis async queues &amp; Docker Compose. RESTful/streaming APIs (OpenAPI spec), JWT auth, rate limiting, versioned endpoints.</div></div>
+      <div class="sd-item a3"><div class="sd-text"><strong>DevOps &amp; CI/CD:</strong> Docker Compose, Nginx reverse proxy, SSL/Let's Encrypt, GitHub Actions (lint → test → build → rolling deploy, &lt;4 min pipelines). Observability: Winston/Pino structured logging, Prometheus metrics, Grafana dashboards.</div></div>
+      <div class="sd-item a4"><div class="sd-text"><strong>Additional Skills:</strong> React Native cross-platform mobile apps; WebGL/Three.js 3D engines (60+ FPS, InstancedMesh GPU batching); Socket.IO real-time systems; NPM package publishing; NLP tokenization &amp; entity extraction; MLOps (PPO/Actor-Critic RL, FastAPI tensor serving).</div></div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: achievements ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Achievements &amp; Leadership</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <table class="ach-table">
+      <thead><tr><th>Event</th><th>Result</th><th>Context</th></tr></thead>
+      <tbody>
+        <tr><td><div class="ach-ev">Smart India Hackathon 2024</div></td><td><span class="abadge ab-gold">Runner-Up</span></td><td>National - top-2 from 1M+ participants. Built AI-powered disaster response coordination system.</td></tr>
+        <tr><td><div class="ach-ev">WCareer - National Techathon</div></td><td><span class="abadge ab-lime">Winner</span></td><td>1st place - AI career copilot; microservices architecture bridging Next.js + FastAPI LLM backend.</td></tr>
+        <tr><td><div class="ach-ev">Innovate You Hackathon 2025</div></td><td><span class="abadge ab-lime">Winner</span></td><td>1st place, AI/automation track - end-to-end process automation platform, judged by industry experts.</td></tr>
+        <tr><td><div class="ach-ev">India Innovates 2026</div></td><td><span class="abadge ab-purple">Finalist</span></td><td>National finalist - Jalsakhi precision agriculture AI platform, 500+ competing submissions.</td></tr>
+        <tr><td><div class="ach-ev">Technical Lead</div></td><td><span class="abadge ab-sky">200+ Mentees</span></td><td>Workshops and 1:1 mentorship in full-stack development, system design, and career readiness.</td></tr>
+        <tr><td><div class="ach-ev">HackMate CLI</div></td><td><span class="abadge ab-lime">NPM Published</span></td><td>Globally distributed NPM CLI developer-matching tool - active community adoption and OSS contributions.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── BLOCK: education ── -->
+  <div data-block="section-heading">
+    <div class="sh"><div class="sh-bar"></div><div class="sh-label">Education</div><div class="sh-rule"></div></div>
+  </div>
+  <div data-block="atom">
+    <div class="edu-row">
+      <div class="edu-main">
+        <div class="edu-lbl">Degree</div>
+        <div class="edu-deg">B.Tech - Information Technology</div>
+        <div class="edu-sch">PES Modern College of Engineering, Pune</div>
+        <div class="edu-chips"><span class="edu-chip ec-lime">CGPA 8.21 / 10</span><span class="edu-chip ec-dim">2022 – 2026</span></div>
+        <div class="edu-course">Coursework: Data Structures &amp; Algorithms · Operating Systems · Database Management · Computer Networks · Machine Learning · Software Engineering · Distributed Systems</div>
+      </div>
+      <div class="edu-side">
+        <div class="os-card">
+          <div class="os-title">Open Source &amp; Community</div>
+          <div class="os-text">Published multiple NPM packages for SaaS scaffolding and developer tooling - actively maintained with real-world adoption. Open-source PRs reviewed and merged by maintainers across JS/AI ecosystem repositories.</div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-title">Production Stack</div>
+          <div class="stack-tags"><span class="dtag">Docker</span><span class="dtag">Nginx</span><span class="dtag">Let's Encrypt</span><span class="dtag">GitHub Actions</span><span class="dtag">Grafana</span><span class="dtag">Prometheus</span><span class="dtag">Redis</span><span class="dtag">Cloudflare</span><span class="dtag">Vercel Edge</span><span class="dtag">Azure</span><span class="dtag">Prisma</span><span class="dtag">Drizzle ORM</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BLOCK: close strip ── -->
+  <div data-block="atom">
+    <div class="close-strip">
+      <div>
+        <div class="cs-name">SAMEER <span>BAGUL</span></div>
+        <div class="cs-role">Full-Stack &amp; AI Developer · DevOps Engineer</div>
+      </div>
+      <div class="cs-links">
+        <div><a href="https://sameerbagul.com" target="_blank">sameerbagul.com</a></div>
+        <div><a href="mailto:sameerbagul2004@gmail.com">sameerbagul2004@gmail.com</a></div>
+        <div><a href="tel:+917841941033">+91 7841941033</a> · <a href="https://github.com/Sameer-Bagul" target="_blank">github.com/Sameer-Bagul</a></div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content-source -->
+
+<!-- ════════════════════════════════════════════════════════════
+     OUTPUT CONTAINER - JS writes pages here
+════════════════════════════════════════════════════════════ -->
+<div id="output"></div>
+
+
+<script id="projects-data-renderer">
+const projectsData = [
+  {
+    "numStr": "01",
+    "name": "NoteForge AI - Autonomous Video-to-Notes RAG System",
+    "role": "AI Systems Architect",
+    "tags": [
+      "LangChain",
+      "Ollama",
+      "Express",
+      "Vector DB"
+    ],
+    "badge": {
+      "text": "Advanced RAG",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "End-to-end RAG pipeline utilizing RecursiveCharacterTextSplitter for semantic chunking of extracted YouTube transcripts and audio streams.",
+      "Dense vector embeddings with nearest-neighbor search dynamically inject relevant context into dynamic prompt templates for highly accurate synthesis.",
+      "Local Ollama model routing with task-specific inference paths, distributing heavy extraction tasks to high-context models while keeping data private.",
+      "Auto-healing JSON generation layer leveraging jsonrepair to enforce strict schema adherence for automated quiz generation and structured study notes."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/ytvideo2notes",
+        "isLive": false
+      },
+      {
+        "text": "Live Demo",
+        "href": "https://www.sameerbagul.com/projects",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "02",
+    "name": "FlowNotes - AI-Powered Visual Knowledge Workspace",
+    "role": "Frontend Engineer",
+    "tags": [
+      "React Flow",
+      "Zustand",
+      "TipTap",
+      "Gemini"
+    ],
+    "badge": {
+      "text": "Infinite Canvas",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "React + TypeScript mindmap editor built on @xyflow/react with draggable canvas, automatic layout calculations, and localized persistent storage.",
+      "Rich node editing capabilities integrating TipTap for inline text formatting, media attachments, and custom chapter/sub-topic node categorization.",
+      "AI-assisted mindmap generation utilizing Gemini and Ollama providers to instantly parse and generate validated JSON knowledge structures.",
+      "Node-level AI expansion dynamically creates related subtopics on the canvas via a configurable multi-provider API service architecture."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/flownotes",
+        "isLive": false
+      },
+      {
+        "text": "Live Demo",
+        "href": "https://www.sameerbagul.com/projects",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "03",
+    "name": "WCareer (WCareers.ai) - AI-Powered Career Copilot",
+    "role": "Full-Stack AI Lead",
+    "tags": [
+      "Next.js 14",
+      "FastAPI",
+      "GenAI",
+      "Drizzle ORM"
+    ],
+    "badge": {
+      "text": "SIH & Techathon Winner",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "Led microservices architecture bridging Next.js 14 frontend with Python FastAPI LLM inference server - awarded Smart India Hackathon &amp; National Techathon 1st place.",
+      "Real-time Generative AI mock interview engine streaming audio/video responses with semantic similarity scoring and structured feedback reports.",
+      "ML-powered ATS Resume Wizard using NLP tokenization and entity extraction, improving structured resume parsing accuracy by 92%.",
+      "End-to-end authentication via Clerk and Neon PostgreSQL - secure multi-tenant user data with row-level access control."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/Wcareer",
+        "isLive": false
+      },
+      {
+        "text": "wcareers.ai",
+        "href": "https://www.sameerbagul.com/projects",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "04",
+    "name": "Mpulse - Event Micro-Frontend Ecosystem",
+    "role": "Frontend Architect",
+    "tags": [
+      "Next.js",
+      "GSAP",
+      "Razorpay",
+      "Vercel",
+      "EAS"
+    ],
+    "badge": {
+      "text": "CMS & SEO Engine",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "Decoupled micro-frontend: GSAP-animated public registration UI, CMS-driven Admin Panel, and Expo mobile check-in app - each independently deployable.",
+      "Technical SEO via SSR and JSON-LD structured data achieved top Google Event SERP indexing and flawless Core Web Vitals scores.",
+      "Razorpay payment gateway with idempotent webhook handlers processes ticket purchases reliably under high concurrent event-day load.",
+      "Automated CI/CD deploys edge functions to Vercel and pushes OTA mobile updates via EAS - zero manual release steps."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/mpulse",
+        "isLive": false
+      },
+      {
+        "text": "Live Site",
+        "href": "https://www.mpulsepesmcoe.com/",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "05",
+    "name": "Web Mine Craft - Browser-Native WebGL Voxel Engine",
+    "role": "Graphics Engineer",
+    "tags": [
+      "Three.js",
+      "WebGL",
+      "Vite",
+      "Perlin Noise"
+    ],
+    "badge": {
+      "text": "60+ FPS Engine",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "Full 3D voxel game running natively in the browser at 60+ FPS using raw Vanilla Three.js - no game engine or UI framework wrapper.",
+      "Infinite procedural terrain using Perlin noise with dynamic chunk loading and GPU memory unloading as the player moves through the world.",
+      "Custom AABB physics collision system delivers accurate first-person movement, jumping, and mouse-driven block raycasting interactions.",
+      "InstancedMesh draw call batching reduces GPU calls by 90%, sustaining 100k+ simultaneous voxels on-screen without frame drops."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/web-mine-craft",
+        "isLive": false
+      },
+      {
+        "text": "Play Live",
+        "href": "https://www.sameerbagul.com/projects",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "06",
+    "name": "EduQuest - NLP-Powered Subjective Exam Platform",
+    "role": "Backend & AI Developer",
+    "tags": [
+      "NLP",
+      "Fastify",
+      "PostgreSQL",
+      "MongoDB"
+    ],
+    "badge": {
+      "text": "Dual DB Architecture",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "Subjective exam platform using compromise.js NLP to algorithmically evaluate open-ended student answers against rubric criteria in real time.",
+      "Dual-database architecture: Drizzle ORM + PostgreSQL for relational auth/users, Mongoose + MongoDB for unstructured exam payload storage.",
+      "Browser proctoring engine via Page Visibility API and focus-detection events reduces exam malpractice rates by 80% without external software.",
+      "Fully containerized with Docker; staging and production environments share identical runtime snapshots for reliable, reproducible deployments."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/EduQuest",
+        "isLive": false
+      },
+      {
+        "text": "Live Demo",
+        "href": "https://www.sameerbagul.com/projects",
+        "isLive": true
+      }
+    ]
+  },
+  {
+    "numStr": "07",
+    "name": "HackMate - Developer Matching CLI Network",
+    "role": "Systems Engineer",
+    "tags": [
+      "React Ink",
+      "Fastify",
+      "Socket.IO",
+      "Redis"
+    ],
+    "badge": {
+      "text": "Published NPM Package",
+      "colorClass": "pbadge"
+    },
+    "bullets": [
+      "Globally distributed NPM CLI tool that renders a fully interactive terminal UI using React and Ink - works on any developer's machine instantly after install.",
+      "Proprietary 100-point GitHub compatibility algorithm analyses repository diversity, language breadth, and commit consistency to surface ideal collaborators.",
+      "Full-duplex real-time in-terminal chat via Socket.IO with Redis pub/sub fan-out - supports high concurrent connections without message loss.",
+      "JWT session management with Argon2id hashing secures locally-stored credentials in encrypted terminal config files."
+    ],
+    "links": [
+      {
+        "text": "GitHub",
+        "href": "https://github.com/Sameer-Bagul/hackmate",
+        "isLive": false
+      },
+      {
+        "text": "npm Package",
+        "href": "https://npmjs.com/package/hackmate",
+        "isLive": true
+      }
+    ]
+  }
+];
+
+let projHtml = '';
+projectsData.forEach(proj => {
+  projHtml += `<div data-block="atom"><div class="proj-card">
+    <div class="proj-head"><div class="proj-num"><span>${proj.numStr}</span></div>
+    <div class="proj-hc"><div class="proj-name">${proj.name}</div>
+    <div class="proj-meta"><span class="proj-role">${proj.role}</span><div class="proj-stags">`;
+  proj.tags.forEach(t => { projHtml += `<span class="pst">${t}</span>`; });
+  projHtml += `</div></div></div>
+    <div class="proj-badge-col"><span class="pbadge ${proj.badge.colorClass}">${proj.badge.text}</span></div></div>
+    <div class="proj-body"><ul class="proj-buls">`;
+  proj.bullets.forEach(b => { projHtml += `<li>${b}</li>`; });
+  projHtml += `</ul><div class="proj-links">`;
+  proj.links.forEach(l => {
+    let icon = l.isLive ? '#ic-lk' : '#ic-br';
+    let liveCls = l.isLive ? ' live' : '';
+    let target = l.href ? ' target="_blank"' : '';
+    projHtml += `<a class="proj-link${liveCls}" href="${l.href}"${target}><svg><use href="${icon}"/></svg> ${l.text}</a>`;
+  });
+  projHtml += `</div></div></div></div>\n`;
+});
+
+const container = document.getElementById('dynamic-projects-container');
+if(container) {
+  container.outerHTML = projHtml;
+}
+</script>
+<script>
+/* ════════════════════════════════════════════════════════════
+   LAYOUT ENGINE
+   ─────────────────────────────────────────────────────────
+   How it works:
+   1. Reads every [data-block] from #content-source
+   2. Clones each into #measure-zone (same width as page content)
+   3. Measures the real rendered pixel height
+   4. Packs blocks into A4 pages one by one
+   5. If a block won't fit → start a new page, try again
+   6. Section-headings are always packed together with their
+      next sibling atom so a heading never strands alone
+   7. Writes finished pages into #output as real DOM
+════════════════════════════════════════════════════════════ */
+(function(){
+
+  /* Page geometry in pixels (96dpi, 1mm = 3.7795px) */
+  const PX_PER_MM = 3.7795;
+  const PAGE_H    = Math.round(297 * PX_PER_MM); // 1123px
+  const PAGE_W    = Math.round(210 * PX_PER_MM); // 794px
+  const MT        = Math.round(6  * PX_PER_MM); // top margin
+  const MB        = Math.round(6  * PX_PER_MM); // bottom margin
+  const FOOTER_H  = 28;                           // px, page footer
+  const TOPBAR_H  = 38;                           // px, pages 2+
+
+  /* Usable content height per page */
+  const P1_CONTENT = PAGE_H - MT - MB - FOOTER_H;          // page 1 (no topbar, hero uses MT)
+  const PN_CONTENT = PAGE_H - TOPBAR_H - MB - FOOTER_H - 6; // pages 2+
+
+  const mz   = document.getElementById('measure-zone');
+  const src  = document.getElementById('content-source');
+  const out  = document.getElementById('output');
+
+  /* ── Measure a DOM node in the measure zone ── */
+  function measureHeight(node) {
+    const clone = node.cloneNode(true);
+    mz.innerHTML = '';
+    mz.appendChild(clone);
+    const h = clone.getBoundingClientRect().height;
+    mz.innerHTML = '';
+    return Math.ceil(h) + 2; // +2px safety buffer
+  }
+
+  /* ── Collect all blocks ── */
+  const rawBlocks = Array.from(src.children); // each [data-block]
+
+  /* ── Pre-group: fuse each section-heading with its next atom ── */
+  const blocks = [];
+  let i = 0;
+  while (i < rawBlocks.length) {
+    const b = rawBlocks[i];
+    const type = b.dataset.block;
+    if (type === 'section-heading' && i + 1 < rawBlocks.length) {
+      /* Fuse heading + next sibling into one logical unit */
+      const wrapper = document.createElement('div');
+      wrapper.appendChild(b.cloneNode(true));
+      wrapper.appendChild(rawBlocks[i+1].cloneNode(true));
+      blocks.push({ el: wrapper, fused: true });
+      i += 2;
+    } else if (type === 'hero') {
+      blocks.push({ el: b.cloneNode(true), hero: true });
+      i++;
+    } else {
+      blocks.push({ el: b.cloneNode(true) });
+      i++;
+    }
+  }
+
+  /* ── Measure every block ── */
+  const measured = blocks.map(b => ({
+    ...b,
+    h: measureHeight(b.el)
+  }));
+
+  /* ── Page builder ── */
+  let pages      = [];
+  let curPage    = null;  // { el, content, usedH, maxH, num }
+  let pageNum    = 0;
+
+  function GAP() { return 8; } // spacing between blocks (px)
+
+  function newPage() {
+    pageNum++;
+    const pg = document.createElement('div');
+    pg.className = 'page';
+
+    let content, maxH;
+
+    if (pageNum === 1) {
+      /* Page 1 content starts right after the hero (no topbar) */
+      content = document.createElement('div');
+      content.className = 'page-content p1';
+      pg.appendChild(content);
+      maxH = P1_CONTENT;
+    } else {
+      /* Pages 2+ get the topbar */
+      const tb = document.createElement('div');
+      tb.className = 'page-topbar';
+      tb.innerHTML = `
+        <div class="ptb-name">SAMEER <span>BAGUL</span></div>
+        <div class="ptb-pg">Continued…</div>`;
+      pg.appendChild(tb);
+      content = document.createElement('div');
+      content.className = 'page-content pN';
+      pg.appendChild(content);
+      maxH = PN_CONTENT;
+    }
+
+    /* Footer */
+    const footer = document.createElement('div');
+    footer.className = 'page-footer';
+    footer.innerHTML = `
+      <span class="pf-txt"><span class="pf-accent">Sameer Bagul</span> &nbsp;·&nbsp; Full-Stack &amp; AI Developer</span>
+      <span class="pf-txt">Page ${pageNum} of ?? &nbsp;·&nbsp; sameerbagul.com</span>`;
+    pg.appendChild(footer);
+
+    curPage = { el: pg, content, usedH: 0, maxH, num: pageNum };
+    pages.push(curPage);
+    return curPage;
+  }
+
+  function appendToPage(blockEl) {
+    const node = blockEl.cloneNode(true);
+    if (curPage.usedH > 0) {
+      node.style.marginTop = GAP() + 'px';
+    }
+    curPage.content.appendChild(node);
+  }
+
+  /* ── Paginate ── */
+  newPage(); // page 1
+
+  for (const item of measured) {
+    if (item.hero) {
+      /* Hero always goes first on page 1, doesn't count against usedH
+         because it bleeds and takes space from the top margin budget */
+      appendToPage(item.el);
+      curPage.usedH += item.h - MT; // hero overlaps with the MT budget
+      continue;
+    }
+
+    const needed = item.h + (curPage.usedH > 0 ? GAP() : 0);
+
+    if (curPage.usedH + needed > curPage.maxH) {
+      /* Doesn't fit → new page */
+      newPage();
+    }
+    appendToPage(item.el);
+    curPage.usedH += item.h + GAP();
+  }
+
+  /* ── Update page totals in footers ── */
+  const total = pages.length;
+  pages.forEach((pg, idx) => {
+    const num = idx + 1;
+    const footerRight = pg.el.querySelector('.page-footer .pf-txt:last-child');
+    if (footerRight) {
+      footerRight.innerHTML = `Page ${num} of ${total} &nbsp;·&nbsp; sameerbagul.com`;
+    }
+    /* Update topbar page label */
+    const tbPg = pg.el.querySelector('.ptb-pg');
+    if (tbPg) tbPg.textContent = `Page ${num} of ${total}`;
+  });
+
+  /* ── Render to DOM ── */
+  pages.forEach(pg => out.appendChild(pg.el));
+
+  /* ── Clean up source/measure nodes ── */
+  src.remove();
+  mz.remove();
+
+})();
+</script>
+</body>
+</html>
