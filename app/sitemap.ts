@@ -6,6 +6,8 @@ import { absoluteUrl } from '@/lib/site';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const baseUrl = absoluteUrl();
 
+    const routeUrl = (route: string) => new URL(route, baseUrl).toString();
+
     // Static routes
     const staticRoutes = [
         '',
@@ -15,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         '/resume',
         '/study',
     ].map((route) => ({
-        url: `${baseUrl}${route}`,
+        url: routeUrl(route),
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: route === '' ? 1 : 0.8,
@@ -29,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         blogRoutes = blogs
             .filter(blog => blog.isPublished)
             .map((blog) => ({
-                url: `${baseUrl}/blog/${blog._id}`,
+                url: routeUrl(`/blog/${blog._id}`),
                 lastModified: new Date(blog.publishedAt || new Date()),
                 changeFrequency: 'monthly' as const,
                 priority: 0.6,
@@ -46,7 +48,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         projectRoutes = projects
             .filter((p) => p.slug)
             .map((p) => ({
-                url: `${baseUrl}/projects/${p.slug}`,
+                url: routeUrl(`/projects/${p.slug}`),
                 lastModified: new Date(p.projectDate || p.createdAt || new Date()),
                 changeFrequency: 'monthly' as const,
                 priority: 0.7,
@@ -63,7 +65,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (response.success) {
             for (const folder of response.data.folders) {
                 studyRoutes.push({
-                    url: `${baseUrl}/study/${folder.slug}`,
+                    url: routeUrl(`/study/${folder.slug}`),
                     lastModified: new Date(),
                     changeFrequency: 'monthly' as const,
                     priority: 0.7,
@@ -75,7 +77,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                     if (notesRes.success) {
                         for (const note of notesRes.data.notes) {
                             studyRoutes.push({
-                                url: `${baseUrl}/study/${folder.slug}/${note.slug}`,
+                                url: routeUrl(`/study/${folder.slug}/${note.slug}`),
                                 lastModified: new Date(),
                                 changeFrequency: 'monthly' as const,
                                 priority: 0.6,

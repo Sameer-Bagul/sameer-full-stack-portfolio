@@ -63,7 +63,7 @@ export default function Footer() {
                         <h4 className="text-xs sm:text-sm font-black lowercase tracking-widest text-primary font-seona not-italic">contact</h4>
                         <ul className="space-y-2">
                             <li className="text-sm text-muted-foreground">{PERSONAL_INFO.email}</li>
-                            <li className="text-sm text-muted-foreground">+91 99999 99999</li>
+                            <li className="text-sm text-muted-foreground">+91 7841941033</li>
                             <li className="text-sm text-muted-foreground">{PERSONAL_INFO.location}</li>
                         </ul>
                     </div>

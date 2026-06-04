@@ -13,7 +13,10 @@ export const metadata: Metadata = {
         title: 'Study Library | Sameer Bagul',
         description: 'Explore curated technical notes and research papers.',
         url: absoluteUrl('/study'),
-    }
+    },
+    alternates: {
+        canonical: absoluteUrl('/study'),
+    },
 };
 
 export default async function StudyPage() {
