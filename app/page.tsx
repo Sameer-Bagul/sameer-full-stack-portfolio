@@ -1,14 +1,15 @@
 import Hero from "@/components/Hero";
-// import IntroVideo from "@/components/IntroVideo";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import Services from "@/components/Services";
-import FeaturedProjects from "@/components/FeaturedProjects";
-import Testimonials from "@/components/Testimonials";
-import Experience from "@/components/Experience";
-import CTA from "@/components/CTA";
+import dynamic from "next/dynamic";
 import { Metadata } from "next";
 import { SITE_URL } from "@/lib/site";
+
+const About = dynamic(() => import("@/components/About"));
+const Skills = dynamic(() => import("@/components/Skills"));
+const Services = dynamic(() => import("@/components/Services"));
+const FeaturedProjects = dynamic(() => import("@/components/FeaturedProjects"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const Experience = dynamic(() => import("@/components/Experience"));
+const CTA = dynamic(() => import("@/components/CTA"));
 
 export const metadata: Metadata = {
   title: "Sameer Bagul | Senior Full Stack & AI Developer",

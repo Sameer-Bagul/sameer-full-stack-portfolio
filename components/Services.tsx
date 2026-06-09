@@ -1,288 +1,274 @@
 'use client';
 
-import React, { memo, useState } from 'react';
-import Link from 'next/link';
-import { Card } from '@/components/ui/card';
-import { STYLES } from '@/lib/constants/styles';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-    BrainCircuit,
-    Smartphone,
-    Cloud,
-    Palette,
-    Layers,
-    ExternalLink,
-    Rocket,
-    Globe,
-    Terminal,
-    Sparkles,
-    ArrowUpRight,
-    X,
-    CheckCircle2
-} from 'lucide-react';
+import { STYLES } from '@/lib/constants/styles';
+import { Card } from '@/components/ui/card';
 
-const services = [
-    {
-        title: "AI & Intelligence Systems",
-        description: "Custom LLM integrations, RAG architectures, and smart AI tools to automate workflows and insights.",
-        icon: BrainCircuit,
-        iconColor: "text-purple-600 dark:text-purple-400",
-        iconBg: "bg-purple-500/10",
-        cardBg: "bg-purple-500/5 dark:bg-purple-500/10",
-        borderClass: "border-purple-500/10 dark:border-purple-500/20",
-        tools: ["RAG", "LLMs", "Vector DBs"],
-        details: "Specializing in building autonomous AI agents and enterprise-grade generative AI solutions. We focus on low-latency inference and high-accuracy retrieval systems."
-    },
-    {
-        title: "SaaS Tools Development",
-        description: "Full-scale SaaS product development with robust multi-tenancy, billing, and scalable backend architectures.",
-        icon: Rocket,
-        iconColor: "text-orange-600 dark:text-orange-400",
-        iconBg: "bg-orange-500/10",
-        cardBg: "bg-orange-500/5 dark:bg-orange-500/10",
-        borderClass: "border-orange-500/10 dark:border-orange-500/20",
-        tools: ["Auth", "Payments", "Scalability"],
-        details: "Building production-ready SaaS platforms with Stripe integration, multi-tenant database schemas, and optimized AWS/GCP deployments."
-    },
-    {
-        title: "Web Development",
-        description: "Modern, high-performance web applications built for speed, SEO, and exceptional user experiences.",
-        icon: Globe,
-        iconColor: "text-blue-600 dark:text-blue-400",
-        iconBg: "bg-blue-500/10",
-        cardBg: "bg-blue-500/5 dark:bg-blue-500/10",
-        borderClass: "border-blue-500/10 dark:border-blue-500/20",
-        tools: ["React", "Next.js", "TypeScript"],
-        details: "Crafting pixel-perfect, responsive web experiences using the latest frontend technologies. Focus on Core Web Vitals and accessible design."
-    },
-    {
-        title: "App Development",
-        description: "Seamless cross-platform mobile apps for iOS and Android using unified codebases.",
-        icon: Smartphone,
-        iconColor: "text-emerald-600 dark:text-emerald-400",
-        iconBg: "bg-emerald-500/10",
-        cardBg: "bg-emerald-500/5 dark:bg-emerald-500/10",
-        borderClass: "border-emerald-500/10 dark:border-emerald-500/20",
-        tools: ["React Native", "Expo", "Native APIs"],
-        details: "Developing high-performance mobile applications with React Native. Expertise in native module integration and smooth gesture-based interactions."
-    },
-    {
-        title: "Desktop Applications",
-        description: "Powerful cross-platform desktop tools built with Electron and Tauri for native-level performance.",
-        icon: Terminal,
-        iconColor: "text-indigo-600 dark:text-indigo-400",
-        iconBg: "bg-indigo-500/10",
-        cardBg: "bg-indigo-500/5 dark:bg-indigo-500/10",
-        borderClass: "border-indigo-500/10 dark:border-indigo-500/20",
-        tools: ["Electron", "Tauri", "Native Ops"],
-        details: "Engineering desktop tools that bridge the gap between web and native system capabilities, featuring offline-first data and local file system access."
-    },
-    {
-        title: "QA & Automation",
-        description: "End-to-end testing and workflow automation to ensure flawless releases and minimal manual work.",
-        icon: Layers,
-        iconColor: "text-red-600 dark:text-red-400",
-        iconBg: "bg-red-500/10",
-        cardBg: "bg-red-500/5 dark:bg-red-500/10",
-        borderClass: "border-red-500/10 dark:border-red-500/20",
-        tools: ["Playwright", "Python", "n8n", "Make"],
-        details: "Streamlining development with robust CI/CD pipelines and automated browser testing using Playwright. Automating business processes with n8n."
-    },
-    {
-        title: "UI/UX & Design",
-        description: "Premium product design and design systems focused on aesthetics, accessibility, and user psychology.",
-        icon: Palette,
-        iconColor: "text-pink-600 dark:text-pink-400",
-        iconBg: "bg-pink-500/10",
-        cardBg: "bg-pink-500/5 dark:bg-pink-500/10",
-        borderClass: "border-pink-500/10 dark:border-pink-500/20",
-        tools: ["Figma", "Design Systems", "Prototyping"],
-        details: "Designing intuitive interfaces that prioritize user needs. Building scalable design systems that bridge the gap between design and code."
-    },
-    {
-        title: "DevOps & Infrastructure",
-        description: "Helping DevOps teams with CI/CD pipelines, cloud infrastructure, and team workflow optimization.",
-        icon: Cloud,
-        iconColor: "text-cyan-600 dark:text-cyan-400",
-        iconBg: "bg-cyan-500/10",
-        cardBg: "bg-cyan-500/5 dark:bg-cyan-500/10",
-        borderClass: "border-cyan-500/10 dark:border-cyan-500/20",
-        tools: ["Docker", "K8s", "CI/CD"],
-        details: "Securing and scaling infrastructure using containerization and orchestration. Expertise in infrastructure-as-code and cloud-native solutions."
-    },
-    {
-        title: "Career Guidance",
-        description: "One-on-one mentorship, career roadmaps, and industry insights to help you grow as an engineer.",
-        icon: Sparkles,
-        iconColor: "text-yellow-600 dark:text-yellow-400",
-        iconBg: "bg-yellow-500/10",
-        cardBg: "bg-yellow-500/5 dark:bg-yellow-500/10",
-        borderClass: "border-yellow-500/10 dark:border-yellow-500/20",
-        tools: ["Mentorship", "Roadmaps", "Topmate"],
-        link: "https://topmate.io/sameerbagul/",
-        details: "Providing actionable guidance for aspiring developers. Helping you navigate the tech landscape, from learning paths to interview preparation."
-    },
+const SERVICES = [
+  {
+    num: '01', name: 'AI & Intelligence Systems',
+    clients: 12, projects: 18, satisfaction: '98%',
+    pitch: 'Stop losing hours to repetitive decisions. I build AI systems that learn your business logic, surface the right information at the right moment, and handle the cognitive load — so your team can focus on what only humans can do.',
+    techNote: 'Architected on LangChain / LangGraph with RAG pipelines, vector stores (Pinecone, FAISS), and custom agent orchestration. Deployable on-premise or cloud.',
+    tags: ['LLMs', 'RAG', 'LangChain', 'LangGraph', 'LlamaIndex', 'Pinecone', 'FAISS', 'OpenAI'],
+    deliverables: ['Custom LLM integration', 'RAG pipeline design', 'Vector DB setup', 'Agent orchestration', 'Workflow automation', 'Model evaluation & testing'],
+  },
+  {
+    num: '02', name: 'SaaS Tools Development',
+    clients: 8, projects: 11, satisfaction: '100%',
+    pitch: 'Turn your product idea into a revenue-generating platform. I handle the full stack — auth, billing, multi-tenancy, and admin — so you launch faster, charge confidently, and scale without rewrites.',
+    techNote: 'MERN / Next.js stack with Stripe or Razorpay billing, JWT + OAuth auth, and a modular multi-tenant data architecture built for horizontal scaling.',
+    tags: ['Next.js', 'Node.js', 'Stripe', 'Razorpay', 'PostgreSQL', 'Redis', 'Multi-tenancy'],
+    deliverables: ['Multi-tenant architecture', 'Billing & subscription flows', 'RBAC & permissions', 'Usage metering & limits', 'Admin panel', 'API-first backend'],
+  },
+  {
+    num: '03', name: 'Web Development',
+    clients: 22, projects: 34, satisfaction: '97%',
+    pitch: 'Your website is your best salesperson — it works 24/7 and never asks for commission. I build fast, beautiful, and search-optimised web experiences that turn visitors into customers.',
+    techNote: 'React 19 / Next.js 15 with Turbopack, ISR/SSG/SSR strategies, Edge runtime, and a relentless focus on Core Web Vitals and Lighthouse scores.',
+    tags: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Node.js', 'PostgreSQL', 'Vercel'],
+    deliverables: ['SSR / SSG / ISR', 'Core Web Vitals', 'SEO & metadata', 'CMS integration', 'API development', 'Performance audits'],
+  },
+  {
+    num: '04', name: 'App Development',
+    clients: 7, projects: 9, satisfaction: '96%',
+    pitch: 'Your customers are already on their phones. I build cross-platform mobile apps that feel native, load instantly, and keep users coming back — delivered once for both iOS and Android.',
+    techNote: 'React Native 0.81 + Expo SDK 54 with EAS build pipelines, OTA updates, native module bridging, and deep-link / push notification support.',
+    tags: ['React Native', 'Expo', 'EAS', 'TypeScript', 'iOS', 'Android', 'Push Notifications'],
+    deliverables: ['Cross-platform codebase', 'Native device APIs', 'Offline-first support', 'Push notifications', 'App Store deployment', 'OTA updates'],
+  },
+  {
+    num: '05', name: 'Desktop Applications',
+    clients: 4, projects: 5, satisfaction: '100%',
+    pitch: 'Some workflows just need the full power of a desktop. I build cross-platform apps that sit in your dock, access local files, and run without a browser — giving your power users the tool they deserve.',
+    techNote: 'Electron for rapid delivery and rich ecosystem access; Tauri + Rust for lightweight, performant binaries with a minimal attack surface.',
+    tags: ['Electron', 'Tauri', 'Rust', 'Windows', 'macOS', 'Linux', 'Auto-update'],
+    deliverables: ['File system access', 'Native OS integration', 'Auto-update pipeline', 'System tray support', 'Offline capability', 'Cross-platform builds'],
+  },
+  {
+    num: '06', name: 'QA & Automation',
+    clients: 6, projects: 14, satisfaction: '99%',
+    pitch: 'Every bug your users find costs you trust. I set up the safety nets — automated test suites, regression checks, and workflow automations — so releases are events to celebrate, not dread.',
+    techNote: 'Playwright for E2E, Vitest / Jest for unit/integration, n8n and Make for no-code automation, and CI/CD quality gates to block broken code before it ships.',
+    tags: ['Playwright', 'Vitest', 'Jest', 'n8n', 'Make', 'GitHub Actions', 'CI/CD'],
+    deliverables: ['E2E test suites', 'API & unit testing', 'n8n / Make automation', 'CI/CD quality gates', 'Regression coverage', 'Test reporting'],
+  },
+  {
+    num: '07', name: 'UI/UX & Design',
+    clients: 14, projects: 20, satisfaction: '98%',
+    pitch: 'Design is not decoration — it is the first argument you make to your customer. I create interfaces that are immediately understood, genuinely enjoyable, and built to convert.',
+    techNote: 'Figma-based design systems with tokenised variables, auto-layout components, WCAG 2.2 accessibility checks, and developer-ready design-to-code handoff.',
+    tags: ['Figma', 'Design Systems', 'Tokens', 'Prototyping', 'WCAG', 'Accessibility'],
+    deliverables: ['Component design systems', 'High-fidelity prototypes', 'Accessibility audits', 'Brand consistency', 'User flow mapping', 'Dev handoff'],
+  },
+  {
+    num: '08', name: 'DevOps & Infrastructure',
+    clients: 5, projects: 8, satisfaction: '100%',
+    pitch: 'Slow deployments and fragile infrastructure kill momentum. I set up the pipelines, containers, and cloud architecture that let your team ship with confidence — multiple times a day if needed.',
+    techNote: 'Docker + Kubernetes orchestration, GitHub Actions / GitLab CI pipelines, AWS / GCP cloud infra, Terraform for IaC, Prometheus + Grafana for observability.',
+    tags: ['Docker', 'Kubernetes', 'GitHub Actions', 'AWS', 'GCP', 'Terraform', 'Prometheus'],
+    deliverables: ['Docker & K8s setup', 'CI/CD pipelines', 'Cloud infrastructure', 'Zero-downtime deploys', 'Monitoring & alerting', 'IaC with Terraform'],
+  },
+  {
+    num: '09', name: 'Career Guidance',
+    clients: 31, projects: 60, satisfaction: '100%',
+    pitch: 'The right mentor at the right time is worth years of trial and error. I give engineers an honest map of the road ahead — what to learn, what to skip, and how to position yourself for the opportunities you actually want.',
+    techNote: 'Structured via Topmate with async roadmap reviews, live 1:1 sessions, resume & portfolio teardowns, system design walkthroughs, and OSS contribution strategy.',
+    tags: ['1:1 Mentorship', 'Roadmaps', 'Resume Review', 'Interview Prep', 'OSS Strategy', 'Topmate'],
+    deliverables: ['Personalised roadmaps', '1:1 mentoring', 'Resume & portfolio review', 'Interview preparation', 'Tech stack guidance', 'Open source strategy'],
+  },
 ];
 
-type Service = typeof services[number];
-const ServicePopup = ({ service, onClose }: { service: Service; onClose: () => void }) => (
-    <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 z-100 flex items-center justify-center px-4 bg-zinc-950/60 backdrop-blur-xl"
-        onClick={onClose}
-    >
-        <motion.div
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="w-full max-w-xl bg-white dark:bg-zinc-950 rounded-4xl md:rounded-[2.5rem] p-6 md:p-10 border border-white/10 shadow-2xl relative overflow-hidden"
-            onClick={(e) => e.stopPropagation()}
-        >
-            {/* Background Accent */}
-            <div className={cn("absolute -top-24 -right-24 w-64 h-64 rounded-full opacity-[0.15] blur-3xl", service.iconBg)} />
+export default function Services() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(0);
 
-            <button
-                onClick={onClose}
-                className="absolute top-4 right-4 md:top-6 md:right-6 w-10 h-10 rounded-full bg-zinc-100 dark:bg-zinc-800/80 flex items-center justify-center hover:scale-110 transition-transform group z-20"
-            >
-                <X size={20} className="text-muted-foreground group-hover:text-foreground" />
-            </button>
+  const activeService = SERVICES[activeIndex];
+  const dir = activeIndex > prevIndex ? 1 : -1;
 
-            <div className="relative z-10 space-y-6 md:space-y-8">
-                <div className={cn("inline-flex p-4 md:p-5 rounded-2xl md:rounded-3xl transform rotate-3", service.iconBg)}>
-                    {service.icon && (
-                        <service.icon className={"w-10 h-10 md:w-14 md:h-14 " + (service.iconColor || "")} />
-                    )}
-                </div>
+  const handleTabClick = (index: number) => {
+    if (index === activeIndex) return;
+    setPrevIndex(activeIndex);
+    setActiveIndex(index);
+    
+    // Smooth scroll list to ensure active item is visible on mobile
+    if (window.innerWidth <= 1024) {
+        const listContainer = document.getElementById('svc-list');
+        const activeItem = document.getElementById(`svc-item-${index}`);
+        if (listContainer && activeItem) {
+            const scrollPos = activeItem.offsetLeft - (listContainer.clientWidth / 2) + (activeItem.clientWidth / 2);
+            listContainer.scrollTo({ left: scrollPos, behavior: 'smooth' });
+        }
+    }
+  };
 
-                <div className="space-y-3 md:space-y-4">
-                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground font-seona not-italic uppercase">
-                        {service.title}
-                    </h2>
-                    <p className="text-base md:text-lg text-muted-foreground leading-relaxed font-medium">
-                        {service.description}
-                    </p>
-                </div>
+  return (
+    <section className="py-24 sm:py-32 w-full border-t border-[var(--tmpl-border)] overflow-hidden">
+      <div className="container px-4 sm:px-6 max-w-[1200px] mx-auto">
+        
+        {/* Header */}
+        <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8">
+            <div className="space-y-3 sm:space-y-4">
+                <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-seona not-italic tracking-tight")}>
+                    Services
+                </h2>
+                <p className={cn(STYLES.subheading, "text-left m-0 uppercase tracking-[0.3em] text-[10px] sm:text-[11px] font-dm-mono text-[var(--tmpl-text-3)]")}>
+                    What I build
+                </p>
+            </div>
+            <div className="font-dm-mono text-[11px] text-[var(--tmpl-text-3)] tracking-[0.2em] hidden md:block">
+                <span className="text-[var(--tmpl-text)] font-medium">{activeService.num}</span> / 09
+            </div>
+        </div>
 
-                <div className="p-4 md:p-6 bg-zinc-50 dark:bg-white/2 rounded-2xl border border-zinc-200/50 dark:border-white/5">
-                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 mb-3">Service Deep-dive</h4>
-                    <p className="text-sm text-foreground/80 leading-relaxed">
-                        {service.details}
-                    </p>
-                </div>
-
-                <div className="flex flex-wrap gap-2 md:gap-3">
-                    {service.tools.map((tool: string) => (
-                        <div key={tool} className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-800 border border-zinc-200/50 dark:border-zinc-700/50 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                            <CheckCircle2 size={12} className="text-primary/60" />
-                            {tool}
-                        </div>
-                    ))}
-                </div>
-
-                {service.link && (
-                    <Link
-                        href={service.link}
-                        target="_blank"
-                        className="w-full py-4 rounded-xl md:rounded-2xl bg-primary text-primary-foreground text-sm font-black uppercase tracking-[0.2em] flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
+        {/* Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 min-h-[650px]">
+          
+          {/* LEFT (List) */}
+          <div 
+            className="col-span-1 lg:col-span-4 flex flex-row lg:flex-col overflow-x-auto lg:overflow-y-visible hide-scrollbar pb-2 lg:pb-0 gap-2 lg:gap-1 -mx-4 px-4 lg:mx-0 lg:px-0" 
+            id="svc-list"
+            style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+          >
+            {SERVICES.map((s, i) => {
+                const isActive = i === activeIndex;
+                return (
+                    <div 
+                        key={s.num}
+                        id={`svc-item-${i}`}
+                        className={cn(
+                            "group relative px-4 lg:px-5 py-3 lg:py-4 cursor-pointer flex flex-col lg:flex-row lg:items-center gap-1.5 lg:gap-5 rounded-xl lg:rounded-2xl transition-all duration-300 shrink-0",
+                            isActive 
+                                ? "bg-[var(--tmpl-surface)] border border-[var(--tmpl-border)] shadow-sm lg:shadow-lg" 
+                                : "hover:bg-[var(--tmpl-surface)]/50 border border-transparent"
+                        )}
+                        onClick={() => handleTabClick(i)}
                     >
-                        Book Strategy Session <ExternalLink size={16} />
-                    </Link>
-                )}
-            </div>
-        </motion.div>
-    </motion.div>
-);
+                        {/* Active Indicator Line (Desktop) */}
+                        {isActive && (
+                            <motion.div 
+                                layoutId="active-indicator"
+                                className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--tmpl-accent)] rounded-l-2xl hidden lg:block"
+                            />
+                        )}
+                        {/* Active Indicator Line (Mobile) */}
+                        {isActive && (
+                            <motion.div 
+                                layoutId="active-indicator-mobile"
+                                className="absolute left-0 right-0 bottom-0 h-1 bg-[var(--tmpl-accent)] rounded-b-xl lg:hidden"
+                            />
+                        )}
+                        
+                        <div className="flex flex-col lg:flex-row lg:items-baseline gap-0.5 lg:gap-4 text-center lg:text-left min-w-[100px] lg:min-w-0">
+                            <span className={cn(
+                                "font-dm-mono text-[9px] sm:text-[11px] tracking-[0.2em] transition-colors duration-300",
+                                isActive ? "text-[var(--tmpl-accent)]" : "text-[var(--tmpl-text-3)]"
+                            )}>
+                                {s.num}
+                            </span>
+                            <span className={cn(
+                                "font-sans text-[0.8rem] sm:text-base whitespace-nowrap transition-colors duration-300",
+                                isActive ? "text-[var(--tmpl-text)] font-medium" : "text-[var(--tmpl-text-2)] font-light group-hover:text-[var(--tmpl-text)]"
+                            )}>
+                                {s.name}
+                            </span>
+                        </div>
+                    </div>
+                );
+            })}
+          </div>
 
-const Services = memo(() => {
-    const [selectedService, setSelectedService] = useState<Service | null>(null);
-
-    return (
-        <section className={cn(STYLES.section, "bg-zinc-50 dark:bg-zinc-950/20 py-16 sm:py-20 overflow-hidden w-full")}>
-            <div className={cn(STYLES.container, "px-4 sm:px-6")}>
-                <div className="mb-12 sm:mb-16 text-center">
-                    <h2 className={cn(STYLES.heading, "text-3xl sm:text-4xl md:text-6xl")}>Services — What I build</h2>
-                    <p className={cn(STYLES.subheading, "text-sm sm:text-base")}>Turning complex requirements into seamless digital products</p>
-                </div>
-
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-                    {services.map((service, index) => {
-                        // Extract hex color from borderClass using regex (e.g., border-purple-500/10)
-                        let borderColor = '#a1a1aa';
-                        const match = service.borderClass?.match(/border-([a-z]+)-(\d+)(?:\/\d+)?/);
-                        if (match) {
-                            const colorMap: Record<string, string> = {
-                                purple: '#a78bfa',
-                                orange: '#fdba74',
-                                blue: '#60a5fa',
-                                emerald: '#34d399',
-                                indigo: '#818cf8',
-                                red: '#f87171',
-                                pink: '#f472b6',
-                                cyan: '#22d3ee',
-                                yellow: '#fde047',
-                            };
-                            borderColor = colorMap[match[1]] || borderColor;
-                        }
-                        return (
-                            <div key={index} className="relative h-full">
-                                <Card
-                                    onClick={() => setSelectedService(service)}
-                                    className={cn(
-                                        "p-4 sm:p-7 flex flex-col justify-between transition-all duration-300 group overflow-visible relative cursor-pointer border-none h-full",
-                                        service.cardBg,
-                                        "hover:scale-[1.02] hover:shadow-xl dark:hover:shadow-primary/5 shadow-sm"
-                                    )}
-                                >
-                                    <div className="absolute -top-2 sm:-top-6 -right-2 sm:-right-6 opacity-[0.03] dark:opacity-[0.05] group-hover:opacity-[0.08] dark:group-hover:opacity-[0.12] group-hover:scale-110 group-hover:-rotate-12 transition-all duration-700 pointer-events-none">
-                                        {service.icon && (
-                                            <service.icon className="w-24 h-24 sm:w-48 sm:h-48" />
-                                        )}
-                                    </div>
-                                    <div className="flex flex-col h-full relative z-20">
-                                        <div className={cn("inline-flex p-2.5 sm:p-4 rounded-lg sm:rounded-2xl mb-3 sm:mb-6 self-start transform group-hover:scale-110 transition-transform duration-300", service.iconBg)}>
-                                            {service.icon && (
-                                                <service.icon className={"w-5 h-5 sm:w-8 sm:h-8 " + (service.iconColor || "")} />
-                                            )}
-                                        </div>
-                                        <div className="grow">
-                                            <h3 className="text-sm sm:text-2xl font-extrabold mb-1.5 sm:mb-3 tracking-tight text-foreground uppercase font-seona not-italic leading-tight">
-                                                {service.title}
-                                            </h3>
-                                            <p className="text-[10px] sm:text-lg font-semibold leading-normal sm:leading-relaxed text-muted-foreground/80 mb-4 sm:mb-7 line-clamp-2 sm:line-clamp-none">
-                                                {service.description}
-                                            </p>
-                                        </div>
-                                        <div className="flex flex-wrap gap-2 mt-auto">
-                                            {service.tools.map((tool) => (
-                                                <span key={tool} className="text-[10px] uppercase tracking-widest font-black px-2 py-1 rounded-md bg-zinc-900/5 dark:bg-zinc-100/5 text-muted-foreground/80">
-                                                    {tool}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </Card>
+          {/* RIGHT (Details) */}
+          <div className="col-span-1 lg:col-span-8 flex flex-col justify-start relative">
+            <Card className="bg-[var(--tmpl-surface)] border-[var(--tmpl-border)] overflow-hidden shadow-xl lg:shadow-2xl rounded-[1.5rem] lg:rounded-[2rem] p-6 sm:p-8 md:p-12 w-full h-full relative">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={activeIndex}
+                        initial={{ opacity: 0, y: dir > 0 ? 15 : -15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: dir > 0 ? -15 : 15 }}
+                        transition={{ duration: 0.35, ease: "easeInOut" }}
+                        className="w-full flex flex-col h-full"
+                    >
+                        {/* Meta Row */}
+                        <div className="flex flex-wrap items-center justify-between gap-4 lg:gap-6 mb-6 sm:mb-10">
+                            <div className="font-dm-mono text-[9px] sm:text-[11px] tracking-[0.2em] text-[var(--tmpl-text-3)] uppercase flex items-center gap-2 sm:gap-4">
+                                Service {activeService.num}
+                                <div className="w-8 sm:w-12 h-[1px] bg-[var(--tmpl-border-hi)] hidden xs:block"></div>
                             </div>
-                        );
-                    })}
-                </div>
-            </div>
+                            
+                            <div className="flex gap-2 sm:gap-3">
+                                <div className="flex flex-col items-center py-2 px-3 sm:py-2.5 sm:px-5 border border-[var(--tmpl-border)] rounded-lg bg-[var(--tmpl-bg)]/50 min-w-[60px] sm:min-w-[80px]">
+                                    <span className="font-dm-mono text-sm sm:text-lg font-medium text-[var(--tmpl-text)] leading-none">{activeService.clients}</span>
+                                    <span className="font-dm-mono text-[8px] sm:text-[9px] tracking-[0.1em] text-[var(--tmpl-text-3)] uppercase mt-1 sm:mt-1.5">Clients</span>
+                                </div>
+                                <div className="flex flex-col items-center py-2 px-3 sm:py-2.5 sm:px-5 border border-[var(--tmpl-border)] rounded-lg bg-[var(--tmpl-bg)]/50 min-w-[60px] sm:min-w-[80px]">
+                                    <span className="font-dm-mono text-sm sm:text-lg font-medium text-[var(--tmpl-text)] leading-none">{activeService.projects}</span>
+                                    <span className="font-dm-mono text-[8px] sm:text-[9px] tracking-[0.1em] text-[var(--tmpl-text-3)] uppercase mt-1 sm:mt-1.5">Projects</span>
+                                </div>
+                                <div className="flex flex-col items-center py-2 px-3 sm:py-2.5 sm:px-5 border border-[var(--tmpl-border)] rounded-lg bg-[var(--tmpl-bg)]/50 min-w-[60px] sm:min-w-[80px] hidden sm:flex">
+                                    <span className="font-dm-mono text-sm sm:text-lg font-medium text-[var(--tmpl-text)] leading-none">{activeService.satisfaction}</span>
+                                    <span className="font-dm-mono text-[8px] sm:text-[9px] tracking-[0.1em] text-[var(--tmpl-text-3)] uppercase mt-1 sm:mt-1.5">Satisfied</span>
+                                </div>
+                            </div>
+                        </div>
 
-            <AnimatePresence>
-                {selectedService && (
-                    <ServicePopup
-                        service={selectedService}
-                        onClose={() => setSelectedService(null)}
-                    />
-                )}
-            </AnimatePresence>
-        </section>
-    );
-});
+                        <h3 className="font-instrument text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[var(--tmpl-text)] font-normal leading-[1.1] mb-4 sm:mb-5">
+                            {activeService.name}
+                        </h3>
+                        
+                        <p className="font-sans text-sm sm:text-base lg:text-lg text-[var(--tmpl-text-2)] leading-relaxed font-light max-w-[600px] mb-6">
+                            {activeService.pitch}
+                        </p>
 
-Services.displayName = 'Services';
+                        <div className="w-8 sm:w-12 h-[1px] bg-[var(--tmpl-border)] my-4 sm:my-8"></div>
 
-export default Services;
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mt-auto">
+                            {/* Under the hood */}
+                            <div>
+                                <div className="font-dm-mono text-[9px] sm:text-[10px] tracking-[0.2em] text-[var(--tmpl-text-3)] uppercase mb-3 sm:mb-4">
+                                    Under the hood
+                                </div>
+                                <p className="font-sans text-[13px] sm:text-sm text-[var(--tmpl-text-2)] leading-relaxed font-light mb-5 sm:mb-6">
+                                    {activeService.techNote}
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    {activeService.tags.map(t => (
+                                        <span key={t} className="font-dm-mono text-[9px] sm:text-[10px] tracking-[0.1em] text-[var(--tmpl-text-2)] border border-[var(--tmpl-border)] rounded-md px-2.5 py-1 sm:px-3 sm:py-1.5 bg-[var(--tmpl-bg)]/30">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Deliverables */}
+                            <div>
+                                <div className="font-dm-mono text-[9px] sm:text-[10px] tracking-[0.2em] text-[var(--tmpl-text-3)] uppercase mb-3 sm:mb-4">
+                                    What you get
+                                </div>
+                                <div className="flex flex-col gap-2 sm:gap-3">
+                                    {activeService.deliverables.map((d, idx) => (
+                                        <div key={idx} className="flex items-start gap-2 sm:gap-3 font-sans text-[13px] sm:text-sm text-[var(--tmpl-text-2)] leading-relaxed">
+                                            <span className="text-[var(--tmpl-accent)] text-[9px] sm:text-[10px] mt-[3px] sm:mt-1">✦</span>
+                                            {d}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
+            </Card>
+          </div>
+
+        </div>
+      </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}} />
+    </section>
+  );
+}

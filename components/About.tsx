@@ -168,7 +168,7 @@ export default function About() {
 
                     {/* Mobile: About Content */}
                     <div className="flex flex-col space-y-4 p-6 bg-zinc-100/50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-200/50 dark:border-zinc-800/50">
-                        <h2 className="text-3xl font-black tracking-tighter leading-tight text-foreground font-seona not-italic">
+                        <h2 className="text-4xl font-normal tracking-tight leading-tight text-foreground font-instrument not-italic">
                             Building Digital Excellence
                         </h2>
                         <p className="text-sm text-muted-foreground leading-relaxed">
@@ -229,8 +229,8 @@ export default function About() {
 
                     {/* div1: About Text */}
                     <div className="md:col-span-8 md:row-span-2 flex flex-col justify-center space-y-4 p-10 bg-zinc-100/50 dark:bg-zinc-900/50 rounded-3xl border border-zinc-200/50 dark:border-zinc-800/50">
-                        <h2 className={cn(STYLES.heading, "text-left md:text-6xl")}>Crafting digital bridges</h2>
-                        <p className={cn(STYLES.subheading, "text-left leading-relaxed opacity-80")}>
+                        <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight font-normal")}>Crafting digital bridges</h2>
+                        <p className={cn(STYLES.subheading, "text-left leading-relaxed text-[var(--tmpl-text-2)]")}>
                             {PERSONAL_INFO.bio}
                         </p>
                     </div>

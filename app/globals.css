@@ -4,9 +4,13 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: 'Poppins', var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: 'Inter', var(--font-inter), 'Poppins', var(--font-geist-sans);
+  --font-mono: 'DM Mono', var(--font-dm-mono), var(--font-geist-mono);
   --font-seona: 'Poppins', var(--font-seona);
+  --font-bebas: 'Bebas Neue', var(--font-bebas-neue);
+  --font-instrument: 'Instrument Serif', var(--font-instrument-serif);
+  --font-inter: 'Inter', var(--font-inter);
+  --font-dm-mono: 'DM Mono', var(--font-dm-mono);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
@@ -73,25 +77,38 @@
   }
 
   .dark {
-    --background: oklch(0.1 0 0);
-    --foreground: oklch(0.95 0 0);
-    --card: oklch(0.15 0 0);
-    --card-foreground: oklch(0.95 0 0);
-    --popover: oklch(0.15 0 0);
-    --popover-foreground: oklch(0.95 0 0);
-    --primary: oklch(0.6 0.2 250);
-    --primary-foreground: oklch(0.98 0 0);
-    --secondary: oklch(0.2 0 0);
-    --secondary-foreground: oklch(0.95 0 0);
-    --muted: oklch(0.2 0 0);
-    --muted-foreground: oklch(0.6 0 0);
-    --accent: oklch(0.65 0.2 150);
-    --accent-foreground: oklch(0.95 0 0);
+    --background: #080808;
+    --foreground: #ede9e2;
+    --card: #0f0f0f;
+    --card-foreground: #ede9e2;
+    --popover: #0f0f0f;
+    --popover-foreground: #ede9e2;
+    --primary: #c4a35a;
+    --primary-foreground: #080808;
+    --secondary: #1a1a1a;
+    --secondary-foreground: #ede9e2;
+    --muted: #1a1a1a;
+    --muted-foreground: #7a756f;
+    --accent: #c4a35a;
+    --accent-foreground: #080808;
     --destructive: oklch(0.55 0.2 30);
-    --destructive-foreground: oklch(0.95 0 0);
-    --border: oklch(0.25 0 0);
-    --input: oklch(0.25 0 0);
+    --destructive-foreground: #ede9e2;
+    --border: rgba(255,255,255,0.06);
+    --input: rgba(255,255,255,0.06);
     --ring: var(--primary);
+
+    /* Portfolio Template Variables */
+    --tmpl-bg:           #080808;
+    --tmpl-surface:      #0f0f0f;
+    --tmpl-border:       rgba(255,255,255,0.06);
+    --tmpl-border-hi:    rgba(255,255,255,0.11);
+    --tmpl-text:         #ede9e2;
+    --tmpl-text-2:       #7a756f;
+    --tmpl-text-3:       #4a4642;
+    --tmpl-accent:       #c4a35a;
+    --tmpl-accent-dim:   rgba(196,163,90,0.1);
+    --tmpl-green:        #45c97a;
+    --tmpl-green-dim:    rgba(69,201,122,0.1);
   }
 }
 
@@ -111,6 +128,18 @@
     overflow-x: hidden;
     width: 100%;
     position: relative;
+  }
+
+  .dark body {
+    background: var(--tmpl-bg);
+    color: var(--tmpl-text);
+  }
+
+  body::after {
+    content: '';
+    position: fixed; inset: 0; pointer-events: none; z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+    opacity: 0.018;
   }
 }
 

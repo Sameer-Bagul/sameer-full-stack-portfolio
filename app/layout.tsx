@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Instrument_Serif, DM_Mono, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -25,6 +25,31 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+const bebasNeue = Bebas_Neue({
+  weight: "400",
+  variable: "--font-bebas-neue",
+  subsets: ["latin"],
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: ["400"],
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  subsets: ["latin"],
+});
+
+const dmMono = DM_Mono({
+  weight: ["300", "400", "500"],
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+});
+
+const inter = Inter({
+  weight: ["300", "400", "500"],
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -152,7 +177,7 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/apple-icon.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${seona.variable} antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden w-full`}
+        className={`${geistSans.variable} ${geistMono.variable} ${seona.variable} ${bebasNeue.variable} ${instrumentSerif.variable} ${dmMono.variable} ${inter.variable} antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden w-full font-inter`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -169,8 +194,8 @@ export default async function RootLayout({
 
                 <Header />
 
-                <main className="min-h-screen flex flex-col items-center w-full overflow-x-hidden">
-                  <div className="w-full max-w-350 overflow-x-hidden">
+                <main className="min-h-screen flex flex-col items-center w-full overflow-x-clip">
+                  <div className="w-full max-w-350 overflow-x-clip">
                     {children}
                   </div>
                 </main>

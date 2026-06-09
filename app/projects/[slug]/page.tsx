@@ -6,19 +6,15 @@ import { getProjectBySlug, getProjectById, getProjects } from '@/lib/api';
 import { getProjectTheme } from '@/lib/project-themes';
 import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
+// CSS for the template
+import './project-detail.css';
+import ScrollReveal from './ScrollReveal';
+
 // Revalidate every 5 minutes (ISR)
 export const revalidate = 300;
+
+import { ArrowLeft, Play, Github, ExternalLink, Star } from 'lucide-react';
 import ContributorAvatar from '@/components/ContributorAvatar';
-import {
-    ArrowLeft,
-    Github,
-    ExternalLink,
-    Play,
-    Calendar,
-    Zap,
-    Users,
-    ArrowUpRight,
-} from 'lucide-react';
 
 interface ProjectPageProps {
     params: Promise<{ slug: string }>;
@@ -73,8 +69,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     const project = await resolveProject(slug);
     if (!project) notFound();
 
-    const { Icon, gradient } = getProjectTheme(project.techStack || [], project.title, project.description || '');
     const displayDate = project.projectDate || project.createdAt?.split('T')[0] || null;
+    const year = displayDate ? new Date(displayDate).getFullYear() : '2026';
 
     const breadcrumbJsonLd = {
         '@context': 'https://schema.org',
@@ -99,192 +95,210 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     };
 
     return (
-        <div className="min-h-screen pt-20">
+            <div className="project-detail-theme pb-20">
+            <ScrollReveal />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
 
-            {/* ── Hero ──────────────────────────────────────────────────── */}
-            <div className="relative w-full h-[55vh] min-h-90 max-h-145 overflow-hidden">
-                {project.image ? (
-                    <Image src={project.image} alt={project.title} fill className="absolute inset-0 object-cover" priority sizes="100vw" />
-                ) : (
-                    <div className={`absolute inset-0 flex items-center justify-center bg-linear-to-br ${gradient}`}>
-                        <Icon className="h-40 w-40 text-white/20" strokeWidth={0.5} />
-                    </div>
-                )}
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/75 to-black/40" />
+            {/* HERO */}
+            <section className="project-hero">
+                <div className="project-wrap">
+                    <Link
+                        href="/projects"
+                        className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-[var(--tmpl-border)] bg-[var(--tmpl-surface)] text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--tmpl-text-2)] hover:text-[var(--tmpl-text)] transition-all shadow-sm w-fit"
+                    >
+                        <ArrowLeft size={13} />
+                        All Projects
+                    </Link>
 
-                <div className="absolute bottom-0 left-0 right-0 px-6 sm:px-10 pb-8 max-w-350 mx-auto w-full">
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <span className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-[10px] font-black uppercase tracking-[0.2em] text-white/80">
-                            {project.category?.replace(/-/g, ' ')}
-                        </span>
-                        {displayDate && (
-                            <span className="flex items-center gap-1.5 text-xs text-white/50 font-medium">
-                                <Calendar size={11} /> {displayDate}
-                            </span>
+                    <div className="hero-top">
+                        <div>
+                            <p className="hero-category r">{project.category?.replace(/-/g, ' ')} · {year}</p>
+                            <h1 className="hero-title r rd1">{project.title}</h1>
+                            <p className="hero-desc r rd2">{project.shortDescription}</p>
+                        </div>
+                        <div className="r rd1 flex items-center gap-3">
+                            <span className="status-pill"><i></i> Live</span>
+                            {project.isFeatured && (
+                                <span className="status-pill !bg-[rgba(196,163,90,0.1)] !border-[rgba(196,163,90,0.3)] !text-[var(--tmpl-accent)]">
+                                    <Star size={11} className="fill-[var(--tmpl-accent)] mr-1" /> Featured
+                                </span>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="hero-meta r">
+                        <div className="meta-cell">
+                            <div className="meta-l">Role</div>
+                            <div className="meta-v">{(project.contributors && project.contributors.length > 0) ? 'Lead Engineer' : 'Solo Engineer'}</div>
+                        </div>
+                        {project.techStack && project.techStack.length > 0 && (
+                            <div className="meta-cell pl-7">
+                                <div className="meta-l">Stack</div>
+                                <div className="meta-v">{project.techStack[0]}</div>
+                            </div>
+                        )}
+                        {project.category && (
+                            <div className="meta-cell pl-7 hidden md:block">
+                                <div className="meta-l">Type</div>
+                                <div className="meta-v capitalize">{project.category.replace(/-/g, ' ')}</div>
+                            </div>
+                        )}
+                        {year && (
+                            <div className="meta-cell pl-7 hidden md:block">
+                                <div className="meta-l">Year</div>
+                                <div className="meta-v">{year}</div>
+                            </div>
                         )}
                     </div>
-                    <h1 className="text-3xl sm:text-5xl md:text-6xl font-black lowercase tracking-tighter text-white drop-shadow-2xl leading-[0.95] mb-3">
-                        {project.title}
-                    </h1>
-                    <p className="text-sm sm:text-base text-white/60 max-w-2xl leading-relaxed">
-                        {project.shortDescription}
-                    </p>
+
+                    {(project.liveUrl || project.githubUrl || project.videoUrl) && (
+                        <div className="hero-ctas r">
+                            {project.liveUrl && (
+                                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="tmpl-btn btn-solid">
+                                    <ExternalLink size={13} /> Live Demo
+                                </a>
+                            )}
+                            {project.githubUrl && (
+                                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="tmpl-btn btn-outline">
+                                    <Github size={13} /> Source Code
+                                </a>
+                            )}
+                            {project.videoUrl && (
+                                <a href="#video" className="tmpl-btn btn-outline">
+                                    <Play size={13} /> Watch Demo
+                                </a>
+                            )}
+                        </div>
+                    )}
                 </div>
-            </div>
+            </section>
 
-            {/* ── Body ──────────────────────────────────────────────────── */}
-            <div className="max-w-350 mx-auto px-4 sm:px-6 lg:px-10 py-10">
-
-                {/* Back button — prominent pill */}
-                <Link
-                    href="/projects"
-                    className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-900 text-xs font-bold uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-300 hover:border-primary hover:text-primary transition-all group shadow-sm"
-                >
-                    <ArrowLeft size={13} className="group-hover:-translate-x-0.5 transition-transform" />
-                    All Projects
-                </Link>
-
-                {/* ── BENTO GRID ────────────────────────────────────────── */}
-                <div className="grid grid-cols-12 gap-4">
-
-                    {/* About — 8 cols */}
-                    {project.description && (
-                        <div className="col-span-12 lg:col-span-8 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-7 sm:p-9">
-                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-5">
-                                About this project
-                            </p>
-                            <p className="text-[15px] sm:text-base text-zinc-600 dark:text-zinc-400 leading-[1.9] whitespace-pre-line">
-                                {project.description}
-                            </p>
-                        </div>
-                    )}
-
-                    {/* Sidebar — 4 cols */}
-                    <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
-
-                        {/* Links */}
-                        {(project.liveUrl || project.githubUrl || project.videoUrl) && (
-                            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 space-y-2.5">
-                                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-3">Links</p>
-                                {project.liveUrl && (
-                                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                                        className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:opacity-90 transition-all group">
-                                        <span className="flex items-center gap-2"><ExternalLink size={13} /> View Live</span>
-                                        <ArrowUpRight size={13} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                                    </a>
-                                )}
-                                {project.githubUrl && (
-                                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                                        className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 text-xs font-bold hover:opacity-90 transition-all group">
-                                        <span className="flex items-center gap-2"><Github size={13} /> GitHub</span>
-                                        <ArrowUpRight size={13} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                                    </a>
-                                )}
-                                {project.videoUrl && (
-                                    <a href={project.videoUrl} target="_blank" rel="noopener noreferrer"
-                                        className="flex items-center justify-between w-full px-4 py-2.5 rounded-xl border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-bold hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-all group">
-                                        <span className="flex items-center gap-2"><Play size={13} /> Demo</span>
-                                        <ArrowUpRight size={13} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                                    </a>
-                                )}
-                            </div>
-                        )}
-
-                        {/* Meta */}
-                        <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 grid grid-cols-2 gap-y-4">
-                            <div>
-                                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Category</p>
-                                <p className="text-sm font-semibold capitalize text-zinc-800 dark:text-zinc-200">{project.category?.replace(/-/g, ' ')}</p>
-                            </div>
-                            {displayDate && (
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Year</p>
-                                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{displayDate}</p>
-                                </div>
-                            )}
-                            {(project.techStack?.length ?? 0) > 0 && (
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Stack</p>
-                                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{project.techStack.length} technologies</p>
-                                </div>
-                            )}
-                            {(project.features?.length ?? 0) > 0 && (
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground mb-1">Features</p>
-                                    <p className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">{project.features.length} listed</p>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Contributors */}
-                        {project.contributors && project.contributors.length > 0 && (
-                            <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5">
-                                <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-4 flex items-center gap-1.5">
-                                    <Users size={11} /> Contributors
-                                </p>
-                                <div className="flex flex-wrap gap-3">
-                                    {project.contributors.map((contributor: string, i: number) => (
-                                        <ContributorAvatar key={i} contributor={contributor} size={40} />
-                                    ))}
-                                </div>
-                            </div>
+            {/* SCREENSHOT */}
+            {project.image && (
+                <div className="project-wrap">
+                    <div className="screenshot-wrap r">
+                        <Image src={project.image} alt={project.title} fill className="object-cover" />
+                        {project.liveUrl && (
+                            <span className="screenshot-label">{new URL(project.liveUrl).hostname}</span>
                         )}
                     </div>
+                </div>
+            )}
 
-                    {/* Features — 7 cols */}
-                    {project.features && project.features.length > 0 && (
-                        <div className="col-span-12 md:col-span-7 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6">
-                            <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-4 flex items-center gap-1.5">
-                                <Zap size={11} /> Key Features
-                            </p>
-                            <ul className="space-y-2">
-                                {project.features.map((feature: string, i: number) => (
-                                    <li key={i} className="flex items-start gap-3 text-sm text-zinc-600 dark:text-zinc-400">
-                                        <span className="mt-1.75 w-1 h-1 rounded-full bg-primary shrink-0" />
-                                        {feature}
-                                    </li>
-                                ))}
-                            </ul>
+            {/* ABOUT */}
+            {project.description && (
+                <section className="tmpl-section">
+                    <div className="project-wrap">
+                        <p className="sec-label r">About</p>
+                        <h2 className="sec-title r rd1">The Project</h2>
+                        <div className="r rd2 text-[15px] sm:text-base text-[var(--tmpl-text-2)] leading-[1.9] whitespace-pre-line max-w-[800px]">
+                            {project.description}
                         </div>
-                    )}
+                    </div>
+                </section>
+            )}
 
-                    {/* Tech Stack + Tags — 5 cols, combined */}
-                    {((project.techStack?.length ?? 0) > 0 || (project.tags?.length ?? 0) > 0) && (
-                        <div className="col-span-12 md:col-span-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 space-y-5">
+            {/* CONTRIBUTORS */}
+            {project.contributors && project.contributors.length > 0 && (
+                <section className="tmpl-section">
+                    <div className="project-wrap">
+                        <p className="sec-label r">Team</p>
+                        <h2 className="sec-title r rd1">Contributors</h2>
+                        
+                        <div className="r rd2 flex flex-wrap gap-4 mt-6">
+                            {project.contributors.map((contributor: string, i: number) => (
+                                <div key={i} className="flex items-center gap-3 bg-[var(--tmpl-surface)] border border-[var(--tmpl-border)] p-2 rounded-full pr-5">
+                                    <ContributorAvatar contributor={contributor} size={32} />
+                                    <span className="font-dm-mono text-xs text-[var(--tmpl-text)] uppercase tracking-wider">{contributor}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* STACK */}
+            {((project.techStack && project.techStack.length > 0) || (project.tags && project.tags.length > 0)) && (
+                <section className="tmpl-section pt-0 border-none mt-4">
+                    <div className="project-wrap">
+                        <div className="stack-grid r rd1">
                             {project.techStack && project.techStack.length > 0 && (
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-3">Tech Stack</p>
-                                    <div className="flex flex-wrap gap-1.5">
+                                <div className="stack-group">
+                                    <p className="stack-group-label">Core Technologies</p>
+                                    <div className="pills">
                                         {project.techStack.map((tech: string) => (
-                                            <span key={tech} className="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 text-xs font-medium text-zinc-700 dark:text-zinc-300 border border-zinc-200 dark:border-zinc-700">
-                                                {tech}
-                                            </span>
+                                            <span className="pill" key={tech}>{tech}</span>
                                         ))}
                                     </div>
                                 </div>
-                            )}
-                            {project.techStack?.length > 0 && project.tags?.length > 0 && (
-                                <div className="border-t border-zinc-200 dark:border-zinc-800" />
                             )}
                             {project.tags && project.tags.length > 0 && (
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-muted-foreground mb-3">Tags</p>
-                                    <div className="flex flex-wrap gap-1.5">
+                                <div className={`stack-group ${project.techStack && project.techStack.length > 0 ? 'border-t md:border-t-0 md:border-l border-[var(--tmpl-border)]' : ''}`}>
+                                    <p className="stack-group-label">Keywords & Tags</p>
+                                    <div className="pills">
                                         {project.tags.map((tag: string) => (
-                                            <span key={tag} className="px-2.5 py-1 rounded-full text-xs font-medium text-primary border border-primary/25 bg-primary/5">
-                                                #{tag}
-                                            </span>
+                                            <span className="pill" key={tag}>#{tag}</span>
                                         ))}
                                     </div>
                                 </div>
                             )}
                         </div>
-                    )}
+                    </div>
+                </section>
+            )}
 
-                </div>
-            </div>
+            {/* VIDEO */}
+            {project.videoUrl && (
+                <section className="tmpl-section" id="video">
+                    <div className="project-wrap">
+                        <p className="sec-label r">Demo</p>
+                        <h2 className="sec-title r rd1">See it in action</h2>
+                        <p className="sec-sub r rd2">A full walkthrough of the core features and UI.</p>
+
+                        <div className="video-shell r">
+                            <iframe 
+                                src={project.videoUrl.includes('watch?v=') ? project.videoUrl.replace('watch?v=', 'embed/') : project.videoUrl}
+                                title={`${project.title} Demo`}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                className="w-full h-full border-none absolute inset-0"
+                            ></iframe>
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* FEATURES */}
+            {project.features && project.features.length > 0 && (
+                <section className="tmpl-section">
+                    <div className="project-wrap">
+                        <p className="sec-label r">What it does</p>
+                        <h2 className="sec-title r rd1">Core features</h2>
+
+                        <ul className="r rd2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-12 md:gap-y-6 mt-6">
+                            {project.features.map((feature: string, i: number) => {
+                                const parts = feature.split(':');
+                                const hasTitle = parts.length > 1;
+                                const fTitle = hasTitle ? parts[0] : '';
+                                const fDesc = hasTitle ? parts.slice(1).join(':') : feature;
+
+                                return (
+                                    <li key={i} className="flex items-start gap-4 text-[var(--tmpl-text-2)] text-[15px] sm:text-base leading-[1.8]">
+                                        <span className="text-[var(--tmpl-accent)] mt-1.5 opacity-50 text-xs">✦</span>
+                                        <div>
+                                            {fTitle && <strong className="text-[var(--tmpl-text)] font-medium mr-2">{fTitle.trim()}:</strong>}
+                                            {fDesc.trim()}
+                                        </div>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </section>
+            )}
+
+
         </div>
     );
 }

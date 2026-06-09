@@ -89,9 +89,9 @@ const Skills = memo(() => {
     return (
         <section className="py-16 sm:py-20 md:py-24 overflow-hidden bg-zinc-50/50 dark:bg-zinc-950/20 w-full">
             <div className="container px-4 sm:px-6 max-w-7xl mx-auto">
-                <div className="text-center mb-12 sm:mb-16 flex flex-col items-center">
-                    <h2 className={cn(STYLES.heading, "text-3xl sm:text-4xl md:text-6xl")}>Tools & capability clusters</h2>
-                    <p className={cn(STYLES.subheading, "text-sm sm:text-base")}>Technologies I use to bring ideas to life</p>
+                <div className="text-center mb-12 sm:mb-16 flex flex-col items-center space-y-3 sm:space-y-4">
+                    <h2 className={cn(STYLES.heading, "leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight font-normal")}>Tools & capability clusters</h2>
+                    <p className={cn(STYLES.subheading, "m-0 uppercase tracking-[0.3em] text-[10px] sm:text-[11px] font-dm-mono text-[var(--tmpl-text-3)]")}>Technologies I use to bring ideas to life</p>
                 </div>
 
                 <div className="relative flex flex-col gap-8 sm:gap-12 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-12 sm:before:w-20 before:bg-gradient-to-r before:from-zinc-50 dark:before:from-zinc-950/20 before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-12 sm:after:w-20 after:bg-gradient-to-l after:from-zinc-50 dark:after:from-zinc-950/20 after:to-transparent">

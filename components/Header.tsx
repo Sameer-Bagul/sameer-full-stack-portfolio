@@ -114,7 +114,7 @@ export default function Header() {
                                     <Link
                                         href={item.href}
                                         className={cn(
-                                            "text-xs lg:text-[15px] font-black uppercase tracking-[0.15em] lg:tracking-[0.2em] transition-all",
+                                            "font-dm-mono text-[11px] lg:text-[13px] font-medium uppercase tracking-[0.15em] lg:tracking-[0.25em] transition-all",
                                             pathname.startsWith(item.href)
                                                 ? "text-primary scale-105"
                                                 : "text-foreground/40 hover:text-foreground/80"
@@ -176,7 +176,7 @@ export default function Header() {
                                     <Link
                                         href={item.href}
                                         className={cn(
-                                            "text-4xl sm:text-5xl font-black uppercase tracking-tighter block font-seona not-italic break-words",
+                                            "text-5xl sm:text-6xl font-bebas uppercase tracking-wide block break-words hover:pl-4 transition-all duration-300",
                                             pathname.startsWith(item.href)
                                                 ? "text-primary"
                                                 : "text-foreground/40 hover:text-foreground"

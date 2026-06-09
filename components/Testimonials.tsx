@@ -58,15 +58,15 @@ export default function Testimonials() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h2 className={cn(STYLES.heading, "text-4xl sm:text-6xl md:text-7xl mb-6 font-seona not-italic uppercase tracking-tight")}>
+                        <h2 className={cn(STYLES.heading, "leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight font-normal mb-4 sm:mb-6")}>
                             Kind <span className="text-primary italic">words</span>
                         </h2>
-                        <div className="flex items-center justify-center gap-4 opacity-40">
-                            <div className="h-px w-8 bg-zinc-800" />
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em]">
+                        <div className="flex items-center justify-center gap-4 text-[var(--tmpl-text-3)]">
+                            <div className="h-px w-8 bg-[var(--tmpl-border-hi)]" />
+                            <p className="text-[10px] sm:text-[11px] font-dm-mono uppercase tracking-[0.3em]">
                                 Global Collaborations
                             </p>
-                            <div className="h-px w-8 bg-zinc-800" />
+                            <div className="h-px w-8 bg-[var(--tmpl-border-hi)]" />
                         </div>
                     </motion.div>
                 </div>
@@ -98,7 +98,7 @@ export default function Testimonials() {
                                                     ))}
                                                 </div>
 
-                                                <p className="text-lg sm:text-xl font-medium leading-relaxed text-zinc-800 dark:text-zinc-200 font-seona not-italic lowercase">
+                                                <p className="text-xl sm:text-2xl font-normal leading-relaxed text-zinc-800 dark:text-zinc-200 font-instrument not-italic">
                                                     "{testimonial.content}"
                                                 </p>
                                             </div>
@@ -113,7 +113,7 @@ export default function Testimonials() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-base font-black text-zinc-900 dark:text-zinc-100 tracking-tight font-seona not-italic uppercase">
+                                                    <h4 className="text-base font-medium text-zinc-900 dark:text-zinc-100 tracking-tight font-sans not-italic">
                                                         {testimonial.name}
                                                     </h4>
                                                     <p className="text-[10px] font-black uppercase tracking-widest text-primary/60">

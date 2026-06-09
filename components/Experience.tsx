@@ -5,16 +5,24 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Briefcase, Loader2 } from 'lucide-react';
 import { usePortfolio } from '@/context/PortfolioContext';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
+import { STYLES } from '@/lib/constants/styles';
 
 export default function Experience() {
     const { experience: experiencesData, loading } = usePortfolio();
     const [selectedJobId, setSelectedJobId] = useState<string>("");
 
     const experiences = React.useMemo(() => {
-        return experiencesData.map(exp => ({
+        const mapped = experiencesData.map(exp => ({
             ...exp,
             id: exp.id || exp._id
         }));
+        return mapped.sort((a, b) => {
+            if (a.current && !b.current) return -1;
+            if (!a.current && b.current) return 1;
+            return 0;
+        });
     }, [experiencesData]);
 
     useEffect(() => {
@@ -34,14 +42,24 @@ export default function Experience() {
     }
 
     return (
-        <section className="py-16 sm:py-20 md:py-24 bg-zinc-50 dark:bg-zinc-900/50 overflow-hidden w-full">
-            <div className="container px-4 sm:px-6 max-w-6xl mx-auto">
-                <div className="mb-12 sm:mb-16">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter leading-none mb-3 sm:mb-4 font-seona not-italic">Experience</h2>
-                    <p className="text-sm sm:text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed font-seona not-italic">My journey through the tech landscape</p>
+        <section className="py-24 sm:py-32 overflow-hidden w-full border-t border-[var(--tmpl-border)]">
+            <div className="container px-4 sm:px-6 max-w-[1200px] mx-auto">
+                <div className="mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8">
+                    <div className="space-y-3 sm:space-y-4">
+                        <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-3xl sm:text-4xl md:text-6xl font-seona not-italic tracking-tight")}>
+                            Experience
+                        </h2>
+                        <p className={cn(STYLES.subheading, "text-left m-0 opacity-40 uppercase tracking-[0.3em] text-[9px] sm:text-[10px] font-black")}>
+                            My journey through the tech landscape
+                        </p>
+                    </div>
+
+                    <Link href="/resume" className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-colors">
+                        View Resume <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    </Link>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
                     {/* Timeline */}
                     <div className="md:col-span-7 space-y-3">
                         {experiences.map((job) => (
@@ -49,27 +67,32 @@ export default function Experience() {
                                 key={job._id || job.id}
                                 onClick={() => setSelectedJobId(job.id || job._id)}
                                 className={cn(
-                                    "p-4 sm:p-6 rounded-xl sm:rounded-2xl cursor-pointer transition-all duration-300 border-2",
+                                    "p-6 sm:p-7 rounded-xl cursor-pointer transition-all duration-300 border group",
                                     (selectedJobId === job.id || selectedJobId === job._id)
-                                        ? "bg-white dark:bg-zinc-800 border-primary shadow-lg"
-                                        : "bg-zinc-100 dark:bg-zinc-900 border-transparent hover:border-zinc-300 dark:hover:border-zinc-700"
+                                        ? "bg-[var(--tmpl-surface)] border-[var(--tmpl-border-hi)] shadow-xl"
+                                        : "bg-transparent border-[var(--tmpl-border)] hover:bg-[var(--tmpl-surface)] hover:border-[var(--tmpl-border-hi)]"
                                 )}
                             >
-                                <div className="flex justify-between items-start gap-3 sm:gap-4">
+                                <div className="flex flex-col xl:flex-row justify-between items-start gap-4">
                                     <div className="min-w-0 flex-1">
-                                        <div className="flex items-center gap-2 mb-1 flex-wrap font-seona not-italic">
-                                            <h3 className="text-sm sm:text-base font-black tracking-tight break-words">{job.role}</h3>
+                                        <div className="flex items-center gap-3 mb-3 flex-wrap">
+                                            <h3 className={cn(
+                                                "text-lg sm:text-xl font-medium transition-colors",
+                                                (selectedJobId === job.id || selectedJobId === job._id) ? "text-[var(--tmpl-text)]" : "text-[var(--tmpl-text-2)] group-hover:text-[var(--tmpl-text)]"
+                                            )}>{job.role}</h3>
                                             {job.current && (
-                                                <span className="text-[8px] font-black uppercase tracking-[0.2em] px-2 py-0.5 rounded-full bg-primary/10 text-primary whitespace-nowrap">
+                                                <span className="text-[10px] font-dm-mono uppercase tracking-[0.1em] px-2.5 py-1 rounded-full bg-[var(--tmpl-green-dim)] text-[var(--tmpl-green)] border border-[rgba(69,201,122,0.18)]">
                                                     Current
                                                 </span>
                                             )}
                                         </div>
-                                        <p className="text-[10px] sm:text-[11px] font-black uppercase tracking-widest text-muted-foreground/60 truncate font-seona not-italic">
-                                            {job.company} {job.location && <span className="opacity-50 ml-1">• {job.location}</span>}
+                                        <p className="font-dm-mono text-[11px] uppercase tracking-[0.1em] text-[var(--tmpl-text-2)]">
+                                            {job.company} {job.location && <span className="opacity-50 ml-2">• {job.location}</span>}
                                         </p>
                                     </div>
-                                    <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground/50 whitespace-nowrap shrink-0">{job.duration}</span>
+                                    <span className="font-dm-mono text-[10px] uppercase tracking-[0.1em] text-[var(--tmpl-accent)] whitespace-nowrap shrink-0 pt-1">
+                                        {job.duration}
+                                    </span>
                                 </div>
                             </div>
                         ))}
@@ -77,38 +100,38 @@ export default function Experience() {
 
                     {/* Detail panel */}
                     <div className="md:col-span-5">
-                        <Card className="p-5 sm:p-7 h-full md:sticky md:top-24 bg-white dark:bg-zinc-800 border-none rounded-xl sm:rounded-2xl shadow-sm">
+                        <Card className="p-8 h-full md:sticky md:top-32 bg-[var(--tmpl-surface)] border border-[var(--tmpl-border)] rounded-2xl shadow-xl">
                             {selectedJob ? (
-                                <div className="space-y-5">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-7 h-7 rounded-lg bg-primary/10 flex items-center justify-center">
-                                            <Briefcase size={12} className="text-primary" />
+                                <div className="space-y-8">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full border border-[var(--tmpl-border-hi)] flex items-center justify-center bg-[#080808]">
+                                            <Briefcase size={13} className="text-[var(--tmpl-accent)]" />
                                         </div>
-                                        <span className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/50">Role Details</span>
+                                        <span className="font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[var(--tmpl-text-3)]">Role Details</span>
                                     </div>
 
                                     <div>
-                                        <h3 className="text-lg font-black tracking-tight leading-snug">{selectedJob.role}</h3>
-                                        <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/50 mt-1">
-                                            {selectedJob.company} {selectedJob.location && <span className="opacity-50 ml-1">• {selectedJob.location}</span>}
+                                        <h3 className="font-instrument text-3xl sm:text-4xl text-[var(--tmpl-text)] font-normal leading-[1.2]">{selectedJob.role}</h3>
+                                        <p className="font-dm-mono text-[11px] uppercase tracking-[0.1em] text-[var(--tmpl-text-2)] mt-4">
+                                            {selectedJob.company} {selectedJob.location && <span className="opacity-50 ml-2">• {selectedJob.location}</span>}
                                         </p>
-                                        <p className="text-[9px] font-black uppercase tracking-widest text-primary mt-1">{selectedJob.duration}</p>
+                                        <p className="font-dm-mono text-[11px] uppercase tracking-[0.1em] text-[var(--tmpl-accent)] mt-2">{selectedJob.duration}</p>
                                     </div>
 
-                                    <ul className="space-y-2">
+                                    <ul className="space-y-4">
                                         {selectedJob.bullets?.map((b, i) => (
-                                            <li key={i} className="flex gap-2 items-start text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                                                <span className="shrink-0 mt-[5px] w-1.5 h-1.5 rounded-full bg-primary/60 block" />
+                                            <li key={i} className="flex gap-4 items-start text-[15px] text-[var(--tmpl-text-2)] leading-[1.8]">
+                                                <span className="text-[var(--tmpl-accent)] mt-1.5 opacity-50 text-[10px]">✦</span>
                                                 {b}
                                             </li>
                                         ))}
                                     </ul>
 
-                                    <div>
-                                        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 mb-2">Tech Stack</p>
-                                        <div className="flex flex-wrap gap-1.5">
+                                    <div className="pt-6 border-t border-[var(--tmpl-border)]">
+                                        <p className="font-dm-mono text-[10px] uppercase tracking-[0.2em] text-[var(--tmpl-text-3)] mb-4">Tech Stack</p>
+                                        <div className="flex flex-wrap gap-2.5">
                                             {selectedJob.techStack?.map((tech) => (
-                                                <span key={tech} className="px-2.5 py-1 bg-zinc-100 dark:bg-zinc-900 rounded-lg text-[9px] font-black uppercase tracking-wider">
+                                                <span key={tech} className="px-3 py-1.5 bg-[#080808] border border-[var(--tmpl-border)] rounded-md font-dm-mono text-[10px] uppercase tracking-[0.1em] text-[var(--tmpl-text-2)] hover:border-[var(--tmpl-accent)] hover:text-[var(--tmpl-accent)] transition-colors cursor-default">
                                                     {tech}
                                                 </span>
                                             ))}
@@ -116,7 +139,7 @@ export default function Experience() {
                                     </div>
                                 </div>
                             ) : (
-                                <p className="text-muted-foreground text-center py-12">Select a job to see details</p>
+                                <p className="font-dm-mono text-[11px] text-[var(--tmpl-text-3)] text-center uppercase tracking-[0.1em] py-12">Select a job to see details</p>
                             )}
                         </Card>
                     </div>

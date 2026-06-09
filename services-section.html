@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Services — Sameer Bagul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#000;
+  --bg-card:#0e0e0e;
+  --bg-hover:rgba(255,255,255,0.03);
+  --border:rgba(255,255,255,0.07);
+  --border-mid:rgba(255,255,255,0.13);
+  --border-hi:rgba(255,255,255,0.24);
+  --text-1:#efefef;
+  --text-2:#8a8a8a;
+  --text-3:#444;
+  --accent:#fff;
+  --mono:'Geist Mono',monospace;
+  --sans:'Outfit',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text-1);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ─── demo context blocks ─── */
+.demo-block{height:100vh;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:.18em;border-bottom:1px solid var(--border)}
+
+/* ─── section shell ─── */
+.svc-section{position:relative;background:var(--bg)}
+
+.svc-sticky{
+  position:sticky;top:0;
+  height:100vh;width:100vw;
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+
+/* ─── header bar ─── */
+.svc-header{
+  padding:1.4rem 3rem;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+}
+.svc-header-left{display:flex;align-items:baseline;gap:1.2rem}
+.svc-eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--text-3);text-transform:uppercase}
+.svc-heading{font-size:.95rem;font-weight:400;color:var(--text-2)}
+.svc-counter{font-family:var(--mono);font-size:10px;color:var(--text-3);letter-spacing:.1em}
+.svc-counter span{color:var(--text-2)}
+
+/* ─── layout grid ─── */
+.svc-layout{flex:1;display:grid;grid-template-columns:360px 1fr;overflow:hidden;min-height:0}
+
+/* ─── LEFT list ─── */
+.svc-list{
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;justify-content:center;
+  overflow:hidden;
+  position:relative;
+}
+
+/* vertical progress rail */
+.svc-rail{
+  position:absolute;left:0;top:0;bottom:0;width:1px;
+  background:var(--border);
+  pointer-events:none;z-index:1;
+}
+.svc-rail-fill{
+  position:absolute;left:0;top:0;width:1px;
+  background:rgba(255,255,255,.5);
+  height:0%;
+  transition:height .35s cubic-bezier(.4,0,.2,1);
+}
+
+.svc-item{
+  position:relative;
+  padding:.85rem 2.5rem .85rem 2.8rem;
+  cursor:pointer;
+  display:flex;align-items:center;gap:1rem;
+  transition:background .2s;
+  z-index:2;
+}
+.svc-item:hover{background:var(--bg-hover)}
+
+/* active glow dot indicator */
+.svc-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--border-mid);
+  flex-shrink:0;
+  transition:background .3s,box-shadow .3s,transform .3s;
+}
+.svc-item.active .svc-dot{
+  background:var(--accent);
+  box-shadow:0 0 0 3px rgba(255,255,255,.12),0 0 10px rgba(255,255,255,.2);
+  transform:scale(1.2);
+}
+
+.svc-item-body{flex:1;display:flex;align-items:baseline;gap:.75rem;min-width:0}
+.svc-item-num{font-family:var(--mono);font-size:9.5px;color:var(--text-3);letter-spacing:.12em;flex-shrink:0;transition:color .3s}
+.svc-item.active .svc-item-num{color:var(--text-2)}
+.svc-item-name{font-size:.875rem;font-weight:400;color:var(--text-2);transition:color .3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.svc-item.active .svc-item-name{color:var(--text-1);font-weight:500}
+
+.svc-item-clients{
+  margin-left:auto;flex-shrink:0;
+  font-family:var(--mono);font-size:9px;
+  color:var(--text-3);
+  letter-spacing:.06em;
+  opacity:0;transform:translateX(4px);
+  transition:opacity .25s,transform .25s,color .25s;
+}
+.svc-item.active .svc-item-clients,
+.svc-item:hover .svc-item-clients{opacity:1;transform:translateX(0)}
+.svc-item.active .svc-item-clients{color:var(--text-2)}
+
+/* active item background sweep */
+.svc-item::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(255,255,255,.05) 0%,transparent 100%);
+  opacity:0;transition:opacity .3s;
+}
+.svc-item.active::before{opacity:1}
+
+/* ─── RIGHT detail ─── */
+.svc-detail{position:relative;overflow:hidden}
+
+.detail-panel{
+  position:absolute;inset:0;
+  padding:3rem 4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .42s cubic-bezier(.4,0,.2,1),transform .42s cubic-bezier(.4,0,.2,1);
+  pointer-events:none;overflow-y:auto;
+}
+.detail-panel.active{opacity:1;transform:translateY(0);pointer-events:all}
+.detail-panel.exit-up{opacity:0;transform:translateY(-20px)}
+.detail-panel.exit-down{opacity:0;transform:translateY(20px)}
+
+/* top meta row */
+.dp-meta{
+  display:flex;align-items:center;gap:1.5rem;
+  margin-bottom:2rem;
+}
+.dp-service-num{
+  font-family:var(--mono);font-size:10px;letter-spacing:.2em;
+  color:var(--text-3);text-transform:uppercase;
+  display:flex;align-items:center;gap:.6rem;
+}
+.dp-service-num::after{content:'';display:block;width:24px;height:1px;background:var(--border-hi)}
+
+/* stat pills row */
+.dp-stats{display:flex;gap:.75rem;margin-left:auto}
+.dp-stat{
+  display:flex;flex-direction:column;align-items:center;
+  padding:.45rem .9rem;
+  border:1px solid var(--border);
+  border-radius:6px;
+  background:var(--bg-card);
+  min-width:70px;
+}
+.dp-stat-val{font-family:var(--mono);font-size:1rem;font-weight:500;color:var(--text-1);line-height:1}
+.dp-stat-label{font-family:var(--mono);font-size:8.5px;letter-spacing:.1em;color:var(--text-3);text-transform:uppercase;margin-top:.25rem}
+
+/* title */
+.dp-title{
+  font-size:clamp(1.7rem,2.8vw,2.6rem);font-weight:500;
+  color:var(--text-1);line-height:1.15;letter-spacing:-.035em;
+  margin-bottom:.75rem;
+}
+
+/* pitch — business-friendly */
+.dp-pitch{
+  font-size:.975rem;color:var(--text-1);line-height:1.75;
+  max-width:560px;margin-bottom:1rem;font-weight:400;
+}
+
+/* separator */
+.dp-sep{width:32px;height:1px;background:var(--border-mid);margin:1.25rem 0}
+
+/* technical note */
+.dp-tech-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+  color:var(--text-3);text-transform:uppercase;margin-bottom:.6rem;
+}
+.dp-tech-desc{
+  font-size:.875rem;color:var(--text-2);line-height:1.7;
+  max-width:520px;margin-bottom:1.4rem;
+}
+
+/* tags */
+.dp-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.75rem}
+.dp-tag{
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+  color:var(--text-2);
+  border:1px solid var(--border);
+  border-radius:4px;padding:3px 9px;
+  background:rgba(255,255,255,.03);
+}
+
+/* deliverables grid */
+.dp-deliv-label{
+  font-family:var(--mono);font-size:9px;letter-spacing:.18em;
+  color:var(--text-3);text-transform:uppercase;margin-bottom:.75rem;
+}
+.dp-deliverables{
+  display:grid;grid-template-columns:1fr 1fr;gap:.5rem .75rem;
+  max-width:520px;
+}
+.dp-deliv{
+  display:flex;align-items:flex-start;gap:.55rem;
+  font-size:.84rem;color:var(--text-2);line-height:1.45;
+}
+.dp-deliv-bullet{
+  width:4px;height:4px;border-radius:50%;
+  background:var(--text-3);flex-shrink:0;margin-top:.45rem;
+}
+
+/* scroll hint */
+.scroll-hint{
+  position:absolute;bottom:1.6rem;right:2.5rem;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;
+  color:var(--text-3);text-transform:uppercase;
+  display:flex;align-items:center;gap:.5rem;
+  transition:opacity .4s;z-index:10;pointer-events:none;
+}
+.scroll-hint.hidden{opacity:0}
+.sh-dot{width:4px;height:4px;border-radius:50%;background:var(--text-3);animation:blink 1.4s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* progress bar */
+.svc-progress{height:1px;background:var(--border);flex-shrink:0;position:relative}
+.svc-progress-fill{position:absolute;left:0;top:0;height:100%;background:rgba(255,255,255,.3);width:0%;transition:width .3s ease}
+
+/* ─── MOBILE ─── */
+@media(max-width:768px){
+  .svc-header{padding:1rem 1.25rem}
+  .svc-heading{display:none}
+  .svc-layout{grid-template-columns:1fr;grid-template-rows:auto 1fr}
+  .svc-list{
+    border-right:none;border-bottom:1px solid var(--border);
+    flex-direction:row;flex-wrap:nowrap;overflow-x:auto;
+    justify-content:flex-start;
+    padding:.5rem 0;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .svc-list::-webkit-scrollbar{display:none}
+  .svc-rail{display:none}
+  .svc-item{
+    padding:.55rem 1rem;
+    flex-direction:column;align-items:center;gap:.35rem;
+    flex-shrink:0;min-width:max-content;
+  }
+  .svc-item::before{display:none}
+  .svc-item-body{flex-direction:column;align-items:center;gap:.2rem}
+  .svc-item-num{display:none}
+  .svc-item-name{font-size:.75rem;white-space:nowrap}
+  .svc-item-clients{margin-left:0;font-size:8px;opacity:1;transform:none;display:none}
+  .svc-dot{width:5px;height:5px}
+  .detail-panel{padding:1.5rem 1.25rem;justify-content:flex-start;overflow-y:auto}
+  .dp-meta{flex-wrap:wrap;gap:.75rem;margin-bottom:1.25rem}
+  .dp-stats{margin-left:0;flex-wrap:wrap}
+  .dp-stat{min-width:60px;padding:.35rem .7rem}
+  .dp-title{font-size:1.5rem;margin-bottom:.5rem}
+  .dp-pitch{font-size:.9rem}
+  .dp-tech-desc{font-size:.83rem}
+  .dp-deliverables{grid-template-columns:1fr}
+  .scroll-hint{display:none}
+  .svc-counter{display:none}
+}
+
+@media(max-width:480px){
+  .svc-list{padding:.4rem 0}
+  .svc-item{padding:.45rem .75rem}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-block">↓ scroll into services ↓</div>
+
+<div class="svc-section" id="svc-section">
+  <div class="svc-sticky" id="svc-sticky">
+
+    <!-- Header -->
+    <div class="svc-header">
+      <div class="svc-header-left">
+        <span class="svc-eyebrow">Services</span>
+        <span class="svc-heading">What I build</span>
+      </div>
+      <div class="svc-counter"><span id="active-num">01</span> / 09</div>
+    </div>
+
+    <!-- Layout -->
+    <div class="svc-layout">
+
+      <!-- LEFT -->
+      <div class="svc-list" id="svc-list">
+        <div class="svc-rail"><div class="svc-rail-fill" id="rail-fill"></div></div>
+      </div>
+
+      <!-- RIGHT -->
+      <div class="svc-detail" id="svc-detail">
+        <div class="scroll-hint" id="scroll-hint">
+          <span class="sh-dot"></span>scroll to explore
+        </div>
+      </div>
+
+    </div>
+
+    <div class="svc-progress"><div class="svc-progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div id="svc-track"></div>
+</div>
+
+<div class="demo-block" style="border-bottom:none">↑ scroll up ↑</div>
+
+<script>
+const SERVICES = [
+  {
+    num:'01', name:'AI & Intelligence Systems',
+    clients:12, projects:18, satisfaction:'98%',
+    pitch:'Stop losing hours to repetitive decisions. I build AI systems that learn your business logic, surface the right information at the right moment, and handle the cognitive load — so your team can focus on what only humans can do.',
+    techNote:'Architected on LangChain / LangGraph with RAG pipelines, vector stores (Pinecone, FAISS), and custom agent orchestration. Deployable on-premise or cloud.',
+    tags:['LLMs','RAG','LangChain','LangGraph','LlamaIndex','Pinecone','FAISS','OpenAI'],
+    deliverables:['Custom LLM integration','RAG pipeline design','Vector DB setup','Agent orchestration','Workflow automation','Model evaluation & testing'],
+  },
+  {
+    num:'02', name:'SaaS Tools Development',
+    clients:8, projects:11, satisfaction:'100%',
+    pitch:'Turn your product idea into a revenue-generating platform. I handle the full stack — auth, billing, multi-tenancy, and admin — so you launch faster, charge confidently, and scale without rewrites.',
+    techNote:'MERN / Next.js stack with Stripe or Razorpay billing, JWT + OAuth auth, and a modular multi-tenant data architecture built for horizontal scaling.',
+    tags:['Next.js','Node.js','Stripe','Razorpay','PostgreSQL','Redis','Multi-tenancy'],
+    deliverables:['Multi-tenant architecture','Billing & subscription flows','RBAC & permissions','Usage metering & limits','Admin panel','API-first backend'],
+  },
+  {
+    num:'03', name:'Web Development',
+    clients:22, projects:34, satisfaction:'97%',
+    pitch:'Your website is your best salesperson — it works 24/7 and never asks for commission. I build fast, beautiful, and search-optimised web experiences that turn visitors into customers.',
+    techNote:'React 19 / Next.js 15 with Turbopack, ISR/SSG/SSR strategies, Edge runtime, and a relentless focus on Core Web Vitals and Lighthouse scores.',
+    tags:['React','Next.js','TypeScript','Tailwind','Node.js','PostgreSQL','Vercel'],
+    deliverables:['SSR / SSG / ISR','Core Web Vitals','SEO & metadata','CMS integration','API development','Performance audits'],
+  },
+  {
+    num:'04', name:'App Development',
+    clients:7, projects:9, satisfaction:'96%',
+    pitch:'Your customers are already on their phones. I build cross-platform mobile apps that feel native, load instantly, and keep users coming back — delivered once for both iOS and Android.',
+    techNote:'React Native 0.81 + Expo SDK 54 with EAS build pipelines, OTA updates, native module bridging, and deep-link / push notification support.',
+    tags:['React Native','Expo','EAS','TypeScript','iOS','Android','Push Notifications'],
+    deliverables:['Cross-platform codebase','Native device APIs','Offline-first support','Push notifications','App Store deployment','OTA updates'],
+  },
+  {
+    num:'05', name:'Desktop Applications',
+    clients:4, projects:5, satisfaction:'100%',
+    pitch:'Some workflows just need the full power of a desktop. I build cross-platform apps that sit in your dock, access local files, and run without a browser — giving your power users the tool they deserve.',
+    techNote:'Electron for rapid delivery and rich ecosystem access; Tauri + Rust for lightweight, performant binaries with a minimal attack surface.',
+    tags:['Electron','Tauri','Rust','Windows','macOS','Linux','Auto-update'],
+    deliverables:['File system access','Native OS integration','Auto-update pipeline','System tray support','Offline capability','Cross-platform builds'],
+  },
+  {
+    num:'06', name:'QA & Automation',
+    clients:6, projects:14, satisfaction:'99%',
+    pitch:'Every bug your users find costs you trust. I set up the safety nets — automated test suites, regression checks, and workflow automations — so releases are events to celebrate, not dread.',
+    techNote:'Playwright for E2E, Vitest / Jest for unit/integration, n8n and Make for no-code automation, and CI/CD quality gates to block broken code before it ships.',
+    tags:['Playwright','Vitest','Jest','n8n','Make','GitHub Actions','CI/CD'],
+    deliverables:['E2E test suites','API & unit testing','n8n / Make automation','CI/CD quality gates','Regression coverage','Test reporting'],
+  },
+  {
+    num:'07', name:'UI/UX & Design',
+    clients:14, projects:20, satisfaction:'98%',
+    pitch:'Design is not decoration — it is the first argument you make to your customer. I create interfaces that are immediately understood, genuinely enjoyable, and built to convert.',
+    techNote:'Figma-based design systems with tokenised variables, auto-layout components, WCAG 2.2 accessibility checks, and developer-ready design-to-code handoff.',
+    tags:['Figma','Design Systems','Tokens','Prototyping','WCAG','Accessibility'],
+    deliverables:['Component design systems','High-fidelity prototypes','Accessibility audits','Brand consistency','User flow mapping','Dev handoff'],
+  },
+  {
+    num:'08', name:'DevOps & Infrastructure',
+    clients:5, projects:8, satisfaction:'100%',
+    pitch:'Slow deployments and fragile infrastructure kill momentum. I set up the pipelines, containers, and cloud architecture that let your team ship with confidence — multiple times a day if needed.',
+    techNote:'Docker + Kubernetes orchestration, GitHub Actions / GitLab CI pipelines, AWS / GCP cloud infra, Terraform for IaC, Prometheus + Grafana for observability.',
+    tags:['Docker','Kubernetes','GitHub Actions','AWS','GCP','Terraform','Prometheus'],
+    deliverables:['Docker & K8s setup','CI/CD pipelines','Cloud infrastructure','Zero-downtime deploys','Monitoring & alerting','IaC with Terraform'],
+  },
+  {
+    num:'09', name:'Career Guidance',
+    clients:31, projects:60, satisfaction:'100%',
+    pitch:'The right mentor at the right time is worth years of trial and error. I give engineers an honest map of the road ahead — what to learn, what to skip, and how to position yourself for the opportunities you actually want.',
+    techNote:'Structured via Topmate with async roadmap reviews, live 1:1 sessions, resume & portfolio teardowns, system design walkthroughs, and OSS contribution strategy.',
+    tags:['1:1 Mentorship','Roadmaps','Resume Review','Interview Prep','OSS Strategy','Topmate'],
+    deliverables:['Personalised roadmaps','1:1 mentoring','Resume & portfolio review','Interview preparation','Tech stack guidance','Open source strategy'],
+  },
+];
+
+const STEP = 240;
+
+function build(){
+  const list  = document.getElementById('svc-list');
+  const detail= document.getElementById('svc-detail');
+  const hint  = document.getElementById('scroll-hint');
+  const track = document.getElementById('svc-track');
+  track.style.height = (SERVICES.length * STEP) + 'px';
+
+  SERVICES.forEach((s,i)=>{
+    // list item
+    const el = document.createElement('div');
+    el.className = 'svc-item' + (i===0?' active':'');
+    el.dataset.i = i;
+    el.innerHTML = `
+      <div class="svc-dot"></div>
+      <div class="svc-item-body">
+        <span class="svc-item-num">${s.num}</span>
+        <span class="svc-item-name">${s.name}</span>
+      </div>
+      <span class="svc-item-clients">${s.clients} clients</span>
+    `;
+    el.addEventListener('click',()=>scrollTo(i));
+    list.appendChild(el);
+
+    // detail panel
+    const p = document.createElement('div');
+    p.className = 'detail-panel' + (i===0?' active':'');
+    p.dataset.p = i;
+    p.innerHTML = `
+      <div class="dp-meta">
+        <div class="dp-service-num">Service ${s.num}</div>
+        <div class="dp-stats">
+          <div class="dp-stat">
+            <span class="dp-stat-val">${s.clients}</span>
+            <span class="dp-stat-label">Clients</span>
+          </div>
+          <div class="dp-stat">
+            <span class="dp-stat-val">${s.projects}</span>
+            <span class="dp-stat-label">Projects</span>
+          </div>
+          <div class="dp-stat">
+            <span class="dp-stat-val">${s.satisfaction}</span>
+            <span class="dp-stat-label">Satisfied</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="dp-title">${s.name}</h3>
+
+      <p class="dp-pitch">${s.pitch}</p>
+
+      <div class="dp-sep"></div>
+
+      <div class="dp-tech-label">Under the hood</div>
+      <p class="dp-tech-desc">${s.techNote}</p>
+
+      <div class="dp-tags">${s.tags.map(t=>`<span class="dp-tag">${t}</span>`).join('')}</div>
+
+      <div class="dp-deliv-label">What you get</div>
+      <div class="dp-deliverables">
+        ${s.deliverables.map(d=>`<div class="dp-deliv"><span class="dp-deliv-bullet"></span>${d}</div>`).join('')}
+      </div>
+    `;
+    detail.insertBefore(p, hint);
+  });
+}
+
+let cur = 0;
+
+function activate(idx){
+  if(idx===cur) return;
+  const panels = document.querySelectorAll('.detail-panel');
+  const items  = document.querySelectorAll('.svc-item');
+  const dir    = idx > cur ? 1 : -1;
+
+  // exit
+  panels[cur].classList.remove('active');
+  panels[cur].classList.add(dir>0?'exit-up':'exit-down');
+  setTimeout(()=>{ panels[cur].classList.remove('exit-up','exit-down'); },460);
+
+  // enter
+  panels[idx].style.cssText = `opacity:0;transform:translateY(${dir>0?20:-20}px)`;
+  requestAnimationFrame(()=>{
+    panels[idx].classList.add('active');
+    panels[idx].style.cssText='';
+  });
+
+  items[cur].classList.remove('active');
+  items[idx].classList.add('active');
+
+  // scroll mobile list item into view
+  items[idx].scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+
+  // progress
+  const pct = idx/(SERVICES.length-1)*100;
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('rail-fill').style.height = pct+'%';
+  document.getElementById('active-num').textContent = SERVICES[idx].num;
+
+  if(idx>0) document.getElementById('scroll-hint').classList.add('hidden');
+  else document.getElementById('scroll-hint').classList.remove('hidden');
+
+  cur = idx;
+}
+
+function scrollTo(idx){
+  const top = document.getElementById('svc-section').offsetTop + idx*STEP;
+  window.scrollTo({top, behavior:'smooth'});
+}
+
+function onScroll(){
+  const sec = document.getElementById('svc-section');
+  const scrolled = window.scrollY - sec.offsetTop;
+  if(scrolled < 0) return;
+  const idx = Math.min(Math.floor(scrolled/STEP), SERVICES.length-1);
+  if(idx !== cur) activate(idx);
+}
+
+build();
+window.addEventListener('scroll', onScroll, {passive:true});
+</script>
+</body>
+</html>

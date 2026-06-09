@@ -48,10 +48,10 @@ export default function FeaturedProjects() {
             <div className="container px-4 sm:px-6 mx-auto max-w-7xl">
                 <div className="mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8">
                     <div className="space-y-3 sm:space-y-4">
-                        <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-3xl sm:text-4xl md:text-6xl font-seona not-italic uppercase tracking-tight")}>
+                        <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight")}>
                             Featured <span className="text-primary italic">Projects</span>
                         </h2>
-                        <p className={cn(STYLES.subheading, "text-left m-0 opacity-40 uppercase tracking-[0.3em] text-[9px] sm:text-[10px] font-black")}>
+                        <p className={cn(STYLES.subheading, "text-left m-0 uppercase tracking-[0.3em] text-[10px] sm:text-[11px] font-dm-mono text-[var(--tmpl-text-3)]")}>
                             Proof of execution — A selection of my best work
                         </p>
                     </div>
@@ -108,8 +108,8 @@ export default function FeaturedProjects() {
                         className="group flex flex-col sm:flex-row items-start sm:items-center justify-between w-full p-6 sm:p-8 rounded-[2rem] border border-zinc-200 dark:border-white/10 hover:border-primary/50 transition-all duration-500 relative overflow-hidden gap-4 sm:gap-0"
                     >
                         <div className="relative z-10">
-                            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/40 block mb-2">Portfolio Archives</span>
-                            <span className="text-xl sm:text-2xl md:text-3xl font-black tracking-tight text-foreground/90 font-seona not-italic uppercase">
+                            <span className="text-[10px] sm:text-[11px] font-dm-mono uppercase tracking-[0.3em] text-[var(--tmpl-text-3)] block mb-2">Portfolio Archives</span>
+                            <span className="text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-foreground/90 font-instrument not-italic">
                                 Feel free to explore <span className="text-primary italic">all work</span>
                             </span>
                         </div>
