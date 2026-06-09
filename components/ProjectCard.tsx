@@ -39,6 +39,16 @@ const ProjectCard = memo(({ project, isFeatured = false }: ProjectCardProps) => 
     const { Icon, gradient } = getProjectTheme(project.techStack, project.title, project.description);
     const href = `/projects/${project.slug || project._id}`;
 
+    // Helper to convert github blob URLs to raw image URLs so Next.js Image component can optimize them
+    const getSafeImageUrl = (url: string | undefined) => {
+        if (!url) return '';
+        if (url.includes('github.com') && url.includes('/blob/')) {
+            return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+        }
+        return url;
+    };
+    const safeImageUrl = getSafeImageUrl(project.image);
+
     return (
         <Link href={href} className="h-full block">
             <motion.div
@@ -56,10 +66,10 @@ const ProjectCard = memo(({ project, isFeatured = false }: ProjectCardProps) => 
                     {/* Image Area */}
                     <div className="relative h-64 w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
                         <div className="h-full w-full">
-                            {project.image ? (
+                            {safeImageUrl ? (
                                 <Image
-                                    src={project.image}
-                                    alt={project.title}
+                                    src={safeImageUrl}
+                                    alt={project.title || 'Project thumbnail'}
                                     fill
                                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     sizes="(max-width: 768px) 100vw, 33vw"

@@ -175,16 +175,25 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             </section>
 
             {/* SCREENSHOT */}
-            {project.image && (
+            {project.image && (() => {
+                const getSafeImageUrl = (url: string) => {
+                    if (url.includes('github.com') && url.includes('/blob/')) {
+                        return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                    }
+                    return url;
+                };
+                const safeImageUrl = getSafeImageUrl(project.image);
+                return (
                 <div className="project-wrap">
                     <div className="screenshot-wrap r">
-                        <Image src={project.image} alt={project.title} fill className="object-cover" />
+                        <Image src={safeImageUrl} alt={project.title || "Project preview"} fill className="object-cover" />
                         {project.liveUrl && (
                             <span className="screenshot-label">{new URL(project.liveUrl).hostname}</span>
                         )}
                     </div>
                 </div>
-            )}
+                );
+            })()}
 
             {/* ABOUT */}
             {project.description && (

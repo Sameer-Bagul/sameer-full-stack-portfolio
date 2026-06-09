@@ -15,10 +15,11 @@ export default function StudyContent({ initialFolders }: StudyContentProps) {
 
     // Filter topics based on search
     const filteredFolders = useMemo(() => {
-        return initialFolders.filter(folder =>
-            folder.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (folder.description && folder.description.toLowerCase().includes(searchQuery.toLowerCase()))
-        );
+        return initialFolders.filter(folder => {
+            const query = (searchQuery || '').toLowerCase();
+            return !query || (folder.name?.toLowerCase().includes(query) || false) ||
+            (folder.description?.toLowerCase().includes(query) || false);
+        });
     }, [initialFolders, searchQuery]);
 
     return (

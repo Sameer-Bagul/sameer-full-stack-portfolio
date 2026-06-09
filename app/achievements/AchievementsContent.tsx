@@ -14,9 +14,10 @@ export default function AchievementsContent() {
 
     const filteredAchievements = useMemo(() => {
         return achievements.filter(ach => {
-            const matchesSearch = ach.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                ach.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                ach.organization.toLowerCase().includes(searchQuery.toLowerCase());
+            const query = (searchQuery || '').toLowerCase();
+            const matchesSearch = !query || (ach.title?.toLowerCase().includes(query) || false) ||
+                (ach.description?.toLowerCase().includes(query) || false) ||
+                (ach.organization?.toLowerCase().includes(query) || false);
             const matchesType = filterType === 'all' || ach.type === filterType;
             return matchesSearch && matchesType;
         }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());

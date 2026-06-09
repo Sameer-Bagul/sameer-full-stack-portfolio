@@ -49,8 +49,9 @@ export default function ProjectsContent() {
     const filteredProjects = projects.filter(p => {
         const dbValue = categoryToDbValue[filter];
         const matchesFilter = filter === 'All' || p.category === dbValue;
-        const matchesSearch = p.title.toLowerCase().includes(search.toLowerCase()) ||
-            p.shortDescription.toLowerCase().includes(search.toLowerCase());
+        const query = (search || '').toLowerCase();
+        const matchesSearch = !query || (p.title?.toLowerCase().includes(query) || false) ||
+            (p.shortDescription?.toLowerCase().includes(query) || false);
         return matchesFilter && matchesSearch;
     });
 
