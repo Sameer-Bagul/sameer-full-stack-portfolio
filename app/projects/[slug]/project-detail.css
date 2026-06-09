@@ -46,23 +46,43 @@
 
 /* meta row */
 .hero-meta {
-  display: flex; gap: 0;
-  border-top: 1px solid var(--tmpl-border);
-  border-bottom: 1px solid var(--tmpl-border);
-  margin-bottom: 36px;
+  display: flex; gap: 16px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
 }
 .meta-cell {
-  flex: 1; padding: 20px 0;
-  border-right: 1px solid var(--tmpl-border);
+  flex: 1; min-width: 130px;
+  padding: 20px;
+  background: var(--tmpl-surface);
+  border: 1px solid var(--tmpl-border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.meta-cell:last-child { border-right: none; }
-.meta-cell:first-child { padding-left: 0; }
+.meta-cell:hover {
+  border-color: rgba(196,163,90,0.3);
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.015);
+  box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+}
+.meta-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.meta-icon {
+  color: var(--tmpl-accent);
+  opacity: 0.8;
+  display: flex;
+}
 .meta-l {
   font-family: var(--font-dm-mono); font-size: 10px;
   color: var(--tmpl-text-3); letter-spacing: 0.12em; text-transform: uppercase;
-  margin-bottom: 5px;
+  margin: 0;
 }
-.meta-v { font-size: 14px; color: var(--tmpl-text); font-weight: 400; }
+.meta-v { font-size: 15px; color: var(--tmpl-text); font-weight: 500; }
 
 /* CTAs */
 .hero-ctas { display: flex; gap: 10px; flex-wrap: wrap; }

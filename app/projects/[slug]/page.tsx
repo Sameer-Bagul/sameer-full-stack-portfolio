@@ -13,7 +13,7 @@ import ScrollReveal from './ScrollReveal';
 // Revalidate every 5 minutes (ISR)
 export const revalidate = 300;
 
-import { ArrowLeft, Play, Github, ExternalLink, Star } from 'lucide-react';
+import { ArrowLeft, Play, Github, ExternalLink, Star, User, Code2, LayoutGrid, Calendar } from 'lucide-react';
 import ContributorAvatar from '@/components/ContributorAvatar';
 
 interface ProjectPageProps {
@@ -129,24 +129,36 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
                     <div className="hero-meta r">
                         <div className="meta-cell">
-                            <div className="meta-l">Role</div>
+                            <div className="meta-header">
+                                <div className="meta-icon"><User size={14} /></div>
+                                <div className="meta-l">Role</div>
+                            </div>
                             <div className="meta-v">{(project.contributors && project.contributors.length > 0) ? 'Lead Engineer' : 'Solo Engineer'}</div>
                         </div>
                         {project.techStack && project.techStack.length > 0 && (
-                            <div className="meta-cell pl-7">
-                                <div className="meta-l">Stack</div>
+                            <div className="meta-cell">
+                                <div className="meta-header">
+                                    <div className="meta-icon"><Code2 size={14} /></div>
+                                    <div className="meta-l">Stack</div>
+                                </div>
                                 <div className="meta-v">{project.techStack[0]}</div>
                             </div>
                         )}
                         {project.category && (
-                            <div className="meta-cell pl-7 hidden md:block">
-                                <div className="meta-l">Type</div>
+                            <div className="meta-cell hidden sm:flex">
+                                <div className="meta-header">
+                                    <div className="meta-icon"><LayoutGrid size={14} /></div>
+                                    <div className="meta-l">Type</div>
+                                </div>
                                 <div className="meta-v capitalize">{project.category.replace(/-/g, ' ')}</div>
                             </div>
                         )}
                         {year && (
-                            <div className="meta-cell pl-7 hidden md:block">
-                                <div className="meta-l">Year</div>
+                            <div className="meta-cell hidden sm:flex">
+                                <div className="meta-header">
+                                    <div className="meta-icon"><Calendar size={14} /></div>
+                                    <div className="meta-l">Year</div>
+                                </div>
                                 <div className="meta-v">{year}</div>
                             </div>
                         )}
