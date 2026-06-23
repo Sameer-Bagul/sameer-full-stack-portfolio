@@ -1,7 +1,7 @@
 'use server';
 
 import { connectToDB } from './db';
-import axios from 'axios';
+
 import Blog from './models/Blog';
 import Project from './models/Project';
 import Skill from './models/Skill';
@@ -29,7 +29,6 @@ import type {
     PortfolioData
 } from './types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://sameeradminapi.azurewebsites.net/api';
 
 // Helper to sanitize Mongoose objects so they can be passed from Server to Client
 const parseDocument = <T>(doc: any): T => JSON.parse(JSON.stringify(doc)) as T;
@@ -97,20 +96,80 @@ export const getAllPortfolioData = async (): Promise<PortfolioData> => {
 
 export const sendMessage = async (messageData: any) => {
     await connectToDB();
+    
+    // Save to database
     const msg = new Message(messageData);
     await msg.save();
+    
+    // Send Email using Nodemailer
+    try {
+        const nodemailer = require('nodemailer');
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_APP_PASSWORD,
+            },
+        });
+
+        const mailOptions = {
+            from: `"${messageData.name}" <${process.env.GMAIL_USER}>`,
+            to: process.env.RECEIVER_EMAIL || process.env.GMAIL_USER,
+            replyTo: messageData.email,
+            subject: `[Portfolio] ${messageData.subject || 'New Message'} from ${messageData.name}`,
+            text: `Name: ${messageData.name}\nEmail: ${messageData.email}\nCategory: ${messageData.subject || 'General Inquiry'}\n\nMessage:\n${messageData.message}`,
+            html: `
+                <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #f8fafc;">
+                    <div style="background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);">
+                        
+                        <!-- Header -->
+                        <div style="background: linear-gradient(135deg, #18181b 0%, #27272a 100%); padding: 30px 40px; text-align: center;">
+                            <h2 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.025em;">New Portfolio Inquiry</h2>
+                            <p style="color: #a1a1aa; margin: 8px 0 0 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">Via sameerbagul.com</p>
+                        </div>
+
+                        <!-- Content -->
+                        <div style="padding: 40px;">
+                            <div style="display: flex; flex-direction: column; gap: 20px;">
+                                
+                                <!-- Meta Details -->
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 30px;">
+                                    <div style="background: #f4f4f5; padding: 16px; border-radius: 12px;">
+                                        <p style="margin: 0; font-size: 12px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">From</p>
+                                        <p style="margin: 4px 0 0 0; font-size: 16px; color: #18181b; font-weight: 500;">${messageData.name} <span style="color: #a1a1aa; font-weight: 400; font-size: 14px;">(${messageData.email})</span></p>
+                                    </div>
+                                    <div style="background: #f4f4f5; padding: 16px; border-radius: 12px;">
+                                        <p style="margin: 0; font-size: 12px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">Inquiry Type</p>
+                                        <p style="margin: 4px 0 0 0; font-size: 16px; color: #18181b; font-weight: 500;">${messageData.subject || 'General Inquiry'}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Message Body -->
+                                <div>
+                                    <p style="margin: 0 0 12px 0; font-size: 12px; font-weight: 700; color: #71717a; text-transform: uppercase; letter-spacing: 0.05em;">Message</p>
+                                    <div style="background: #ffffff; border: 1px solid #e4e4e7; padding: 24px; border-radius: 12px; color: #3f3f46; font-size: 16px; line-height: 1.6; white-space: pre-wrap;">${messageData.message}</div>
+                                </div>
+                                
+                            </div>
+                        </div>
+
+                        <!-- Footer -->
+                        <div style="background: #f8fafc; border-top: 1px solid #f1f5f9; padding: 20px; text-align: center;">
+                            <p style="margin: 0; font-size: 12px; color: #94a3b8;">This email was sent automatically from your Next.js portfolio.</p>
+                            <a href="mailto:${messageData.email}" style="display: inline-block; margin-top: 12px; color: #3b82f6; text-decoration: none; font-size: 14px; font-weight: 600;">Reply directly to ${messageData.name} &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            `,
+        };
+
+        await transporter.sendMail(mailOptions);
+    } catch (error) {
+        console.error('Failed to send SMTP email:', error);
+        // We still return success for the DB save even if email fails
+    }
+
     return parseDocument<any>(msg);
-};
-
-// Github endpoints interact with complex external APIs, we keep Axios here
-export const getGithubProfile = async () => {
-    const response = await axios.get(`${API_URL}/github/profile`);
-    return response.data;
-};
-
-export const getGithubRepos = async () => {
-    const response = await axios.get(`${API_URL}/github/repos`);
-    return response.data;
 };
 
 export const getPins = async (): Promise<PinType[]> => {

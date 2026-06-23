@@ -20,8 +20,7 @@ export const getTestimonials = actions.getTestimonials;
 export const getAchievements = actions.getAchievements;
 export const getAllPortfolioData = actions.getAllPortfolioData;
 export const sendMessage = actions.sendMessage;
-export const getGithubProfile = actions.getGithubProfile;
-export const getGithubRepos = actions.getGithubRepos;
+
 export const getPins = actions.getPins;
 export const getBoards = actions.getBoards;
 export const getCodingPlatforms = actions.getCodingPlatforms;
@@ -40,8 +39,7 @@ export default {
   getAchievements,
   getAllPortfolioData,
   sendMessage,
-  getGithubProfile,
-  getGithubRepos,
+
   getPins,
   getBoards,
   getCodingPlatforms,
