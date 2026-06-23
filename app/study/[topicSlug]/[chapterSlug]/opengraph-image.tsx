@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { studyData } from '@/data/study-materials';
 
-export const runtime = 'edge';
+// Node.js runtime is used by default which supports Mongoose
 
 export const alt = 'Study Note';
 export const size = {

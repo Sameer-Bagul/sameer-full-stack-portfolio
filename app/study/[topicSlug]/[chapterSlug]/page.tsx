@@ -14,7 +14,7 @@ export async function generateMetadata(
     
     try {
         const response = await getPublicNoteBySlug(chapterSlug);
-        if (!response.success) return { title: 'Note Not Found' };
+        if (!response.success || !response.data?.note) return { title: 'Note Not Found' };
         
         const note = response.data.note;
 

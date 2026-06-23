@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { getBlogs } from '@/lib/api';
 
-export const runtime = 'edge';
+// Node.js runtime is used by default which supports Mongoose
 
 export const alt = 'Blog Post';
 export const size = {

@@ -14,7 +14,7 @@ export async function generateMetadata(
     
     try {
         const response = await getPublicFolderBySlug(topicSlug);
-        if (!response.success) return { title: 'Topic Not Found' };
+        if (!response.success || !response.data?.folder) return { title: 'Topic Not Found' };
         
         const folder = response.data.folder;
 
