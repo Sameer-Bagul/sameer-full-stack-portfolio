@@ -66,18 +66,15 @@ const BlogCard = memo(({ blog }: BlogCardProps) => {
                     className="h-full"
                 >
                     {/* Fixed height card: 320px */}
-                    <Card className="group relative overflow-hidden rounded-2xl border-none bg-zinc-50 dark:bg-zinc-900/60 cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-[320px]">
-
-                        {/* Top accent bar */}
-                        <div className="h-1 w-full bg-gradient-to-r from-primary/60 via-primary to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                        <div className="flex flex-col flex-1 p-7 min-h-0">
+                    <Card className="group relative overflow-hidden rounded-[2.5rem] bg-[#0A0A0A] border border-white/10 cursor-pointer transition-all duration-500 active:scale-[0.98] shadow-2xl hover:-translate-y-2 hover:border-[#FF4F00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] flex flex-col h-[320px]">
+                        
+                        <div className="flex flex-col flex-1 p-8 min-h-0 relative z-10">
                             {/* Header row */}
-                            <div className="flex items-center justify-between mb-4 shrink-0">
-                                <span className={cn('text-[9px] font-black uppercase tracking-[0.25em] px-3 py-1 rounded-full', colorClass)}>
+                            <div className="flex items-center justify-between mb-6 shrink-0">
+                                <span className={cn('text-[9px] font-black uppercase tracking-[0.25em] px-3 py-1.5 rounded-full border border-current/20', colorClass)}>
                                     {blog.category}
                                 </span>
-                                <div className="flex items-center gap-3 text-muted-foreground">
+                                <div className="flex items-center gap-3 text-zinc-500">
                                     {blog.readingTime && (
                                         <span className="text-[9px] font-black uppercase tracking-widest flex items-center gap-1">
                                             <ClockIcon size={10} /> {blog.readingTime}
@@ -90,28 +87,28 @@ const BlogCard = memo(({ blog }: BlogCardProps) => {
                             </div>
 
                             {/* Title */}
-                            <h3 className="text-xl font-black tracking-tight leading-snug group-hover:text-primary transition-colors duration-300 mb-3 shrink-0 line-clamp-2">
+                            <h3 className="text-2xl font-seona uppercase tracking-tighter leading-snug text-white group-hover:text-[#FF4F00] transition-colors duration-300 mb-3 shrink-0 line-clamp-2">
                                 {blog.title}
                             </h3>
 
                             {/* Description with fade */}
                             <div className="relative flex-1 min-h-0 overflow-hidden">
-                                <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                                <p className="text-sm text-zinc-400 leading-relaxed font-light">
                                     {blog.shortDescription}
                                 </p>
                                 {/* Fade gradient at bottom */}
-                                <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-zinc-50 dark:from-zinc-900/60 to-transparent pointer-events-none" />
+                                <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-[#0A0A0A] to-transparent pointer-events-none" />
                             </div>
 
                             {/* Footer */}
-                            <div className="flex items-center justify-between pt-4 mt-2 border-t border-zinc-100 dark:border-zinc-800 shrink-0">
-                                <div className="flex items-center gap-1.5 text-muted-foreground">
-                                    <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center">
-                                        <UserIcon size={10} className="text-primary" />
+                            <div className="flex items-center justify-between pt-5 mt-2 border-t border-white/10 shrink-0">
+                                <div className="flex items-center gap-2 text-zinc-400">
+                                    <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                                        <UserIcon size={10} className="text-white" />
                                     </div>
                                     <span className="text-[9px] font-black uppercase tracking-widest">{blog.author || 'Sameer Bagul'}</span>
                                 </div>
-                                <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-[#FF4F00] opacity-0 group-hover:opacity-100 transition-opacity">
                                     Read more <ArrowUpRightIcon size={10} />
                                 </span>
                             </div>
@@ -173,7 +170,7 @@ const BlogCard = memo(({ blog }: BlogCardProps) => {
                                         onClick={() => setLiked(!liked)}
                                         className={cn(
                                             'h-12 rounded-xl font-black uppercase tracking-widest text-xs transition-all',
-                                            liked ? 'bg-red-500 text-white' : 'bg-primary text-primary-foreground'
+                                            liked ? 'bg-red-500 text-white' : 'bg-primary text-white font-bold'
                                         )}
                                     >
                                         <HeartIcon size={16} className="mr-2" fill={liked ? 'white' : 'none'} />
@@ -206,7 +203,7 @@ const BlogCard = memo(({ blog }: BlogCardProps) => {
                                         <h4 className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mb-4">Topics</h4>
                                         <div className="flex flex-wrap gap-2">
                                             {blog.tags?.map((tag) => (
-                                                <span key={tag} className="px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-[9px] font-black uppercase tracking-wider">
+                                                <span key={tag} className="px-3 py-1.5 rounded-lg bg-white/10 border border-white/10 text-white text-[9px] font-black uppercase tracking-wider">
                                                     #{tag}
                                                 </span>
                                             )) || <span className="text-muted-foreground text-xs">No tags.</span>}

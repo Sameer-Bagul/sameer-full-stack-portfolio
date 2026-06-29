@@ -32,6 +32,34 @@ export interface Project {
     liveUrl: string;
     contributors: string[];
     features: string[];
+    status?: string;
+    role?: string;
+    clientOrCompany?: string;
+    duration?: string;
+    targetAudience?: string;
+    techStackBreakdown?: {
+        frontend?: string[];
+        backend?: string[];
+        infrastructure?: string[];
+    };
+    myContributions?: string[];
+    gallery?: { url: string; caption?: string }[];
+    architectureDiagram?: string;
+    apiDocsUrl?: string;
+    figmaUrl?: string;
+    challenges?: string[];
+    learnings?: string[];
+    metrics?: string[];
+    clientTestimonial?: {
+        name: string;
+        role: string;
+        quote: string;
+    };
+    relatedBlogs?: {
+        title: string;
+        slug: string;
+    }[];
+    futureRoadmap?: string[];
 }
 
 export interface Skill {

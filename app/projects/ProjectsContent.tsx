@@ -45,6 +45,12 @@ export default function ProjectsContent() {
     const { projects, loading } = usePortfolio();
     const [filter, setFilter] = useState('All');
     const [search, setSearch] = useState('');
+    const [visibleCount, setVisibleCount] = useState(6);
+
+    // Reset visible count when filter or search changes
+    React.useEffect(() => {
+        setVisibleCount(6);
+    }, [filter, search]);
 
     const filteredProjects = projects.filter(p => {
         const dbValue = categoryToDbValue[filter];
@@ -75,8 +81,8 @@ export default function ProjectsContent() {
                     transition={{ duration: 0.5 }}
                     className="mb-16"
                 >
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-5 font-seona">All Projects</h1>
-                    <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+                    <h1 className="text-[4rem] sm:text-[6rem] font-seona uppercase tracking-tighter leading-none mb-5 text-white">All Projects</h1>
+                    <p className="text-base text-zinc-400 max-w-xl leading-relaxed">
                         A comprehensive list of my technical exploits, experiments, and production-ready applications.
                     </p>
                 </motion.div>
@@ -92,8 +98,8 @@ export default function ProjectsContent() {
                                     className={cn(
                                         "px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-200",
                                         filter === cat
-                                            ? "bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 shadow-md"
-                                            : "bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-primary/50 hover:text-primary"
+                                            ? "bg-[#C5FF41] text-black shadow-[0_0_20px_rgba(197,255,65,0.2)] font-bold"
+                                            : "bg-white/5 border border-white/10 text-zinc-400 hover:bg-white/10 hover:text-white transition-all"
                                     )}
                                 >
                                     {cat}
@@ -101,8 +107,8 @@ export default function ProjectsContent() {
                             ))}
                         </div>
 
-                        <div className="flex items-center gap-2 bg-zinc-100 dark:bg-zinc-900 px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 w-full md:w-80">
-                            <Search className="w-4 h-4 text-muted-foreground" />
+                        <div className="flex items-center gap-2 bg-white/5 px-6 py-3 rounded-full border border-white/10 text-white focus-within:border-white/30 transition-colors w-full md:w-80">
+                            <Search className="w-4 h-4 text-zinc-500" />
                             <input
                                 type="text"
                                 placeholder="Search projects..."
@@ -115,24 +121,37 @@ export default function ProjectsContent() {
 
                     {/* Dynamic Category Description */}
                     <div className="pl-2">
-                        <p className="text-muted-foreground text-sm leading-relaxed max-w-3xl animate-in fade-in slide-in-from-left-2 duration-500">
+                        <p className="text-zinc-500 text-sm leading-relaxed max-w-3xl animate-in fade-in slide-in-from-left-2 duration-500">
                             {categoryDescriptions[filter]}
                         </p>
                     </div>
                 </div>
 
                 {/* Projects Grid */}
-                <div className="grid grid-cols-12 gap-8">
-                    {filteredProjects.map((project: any) => (
+                <div className="grid grid-cols-12 gap-8 mb-12">
+                    {filteredProjects.slice(0, visibleCount).map((project: any) => (
                         <div key={project._id} className="col-span-12 md:col-span-6 lg:col-span-4">
                             <ProjectCard project={project} />
                         </div>
                     ))}
                 </div>
 
+                {filteredProjects.length > visibleCount && (
+                    <div className="flex justify-center mt-12 mb-8">
+                        <button
+                            onClick={() => setVisibleCount(prev => prev + 6)}
+                            className="group relative px-8 py-4 rounded-full bg-[#0A0A0A] border border-white/10 text-white font-dm-mono text-sm uppercase tracking-widest hover:border-[#FF4F00] transition-all duration-300 shadow-xl overflow-hidden"
+                        >
+                            <span className="relative z-10 flex items-center gap-2 group-hover:text-[#FF4F00] transition-colors">
+                                View More Projects
+                            </span>
+                        </button>
+                    </div>
+                )}
+
                 {filteredProjects.length === 0 && (
                     <div className="text-center py-24">
-                        <p className="text-muted-foreground">No projects found matching your criteria.</p>
+                        <p className="text-zinc-500">No projects found matching your criteria.</p>
                     </div>
                 )}
             </div>

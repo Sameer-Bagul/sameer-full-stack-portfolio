@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 export default function IntroVideo() {
     return (
-        <section className="relative py-24 sm:py-32 bg-background w-full">
+        <section className="relative py-24 sm:py-32 w-full">
             <div className={cn(STYLES.container, "px-4 sm:px-6 relative z-10")}>
                 <div className="text-center mb-16 sm:mb-20">
                     <motion.div

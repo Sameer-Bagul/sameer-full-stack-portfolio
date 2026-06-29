@@ -164,7 +164,7 @@ export default function ResumeContent() {
     }
 
     return (
-        <div className="min-h-screen bg-background relative selection:bg-primary selection:text-primary-foreground">
+        <div className="min-h-screen bg-transparent relative selection:bg-primary selection:text-primary-foreground">
             {/* Background Orbs */}
             <div className="fixed inset-0 overflow-hidden -z-10">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />

@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Medal, Calendar, ExternalLink, Award, CheckCircle2, X, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Trophy, Medal, Calendar, ExternalLink, Award, CheckCircle2, X, ArrowRight, ArrowLeft, ArrowUpRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { type Achievement } from '@/lib/api';
 import { cn } from '@/lib/utils';
@@ -189,40 +189,48 @@ const CompactTimelineCard = ({ achievement, index, onSelect }: { achievement: Ac
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.05 }}
             onClick={onSelect}
-            className="group cursor-pointer"
+            className="group cursor-pointer h-full"
         >
-            <div className="relative p-6 bg-white/5 dark:bg-zinc-900/40 backdrop-blur-xl border border-zinc-200/50 dark:border-zinc-800/50 rounded-[2rem] transition-all duration-500 hover:border-primary/50 hover:shadow-2xl hover:shadow-primary/5">
+            <div className="relative p-6 sm:p-8 flex flex-col h-full bg-[#0A0A0A] border border-white/10 rounded-[2.5rem] transition-all duration-500 hover:border-[#FF4F00]/50 hover:-translate-y-2 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)]">
                 
                 {/* Thumbnail */}
-                {achievement.image && (
-                    <div className="mb-4 rounded-xl overflow-hidden aspect-[16/10] bg-zinc-100 dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-800">
+                {achievement.image ? (
+                    <div className="mb-6 rounded-[2rem] overflow-hidden aspect-[16/10] bg-black border border-white/5 shrink-0 relative">
                         <img 
                             src={achievement.image} 
                             alt={achievement.title} 
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-80"
                         />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none opacity-60" />
+                    </div>
+                ) : (
+                    <div className="mb-6 rounded-[2rem] overflow-hidden aspect-[16/10] bg-black border border-white/5 shrink-0 flex items-center justify-center relative">
+                        <Award size={48} className="text-white/20 transition-transform duration-700 group-hover:scale-110" />
                     </div>
                 )}
 
-                <div className="space-y-1">
-                    <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 mb-2">
+                <div className="flex flex-col flex-1">
+                    <div className="flex items-center justify-between text-[9px] font-black uppercase tracking-widest text-zinc-500 mb-3">
                         <span>{new Date(achievement.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                         <div className={cn(
-                            "w-2 h-2 rounded-full",
-                            achievement.type === 'award' ? "bg-amber-500" : "bg-blue-500"
-                        )} />
+                            "px-3 py-1.5 rounded-full border border-current/20",
+                            achievement.type === 'award' ? "text-[#FF4F00]" : "text-[#C5FF41]"
+                        )}>
+                            {achievement.type}
+                        </div>
                     </div>
-                    <h3 className="font-black tracking-tight text-lg line-clamp-1 group-hover:text-primary transition-colors">
+                    <h3 className="font-seona uppercase tracking-tighter text-2xl text-white group-hover:text-[#FF4F00] transition-colors mb-2 line-clamp-2">
                         {achievement.title}
                     </h3>
-                    <p className="text-[11px] font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider line-clamp-1">
+                    <p className="text-[11px] font-dm-mono text-zinc-400 uppercase tracking-wider line-clamp-1 mb-4">
                         {achievement.organization}
                     </p>
                 </div>
 
                 {/* Hover Indicator */}
-                <div className="mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-[9px] font-black uppercase tracking-[0.3em] text-primary">Read Detail</span>
+                <div className="mt-auto pt-4 border-t border-white/10 flex items-center justify-between text-zinc-500 group-hover:text-[#FF4F00] transition-colors">
+                    <span className="text-[9px] font-black uppercase tracking-[0.3em]">Read Detail</span>
+                    <ArrowUpRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-1 group-hover:translate-y-0" />
                 </div>
             </div>
         </motion.div>

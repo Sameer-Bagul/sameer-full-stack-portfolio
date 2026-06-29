@@ -78,14 +78,7 @@ export default function Header() {
                             href="/"
                             className="flex items-center justify-center w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-primary text-primary-foreground font-black text-lg sm:text-xl hover:scale-110 transition-transform shadow-xl shrink-0 z-50 overflow-hidden"
                         >
-                            <Image
-                                src="/logo.png"
-                                alt="Logo"
-                                width={40}
-                                height={40}
-                                className="w-full h-full object-cover"
-                                priority
-                            />
+                            <span className="font-seona text-2xl pb-1">S</span>
                         </Link>
 
                         <AnimatePresence mode="wait">

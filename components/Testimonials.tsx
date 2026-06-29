@@ -41,7 +41,7 @@ export default function Testimonials() {
     if (loading) {
         return (
             <div className="py-24 flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#C5FF41]" />
             </div>
         );
     }
@@ -49,7 +49,7 @@ export default function Testimonials() {
     if (testimonials.length === 0) return null;
 
     return (
-        <section className="relative py-24 sm:py-32 bg-background w-full">
+        <section className="relative py-24 sm:py-32 w-full">
             <div className={cn(STYLES.container, "relative z-10 mx-auto max-w-7xl")}>
                 <div className="text-center mb-16 sm:mb-24">
                     <motion.div
@@ -58,8 +58,8 @@ export default function Testimonials() {
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
                     >
-                        <h2 className={cn(STYLES.heading, "leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight font-normal mb-4 sm:mb-6")}>
-                            Kind <span className="text-primary italic">words</span>
+                        <h2 className={cn(STYLES.heading, "leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-seona uppercase tracking-tighter not-italic tracking-tight font-normal mb-4 sm:mb-6")}>
+                            Kind <span className="text-[#C5FF41] italic">words</span>
                         </h2>
                         <div className="flex items-center justify-center gap-4 text-[var(--tmpl-text-3)]">
                             <div className="h-px w-8 bg-[var(--tmpl-border-hi)]" />
@@ -94,11 +94,11 @@ export default function Testimonials() {
                                             <div className="space-y-6">
                                                 <div className="flex gap-1">
                                                     {[...Array(5)].map((_, i) => (
-                                                        <Star key={i} size={12} className="fill-primary text-primary" />
+                                                        <Star key={i} size={12} className="fill-primary text-[#C5FF41]" />
                                                     ))}
                                                 </div>
 
-                                                <p className="text-xl sm:text-2xl font-normal leading-relaxed text-zinc-800 dark:text-zinc-200 font-instrument not-italic">
+                                                <p className="text-xl sm:text-2xl font-normal leading-relaxed text-zinc-800 dark:text-zinc-200 font-seona uppercase tracking-tighter not-italic">
                                                     "{testimonial.content}"
                                                 </p>
                                             </div>
@@ -113,10 +113,10 @@ export default function Testimonials() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <h4 className="text-base font-medium text-zinc-900 dark:text-zinc-100 tracking-tight font-sans not-italic">
+                                                    <h4 className="text-base font-medium text-white tracking-tight font-sans not-italic">
                                                         {testimonial.name}
                                                     </h4>
-                                                    <p className="text-[10px] font-black uppercase tracking-widest text-primary/60">
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-[#C5FF41]/60">
                                                         {testimonial.role}
                                                     </p>
                                                 </div>

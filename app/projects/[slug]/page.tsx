@@ -6,9 +6,7 @@ import { getProjectBySlug, getProjectById, getProjects } from '@/lib/api';
 import { getProjectTheme } from '@/lib/project-themes';
 import { SITE_NAME, absoluteUrl } from '@/lib/site';
 
-// CSS for the template
-import './project-detail.css';
-import ScrollReveal from './ScrollReveal';
+// No custom CSS, using Tailwind.
 
 // Revalidate every 5 minutes (ISR)
 export const revalidate = 300;
@@ -95,231 +93,308 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     };
 
     return (
-            <div className="project-detail-theme pb-20">
-            <ScrollReveal />
+        <div className="min-h-screen text-white pb-32 selection:bg-[#FF4F00] selection:text-black">
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
             <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareJsonLd) }} />
 
-            {/* HERO */}
-            <section className="project-hero">
-                <div className="project-wrap">
+            <div className="max-w-7xl mx-auto px-6 md:px-12 pt-32">
+                
+                {/* HERO */}
+                <section className="mb-20">
                     <Link
                         href="/projects"
-                        className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full border border-[var(--tmpl-border)] bg-[var(--tmpl-surface)] text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--tmpl-text-2)] hover:text-[var(--tmpl-text)] transition-all shadow-sm w-fit"
+                        className="inline-flex items-center gap-2 px-6 py-3 mb-12 rounded-full border border-white/10 bg-white/5 text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 hover:text-[#FF4F00] hover:border-[#FF4F00]/30 transition-all"
                     >
-                        <ArrowLeft size={13} />
-                        All Projects
+                        <ArrowLeft size={14} />
+                        Back to Projects
                     </Link>
 
-                    <div className="hero-top">
-                        <div>
-                            <p className="hero-category r">{project.category?.replace(/-/g, ' ')} · {year}</p>
-                            <h1 className="hero-title r rd1">{project.title}</h1>
-                            <p className="hero-desc r rd2">{project.shortDescription}</p>
-                        </div>
-                        <div className="r rd1 flex items-center gap-3">
-                            <span className="status-pill"><i></i> Live</span>
-                            {project.isFeatured && (
-                                <span className="status-pill !bg-[rgba(196,163,90,0.1)] !border-[rgba(196,163,90,0.3)] !text-[var(--tmpl-accent)]">
-                                    <Star size={11} className="fill-[var(--tmpl-accent)] mr-1" /> Featured
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
+                        <div className="lg:col-span-8">
+                            <p className="text-[#FF4F00] font-dm-mono text-xs uppercase tracking-[0.2em] mb-6">
+                                {project.category?.replace(/-/g, ' ')} · {year}
+                            </p>
+                            <h1 className="font-seona uppercase tracking-tighter text-5xl sm:text-7xl lg:text-8xl leading-[0.9] mb-8">
+                                {project.title}
+                            </h1>
+                            <p className="text-lg sm:text-xl text-zinc-400 font-light leading-relaxed max-w-3xl mb-8">
+                                {project.shortDescription}
+                            </p>
+                            
+                            <div className="flex flex-wrap items-center gap-3">
+                                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-bold uppercase tracking-wider text-white">
+                                    <div className="w-2 h-2 rounded-full bg-[#C5FF41] shadow-[0_0_10px_#C5FF41]" />
+                                    Live Project
                                 </span>
+                                {project.isFeatured && (
+                                    <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#FF4F00]/30 bg-[#FF4F00]/10 text-xs font-bold uppercase tracking-wider text-[#FF4F00]">
+                                        <Star size={14} className="fill-[#FF4F00]" /> 
+                                        Featured
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="lg:col-span-4 flex flex-col gap-8">
+                            <div className="grid grid-cols-2 lg:grid-cols-1 gap-6 border-t border-white/10 lg:border-t-0 pt-8 lg:pt-0">
+                                <div className="space-y-2">
+                                    <div className="flex items-center gap-2 text-zinc-500 font-dm-mono text-[10px] uppercase tracking-widest">
+                                        <User size={12} /> Role
+                                    </div>
+                                    <div className="text-sm font-medium">{(project.contributors && project.contributors.length > 0) ? 'Lead Engineer' : 'Solo Engineer'}</div>
+                                </div>
+                                {project.techStack && project.techStack.length > 0 && (
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-zinc-500 font-dm-mono text-[10px] uppercase tracking-widest">
+                                            <Code2 size={12} /> Core Stack
+                                        </div>
+                                        <div className="text-sm font-medium">{project.techStack[0]}</div>
+                                    </div>
+                                )}
+                                {project.category && (
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-zinc-500 font-dm-mono text-[10px] uppercase tracking-widest">
+                                            <LayoutGrid size={12} /> Type
+                                        </div>
+                                        <div className="text-sm font-medium capitalize">{project.category.replace(/-/g, ' ')}</div>
+                                    </div>
+                                )}
+                                {year && (
+                                    <div className="space-y-2">
+                                        <div className="flex items-center gap-2 text-zinc-500 font-dm-mono text-[10px] uppercase tracking-widest">
+                                            <Calendar size={12} /> Year
+                                        </div>
+                                        <div className="text-sm font-medium">{year}</div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {(project.liveUrl || project.githubUrl || project.videoUrl) && (
+                                <div className="flex flex-col gap-3 pt-6 lg:border-t border-white/10">
+                                    {project.liveUrl && (
+                                        <a href={project.liveUrl} target="_blank" rel="noreferrer" className="w-full group relative px-6 py-4 rounded-full bg-[#0A0A0A] border border-white/20 text-white font-dm-mono text-xs uppercase tracking-widest hover:border-[#FF4F00] transition-all duration-300 shadow-xl overflow-hidden text-center flex items-center justify-center gap-3">
+                                            <ExternalLink size={14} className="group-hover:text-[#FF4F00] transition-colors" />
+                                            <span className="group-hover:text-[#FF4F00] transition-colors">Live Demo</span>
+                                        </a>
+                                    )}
+                                    {project.githubUrl && (
+                                        <a href={project.githubUrl} target="_blank" rel="noreferrer" className="w-full group relative px-6 py-4 rounded-full bg-[#0A0A0A] border border-white/10 text-white font-dm-mono text-xs uppercase tracking-widest hover:border-white/30 transition-all duration-300 shadow-xl overflow-hidden text-center flex items-center justify-center gap-3">
+                                            <Github size={14} />
+                                            <span>Source Code</span>
+                                        </a>
+                                    )}
+                                    {project.videoUrl && (
+                                        <a href="#video" className="w-full group relative px-6 py-4 rounded-full bg-[#0A0A0A] border border-white/10 text-white font-dm-mono text-xs uppercase tracking-widest hover:border-[#FF4F00] transition-all duration-300 shadow-xl overflow-hidden text-center flex items-center justify-center gap-3">
+                                            <Play size={14} className="group-hover:text-[#FF4F00] transition-colors" />
+                                            <span className="group-hover:text-[#FF4F00] transition-colors">Watch Demo</span>
+                                        </a>
+                                    )}
+                                </div>
                             )}
                         </div>
                     </div>
+                </section>
 
-                    <div className="hero-meta r">
-                        <div className="meta-cell">
-                            <div className="meta-header">
-                                <div className="meta-icon"><User size={14} /></div>
-                                <div className="meta-l">Role</div>
+                {/* SCREENSHOT */}
+                {project.image && (() => {
+                    const getSafeImageUrl = (url: string) => {
+                        if (url.includes('github.com') && url.includes('/blob/')) {
+                            return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
+                        }
+                        return url;
+                    };
+                    const safeImageUrl = getSafeImageUrl(project.image);
+                    return (
+                        <div className="mb-24 md:mb-32">
+                            <div className="relative w-full aspect-[4/3] md:aspect-[16/9] bg-black border border-white/10 rounded-[2rem] md:rounded-[3rem] p-2 md:p-4 overflow-hidden group">
+                                <div className="relative w-full h-full rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden border border-white/5">
+                                    <Image src={safeImageUrl} alt={project.title || "Project preview"} fill className="object-cover transition-transform duration-1000 group-hover:scale-105" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-60 pointer-events-none" />
+                                </div>
+                                {project.liveUrl && (
+                                    <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-3 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full text-xs font-dm-mono tracking-widest text-zinc-300 shadow-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0">
+                                        {new URL(project.liveUrl).hostname}
+                                    </div>
+                                )}
                             </div>
-                            <div className="meta-v">{(project.contributors && project.contributors.length > 0) ? 'Lead Engineer' : 'Solo Engineer'}</div>
                         </div>
-                        {project.techStack && project.techStack.length > 0 && (
-                            <div className="meta-cell">
-                                <div className="meta-header">
-                                    <div className="meta-icon"><Code2 size={14} /></div>
-                                    <div className="meta-l">Stack</div>
-                                </div>
-                                <div className="meta-v">{project.techStack[0]}</div>
-                            </div>
-                        )}
-                        {project.category && (
-                            <div className="meta-cell hidden sm:flex">
-                                <div className="meta-header">
-                                    <div className="meta-icon"><LayoutGrid size={14} /></div>
-                                    <div className="meta-l">Type</div>
-                                </div>
-                                <div className="meta-v capitalize">{project.category.replace(/-/g, ' ')}</div>
-                            </div>
-                        )}
-                        {year && (
-                            <div className="meta-cell hidden sm:flex">
-                                <div className="meta-header">
-                                    <div className="meta-icon"><Calendar size={14} /></div>
-                                    <div className="meta-l">Year</div>
-                                </div>
-                                <div className="meta-v">{year}</div>
-                            </div>
-                        )}
-                    </div>
+                    );
+                })()}
 
-                    {(project.liveUrl || project.githubUrl || project.videoUrl) && (
-                        <div className="hero-ctas r">
-                            {project.liveUrl && (
-                                <a href={project.liveUrl} target="_blank" rel="noreferrer" className="tmpl-btn btn-solid">
-                                    <ExternalLink size={13} /> Live Demo
-                                </a>
+                <div className="max-w-4xl mx-auto space-y-24 md:space-y-32">
+                    {/* ABOUT */}
+                    {project.description && (
+                        <section>
+                            <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">About</p>
+                            <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-5xl mb-8">The Project</h2>
+                            <div className="text-sm sm:text-base text-zinc-400 leading-[1.9] whitespace-pre-line">
+                                {project.description}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* CONTRIBUTORS */}
+                    {project.contributors && project.contributors.length > 0 && (
+                        <section className="border-t border-white/10 pt-16">
+                            <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">Team</p>
+                            <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-5xl mb-8">Contributors</h2>
+                            
+                            <div className="flex flex-wrap gap-4 mt-6">
+                                {project.contributors.map((contributor: string, i: number) => (
+                                    <div key={i} className="flex items-center gap-3 bg-white/5 border border-white/10 p-2 rounded-full pr-6 hover:border-white/30 transition-colors">
+                                        <ContributorAvatar contributor={contributor} size={36} />
+                                        <span className="font-dm-mono text-xs text-white uppercase tracking-wider">{contributor}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* STACK */}
+                    {((project.techStack && project.techStack.length > 0) || (project.tags && project.tags.length > 0)) && (
+                        <section className="border-t border-white/10 pt-16">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                {project.techStack && project.techStack.length > 0 && (
+                                    <div>
+                                        <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-6">Core Technologies</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.techStack.map((tech: string) => (
+                                                <span className="px-4 py-2 rounded-full border border-white/10 bg-white/5 text-xs font-bold uppercase tracking-wider text-white" key={tech}>{tech}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                                {project.tags && project.tags.length > 0 && (
+                                    <div className={`${project.techStack && project.techStack.length > 0 ? 'md:pl-12 md:border-l border-white/10' : ''}`}>
+                                        <p className="text-zinc-500 font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-6">Keywords & Tags</p>
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.tags.map((tag: string) => (
+                                                <span className="px-4 py-2 rounded-full border border-white/5 bg-white/[0.02] text-xs font-mono text-zinc-400" key={tag}>#{tag}</span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* FEATURES */}
+                    {project.features && project.features.length > 0 && (
+                        <section className="border-t border-white/10 pt-16">
+                            <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">What it does</p>
+                            <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-5xl mb-12">Core features</h2>
+
+                            <ul className="grid grid-cols-1 gap-8">
+                                {project.features.map((feature: string, i: number) => {
+                                    const parts = feature.split(':');
+                                    const hasTitle = parts.length > 1;
+                                    const fTitle = hasTitle ? parts[0] : '';
+                                    const fDesc = hasTitle ? parts.slice(1).join(':') : feature;
+
+                                    return (
+                                        <li key={i} className="flex items-start gap-6 group">
+                                            <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 group-hover:bg-[#FF4F00]/10 group-hover:border-[#FF4F00]/30 transition-colors">
+                                                <span className="text-[#FF4F00] font-black text-xs">{(i+1).toString().padStart(2, '0')}</span>
+                                            </div>
+                                            <div>
+                                                {fTitle && <h3 className="text-white font-bold tracking-tight text-lg mb-2">{fTitle.trim()}</h3>}
+                                                <p className="text-zinc-400 text-sm leading-relaxed">
+                                                    {fDesc.trim()}
+                                                </p>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </section>
+                    )}
+
+                    {/* METRICS */}
+                    {project.metrics && project.metrics.length > 0 && (
+                        <section className="border-t border-white/10 pt-16">
+                            <p className="text-[#C5FF41] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">Impact</p>
+                            <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-5xl mb-12">Key Metrics</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                                {project.metrics.map((metric: string, i: number) => (
+                                    <div key={i} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center hover:border-[#C5FF41]/30 transition-colors">
+                                        <p className="text-white font-bold text-xl">{metric}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* CHALLENGES & LEARNINGS */}
+                    {((project.challenges && project.challenges.length > 0) || (project.learnings && project.learnings.length > 0)) && (
+                        <section className="border-t border-white/10 pt-16 grid grid-cols-1 md:grid-cols-2 gap-16">
+                            {project.challenges && project.challenges.length > 0 && (
+                                <div>
+                                    <p className="text-red-400 font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">Obstacles</p>
+                                    <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-4xl mb-8">Challenges</h2>
+                                    <ul className="space-y-4">
+                                        {project.challenges.map((challenge: string, i: number) => (
+                                            <li key={i} className="flex items-start gap-4">
+                                                <div className="mt-1 w-2 h-2 rounded-full bg-red-400 flex-shrink-0" />
+                                                <p className="text-zinc-400 text-sm leading-relaxed">{challenge}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
-                            {project.githubUrl && (
-                                <a href={project.githubUrl} target="_blank" rel="noreferrer" className="tmpl-btn btn-outline">
-                                    <Github size={13} /> Source Code
-                                </a>
+                            {project.learnings && project.learnings.length > 0 && (
+                                <div>
+                                    <p className="text-blue-400 font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">Takeaways</p>
+                                    <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-4xl mb-8">Learnings</h2>
+                                    <ul className="space-y-4">
+                                        {project.learnings.map((learning: string, i: number) => (
+                                            <li key={i} className="flex items-start gap-4">
+                                                <div className="mt-1 w-2 h-2 rounded-full bg-blue-400 flex-shrink-0" />
+                                                <p className="text-zinc-400 text-sm leading-relaxed">{learning}</p>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             )}
-                            {project.videoUrl && (
-                                <a href="#video" className="tmpl-btn btn-outline">
-                                    <Play size={13} /> Watch Demo
-                                </a>
-                            )}
-                        </div>
+                        </section>
+                    )}
+
+                    {/* CLIENT TESTIMONIAL */}
+                    {project.clientTestimonial && project.clientTestimonial.quote && (
+                        <section className="border-t border-white/10 pt-16">
+                            <div className="bg-[#0A0A0A] border border-white/10 rounded-[2rem] p-8 md:p-12 relative overflow-hidden">
+                                <div className="absolute top-0 right-0 w-64 h-64 bg-[#C5FF41]/5 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                                <svg className="w-12 h-12 text-[#FF4F00]/20 mb-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                                </svg>
+                                <p className="text-xl md:text-2xl font-light text-zinc-300 leading-relaxed mb-8 italic">"{project.clientTestimonial.quote}"</p>
+                                <div>
+                                    <p className="text-white font-bold tracking-tight">{project.clientTestimonial.name}</p>
+                                    <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-widest">{project.clientTestimonial.role}</p>
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* VIDEO */}
+                    {project.videoUrl && (
+                        <section className="border-t border-white/10 pt-16" id="video">
+                            <p className="text-[#FF4F00] font-dm-mono text-[10px] uppercase tracking-[0.2em] mb-4">Demo</p>
+                            <h2 className="font-seona uppercase tracking-tighter text-3xl sm:text-5xl mb-4">See it in action</h2>
+                            <p className="text-zinc-400 mb-12">A full walkthrough of the core features and UI.</p>
+
+                            <div className="relative w-full aspect-video rounded-[2rem] overflow-hidden border border-white/10 bg-black">
+                                <iframe 
+                                    src={project.videoUrl.includes('watch?v=') ? project.videoUrl.replace('watch?v=', 'embed/') : project.videoUrl}
+                                    title={`${project.title} Demo`}
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                    allowFullScreen
+                                    className="w-full h-full border-none absolute inset-0"
+                                ></iframe>
+                            </div>
+                        </section>
                     )}
                 </div>
-            </section>
-
-            {/* SCREENSHOT */}
-            {project.image && (() => {
-                const getSafeImageUrl = (url: string) => {
-                    if (url.includes('github.com') && url.includes('/blob/')) {
-                        return url.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-                    }
-                    return url;
-                };
-                const safeImageUrl = getSafeImageUrl(project.image);
-                return (
-                <div className="project-wrap">
-                    <div className="screenshot-wrap r">
-                        <Image src={safeImageUrl} alt={project.title || "Project preview"} fill className="object-cover" />
-                        {project.liveUrl && (
-                            <span className="screenshot-label">{new URL(project.liveUrl).hostname}</span>
-                        )}
-                    </div>
-                </div>
-                );
-            })()}
-
-            {/* ABOUT */}
-            {project.description && (
-                <section className="tmpl-section">
-                    <div className="project-wrap">
-                        <p className="sec-label r">About</p>
-                        <h2 className="sec-title r rd1">The Project</h2>
-                        <div className="r rd2 text-[15px] sm:text-base text-[var(--tmpl-text-2)] leading-[1.9] whitespace-pre-line max-w-[800px]">
-                            {project.description}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* CONTRIBUTORS */}
-            {project.contributors && project.contributors.length > 0 && (
-                <section className="tmpl-section">
-                    <div className="project-wrap">
-                        <p className="sec-label r">Team</p>
-                        <h2 className="sec-title r rd1">Contributors</h2>
-                        
-                        <div className="r rd2 flex flex-wrap gap-4 mt-6">
-                            {project.contributors.map((contributor: string, i: number) => (
-                                <div key={i} className="flex items-center gap-3 bg-[var(--tmpl-surface)] border border-[var(--tmpl-border)] p-2 rounded-full pr-5">
-                                    <ContributorAvatar contributor={contributor} size={32} />
-                                    <span className="font-dm-mono text-xs text-[var(--tmpl-text)] uppercase tracking-wider">{contributor}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* STACK */}
-            {((project.techStack && project.techStack.length > 0) || (project.tags && project.tags.length > 0)) && (
-                <section className="tmpl-section pt-0 border-none mt-4">
-                    <div className="project-wrap">
-                        <div className="stack-grid r rd1">
-                            {project.techStack && project.techStack.length > 0 && (
-                                <div className="stack-group">
-                                    <p className="stack-group-label">Core Technologies</p>
-                                    <div className="pills">
-                                        {project.techStack.map((tech: string) => (
-                                            <span className="pill" key={tech}>{tech}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                            {project.tags && project.tags.length > 0 && (
-                                <div className={`stack-group ${project.techStack && project.techStack.length > 0 ? 'border-t md:border-t-0 md:border-l border-[var(--tmpl-border)]' : ''}`}>
-                                    <p className="stack-group-label">Keywords & Tags</p>
-                                    <div className="pills">
-                                        {project.tags.map((tag: string) => (
-                                            <span className="pill" key={tag}>#{tag}</span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* VIDEO */}
-            {project.videoUrl && (
-                <section className="tmpl-section" id="video">
-                    <div className="project-wrap">
-                        <p className="sec-label r">Demo</p>
-                        <h2 className="sec-title r rd1">See it in action</h2>
-                        <p className="sec-sub r rd2">A full walkthrough of the core features and UI.</p>
-
-                        <div className="video-shell r">
-                            <iframe 
-                                src={project.videoUrl.includes('watch?v=') ? project.videoUrl.replace('watch?v=', 'embed/') : project.videoUrl}
-                                title={`${project.title} Demo`}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                                className="w-full h-full border-none absolute inset-0"
-                            ></iframe>
-                        </div>
-                    </div>
-                </section>
-            )}
-
-            {/* FEATURES */}
-            {project.features && project.features.length > 0 && (
-                <section className="tmpl-section">
-                    <div className="project-wrap">
-                        <p className="sec-label r">What it does</p>
-                        <h2 className="sec-title r rd1">Core features</h2>
-
-                        <ul className="r rd2 grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-12 md:gap-y-6 mt-6">
-                            {project.features.map((feature: string, i: number) => {
-                                const parts = feature.split(':');
-                                const hasTitle = parts.length > 1;
-                                const fTitle = hasTitle ? parts[0] : '';
-                                const fDesc = hasTitle ? parts.slice(1).join(':') : feature;
-
-                                return (
-                                    <li key={i} className="flex items-start gap-4 text-[var(--tmpl-text-2)] text-[15px] sm:text-base leading-[1.8]">
-                                        <span className="text-[var(--tmpl-accent)] mt-1.5 opacity-50 text-xs">✦</span>
-                                        <div>
-                                            {fTitle && <strong className="text-[var(--tmpl-text)] font-medium mr-2">{fTitle.trim()}:</strong>}
-                                            {fDesc.trim()}
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
-                    </div>
-                </section>
-            )}
-
-
+            </div>
         </div>
     );
 }

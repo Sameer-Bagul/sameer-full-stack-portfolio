@@ -60,60 +60,66 @@ const ProjectCard = memo(({ project, isFeatured = false }: ProjectCardProps) => 
             >
                 <Card
                     className={cn(
-                        "group relative flex flex-col h-full overflow-hidden rounded-2xl bg-zinc-50 dark:bg-zinc-900/40 border-none cursor-pointer hover:shadow-2xl transition-all active:scale-[0.98] shadow-sm"
+                        "group relative flex flex-col h-full overflow-hidden rounded-[2.5rem] bg-[#0A0A0A] border border-white/10 cursor-pointer transition-all duration-500 active:scale-[0.98] shadow-2xl hover:-translate-y-2 hover:border-[#FF4F00]/50 hover:shadow-[0_0_40px_rgba(255,79,0,0.15)] p-6 sm:p-8"
                     )}
                 >
                     {/* Image Area */}
-                    <div className="relative h-64 w-full overflow-hidden bg-zinc-200 dark:bg-zinc-800">
+                    <div className="relative w-full aspect-[4/3] rounded-[2rem] overflow-hidden bg-black mb-8 shrink-0 border border-white/5">
                         <div className="h-full w-full">
                             {safeImageUrl ? (
                                 <Image
                                     src={safeImageUrl}
                                     alt={project.title || 'Project thumbnail'}
                                     fill
-                                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105 group-hover:opacity-80"
                                     sizes="(max-width: 768px) 100vw, 33vw"
                                     priority={isFeatured}
                                 />
                             ) : (
-                                <div className={cn('h-full w-full flex items-center justify-center bg-linear-to-br transition-transform duration-700 group-hover:scale-110', gradient)}>
-                                    <Icon className="h-20 w-20 text-white/90 drop-shadow-2xl" strokeWidth={1} />
+                                <div className={cn('h-full w-full flex items-center justify-center transition-transform duration-700 group-hover:scale-105', gradient)}>
+                                    <Icon className="h-24 w-24 text-white drop-shadow-2xl" strokeWidth={1} />
                                 </div>
                             )}
                         </div>
 
-                        <div className="absolute top-6 right-6 p-3 rounded-full bg-white/10 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-all duration-300 border border-white/20 -translate-y-2 group-hover:translate-y-0">
-                            <ArrowUpRight className="h-6 w-6 text-white drop-shadow-sm" />
+                        {/* Top Right Action Button */}
+                        <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center border border-white/10 transform translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 group-hover:bg-[#FF4F00] group-hover:border-[#FF4F00] transition-all duration-300">
+                            <ArrowUpRight className="h-5 w-5 text-white" />
                         </div>
 
                         {isFeatured && (
-                            <div className="absolute top-6 left-6 px-4 py-1.5 rounded-full bg-primary/20 backdrop-blur-md border border-primary/30">
-                                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary-foreground">Selected Work</span>
+                            <div className="absolute top-4 left-4 px-3 py-1.5 rounded-full bg-[#FF4F00] shadow-[0_4px_20px_rgba(255,79,0,0.5)]">
+                                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white font-dm-mono">Selected Work</span>
                             </div>
                         )}
+                        
+                        {/* Dark Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent pointer-events-none opacity-60" />
                     </div>
 
-                    <div className="p-8 flex flex-col grow space-y-4">
-                        <div>
-                            <h3 className="text-2xl font-black lowercase tracking-tighter text-zinc-900 dark:text-zinc-100 mb-2 leading-none font-seona not-italic">
+                    <div className="flex flex-col grow justify-between relative z-10 w-full">
+                        <div className="mb-6">
+                            <h3 className="text-3xl font-seona uppercase tracking-tighter text-white group-hover:text-[#FF4F00] transition-colors duration-500 leading-none mb-3">
                                 {project.title}
                             </h3>
-                            <p className="text-sm text-zinc-600 dark:text-zinc-400 line-clamp-2 leading-relaxed opacity-80 not-italic">
+                            <p className="text-sm text-zinc-400 line-clamp-2 leading-relaxed font-light">
                                 {project.shortDescription}
                             </p>
                         </div>
 
-                        <div className="mt-auto pt-4 flex gap-2 flex-wrap">
+                        <div className="flex gap-2 flex-wrap mt-auto w-full">
                             {(project.techStack || []).slice(0, 3).map((tag) => (
                                 <span
                                     key={tag}
-                                    className="text-[10px] uppercase font-black tracking-wider text-muted-foreground bg-zinc-100 dark:bg-zinc-800 px-3 py-1 rounded-lg"
+                                    className="text-[9px] uppercase font-bold tracking-widest bg-white/5 border border-white/10 text-zinc-300 px-3 py-1.5 rounded-xl font-dm-mono group-hover:border-white/20 transition-colors"
                                 >
                                     {tag}
                                 </span>
                             ))}
                             {(project.techStack || []).length > 3 && (
-                                <span className="text-[10px] font-black text-muted-foreground self-center ml-1">+{(project.techStack || []).length - 3} More</span>
+                                <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-600 self-center ml-1 font-dm-mono">
+                                    +{(project.techStack || []).length - 3}
+                                </span>
                             )}
                         </div>
                     </div>

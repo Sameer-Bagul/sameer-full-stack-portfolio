@@ -1,0 +1,85 @@
+{
+  "_id": "portfolio-frontend-001",
+  "title": "Sameer Bagul - Modern AI Developer Portfolio",
+  "slug": "sameer-bagul-modern-portfolio",
+  "shortDescription": "A highly optimized, brutally aesthetic Next.js portfolio leveraging Turbopack, GSAP animations, and dynamic data from a custom headless CMS.",
+  "description": "This Next.js application serves as my primary digital identity and professional engineering showcase. Moving away from standard, template-driven portfolio sites, this project was architected as a high-performance web application emphasizing a unique 'dark brutalist' aesthetic. It features seamless page transitions, scroll-triggered micro-interactions driven by GSAP, and a layout that inherits deep, dynamic background glows to create a premium user experience.\n\nThe architecture relies on Next.js 16 (App Router) combined with Turbopack for lightning-fast compilation and Server-Side Rendering (SSR). This approach ensures that while the site is highly interactive and visually complex, its initial load times, SEO capabilities, and overall Lighthouse scores remain pristine. The content itself—ranging from ultimate case study project pages to rich markdown blog posts—is dynamically fetched from a custom-built Express/MongoDB headless CMS, decoupling the data from the presentation layer entirely.\n\nFrom a UI/UX standpoint, the portfolio integrates precise typographic scales utilizing modern fonts (Poppins and Seona), glassmorphism techniques, and custom Tailwind configurations. Every component, from the multi-column footer to the advanced grid layouts on the homepage, was meticulously handcrafted. The project stands as a testament to my ability to merge robust, scalable frontend engineering with high-end, conversion-focused web design.",
+  "category": "web",
+  "isFeatured": true,
+  "status": "In Production",
+  "role": "Lead Frontend Engineer & Designer",
+  "clientOrCompany": "Personal Project",
+  "duration": "Ongoing",
+  "targetAudience": "Recruiters, Clients, & Fellow Engineers",
+  "techStackBreakdown": {
+    "frontend": ["Next.js 16 (App Router)", "React", "TypeScript", "Tailwind CSS", "GSAP (GreenSock)", "Lucide React", "Turbopack"],
+    "backend": ["RESTful API Integration", "Next.js Route Handlers (Edge)"],
+    "infrastructure": ["Vercel Deployment", "Vercel Analytics", "Custom Domain Routing"]
+  },
+  "myContributions": [
+    "Designed a custom 'dark brutalist' visual identity completely from scratch without relying on pre-built UI kits.",
+    "Architected the Next.js App Router structure to handle dynamic fetching of CMS data with optimal revalidation strategies (ISR).",
+    "Implemented advanced GSAP animations, including scroll-triggered reveals, magnetic buttons, and smooth page transitions.",
+    "Developed highly responsive, fluid grid layouts for project showcases and blog previews using raw CSS grid and Tailwind.",
+    "Created an 'Ultimate Case Study' dynamic routing system to parse and render complex project JSON structures elegantly.",
+    "Engineered a dynamic, translucent glassmorphism effect for the navigation and footer that inherits global CSS variables.",
+    "Integrated robust JSON-LD schema markup across all dynamic pages to drastically improve technical SEO and rich search results."
+  ],
+  "image": "https://raw.githubusercontent.com/Sameer-Bagul/Portfolio_CMS/main/sameer-portfolio/public/screenshot-portfolio.png",
+  "gallery": [
+    { "url": "https://raw.githubusercontent.com/Sameer-Bagul/Portfolio_CMS/main/sameer-portfolio/public/gallery/hero-section.png", "caption": "The impactful, animated hero section with glowing brutalist accents." },
+    { "url": "https://raw.githubusercontent.com/Sameer-Bagul/Portfolio_CMS/main/sameer-portfolio/public/gallery/case-study.png", "caption": "The deep-dive project case study page rendering complex metrics and architecture data." },
+    { "url": "https://raw.githubusercontent.com/Sameer-Bagul/Portfolio_CMS/main/sameer-portfolio/public/gallery/blog-grid.png", "caption": "Dynamic blog grid layout with hover-activated micro-interactions." }
+  ],
+  "architectureDiagram": "graph TD\\n    subgraph Client [Client-Side Browser]\\n        UI[Next.js React UI]\\n        GSAP[GSAP Animations]\\n        State[Zustand / React Context]\\n        UI --> GSAP\\n        UI --> State\\n    end\\n    \\n    subgraph Vercel [Vercel Edge Network]\\n        CDN[Edge CDN]\\n        NextServer[Next.js SSR/ISR Server]\\n        Middleware[Next.js Middleware]\\n        CDN --> Middleware\\n        Middleware --> NextServer\\n    end\\n    \\n    subgraph CMS [Backend Infrastructure]\\n        Express[Express.js API]\\n        Auth[JWT Authentication]\\n        Mongo[(MongoDB)]\\n        Express --> Auth\\n        Express --> Mongo\\n    end\\n    \\n    Client -->|HTTPS Requests| CDN\\n    NextServer -->|REST API Calls| Express",
+  "liveUrl": "https://sameerbagul.com",
+  "githubUrl": "https://github.com/Sameer-Bagul/Portfolio_CMS",
+  "apiDocsUrl": "",
+  "contributors": ["Sameer Bagul"],
+  "features": [
+    "Server-Side Rendering (SSR): Highly optimized initial loads utilizing Next.js Server Components.",
+    "GSAP Animation Engine: High-performance, 60fps scroll and interaction animations avoiding heavy React state updates.",
+    "Incremental Static Regeneration (ISR): Projects and blogs revalidate dynamically without requiring a full site rebuild.",
+    "Custom Markdown Parser: Renders markdown from the headless CMS into styled React components safely.",
+    "Dynamic SEO Metadata: Automatically generates OpenGraph images, canonical URLs, and meta tags per page.",
+    "Headless CMS Integration: Fully decoupled architecture fetching data from a private API layer.",
+    "Glassmorphic UI: Custom Tailwind utilities for backdrop blurs, subtle borders, and dynamic ambient glows.",
+    "Fully Responsive: Meticulously tested across all viewports to ensure the aesthetic translates to mobile devices."
+  ],
+  "challenges": [
+    "GSAP Context in React 18: Managing GSAP animations in a strict mode React 18 environment required careful cleanup utilizing the `useGSAP` hook to prevent memory leaks and duplicate triggers.",
+    "Next.js App Router Data Caching: Navigating the aggressive caching behavior of the Next.js 14+ App Router when dealing with a dynamic CMS required precise implementation of `revalidate` tags.",
+    "Hydration Mismatches: Ensuring that highly dynamic UI components (like theme toggles or time-based greetings) didn't cause React hydration errors between the server-rendered HTML and client JS."
+  ],
+  "learnings": [
+    "Gained profound understanding of the Next.js App Router paradigm, specifically the boundary between Server Components and Client Components.",
+    "Mastered advanced animation techniques using GSAP, learning to bypass React's virtual DOM for significantly smoother performance during complex scroll sequences.",
+    "Discovered optimal techniques for structuring enterprise-grade Tailwind CSS configurations, utilizing CSS variables to drive dynamic themes."
+  ],
+  "metrics": [
+    "Achieved a 98/100 average Google Lighthouse score for Performance and SEO.",
+    "Reduced First Contentful Paint (FCP) to under 0.8s globally via Vercel's Edge Network.",
+    "Lowered bounce rate by designing highly engaging, animation-first entry points."
+  ],
+  "clientTestimonial": {
+    "name": "Sameer Bagul",
+    "role": "Creator",
+    "quote": "This portfolio isn't just a resume; it's a living sandbox where I push my design capabilities and frontend engineering skills to their absolute limits."
+  },
+  "relatedBlogs": [
+    {
+      "title": "Why I abandoned CSS-in-JS for raw Tailwind and CSS Modules",
+      "slug": "abandoning-css-in-js-for-tailwind"
+    },
+    {
+      "title": "Mastering GSAP in the Next.js App Router era",
+      "slug": "mastering-gsap-nextjs-app-router"
+    }
+  ],
+  "futureRoadmap": [
+    "Integrate a fully interactive 3D WebGL (Three.js) component in the hero section.",
+    "Implement an automated RSS feed generator for the blog section.",
+    "Add a CLI-style terminal Easter egg for developers visiting the site.",
+    "Implement localized routing for multi-language support."
+  ]
+}

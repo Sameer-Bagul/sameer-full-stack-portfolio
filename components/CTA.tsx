@@ -1,214 +1,148 @@
 'use client';
 
-import React, { useState, memo, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { STYLES } from '@/lib/constants/styles';
-import { cn } from '@/lib/utils';
-import {
-    Send,
-    Linkedin,
-    Github,
-    Twitter,
-    Mail,
-    ExternalLink,
-    CheckCircle2,
-    Loader2,
-    Calendar,
-    Globe
-} from 'lucide-react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { sendMessage } from '@/lib/api';
-import { PERSONAL_INFO } from '@/lib/constants/personalInfo';
-
-const SocialLink = memo(({ href, icon: Icon, label, color }: { href: string, icon: any, label: string, color: string }) => (
-    <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={cn(
-            "flex items-center justify-between p-4 rounded-2xl bg-white/5 border border-white/10 hover:border-primary/50 transition-all group",
-            color
-        )}
-    >
-        <div className="flex items-center gap-3">
-            <Icon size={20} className="group-hover:scale-110 transition-transform" />
-            <span className="text-sm font-bold uppercase tracking-widest">{label}</span>
-        </div>
-        <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-    </a>
-));
+import { Send, Loader2, CheckCircle2 } from 'lucide-react';
 
 export default function CTA() {
-    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-    const [mounted, setMounted] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         template: 'Project Collaboration',
         message: ''
     });
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setStatus('loading');
 
         try {
-            await sendMessage({
-                name: formData.name,
-                email: formData.email,
-                subject: formData.template,
-                message: formData.message
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
             });
 
-            setStatus('success');
-            setFormData({ name: '', email: '', template: 'Project Collaboration', message: '' });
-            setTimeout(() => setStatus('idle'), 5000);
-        } catch (err) {
-            console.error('Error sending message:', err);
+            if (response.ok) {
+                setStatus('success');
+                setFormData({ name: '', email: '', template: 'Project Collaboration', message: '' });
+                setTimeout(() => setStatus('idle'), 3000);
+            } else {
+                setStatus('error');
+                setTimeout(() => setStatus('idle'), 3000);
+            }
+        } catch (error) {
             setStatus('error');
+            setTimeout(() => setStatus('idle'), 3000);
         }
     };
 
     return (
-        <section id="contact" className={cn(STYLES.section, "relative overflow-hidden w-full")}>
-            <div className={cn(STYLES.container, "px-4 sm:px-6")}>
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-12 items-start">
+        <section className="py-24 sm:py-32 w-full">
+            <div className="container px-4 sm:px-6 max-w-[1200px] mx-auto">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    className="w-full bg-[#0A0A0A] border border-white/10 rounded-[3.5rem] p-8 md:p-16 relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-12"
+                >
+                    {/* Background noise/texture */}
+                    <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-overlay" style={{
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E")`
+                    }}></div>
 
-                    {/* Left Side: Info & Socials */}
-                    <div className="lg:col-span-5 space-y-8 sm:space-y-12">
-                        <div className="space-y-4 sm:space-y-6 font-seona not-italic">
-                            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black lowercase tracking-tighter leading-none">
-                                let's <span className="text-primary">connect</span>
-                            </h2>
-                            <p className="text-sm md:text-base text-zinc-500 dark:text-zinc-500 leading-relaxed max-w-sm">
-                                Have a legendary idea or just want to chat? My inbox is always open.
-                            </p>
-                        </div>
+                    {/* Ambient Glow */}
+                    <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#FF4F00]/10 rounded-full blur-[120px] pointer-events-none"></div>
 
-                        <div className="space-y-8">
-                            <div className="flex items-center gap-4 group">
-                                <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
-                                    <Globe className="w-4 h-4 text-primary" />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 leading-none mb-1 font-seona not-italic">Based in</p>
-                                    <p className="text-sm font-bold uppercase tracking-tight font-seona not-italic">{PERSONAL_INFO.location}</p>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center gap-4 group">
-                                <div className="w-10 h-10 rounded-full bg-zinc-50 dark:bg-zinc-900 flex items-center justify-center border border-zinc-200 dark:border-zinc-800">
-                                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                                </div>
-                                <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40 leading-none mb-1 font-seona not-italic">Status</p>
-                                    <p className="text-sm font-bold uppercase tracking-tight font-seona not-italic">Available for hire</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="pt-8 border-t border-zinc-100 dark:border-zinc-900">
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground/30 mb-6">Find me on</p>
-                            <div className="flex flex-wrap gap-6">
-                                {[
-                                    { icon: Github, href: PERSONAL_INFO.socials.github, label: "Github" },
-                                    { icon: Linkedin, href: PERSONAL_INFO.socials.linkedin, label: "LinkedIn" },
-                                    { icon: Twitter, href: PERSONAL_INFO.socials.x, label: "X / Twitter" }
-                                ].map((social) => (
-                                    <a
-                                        key={social.label}
-                                        href={social.href}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="text-muted-foreground/60 hover:text-primary transition-colors duration-300"
-                                    >
-                                        <social.icon size={20} />
-                                    </a>
-                                ))}
-                            </div>
-                        </div>
+                    {/* Text Section */}
+                    <div className="flex-1 relative z-10 text-center lg:text-left w-full lg:w-auto">
+                        <h2 className="font-seona uppercase tracking-tighter text-[3.5rem] sm:text-[5rem] lg:text-[7rem] text-white leading-[0.9] mb-6">
+                            Let's Build <br className="hidden lg:block" /> 
+                            <span className="text-[#FF4F00] italic">Together</span>
+                        </h2>
+                        <p className="text-zinc-400 font-light text-lg md:text-xl max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                            Looking for a frontend engineer who can design, architect, and ship? Let's talk about your next project.
+                        </p>
                     </div>
 
-                    {/* Right Side: Form */}
-                    <div className="lg:col-span-7 bg-zinc-50/50 dark:bg-zinc-900/30 p-6 sm:p-8 md:p-12 rounded-2xl border border-zinc-100 dark:border-zinc-900">
-                        <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                    {/* Form Section */}
+                    <div className="w-full lg:w-[450px] shrink-0 relative z-10 bg-[#111111]/80 backdrop-blur-xl border border-white/5 p-8 rounded-[2rem] shadow-2xl">
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Name</label>
-                                    <Input
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 font-dm-mono">Name</label>
+                                    <input
                                         required
+                                        type="text"
                                         value={formData.name}
                                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                         placeholder="Sameer Bagul"
-                                        className="bg-transparent border-zinc-200 dark:border-zinc-800 h-12 rounded-lg"
+                                        className="w-full bg-[#0A0A0A] border border-white/5 text-white placeholder:text-white/20 h-12 rounded-xl px-4 outline-none text-sm font-medium focus:border-[#FF4F00]/50 transition-colors"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Email</label>
-                                    <Input
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 font-dm-mono">Email</label>
+                                    <input
                                         required
                                         type="email"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                         placeholder="hello@example.com"
-                                        className="bg-transparent border-zinc-200 dark:border-zinc-800 h-12 rounded-lg"
+                                        className="w-full bg-[#0A0A0A] border border-white/5 text-white placeholder:text-white/20 h-12 rounded-xl px-4 outline-none text-sm font-medium focus:border-[#FF4F00]/50 transition-colors"
                                     />
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Inquiry Type</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 font-dm-mono">Inquiry Type</label>
                                 <select
-                                    className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 h-12 rounded-lg px-4 outline-none text-sm font-medium focus:border-primary transition-colors appearance-none cursor-pointer"
+                                    className="w-full bg-[#0A0A0A] border border-white/5 text-white h-12 rounded-xl px-4 outline-none text-sm font-medium focus:border-[#FF4F00]/50 transition-colors appearance-none cursor-pointer"
                                     value={formData.template}
                                     onChange={(e) => setFormData({ ...formData, template: e.target.value })}
                                 >
-                                    <option className="bg-background" value="Project Collaboration">Project Collaboration</option>
-                                    <option className="bg-background" value="Career Guidance">Career Guidance</option>
-                                    <option className="bg-background" value="Consulting Inquiries">Consulting Inquiries</option>
-                                    <option className="bg-background" value="Just saying Hi!">Just saying Hi!</option>
+                                    <option className="bg-[#111111] text-white" value="Project Collaboration">Project Collaboration</option>
+                                    <option className="bg-[#111111] text-white" value="Career Guidance">Career Guidance</option>
+                                    <option className="bg-[#111111] text-white" value="Consulting Inquiries">Consulting Inquiries</option>
+                                    <option className="bg-[#111111] text-white" value="Just saying Hi!">Just saying Hi!</option>
                                 </select>
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-muted-foreground/40">Message</label>
+                                <label className="text-[10px] font-black uppercase tracking-widest text-zinc-500 font-dm-mono">Message</label>
                                 <textarea
                                     required
                                     rows={4}
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    placeholder="what's on your mind?"
-                                    className="w-full bg-transparent border border-zinc-200 dark:border-zinc-800 rounded-lg p-4 outline-none text-sm font-medium focus:border-primary transition-colors resize-none"
+                                    placeholder="What's on your mind?"
+                                    className="w-full bg-[#0A0A0A] border border-white/5 text-white placeholder:text-white/20 rounded-xl p-4 outline-none text-sm font-medium focus:border-[#FF4F00]/50 transition-colors resize-none"
                                 />
                             </div>
 
-                            <Button
+                            <button
                                 type="submit"
                                 disabled={status === 'loading'}
-                                className="w-full h-14 rounded-lg text-sm font-black uppercase tracking-widest gap-2 transition-all"
+                                className="w-full h-14 rounded-xl bg-[#FF4F00] text-white text-sm font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-[#FF4F00]/90 transition-all font-dm-mono disabled:opacity-50 shadow-[0_0_20px_rgba(255,79,0,0.2)] hover:shadow-[0_0_30px_rgba(255,79,0,0.4)]"
                             >
                                 {status === 'loading' ? (
                                     <>
                                         <Loader2 className="w-4 h-4 animate-spin" />
-                                        sending...
+                                        Sending...
                                     </>
                                 ) : status === 'success' ? (
                                     <>
                                         <CheckCircle2 className="w-4 h-4" />
-                                        sent successfully
+                                        Sent Successfully
                                     </>
                                 ) : (
                                     <>
                                         <Send size={16} />
-                                        send message
+                                        Send Message
                                     </>
                                 )}
-                            </Button>
+                            </button>
 
                             <AnimatePresence>
                                 {status === 'error' && (
@@ -216,7 +150,7 @@ export default function CTA() {
                                         initial={{ opacity: 0, y: 5 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0 }}
-                                        className="text-red-500 text-[10px] font-black uppercase tracking-widest text-center"
+                                        className="text-[#FF4F00] text-[10px] font-black uppercase tracking-widest text-center"
                                     >
                                         Something went wrong. Please try again.
                                     </motion.p>
@@ -225,7 +159,7 @@ export default function CTA() {
                         </form>
                     </div>
 
-                </div>
+                </motion.div>
             </div>
         </section>
     );

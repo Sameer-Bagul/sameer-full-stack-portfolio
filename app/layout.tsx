@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Bebas_Neue, Instrument_Serif, DM_Mono, Inter } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Instrument_Serif, DM_Mono, Poppins } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -47,9 +47,9 @@ const dmMono = DM_Mono({
   subsets: ["latin"],
 });
 
-const inter = Inter({
-  weight: ["300", "400", "500"],
-  variable: "--font-inter",
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
   subsets: ["latin"],
 });
 
@@ -177,7 +177,7 @@ export default async function RootLayout({
         <link rel="apple-touch-icon" href="/apple-icon.png" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${seona.variable} ${bebasNeue.variable} ${instrumentSerif.variable} ${dmMono.variable} ${inter.variable} antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden w-full font-inter`}
+        className={`${geistSans.variable} ${geistMono.variable} ${seona.variable} ${bebasNeue.variable} ${instrumentSerif.variable} ${dmMono.variable} ${poppins.variable} antialiased selection:bg-primary selection:text-primary-foreground overflow-x-hidden w-full font-poppins`}
         suppressHydrationWarning
       >
         <ThemeProvider
@@ -194,8 +194,15 @@ export default async function RootLayout({
 
                 <Header />
 
-                <main className="min-h-screen flex flex-col items-center w-full overflow-x-clip">
-                  <div className="w-full max-w-350 overflow-x-clip">
+                {/* Premium Apple-style Background Glows */}
+                <div className="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-[#151312]">
+                  <div className="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-[#C5FF41]/5 blur-[180px] opacity-40"></div>
+                  <div className="absolute top-[20%] -right-[20%] w-[50%] h-[70%] rounded-full bg-[#F46C38]/5 blur-[180px] opacity-30"></div>
+                  <div className="absolute -bottom-[20%] left-[10%] w-[70%] h-[60%] rounded-full bg-[#C5FF41]/5 blur-[180px] opacity-40"></div>
+                </div>
+
+                <main className="min-h-screen flex flex-col items-center w-full relative z-0">
+                  <div className="w-full">
                     {children}
                   </div>
                 </main>

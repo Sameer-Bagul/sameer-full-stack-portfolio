@@ -1,0 +1,53 @@
+{
+  "_id": "dummy-project-001",
+  "title": "Orion - NextGen Analytics Engine",
+  "slug": "orion-nextgen-analytics",
+  "shortDescription": "A high-performance real-time analytics engine processing 1M+ events per minute, designed for SaaS platforms.",
+  "description": "Orion was conceived to solve the growing data latency issues faced by modern SaaS applications. The platform ingests, processes, and visualizes real-time metrics with sub-second latency. By leveraging a distributed streaming architecture and in-memory databases, Orion gives businesses immediate insight into user behaviors, system health, and conversion metrics without the overhead of traditional ETL pipelines.\n\nThroughout the development, the focus remained heavily on horizontal scalability and resilient data pipelines, ensuring zero data loss during high-throughput bursts.",
+  
+  "category": "saas",
+  "isFeatured": true,
+  "status": "In Production",
+  "role": "Lead Full Stack Engineer",
+  
+  "tags": ["Analytics", "Real-time", "Big Data", "B2B"],
+  "techStack": ["Next.js 14", "TypeScript", "Node.js", "Kafka", "ClickHouse", "Redis"],
+  
+  "image": "https://raw.githubusercontent.com/Sameer-Bagul/Sameer-Bagul/main/assets/orion-cover.png",
+  "gallery": [
+    "https://raw.githubusercontent.com/Sameer-Bagul/Sameer-Bagul/main/assets/orion-dashboard.png",
+    "https://raw.githubusercontent.com/Sameer-Bagul/Sameer-Bagul/main/assets/orion-query-builder.png"
+  ],
+  "architectureDiagram": "https://raw.githubusercontent.com/Sameer-Bagul/Sameer-Bagul/main/assets/orion-arch.png",
+  
+  "projectDate": "2025-10-15T00:00:00Z",
+  "createdAt": "2025-10-20T14:30:00Z",
+  
+  "liveUrl": "https://orion-analytics-demo.vercel.app",
+  "githubUrl": "https://github.com/Sameer-Bagul/orion-analytics",
+  "videoUrl": "https://youtube.com/watch?v=dummy",
+  "figmaUrl": "https://figma.com/file/dummy/orion-design",
+  
+  "contributors": ["Sameer Bagul", "Alice Smith (UI/UX)"],
+  
+  "features": [
+    "Real-time Ingestion: Processes over 1 million events per minute with sub-second latency using Kafka streams.",
+    "Custom Query Engine: A dynamic visual SQL builder that allows non-technical users to generate complex aggregations.",
+    "Interactive Dashboards: Real-time WebSockets integration for live-updating charts and geographic heatmaps.",
+    "Role-based Access Control: Enterprise-grade security with granular permissions for teams and organizations."
+  ],
+  
+  "challenges": [
+    "Handling massive traffic spikes without dropping event data.",
+    "Optimizing ClickHouse aggregations to return results in under 50ms for the client dashboards."
+  ],
+  "learnings": [
+    "Mastered distributed streaming architecture and partition management with Kafka.",
+    "Gained deep understanding of columnar databases and how they outperform row-based databases for analytics."
+  ],
+  "metrics": [
+    "Reduced query latency by 85% compared to the legacy PostgreSQL solution.",
+    "Successfully processed 50M+ events during the Black Friday stress test.",
+    "Adopted by 3 startup clients within the first month of beta release."
+  ]
+}

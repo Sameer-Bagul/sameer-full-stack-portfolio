@@ -3,53 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
-    ArrowUpRight, Github, Linkedin, Twitter, Terminal,
-    MapPin, Calendar, Code, Instagram, Loader2
+    ArrowRight, Github, Linkedin, Twitter, Instagram, Loader2, Play
 } from 'lucide-react';
 import Link from 'next/link';
-
 import Image from 'next/image';
 import { PERSONAL_INFO } from '@/lib/constants/personalInfo';
 
-const SocialIcon = ({ icon: Icon, href }: { icon: React.ComponentType<React.SVGProps<SVGSVGElement> & { size?: number | string }>; href: string }) => (
-    <Link
-        href={href}
-        target="_blank"
-        className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-primary hover:border-primary/40 hover:bg-primary/5 transition-all duration-300 hover:-translate-y-1 group"
-    >
-        <Icon size={18} className="group-hover:scale-110 transition-transform" />
-    </Link>
-);
-
-const StatBlock = ({ value, label }: { value: string; label: string }) => (
-    <div className="group">
-        <h3 className="text-4xl sm:text-5xl font-bold tracking-tighter text-foreground not-italic mb-1 group-hover:text-primary transition-colors">
-            {value}
-        </h3>
-        <p className="text-[10px] uppercase font-black tracking-[0.2em] text-muted-foreground/40 leading-tight group-hover:text-muted-foreground/60 transition-colors">
-            {label.split(' ').map((line, i) => (
-                <span key={i} className="block">{line}</span>
-            ))}
-        </p>
-    </div>
-);
-
 export default function Hero() {
-    const [typedText, setTypedText] = React.useState('');
     const [loading, setLoading] = useState(true);
-    const fullText = "engineering intelligent systems with minimalist precision.";
 
     useEffect(() => {
-        // mounted flag not required
-        let i = 0;
-        const timer = setInterval(() => {
-            setTypedText(fullText.slice(0, i));
-            i++;
-            if (i > fullText.length) clearInterval(timer);
-        }, 40);
-
         setLoading(false);
-        return () => clearInterval(timer);
     }, []);
 
     if (loading) {
@@ -61,133 +25,165 @@ export default function Hero() {
     }
 
     return (
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-background pt-20 w-full">
+        <section className="relative min-h-screen flex items-center pt-24 pb-12 w-full">
             {/* Background elements */}
-            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/2 -z-10 blur-3xl rounded-full translate-x-1/2" />
+            <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 -z-10 blur-[120px] rounded-full translate-x-1/2" />
+            
+            <div className="container relative z-10 w-full px-4 sm:px-6 mx-auto max-w-[1400px]">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+                    
+                    {/* Left Column: Profile Card */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="lg:col-span-4 xl:col-span-4 flex flex-col"
+                    >
+                        <div className="bg-white rounded-[2.5rem] p-6 sm:p-8 flex flex-col items-center justify-between shadow-2xl relative overflow-hidden group h-full">
+                            {/* Decorative dashed lines (simulated) */}
+                            <svg className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20" viewBox="0 0 400 600" fill="none">
+                                <path d="M 0 100 Q 150 50 300 200" stroke="#F46C38" strokeWidth="2" strokeDasharray="6 6" />
+                                <path d="M 100 500 Q 250 450 400 600" stroke="#F46C38" strokeWidth="2" strokeDasharray="6 6" />
+                            </svg>
 
-            {/* Content Container */}
-            <div className="container relative z-10 w-full px-4 sm:px-6 mx-auto max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-                    {/* Left Column: Text Content */}
-                    <div className="lg:col-span-7 space-y-10 lg:space-y-14">
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="space-y-6 sm:space-y-8"
-                        >
-                            <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-[130px] font-black uppercase tracking-[-0.05em] leading-[0.82] text-foreground transition-colors duration-300 font-seona not-italic -ml-1">
-                                <span className="block opacity-90">{PERSONAL_INFO.name.split(' ')[0]}</span>
-                                <span className="block">{PERSONAL_INFO.name.split(' ')[1]}</span>
-                            </h1>
+                            <div className="w-full flex flex-col items-center">
+                                {/* Image Container */}
+                                <div className="relative w-full aspect-[4/5] rounded-[2rem] overflow-hidden mb-8">
+                                    <Image
+                                        src="/hero.jpg"
+                                        alt="Sameer Bagul"
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                        priority
+                                    />
+                                </div>
 
-                            <div className="space-y-4 sm:space-y-6 max-w-xl relative">
-                                <h2 className="text-xl sm:text-2xl font-black text-foreground/90 uppercase tracking-tight not-italic flex items-center gap-3">
-                                    {PERSONAL_INFO.role}
+                                <h2 className="text-3xl sm:text-4xl font-black text-zinc-900 tracking-tight mb-4 text-center font-seona uppercase">
+                                    Sameer Bagul
                                 </h2>
 
-                                <div className="space-y-1 sm:space-y-2">
-                                    <p className="text-base sm:text-lg text-muted-foreground/80 leading-relaxed font-medium not-italic max-w-md">
-                                        Architecting <span className="text-orange-400 font-bold border-b-2 border-orange-400/20">AI/ML</span> systems and <span className="text-yellow-300 font-bold border-b-2 border-yellow-300/20">Full-stack</span> experiences.
-                                    </p>
-
-                                    <div className="group max-w-sm">
-                                        <p className="text-base sm:text-lg md:text-xl text-zinc-400 font-medium leading-relaxed italic">
-                                            &quot;{typedText}&quot;
-                                            <span className="inline-block w-1 h-3.5 bg-primary/60 ml-2 animate-pulse align-middle" />
-                                        </p>
-                                    </div>
+                                <div className="w-8 h-8 rounded-full bg-[#F46C38] flex items-center justify-center mb-6 text-white shrink-0">
+                                    <span className="text-xs font-bold">SB</span>
                                 </div>
-                            </div>
 
-                            <div className="pt-6 sm:pt-8 border-t border-white/5 max-w-sm">
-                                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-500/50 leading-relaxed">
-                                    code as music • performance as art
+                                <p className="text-zinc-600 text-center text-sm sm:text-base font-medium max-w-[280px] mb-8 leading-relaxed">
+                                    A Software Engineer who has developed countless innovative solutions.
                                 </p>
                             </div>
-                        </motion.div>
 
-                        {/* Social Icons & Bottom Info */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4, duration: 0.6 }}
-                            className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6"
-                        >
-                            <div className="flex gap-2 sm:gap-3">
-                                <SocialIcon icon={Linkedin} href={PERSONAL_INFO.socials.linkedin} />
-                                <SocialIcon icon={Github} href={PERSONAL_INFO.socials.github} />
-                                <SocialIcon icon={Twitter} href={PERSONAL_INFO.socials.x} />
-                                <SocialIcon icon={Instagram} href={PERSONAL_INFO.socials.instagram} />
-                                <SocialIcon icon={Calendar} href="https://topmate.io/sameerbagul/" />
+                            {/* Social Icons */}
+                            <div className="flex items-center justify-center gap-4 w-full mt-auto">
+                                {[
+                                    { icon: Linkedin, href: PERSONAL_INFO.socials.linkedin },
+                                    { icon: Github, href: PERSONAL_INFO.socials.github },
+                                    { icon: Twitter, href: PERSONAL_INFO.socials.x },
+                                    { icon: Instagram, href: PERSONAL_INFO.socials.instagram }
+                                ].map((social, i) => (
+                                    <Link 
+                                        key={i} 
+                                        href={social.href}
+                                        target="_blank"
+                                        className="w-10 h-10 rounded-full border border-[#F46C38] text-[#F46C38] flex items-center justify-center hover:bg-[#F46C38] hover:text-white transition-colors"
+                                    >
+                                        <social.icon size={16} />
+                                    </Link>
+                                ))}
                             </div>
+                        </div>
+                    </motion.div>
 
-                            {/* Stats DataSheet Style */}
-                            <div className="flex items-center gap-6 sm:gap-12 sm:pl-6 sm:border-l sm:border-white/10">
-                                <StatBlock value="5+" label="Achievements" />
-                                <StatBlock value="100+" label="Projects Completed" />
-                                <Link
-                                    href="/projects"
-                                    className="w-11 h-11 rounded-xl bg-white/5 border border-primary/20 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-all hover:scale-110 shrink-0"
-                                >
-                                    <ArrowUpRight size={20} />
-                                </Link>
-                            </div>
-                        </motion.div>
-                    </div>
-
-                    {/* Right Column: Hero Image Container */}
-                    <div className="lg:col-span-5 mt-12 sm:mt-16 lg:mt-0 relative group">
+                    {/* Right Column: Typography, Stats, and Cards */}
+                    <div className="lg:col-span-8 xl:col-span-8 flex flex-col justify-between h-full pt-4 lg:pt-0">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
-                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                            transition={{ duration: 1, ease: "circOut" }}
-                            className="relative aspect-4/5 w-full max-w-87.5 sm:max-w-100 lg:max-w-112.5 mx-auto z-10"
+                            initial={{ opacity: 0, x: 30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                            className="flex flex-col justify-between h-full"
                         >
-                            {/* Animated Background Rings */}
-                            <div className="absolute inset-0 -m-6 sm:-m-8 border border-primary/10 rounded-[2.5rem] sm:rounded-[3rem] animate-[spin_20s_linear_infinite] opacity-40" />
-                            <div className="absolute inset-0 -m-8 sm:-m-12 border border-primary/5 rounded-[3rem] sm:rounded-[4rem] animate-[spin_30s_linear_infinite_reverse] opacity-20" />
+                            <div className="space-y-6 lg:space-y-10">
+                                {/* Massive Headings */}
+                                <div className="space-y-0">
+                                    <h1 className="text-[4rem] sm:text-[6rem] md:text-[7rem] lg:text-[8rem] font-black uppercase tracking-tighter leading-[0.85] text-white font-seona">
+                                        SOFTWARE
+                                    </h1>
+                                    <h1 className="text-[4rem] sm:text-[6rem] md:text-[7rem] lg:text-[8rem] font-black uppercase tracking-tighter leading-[0.85] text-transparent font-seona" style={{ WebkitTextStroke: '2px rgba(255,255,255,0.15)' }}>
+                                        ENGINEER
+                                    </h1>
+                                </div>
 
+                                <p className="text-zinc-400 text-base sm:text-lg md:text-xl max-w-2xl font-medium leading-relaxed font-poppins">
+                                    Engineering intelligent systems with minimalist precision. Architecting AI/ML systems and Full-stack experiences. Code as music • performance as art.
+                                </p>
 
-                            {/* Main Image Container */}
-                            <div className="relative h-full w-full rounded-4xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl">
-                                <Image
-                                    src="/hero.jpg"
-                                    alt="Sameer Bagul - Freelance Software AI Developer and Expert Engineering Educator"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
-
-                                {/* Glass Overlay on Image */}
-                                <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 via-transparent to-transparent opacity-60" />
-
-                                {/* Bottom Info in Image */}
-                                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 flex items-center justify-between">
-                                    <div className="flex items-center gap-2 sm:gap-3">
-                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm">
-                                            <Code className="text-white" size={14} />
-                                        </div>
-                                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-white/20 flex items-center justify-center bg-white/5 backdrop-blur-sm">
-                                            <Terminal className="text-white" size={14} />
-                                        </div>
+                                {/* Stats Row */}
+                                <div className="flex flex-wrap items-center gap-6 md:gap-10 xl:gap-16 pt-2 lg:pt-4">
+                                    <div>
+                                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-1">+5</h3>
+                                        <p className="text-[9px] sm:text-[10px] md:text-xs text-zinc-500 font-bold tracking-widest uppercase">YEARS OF<br/>EXPERIENCE</p>
                                     </div>
-                                    <div className="px-3 py-1 sm:px-4 sm:py-1.5 bg-white/5 backdrop-blur-md border border-white/10 rounded-full">
-                                        <span className="text-[8px] sm:text-[10px] font-bold text-white uppercase tracking-tighter flex items-center gap-1 sm:gap-2">
-                                            <MapPin size={8} className="text-primary" /> {PERSONAL_INFO.location}
-                                        </span>
+                                    <div>
+                                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-1">+46</h3>
+                                        <p className="text-[9px] sm:text-[10px] md:text-xs text-zinc-500 font-bold tracking-widest uppercase">PROJECTS<br/>COMPLETED</p>
+                                    </div>
+                                    <div>
+                                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-1">+20</h3>
+                                        <p className="text-[9px] sm:text-[10px] md:text-xs text-zinc-500 font-bold tracking-widest uppercase">WORLDWIDE<br/>CLIENTS</p>
                                     </div>
                                 </div>
                             </div>
 
-                        </motion.div>
+                            {/* Colored Cards Row */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 pt-8 lg:pt-0 mt-8 lg:mt-auto">
+                                {/* Orange Card */}
+                                <div className="bg-[#F46C38] rounded-[1.5rem] lg:rounded-[2rem] p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] flex flex-col justify-between relative overflow-hidden group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+                                    {/* Abstract shapes inside */}
+                                    <div className="absolute top-0 right-0 w-full h-full opacity-20 pointer-events-none">
+                                        <svg viewBox="0 0 200 200" className="absolute -top-10 -right-10 w-full h-full" fill="none">
+                                            <path d="M 0 100 Q 50 150 200 100" stroke="white" strokeWidth="4" />
+                                            <path d="M 0 120 Q 50 170 200 120" stroke="white" strokeWidth="4" />
+                                            <path d="M 0 140 Q 50 190 200 140" stroke="white" strokeWidth="4" />
+                                        </svg>
+                                    </div>
+                                    <div className="w-8 h-8 lg:w-10 lg:h-10 border-2 border-white/40 rounded-lg flex flex-col gap-1 items-center justify-center p-1.5 lg:p-2 mb-3 lg:mb-4">
+                                        <div className="w-full h-[2px] lg:h-1 bg-white/60 rounded-full" />
+                                        <div className="w-full h-[2px] lg:h-1 bg-white/60 rounded-full" />
+                                        <div className="w-full h-[2px] lg:h-1 bg-white/60 rounded-full" />
+                                    </div>
+                                    <h3 className="text-lg lg:text-xl xl:text-2xl font-black text-white uppercase tracking-tight max-w-[180px] lg:max-w-[200px] leading-tight font-poppins">
+                                        FULL-STACK MERN, NEXT.JS ARCHITECTURE
+                                    </h3>
+                                    <div className="absolute bottom-6 right-6 lg:bottom-8 lg:right-8 w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-white flex items-center justify-center text-white group-hover:bg-white group-hover:text-[#F46C38] transition-colors">
+                                        <ArrowRight size={16} className="-rotate-45" />
+                                    </div>
+                                </div>
 
-                        {/* Decorative Background Blobs */}
-                        <div className="absolute -top-8 sm:-top-12 -right-8 sm:-right-12 w-48 sm:w-64 h-48 sm:h-64 bg-primary/10 rounded-full blur-[80px] sm:blur-[100px] -z-10 animate-pulse" />
-                        <div className="absolute -bottom-8 sm:-bottom-12 -left-8 sm:-left-12 w-48 sm:w-64 h-48 sm:h-64 bg-accent/10 rounded-full blur-[80px] sm:blur-[100px] -z-10 animate-pulse delay-700" />
+                                {/* Lime Card */}
+                                <div className="bg-[#C5FF41] rounded-[1.5rem] lg:rounded-[2rem] p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] flex flex-col justify-between relative overflow-hidden group cursor-pointer hover:-translate-y-2 transition-transform duration-300">
+                                    {/* Abstract shapes inside */}
+                                    <div className="absolute top-0 right-0 w-full h-full opacity-20 pointer-events-none">
+                                        <svg viewBox="0 0 200 200" className="absolute top-0 right-0 w-full h-full" fill="none">
+                                            <path d="M 0 200 L 50 50 L 100 150 L 150 0 L 200 100" stroke="black" strokeWidth="4" strokeLinejoin="round" />
+                                            <path d="M 0 220 L 50 70 L 100 170 L 150 20 L 200 120" stroke="black" strokeWidth="4" strokeLinejoin="round" />
+                                        </svg>
+                                    </div>
+                                    <div className="w-8 h-8 lg:w-10 lg:h-10 border-2 border-black/20 rounded-lg flex items-start justify-start p-1 lg:p-1.5 mb-3 lg:mb-4 relative">
+                                        <div className="w-2 h-2 lg:w-3 lg:h-3 bg-black/40 rounded-sm" />
+                                        <div className="w-full h-[2px] lg:h-1 bg-black/40 absolute bottom-1 lg:bottom-1.5 left-0" />
+                                    </div>
+                                    <h3 className="text-lg lg:text-xl xl:text-2xl font-black text-black uppercase tracking-tight max-w-[200px] lg:max-w-[240px] leading-tight font-poppins">
+                                        AI / ML SYSTEMS, INTELLIGENT EXPERIENCES
+                                    </h3>
+                                    <div className="absolute bottom-6 right-6 lg:bottom-8 lg:right-8 w-8 h-8 lg:w-10 lg:h-10 rounded-full border border-black flex items-center justify-center text-black group-hover:bg-black group-hover:text-[#C5FF41] transition-colors">
+                                        <ArrowRight size={16} className="-rotate-45" />
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </div>
+
                 </div>
             </div>
         </section>
     );
 }
+

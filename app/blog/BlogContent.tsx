@@ -18,7 +18,7 @@ const categoryColors: Record<string, string> = {
     Life: 'bg-amber-500 text-white',
 };
 
-const inactiveClass = 'bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-primary/50 hover:text-primary';
+const inactiveClass = 'bg-white/5 border border-white/10 text-zinc-400 hover:bg-white/10 hover:text-white transition-all';
 
 interface BlogContentProps {
     initialBlogs: Blog[];
@@ -42,10 +42,10 @@ export default function BlogContent({ initialBlogs }: BlogContentProps) {
                     transition={{ duration: 0.5 }}
                     className="mb-16"
                 >
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-none mb-5 font-seona">
+                    <h1 className="text-[4rem] sm:text-[6rem] font-seona uppercase tracking-tighter leading-none mb-5 text-white">
                         Blog
                     </h1>
-                    <p className="text-base text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">
+                    <p className="text-base text-zinc-400 max-w-xl leading-relaxed">
                         Thoughts, tutorials, and deep-dives on technology, AI, and the things that keep me curious.
                     </p>
                 </motion.div>
@@ -74,7 +74,7 @@ export default function BlogContent({ initialBlogs }: BlogContentProps) {
                 </motion.div>
 
                 {/* Stats row */}
-                <div className="flex items-center gap-2 mb-8 text-[10px] font-black uppercase tracking-widest text-muted-foreground/50">
+                <div className="flex items-center gap-2 mb-8 text-[10px] font-black uppercase tracking-widest text-zinc-500/50">
                     <Sparkles className="w-3 h-3" />
                     <span>{filteredBlogs.length} {filteredBlogs.length === 1 ? 'Article' : 'Articles'}</span>
                     {filter !== 'All' && <span className="text-primary">in {filter}</span>}
@@ -101,9 +101,9 @@ export default function BlogContent({ initialBlogs }: BlogContentProps) {
                 ) : (
                     <div className="flex flex-col items-center justify-center py-32 text-center">
                         <div className="w-16 h-16 rounded-2xl bg-zinc-100 dark:bg-zinc-900 flex items-center justify-center mb-6">
-                            <Sparkles className="w-7 h-7 text-muted-foreground/30" />
+                            <Sparkles className="w-7 h-7 text-zinc-500/30" />
                         </div>
-                        <p className="text-sm font-black uppercase tracking-widest text-muted-foreground/40">No articles yet</p>
+                        <p className="text-sm font-black uppercase tracking-widest text-zinc-500/40">No articles yet</p>
                     </div>
                 )}
             </div>

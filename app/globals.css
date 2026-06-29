@@ -4,12 +4,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: 'Inter', var(--font-inter), 'Poppins', var(--font-geist-sans);
+  --font-sans: 'Poppins', var(--font-poppins), 'Inter', var(--font-inter), var(--font-geist-sans);
   --font-mono: 'DM Mono', var(--font-dm-mono), var(--font-geist-mono);
-  --font-seona: 'Poppins', var(--font-seona);
+  --font-seona: var(--font-seona);
   --font-bebas: 'Bebas Neue', var(--font-bebas-neue);
   --font-instrument: 'Instrument Serif', var(--font-instrument-serif);
-  --font-inter: 'Inter', var(--font-inter);
+  --font-poppins: 'Poppins', var(--font-poppins);
   --font-dm-mono: 'DM Mono', var(--font-dm-mono);
 
   --radius-lg: var(--radius);
@@ -78,37 +78,37 @@
 
   .dark {
     --background: #080808;
-    --foreground: #ede9e2;
-    --card: #0f0f0f;
-    --card-foreground: #ede9e2;
-    --popover: #0f0f0f;
-    --popover-foreground: #ede9e2;
-    --primary: #c4a35a;
-    --primary-foreground: #080808;
-    --secondary: #1a1a1a;
-    --secondary-foreground: #ede9e2;
-    --muted: #1a1a1a;
-    --muted-foreground: #7a756f;
-    --accent: #c4a35a;
-    --accent-foreground: #080808;
-    --destructive: oklch(0.55 0.2 30);
-    --destructive-foreground: #ede9e2;
-    --border: rgba(255,255,255,0.06);
-    --input: rgba(255,255,255,0.06);
+    --foreground: #FFFFFF;
+    --card: #111111;
+    --card-foreground: #FFFFFF;
+    --popover: #111111;
+    --popover-foreground: #FFFFFF;
+    --primary: #C5FF41;
+    --primary-foreground: #151312;
+    --secondary: #F46C38;
+    --secondary-foreground: #FFFFFF;
+    --muted: #6A6B6E;
+    --muted-foreground: #999999;
+    --accent: #F46C38;
+    --accent-foreground: #151312;
+    --destructive: #FF2600;
+    --destructive-foreground: #FFFFFF;
+    --border: #6A6B6E;
+    --input: #6A6B6E;
     --ring: var(--primary);
 
     /* Portfolio Template Variables */
-    --tmpl-bg:           #080808;
-    --tmpl-surface:      #0f0f0f;
-    --tmpl-border:       rgba(255,255,255,0.06);
-    --tmpl-border-hi:    rgba(255,255,255,0.11);
-    --tmpl-text:         #ede9e2;
-    --tmpl-text-2:       #7a756f;
-    --tmpl-text-3:       #4a4642;
-    --tmpl-accent:       #c4a35a;
-    --tmpl-accent-dim:   rgba(196,163,90,0.1);
-    --tmpl-green:        #45c97a;
-    --tmpl-green-dim:    rgba(69,201,122,0.1);
+    --tmpl-bg:           #151312;
+    --tmpl-surface:      #1a1817;
+    --tmpl-border:       #6A6B6E;
+    --tmpl-border-hi:    #888888;
+    --tmpl-text:         #FFFFFF;
+    --tmpl-text-2:       #B6B4BD;
+    --tmpl-text-3:       #767676;
+    --tmpl-accent:       #C5FF41;
+    --tmpl-accent-dim:   rgba(197, 255, 65, 0.1);
+    --tmpl-green:        #C5FF41;
+    --tmpl-green-dim:    rgba(197, 255, 65, 0.1);
   }
 }
 
@@ -198,6 +198,10 @@
 
   .font-seona {
     font-family: var(--font-seona);
+  }
+
+  .font-poppins {
+    font-family: var(--font-poppins);
   }
 
   .section-subheading {

@@ -2,10 +2,10 @@
 
 import React, { memo, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { STYLES } from '@/lib/constants/styles';
 import { cn } from '@/lib/utils';
 import { usePortfolio } from '@/context/PortfolioContext';
 import { Loader2 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { name: string, icon: string }[], direction?: 'left' | 'right', speed?: string }) => {
     return (
@@ -17,15 +17,15 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
                 style={{ animationDuration: speed }}
             >
                 {items.map((skill, idx) => (
-                    <div key={`${skill.name}-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
+                    <div key={`${skill.name}-${idx}`} className="flex flex-col items-center justify-center p-6 bg-white/5 border-white/10 backdrop-blur-sm rounded-[2rem] hover:bg-white/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group border min-w-[120px] sm:min-w-[140px] md:min-w-[160px]">
                         <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
                             alt={`${skill.name} - Professional Skill in ${skill.name} development`}
-                            width={48}
-                            height={48}
-                            className="transition-all duration-500 scale-90 group-hover:scale-110"
+                            width={56}
+                            height={56}
+                            className="transition-transform duration-500 scale-90 group-hover:scale-110 drop-shadow-2xl"
                         />
-                        <span className="mt-3 sm:mt-4 text-[10px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors font-seona not-italic">{skill.name}</span>
+                        <span className="mt-4 text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-[#C5FF41] transition-colors font-dm-mono not-italic">{skill.name}</span>
                     </div>
                 ))}
             </div>
@@ -38,21 +38,23 @@ const MarqueeRow = ({ items, direction = 'left', speed = '40s' }: { items: { nam
                 aria-hidden="true"
             >
                 {items.map((skill, idx) => (
-                    <div key={`${skill.name}-duplicate-${idx}`} className="flex flex-col items-center justify-center p-5 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl sm:rounded-2xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group border border-zinc-200/50 dark:border-zinc-800/50 min-w-[110px] sm:min-w-[120px] md:min-w-[140px]">
+                    <div key={`${skill.name}-duplicate-${idx}`} className="flex flex-col items-center justify-center p-6 bg-white/5 border-white/10 backdrop-blur-sm rounded-[2rem] hover:bg-white/10 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 group border min-w-[120px] sm:min-w-[140px] md:min-w-[160px]">
                         <Image
                             src={`https://skillicons.dev/icons?i=${skill.icon}&theme=${'dark'}`}
                             alt={`${skill.name} capability - Mastered in ${skill.name}`}
-                            width={48}
-                            height={48}
-                            className="transition-all duration-500 scale-90 group-hover:scale-110"
+                            width={56}
+                            height={56}
+                            className="transition-transform duration-500 scale-90 group-hover:scale-110 drop-shadow-2xl"
                         />
-                        <span className="mt-3 sm:mt-4 text-[10px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground/60 group-hover:text-primary transition-colors">{skill.name}</span>
+                        <span className="mt-4 text-[10px] font-black uppercase tracking-widest text-zinc-500 group-hover:text-[#C5FF41] transition-colors font-dm-mono not-italic">{skill.name}</span>
                     </div>
                 ))}
             </div>
         </div >
     );
 };
+
+import SectionHeading from './SectionHeading';
 
 const Skills = memo(() => {
     const { skills, loading } = usePortfolio();
@@ -78,8 +80,8 @@ const Skills = memo(() => {
 
     if (loading) {
         return (
-            <div className="py-24 flex items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+            <div className="py-24 flex items-center justify-center bg-transparent">
+                <Loader2 className="w-10 h-10 animate-spin text-[#C5FF41]" />
             </div>
         );
     }
@@ -87,16 +89,25 @@ const Skills = memo(() => {
     if (row1.length === 0 && row2.length === 0) return null;
 
     return (
-        <section className="py-16 sm:py-20 md:py-24 overflow-hidden bg-zinc-50/50 dark:bg-zinc-950/20 w-full">
-            <div className="container px-4 sm:px-6 max-w-7xl mx-auto">
-                <div className="text-center mb-12 sm:mb-16 flex flex-col items-center space-y-3 sm:space-y-4">
-                    <h2 className={cn(STYLES.heading, "leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight font-normal")}>Tools & capability clusters</h2>
-                    <p className={cn(STYLES.subheading, "m-0 uppercase tracking-[0.3em] text-[10px] sm:text-[11px] font-dm-mono text-[var(--tmpl-text-3)]")}>Technologies I use to bring ideas to life</p>
+        <section className="py-24 sm:py-32 w-full border-t border-white/5 relative overflow-hidden">
+            <div className="w-full">
+                <div className="container px-4 sm:px-6 max-w-[1200px] mx-auto">
+                    <SectionHeading 
+                        watermark="SKILLS"
+                        label="Technologies I use to bring ideas to life"
+                        title={
+                            <>
+                                Tools & <br /> 
+                                <span className="text-[#F46C38] italic">Capability</span>
+                            </>
+                        }
+                        description="A comprehensive toolkit of modern frameworks, programming languages, and technologies I leverage to build scalable, high-performance digital products and systems."
+                    />
                 </div>
 
-                <div className="relative flex flex-col gap-8 sm:gap-12 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-12 sm:before:w-20 before:bg-gradient-to-r before:from-zinc-50 dark:before:from-zinc-950/20 before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-12 sm:after:w-20 after:bg-gradient-to-l after:from-zinc-50 dark:after:from-zinc-950/20 after:to-transparent">
-                    <MarqueeRow items={row1} direction="right" speed="60s" />
-                    <MarqueeRow items={row2} direction="left" speed="55s" />
+                <div className="relative flex flex-col gap-6 sm:gap-8 before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-16 sm:before:w-32 before:bg-gradient-to-r before:from-[#151312] before:to-transparent after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-16 sm:after:w-32 after:bg-gradient-to-l after:from-[#151312] after:to-transparent">
+                    <MarqueeRow items={row1} direction="right" speed="50s" />
+                    <MarqueeRow items={row2} direction="left" speed="60s" />
                 </div>
             </div>
 

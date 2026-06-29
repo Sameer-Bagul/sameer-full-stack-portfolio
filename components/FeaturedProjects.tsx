@@ -9,6 +9,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import Link from 'next/link';
 import { ArrowRight, MoveRight } from 'lucide-react';
+import SectionHeading from './SectionHeading';
 
 export default function FeaturedProjects() {
     const { projects: allProjects, loading } = usePortfolio();
@@ -44,22 +45,19 @@ export default function FeaturedProjects() {
     if (loading || projects.length === 0) return null;
 
     return (
-        <section className={cn(STYLES.section, "overflow-hidden py-16 sm:py-20 md:py-24 bg-background w-full")}>
-            <div className="container px-4 sm:px-6 mx-auto max-w-7xl">
-                <div className="mb-12 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 sm:gap-8">
-                    <div className="space-y-3 sm:space-y-4">
-                        <h2 className={cn(STYLES.heading, "text-left leading-none m-0 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-instrument not-italic tracking-tight")}>
-                            Featured <span className="text-primary italic">Projects</span>
-                        </h2>
-                        <p className={cn(STYLES.subheading, "text-left m-0 uppercase tracking-[0.3em] text-[10px] sm:text-[11px] font-dm-mono text-[var(--tmpl-text-3)]")}>
-                            Proof of execution — A selection of my best work
-                        </p>
-                    </div>
-
-                    <Link href="/projects" className="group flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.2em] text-primary/60 hover:text-primary transition-colors">
-                        View Archives <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                </div>
+        <section className={cn(STYLES.section, "overflow-hidden py-16 sm:py-20 md:py-32 bg-transparent w-full relative")}>
+            <div className="container px-4 sm:px-6 mx-auto max-w-[1200px]">
+                <SectionHeading 
+                    watermark="WORK"
+                    label="Featured Projects"
+                    title={
+                        <>
+                            Proof of execution.<br />
+                            <span className="text-[#C5FF41] italic">Selected works.</span>
+                        </>
+                    }
+                    description="A curated selection of my best work, demonstrating my ability to build complex, scalable applications from the ground up."
+                />
 
                 <div className="relative">
                     {/* Carousel Container */}
@@ -109,14 +107,14 @@ export default function FeaturedProjects() {
                     >
                         <div className="relative z-10">
                             <span className="text-[10px] sm:text-[11px] font-dm-mono uppercase tracking-[0.3em] text-[var(--tmpl-text-3)] block mb-2">Portfolio Archives</span>
-                            <span className="text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-foreground/90 font-instrument not-italic">
-                                Feel free to explore <span className="text-primary italic">all work</span>
+                            <span className="text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-white/90 font-seona uppercase tracking-tighter not-italic">
+                                Feel free to explore <span className="text-[#C5FF41] italic">all work</span>
                             </span>
                         </div>
 
                         <div className="relative z-10 flex items-center gap-4 sm:gap-6 shrink-0">
-                            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]">
-                                <MoveRight className="w-6 h-6 text-primary-foreground" />
+                            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-primary rounded-[2rem] flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all shadow-[0_0_30px_rgba(var(--primary-rgb),0.3)]">
+                                <MoveRight className="w-6 h-6 text-[#C5FF41]-foreground" />
                             </div>
                         </div>
                     </Link>
